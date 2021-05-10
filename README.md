@@ -1,6 +1,7 @@
 # home_utility
 
-A new Flutter project.
+Home Utility is an android application which provides a platform for people to look for electricians, plumbers, mechanics and other experienced man powers
+online and pre-book their services.
 
 ## Getting Started
 
