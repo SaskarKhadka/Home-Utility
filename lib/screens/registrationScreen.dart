@@ -55,7 +55,7 @@ class RegistrationScreen extends StatelessWidget {
               color: Colors.lightBlueAccent,
               text: 'Register',
               onPressed: () {},
-            )
+            ),
           ],
         ),
       ),
