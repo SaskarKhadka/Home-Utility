@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import '../components/roundedButton.dart';
 import 'logInScreen.dart';
-import 'registrationScreen.dart';
+// import 'registrationScreen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String id = '/';
   @override
   Widget build(BuildContext context) {
+    //this screen is going to be kinda like a template screen
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -15,26 +17,27 @@ class WelcomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 50.0,
+            ),
             Text(
-              'Home Utility',
+              '*Home Utility Icon*',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 40.0,
+                fontSize: 30.0,
                 fontWeight: FontWeight.w800,
               ),
             ),
+            Expanded(
+                child: Container(
+              child:
+                  Center(child: Text('A little bit of description probably')),
+            )),
             RoundedButton(
               color: Colors.lightBlueAccent,
-              text: 'Log In',
+              text: 'Get Started',
               onPressed: () {
                 Navigator.pushNamed(context, LogInScreen.id);
-              },
-            ),
-            RoundedButton(
-              color: Colors.lightBlueAccent,
-              text: 'Register',
-              onPressed: () {
-                Navigator.pushNamed(context, RegistrationScreen.id);
               },
             ),
           ],
