@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import '../constants.dart';
 import '../components/roundedButton.dart';
@@ -94,7 +95,7 @@ class RegistrationScreen extends StatelessWidget {
                   color: Colors.lightBlueAccent,
                   text: 'Login Here',
                   onPressed: () {
-                    Navigator.pushNamed(context, LogInScreen.id);
+                    Get.toNamed(LogInScreen.id);
                   }),
             ],
           ),

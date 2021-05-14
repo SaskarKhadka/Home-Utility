@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../components/roundedButton.dart';
 import 'logInScreen.dart';
 // import 'registrationScreen.dart';
@@ -37,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
               color: Colors.lightBlueAccent,
               text: 'Get Started',
               onPressed: () {
-                Navigator.pushNamed(context, LogInScreen.id);
+                Get.toNamed(LogInScreen.id);
               },
             ),
           ],

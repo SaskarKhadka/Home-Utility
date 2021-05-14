@@ -1,8 +1,9 @@
 // import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // import 'package:home_utility/components/dialogBox.dart';
-import 'package:home_utility/screens/services.dart';
+import 'package:home_utility/screens/ourServices.dart';
 import '../constants.dart';
 import '../components/roundedButton.dart';
 import 'registrationScreen.dart';
@@ -79,7 +80,7 @@ class LogInScreen extends StatelessWidget {
                   //   builder: (context) => DialogBox(),
                   // );
 
-                  Navigator.pushNamed(context, MainScreen.id);
+                  Get.toNamed(MainScreen.id);
                 },
               ),
               Padding(
@@ -94,7 +95,7 @@ class LogInScreen extends StatelessWidget {
                   color: Colors.lightBlueAccent,
                   text: 'Register Here',
                   onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
+                    Get.toNamed(RegistrationScreen.id);
                   }),
             ],
           ),
