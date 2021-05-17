@@ -69,7 +69,6 @@ class DetailsScreen extends StatelessWidget {
                     ),
                     Flexible(
                       child: RoundedButton(
-                        color: Colors.lightBlueAccent,
                         text: 'Confirm',
                         onPressed: _getDialog,
                       ),

@@ -17,6 +17,9 @@ class HomeUtility extends StatelessWidget {
     return GetMaterialApp(
       // home: WelcomeScreen(),
       initialRoute: LogInScreen.id,
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
       defaultTransition: Transition.fade,
       getPages: [
         GetPage(

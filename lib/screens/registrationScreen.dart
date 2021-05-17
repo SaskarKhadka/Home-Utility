@@ -3,100 +3,103 @@ import 'package:get/get.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import '../constants.dart';
 import '../components/roundedButton.dart';
+import '../components/customTextField.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const id = '/register';
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 15.0,
+            vertical: 50.0,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Container(
+                  height: size.height * 0.3,
+                  child: Center(child: Image.asset('images/signin.jpg'))),
               SizedBox(
-                height: 100.0,
+                height: size.height * 0.01,
               ),
               Text(
-                '*Home Utility Icon*',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 40.0,
+                'Register your new account for Home Utility',
+                style: GoogleFonts.lato(
+                  color: Color(0xffaaabac),
+                  fontSize: 15.0,
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: size.height * 0.03,
               ),
-              Text(
-                'Register as a User',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 25.0,
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {},
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your name',
-                ),
+              CustomTextField(
+                hintText: 'Enter your name',
+                icon: EvaIcons.personAddOutline,
+                onChanged: null,
+                controller: null,
+                lableText: 'ENTER NAME',
+                obsecure: false,
               ),
               SizedBox(
-                height: 20.0,
+                height: size.height * 0.03,
               ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {},
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your email',
-                ),
+              CustomTextField(
+                hintText: 'Enter your email',
+                icon: EvaIcons.personOutline,
+                onChanged: null,
+                controller: null,
+                lableText: 'ENTER EMAIL',
+                obsecure: false,
               ),
+
               SizedBox(
-                height: 16.0,
+                height: size.height * 0.03,
               ),
               // Text('Password'),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                obscureText: true,
-                textAlign: TextAlign.center,
-                onChanged: (value) {},
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your password',
-                ),
+              CustomTextField(
+                hintText: 'Enter your password',
+                icon: EvaIcons.lockOutline,
+                onChanged: null,
+                controller: null,
+                lableText: 'ENTER PASSWORD',
+                obsecure: true,
               ),
               SizedBox(
-                height: 16.0,
+                height: size.height * 0.02,
               ),
               RoundedButton(
-                color: Colors.lightBlueAccent,
-                text: 'Create Account',
+                text: 'SIGN UP',
                 onPressed: () {},
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25.0),
-                child: Text(
-                  'Already have an account?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
+              SizedBox(
+                height: size.height * 0.03,
               ),
-              RoundedButton(
-                  color: Colors.lightBlueAccent,
-                  text: 'Login Here',
-                  onPressed: () {
-                    Get.toNamed(LogInScreen.id);
-                  }),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Dont have an account ?  ',
+                      style: GoogleFonts.roboto(
+                          color: Colors.black,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                        onTap: () => Get.toNamed(LogInScreen.id),
+                        child: Text('LOG IN',
+                            style: GoogleFonts.roboto(
+                              color: Color(0xff024BBC),
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600,
+                            ))),
+                  ]),
             ],
           ),
         ),

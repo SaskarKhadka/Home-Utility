@@ -35,8 +35,7 @@ class WelcomeScreen extends StatelessWidget {
                   Center(child: Text('A little bit of description probably')),
             )),
             RoundedButton(
-              color: Colors.lightBlueAccent,
-              text: 'Get Started',
+              text: 'GET STARTED',
               onPressed: () {
                 Get.toNamed(LogInScreen.id);
               },
