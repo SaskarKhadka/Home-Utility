@@ -1,16 +1,18 @@
-// import 'dart:io';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/screens/ourServices.dart';
-
+import 'package:home_utility/services/userAuthentication.dart';
 import '../components/roundedButton.dart';
 import 'registrationScreen.dart';
 import '../components/customTextField.dart';
+import '../components/dialogBox.dart';
 
 class LogInScreen extends StatelessWidget {
+  final userAuthentication = UserAuthentication();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   static const id = '/login';
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class LogInScreen extends StatelessWidget {
                 hintText: 'Enter your email address',
                 icon: EvaIcons.personOutline,
                 onChanged: null,
-                controller: null,
+                controller: emailController,
                 lableText: 'ENTER EMAIL',
                 obsecure: false,
               ),
@@ -68,7 +70,7 @@ class LogInScreen extends StatelessWidget {
                 hintText: 'Enter your password',
                 icon: EvaIcons.lockOutline,
                 onChanged: null,
-                controller: null,
+                controller: passwordController,
                 lableText: 'ENTER PASSWORD',
                 obsecure: true,
               ),
@@ -78,13 +80,20 @@ class LogInScreen extends StatelessWidget {
               RoundedButton(
                 text: 'LOG IN',
                 onPressed: () async {
-                  // showDialog(
-                  //   context: context,
-                  //   barrierDismissible: false,
-                  //   builder: (context) => DialogBox(),
-                  // );
-
-                  Get.toNamed(MainScreen.id);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => DialogBox(),
+                  );
+                  try {
+                    await userAuthentication.signIn(
+                        email: emailController.text.trim(),
+                        password: passwordController.text);
+                    Get.back();
+                    Get.toNamed(MainScreen.id);
+                  } catch (e) {
+                    print(e);
+                  }
                 },
               ),
               SizedBox(

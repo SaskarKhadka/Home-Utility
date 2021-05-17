@@ -6,8 +6,11 @@ import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/screens/ourServices.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import 'screens/welcomeScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(HomeUtility());
 }
 

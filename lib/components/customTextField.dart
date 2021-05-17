@@ -38,6 +38,7 @@ class _NewTextfieldState extends State<CustomTextField> {
         ),
       ]),
       child: TextField(
+        keyboardType: TextInputType.emailAddress,
         onTap: () {
           setState(() {
             focuscolor = Color(0xff085dcf);

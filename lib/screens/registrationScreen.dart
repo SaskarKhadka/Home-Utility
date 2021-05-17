@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/screens/logInScreen.dart';
-import '../constants.dart';
 import '../components/roundedButton.dart';
 import '../components/customTextField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../services/userAuthentication.dart';
+import '../components/dialogBox.dart';
+import 'ourServices.dart';
 
 class RegistrationScreen extends StatelessWidget {
+  final userAuthentication = UserAuthentication();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+
   static const id = '/register';
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,7 @@ class RegistrationScreen extends StatelessWidget {
                 hintText: 'Enter your name',
                 icon: EvaIcons.personAddOutline,
                 onChanged: null,
-                controller: null,
+                controller: nameController,
                 lableText: 'ENTER NAME',
                 obsecure: false,
               ),
@@ -54,7 +61,7 @@ class RegistrationScreen extends StatelessWidget {
                 hintText: 'Enter your email',
                 icon: EvaIcons.personOutline,
                 onChanged: null,
-                controller: null,
+                controller: emailController,
                 lableText: 'ENTER EMAIL',
                 obsecure: false,
               ),
@@ -67,7 +74,7 @@ class RegistrationScreen extends StatelessWidget {
                 hintText: 'Enter your password',
                 icon: EvaIcons.lockOutline,
                 onChanged: null,
-                controller: null,
+                controller: passwordController,
                 lableText: 'ENTER PASSWORD',
                 obsecure: true,
               ),
@@ -76,7 +83,22 @@ class RegistrationScreen extends StatelessWidget {
               ),
               RoundedButton(
                 text: 'SIGN UP',
-                onPressed: () {},
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => DialogBox(),
+                  );
+                  try {
+                    await userAuthentication.signUp(
+                        email: emailController.text.trim(),
+                        password: passwordController.text);
+                    Get.back();
+                    Get.toNamed(MainScreen.id);
+                  } catch (e) {
+                    print(e);
+                  }
+                },
               ),
               SizedBox(
                 height: size.height * 0.03,
