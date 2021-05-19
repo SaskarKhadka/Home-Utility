@@ -8,9 +8,21 @@ import 'package:home_utility/screens/ourServices.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'services/userAuthentication.dart';
+import 'model/database.dart';
+
+int requestCounter = 0;
+
+final userAuthentication = UserAuthentication();
+
+Database database = Database();
 
 DatabaseReference usersRefrence =
     FirebaseDatabase.instance.reference().child('users');
+
+DatabaseReference requestRefrence =
+    FirebaseDatabase.instance.reference().child('requests');
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

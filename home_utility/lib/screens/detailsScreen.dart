@@ -1,9 +1,19 @@
 import 'package:home_utility/components/roundedButton.dart';
+import 'package:home_utility/main.dart';
 
 import '../constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/constants.dart';
+
+Future<void> saveRequest() async {
+  //TODO: To the userInfo map, add type of job, date and time, (address too if we can't implement the adress directly)
+  String userID = userAuthentication.userID;
+  Map userInfo = await database.getUserInfo(userID);
+  requestRefrence.child('Request ${++requestCounter}').set(userInfo);
+}
+
+deleteRequest() {}
 
 class DetailsScreen extends StatelessWidget {
   static const id = '/details';
@@ -85,15 +95,19 @@ class DetailsScreen extends StatelessWidget {
 
   void _getDialog() {
     Get.defaultDialog(
-      title: 'Order Placed!',
+      title: 'Request Placed!',
       titleStyle: TextStyle(
         fontSize: 25.0,
         fontWeight: FontWeight.w600,
       ),
       barrierDismissible: false,
-      middleText: 'Your order has been placed',
-      onConfirm: () {
+      middleText: 'Your request has been placed',
+      onConfirm: () async {
         Get.back();
+        CircularProgressIndicator(
+          backgroundColor: Colors.blue,
+        );
+        await saveRequest();
       },
     );
   }

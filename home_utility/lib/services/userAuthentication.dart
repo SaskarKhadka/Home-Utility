@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:home_utility/model/database.dart';
-import '../main.dart';
+import 'package:home_utility/main.dart';
 
 class UserAuthentication {
-  Database _databse = Database();
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   User get currentUser => _auth.currentUser;
+
+  String get userID {
+    User user = currentUser;
+    return user.uid;
+  }
 
   Future<void> signUp(
       {String email, String password, double phoneNo, String name}) async {
@@ -23,7 +26,7 @@ class UserAuthentication {
 
         // usersRefrence.child(firebaseUser.user.uid).set(userData);
 
-        _databse.addUserInfo(user: firebaseUser.user, userData: userData);
+        database.addUserInfo(user: firebaseUser.user, userData: userData);
 
         //TODO:save user to data base
 

@@ -5,12 +5,11 @@ import '../components/roundedButton.dart';
 import '../components/customTextField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../services/userAuthentication.dart';
 import '../components/dialogBox.dart';
 import 'ourServices.dart';
+import '../main.dart';
 
 class RegistrationScreen extends StatelessWidget {
-  final userAuthentication = UserAuthentication();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
