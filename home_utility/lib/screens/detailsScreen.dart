@@ -1,10 +1,8 @@
 import 'package:home_utility/components/roundedButton.dart';
 import 'package:home_utility/main.dart';
 
-import '../constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_utility/constants.dart';
 
 Future<void> saveRequest() async {
   //TODO: To the userInfo map, add type of job, date and time, (address too if we can't implement the adress directly)
@@ -14,11 +12,22 @@ Future<void> saveRequest() async {
 }
 
 deleteRequest() {}
-
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   static const id = '/details';
 
   @override
+  _DetailsScreenState createState() => _DetailsScreenState();
+}
+class _DetailsScreenState extends State<DetailsScreen> {
+  DateTime pickedDate;
+  TimeOfDay selectedTime = TimeOfDay.now();
+
+  @override
+  void initState() {
+    super.initState();
+    pickedDate = DateTime.now();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -29,8 +38,14 @@ class DetailsScreen extends StatelessWidget {
           ),
           Center(
             child: Container(
-              width: MediaQuery.of(context).size.height * 0.5,
-              height: MediaQuery.of(context).size.height * 0.49,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.5,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.49,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20.0),
@@ -59,24 +74,21 @@ class DetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                    ListTile(
+                      title: Text("Date: ${pickedDate.year}/${pickedDate
+                          .month}/${pickedDate.day}"),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                      onTap: _pickDate,
+                    ),
+                    ListTile(
+                      title: Text("Time: ${selectedTime.hour}:${selectedTime.minute} "),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                      onTap: _selectTime,
+                    ),
                     SizedBox(
                       height: 15.0,
                     ),
-                    TextField(
-                      textAlign: TextAlign.center,
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: '(Date) ya dropdown halnu parxa',
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    TextField(
-                      textAlign: TextAlign.center,
-                      decoration: kTextFieldDecoration.copyWith(
-                        hintText: '(Time) ya dropdown halnu parxa',
-                      ),
-                    ),
+
                     Flexible(
                       child: RoundedButton(
                         text: 'Confirm',
@@ -92,6 +104,38 @@ class DetailsScreen extends StatelessWidget {
       ),
     );
   }
+
+  _pickDate() async {
+    DateTime date = await showDatePicker(
+      context: context,
+      initialDate: pickedDate,
+      firstDate: DateTime(DateTime
+          .now()
+          .year - 5),
+      lastDate: DateTime(DateTime
+          .now()
+          .year + 5),
+    );
+    if (date != null)
+      setState(() {
+        pickedDate = date;
+      });
+  }
+  _selectTime() async {
+    final TimeOfDay picked_s = await showTimePicker(
+        context: context,
+        initialTime: selectedTime, builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child,
+      );});
+
+    if (picked_s != null && picked_s != selectedTime )
+      setState(() {
+        selectedTime = picked_s;
+      });
+  }
+}
 
   void _getDialog() {
     Get.defaultDialog(
@@ -111,4 +155,4 @@ class DetailsScreen extends StatelessWidget {
       },
     );
   }
-}
+
