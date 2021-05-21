@@ -45,4 +45,22 @@ class Database {
     //TODO: Error message saying request if full
     //TODO: Set userRequestCountyer back to 0
   }
+
+  void deleteRequest(String service) async {
+    // if (userRequestCounter > 0) {
+    String userID = userAuthentication.userID;
+    // usersRefrence.child(uid).once().then((value) => null);
+    await requestRefrence
+        .child(userID)
+        .child('requests')
+        .once()
+        .then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
+        if (key == 'request $userRequestCounter') {
+          usersRefrence.child(userID).child('requests').child(key).remove();
+        }
+      });
+    });
+    //
+  }
 }

@@ -30,10 +30,12 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-                child: Container(
-              child:
-                  Center(child: Text('A little bit of description probably')),
-            )),
+              child: Container(
+                  color: Colors.black,
+                  child: Image.asset(
+                    'images/splashscreen.gif',
+                  )),
+            ),
             RoundedButton(
               text: 'GET STARTED',
               onPressed: () {

@@ -52,7 +52,7 @@ class HomeUtility extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       // home: WelcomeScreen(),
-      initialRoute: LogInScreen.id,
+      initialRoute: WelcomeScreen.id,
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
