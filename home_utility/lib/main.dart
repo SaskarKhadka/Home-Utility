@@ -11,7 +11,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'services/userAuthentication.dart';
 import 'model/database.dart';
 
-int requestCounter = 0;
+//TODO: probably make another file to store all these resuable accessories
+
+int userRequestCounter = 0;
+double requestCounter = 0;
 
 final userAuthentication = UserAuthentication();
 
@@ -22,6 +25,21 @@ DatabaseReference usersRefrence =
 
 DatabaseReference requestRefrence =
     FirebaseDatabase.instance.reference().child('requests');
+
+String formatTime({TimeOfDay unformattedTime}) {
+  String time = '';
+  if (unformattedTime.hour <= 9)
+    time += '0${unformattedTime.hour}';
+  else
+    time += '${unformattedTime.hour}';
+
+  if (unformattedTime.minute <= 9)
+    time += ':0${unformattedTime.minute}';
+  else
+    time += ':${unformattedTime.minute}';
+  String periodOfDay = unformattedTime.period == DayPeriod.am ? ' am' : ' pm';
+  return time + periodOfDay;
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
