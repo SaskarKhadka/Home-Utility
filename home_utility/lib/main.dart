@@ -13,8 +13,7 @@ import 'model/database.dart';
 
 //TODO: probably make another file to store all these resuable accessories
 
-int userRequestCounter = 0;
-double requestCounter = 0;
+int userRequestCounter;
 
 final userAuthentication = UserAuthentication();
 
@@ -44,6 +43,7 @@ String formatTime({TimeOfDay unformattedTime}) {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(HomeUtility());
 }
 

@@ -1,7 +1,12 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:eva_icons_flutter/icon_data.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:home_utility/components/customTextField.dart';
 import 'package:home_utility/components/roundedButton.dart';
 import 'package:home_utility/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const id = '/details';
@@ -11,6 +16,8 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  String uniqueID;
+  final addressController = TextEditingController();
   DateTime pickedDate;
   TimeOfDay selectedTime;
 
@@ -37,74 +44,88 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          Image.asset(
-            Get.parameters['imgPath'],
-            fit: BoxFit.fill,
-          ),
-          Center(
-            child: Container(
-              width: size.height * 0.45,
-              height: size.height * 0.4,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-                child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      Get.parameters['service'],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.w600,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.asset(
+              Get.parameters['imgPath'],
+              fit: BoxFit.fill,
+            ),
+            Center(
+              child: Container(
+                width: size.height * 0.45,
+                height: size.height * 0.5,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        Get.parameters['service'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.02,
-                    ),
-                    Text(
-                      'When would you like us to come?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w400,
+                      SizedBox(
+                        height: size.height * 0.02,
                       ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    ListTile(
-                      title: Text(
-                          "Date: ${pickedDate.year}/${pickedDate.month}/${pickedDate.day}"),
-                      trailing: Icon(Icons.keyboard_arrow_down),
-                      onTap: _pickDate,
-                    ),
-                    ListTile(
-                      title: Text(
-                          "Time: ${formatTime(unformattedTime: selectedTime)}"),
-                      trailing: Icon(Icons.keyboard_arrow_down),
-                      onTap: _selectTime,
-                    ),
-                    SizedBox(
-                      height: size.height * 0.01,
-                    ),
-                    Flexible(
-                      child: RoundedButton(
-                        text: 'Confirm',
-                        onPressed: _getDialog,
+                      Text(
+                        'When would you like us to come?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      CustomTextField(
+                        hintText: 'Enter your address',
+                        icon: EvaIcons.homeOutline,
+                        controller: addressController,
+                        lableText: 'ADDRESS',
+                        obsecure: false,
+                        onChanged: null,
+                      ),
+                      ListTile(
+                        title: Text(
+                            "Date: ${pickedDate.year}/${pickedDate.month}/${pickedDate.day}"),
+                        trailing: Icon(Icons.keyboard_arrow_down),
+                        onTap: _pickDate,
+                      ),
+                      ListTile(
+                        title: Text(
+                            "Time: ${formatTime(unformattedTime: selectedTime)}"),
+                        trailing: Icon(Icons.keyboard_arrow_down),
+                        onTap: _selectTime,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      Flexible(
+                        child: RoundedButton(
+                          text: 'Confirm',
+                          onPressed: _getDialog,
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -126,7 +147,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   _selectTime() async {
-    final TimeOfDay picked_s = await showTimePicker(
+    final TimeOfDay pickedTime = await showTimePicker(
         context: context,
         initialTime: selectedTime,
         builder: (BuildContext context, Widget child) {
@@ -136,9 +157,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
           );
         });
 
-    if (picked_s != null && picked_s != selectedTime)
+    if (pickedTime != null && pickedTime != selectedTime)
       setState(() {
-        selectedTime = picked_s;
+        selectedTime = pickedTime;
       });
   }
 
@@ -153,11 +174,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
       middleText: 'Your request has been placed',
       onConfirm: () async {
         Get.back();
-        CircularProgressIndicator(
-          backgroundColor: Colors.blue,
-        );
+        uniqueID = Uuid().v1();
+        userRequestCounter = await database.totalUserRequests;
         await database.saveRequest(
+            id: uniqueID,
             service: Get.parameters['service'],
+            address: addressController.text.trim(),
             date: pickedDate,
             time: selectedTime);
       },

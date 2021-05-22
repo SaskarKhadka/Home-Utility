@@ -4,11 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:home_utility/main.dart';
 
 class Database {
-  addUserInfo({User user, Map userData}) {
+  Future<int> get totalUserRequests async {
+    var userID = userAuthentication.userID;
+    int counter = 0;
+    await usersRefrence
+        .child(userID)
+        .child('requests')
+        .once()
+        .then((DataSnapshot snapshot) {
+      try {
+        Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
+          counter++;
+        });
+        return counter;
+      } catch (e) {
+        return counter;
+      }
+    });
+    return counter;
+  }
+
+  void addUserInfo({User user, Map userData}) {
     usersRefrence.child(user.uid).set(userData);
   }
 
-  addProsInfo(User user, Map proData) {
+  void addProsInfo(User user, Map proData) {
     //prosRefrence.child(user.uid).set(userData);
   }
 
@@ -30,20 +50,30 @@ class Database {
   }
 
   Future<void> saveRequest(
-      {String service, DateTime date, TimeOfDay time}) async {
+      {String service,
+      String address,
+      DateTime date,
+      TimeOfDay time,
+      String id}) async {
     //TODO: To the userInfo map, add type of job, date and time, (address too if we can't implement the adress directly)
-    // if (userRequestCounter <= 3) {
-    String userID = userAuthentication.userID;
-    Map userInfo = await database.getUserInfo(userID);
-    userInfo['service'] = service;
-    userInfo['date'] = '${date.year}/${date.month}/${date.day}';
-    userInfo['time'] = '${formatTime(unformattedTime: time)}';
-    requestRefrence.child('Request ${++requestCounter}').set(userInfo);
-    usersRefrence.child(userID).child('requests').update(
-        {'request ${++userRequestCounter}': 'Request ${++requestCounter}'});
-    // } else {
-    //TODO: Error message saying request if full
-    //TODO: Set userRequestCountyer back to 0
+    if (userRequestCounter < 3) {
+      String userID = userAuthentication.userID;
+      Map userInfo = await database.getUserInfo(userID);
+      userInfo['service'] = service;
+      userInfo['address'] = address;
+      userInfo['date'] = '${date.year}/${date.month}/${date.day}';
+      userInfo['time'] = '${formatTime(unformattedTime: time)}';
+
+      requestRefrence.child('$id').set(userInfo);
+      usersRefrence
+          .child(userID)
+          .child('requests')
+          .update({'request ${++userRequestCounter}': '$id'});
+    } else {
+      //TODO: Error message saying request if full
+      //TODO: Set userRequestCountyer back to 0\
+      print('3 request has already been made');
+    }
   }
 
   void deleteRequest(String service) async {
