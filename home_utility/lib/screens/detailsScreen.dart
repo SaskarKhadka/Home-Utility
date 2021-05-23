@@ -1,6 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:eva_icons_flutter/icon_data.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:home_utility/components/customTextField.dart';
 import 'package:home_utility/components/roundedButton.dart';
 import 'package:home_utility/main.dart';
@@ -32,7 +32,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {},
+        onTap: (index) {
+          if (index == 1)
+            Get.to(
+              RequestStream(
+                requestKey: uniqueID,
+              ),
+            );
+          else
+            Get.to(DetailsScreen());
+        },
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.request_page_sharp),
@@ -124,6 +133,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
             ),
+            SizedBox(
+              height: size.height * 0.05,
+            ),
           ],
         ),
       ),
@@ -183,6 +195,81 @@ class _DetailsScreenState extends State<DetailsScreen> {
             date: pickedDate,
             time: selectedTime);
       },
+    );
+  }
+}
+
+class RequestStream extends StatefulWidget {
+  final requestKey;
+  RequestStream({this.requestKey});
+  @override
+  _RequestStreamState createState() => _RequestStreamState();
+}
+
+class _RequestStreamState extends State<RequestStream> {
+  Query _query;
+  @override
+  void initState() {
+    database.requestQuery(widget.requestKey).then((Query query) {
+      setState(() {
+        _query = query;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget scaffoldBody = Column(
+      children: [
+        Text('You have no requests'),
+      ],
+    );
+    if (_query != null) {
+      scaffoldBody = FirebaseAnimatedList(
+        query: _query,
+        itemBuilder: (
+          BuildContext context,
+          DataSnapshot snapshot,
+          Animation<double> animation,
+          int index,
+        ) {
+          // String mountainKey = snapshot.key;
+
+          Map key = snapshot.value;
+
+          // key.forEach((key, value) {
+          //   if (key == 'service') dataMap['service'] = value;
+          //   if (key == 'date') dataMap['date'] = value;
+          //   if (key == 'time') dataMap['time'] = value;
+          // });
+
+          return Column(
+            children: [
+              ListTile(
+                leading: Text(
+                  'You requested for a ' + key['service'] + ' service',
+                  style: TextStyle(fontSize: 13),
+                ),
+                trailing: TextButton(
+                  onPressed: () {},
+                  child: Text('Reject'),
+                ),
+              ),
+              Divider(
+                height: 2.0,
+              ),
+            ],
+          );
+        },
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Requests'),
+        centerTitle: true,
+      ),
+      body: scaffoldBody,
     );
   }
 }

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/interceptors/get_modifiers.dart';
 import 'package:home_utility/main.dart';
 
 class Database {
@@ -63,12 +66,12 @@ class Database {
       userInfo['address'] = address;
       userInfo['date'] = '${date.year}/${date.month}/${date.day}';
       userInfo['time'] = '${formatTime(unformattedTime: time)}';
+      userInfo['requestKey'] = '$id';
 
       requestRefrence.child('$id').set(userInfo);
-      usersRefrence
-          .child(userID)
-          .child('requests')
-          .update({'request ${++userRequestCounter}': '$id'});
+      final ref = usersRefrence.child(userID).child('requests');
+      ref.child(id).set(userInfo);
+      userRequestCounter++;
     } else {
       //TODO: Error message saying request if full
       //TODO: Set userRequestCountyer back to 0\
@@ -92,5 +95,12 @@ class Database {
       });
     });
     //
+  }
+
+  Future<Query> requestQuery(String requestKey) async {
+    return usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .orderByChild(requestKey);
   }
 }
