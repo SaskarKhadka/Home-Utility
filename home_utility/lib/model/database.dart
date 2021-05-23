@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/interceptors/get_modifiers.dart';
 import 'package:home_utility/main.dart';
 
 class Database {
@@ -98,6 +97,13 @@ class Database {
   }
 
   Future<Query> requestQuery(String requestKey) async {
+    usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .once()
+        .then((value) {
+      print(value.value);
+    });
     return usersRefrence
         .child(userAuthentication.userID)
         .child('requests')

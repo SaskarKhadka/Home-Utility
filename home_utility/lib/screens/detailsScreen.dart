@@ -20,12 +20,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final addressController = TextEditingController();
   DateTime pickedDate;
   TimeOfDay selectedTime;
+  List requestKeysForThisSession = [];
 
   @override
   void initState() {
-    super.initState();
+    usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .once()
+        .then((value) {
+      if (value.value != null) {
+        Map.from(value.value).forEach((key, value) {
+          requestKeysForThisSession.add(key);
+        });
+      }
+    });
+
     pickedDate = DateTime.now();
     selectedTime = TimeOfDay.now();
+    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -38,6 +51,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               RequestStream(
                 requestKey: uniqueID,
               ),
+              arguments: requestKeysForThisSession,
             );
           else
             Get.to(DetailsScreen());
@@ -186,6 +200,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       middleText: 'Your request has been placed',
       onConfirm: () async {
         Get.back();
+        requestKeysForThisSession.clear();
         uniqueID = Uuid().v1();
         userRequestCounter = await database.totalUserRequests;
         await database.saveRequest(
@@ -208,13 +223,30 @@ class RequestStream extends StatefulWidget {
 
 class _RequestStreamState extends State<RequestStream> {
   Query _query;
+  bool isQueryNull = true;
   @override
   void initState() {
-    database.requestQuery(widget.requestKey).then((Query query) {
-      setState(() {
-        _query = query;
+    String temp;
+    List args = Get.arguments;
+    if (widget.requestKey == null && args.isNotEmpty) {
+      temp = Get.arguments[0];
+      database.requestQuery(temp).then((Query query) {
+        setState(() {
+          _query = query;
+          isQueryNull = false;
+        });
       });
-    });
+    } else if (widget.requestKey != null && args.isEmpty) {
+      temp = widget.requestKey;
+      database.requestQuery(temp).then((Query query) {
+        setState(() {
+          _query = query;
+          isQueryNull = false;
+        });
+      });
+    } else {
+      isQueryNull = true;
+    }
     super.initState();
   }
 
@@ -225,7 +257,7 @@ class _RequestStreamState extends State<RequestStream> {
         Text('You have no requests'),
       ],
     );
-    if (_query != null) {
+    if (!isQueryNull) {
       scaffoldBody = FirebaseAnimatedList(
         query: _query,
         itemBuilder: (
@@ -236,30 +268,64 @@ class _RequestStreamState extends State<RequestStream> {
         ) {
           // String mountainKey = snapshot.key;
 
-          Map key = snapshot.value;
+          Map requestMap = snapshot.value;
 
-          // key.forEach((key, value) {
-          //   if (key == 'service') dataMap['service'] = value;
-          //   if (key == 'date') dataMap['date'] = value;
-          //   if (key == 'time') dataMap['time'] = value;
-          // });
-
-          return Column(
-            children: [
-              ListTile(
-                leading: Text(
-                  'You requested for a ' + key['service'] + ' service',
-                  style: TextStyle(fontSize: 13),
+          return Card(
+            elevation: 3,
+            margin: EdgeInsets.only(
+              bottom: 10,
+              // top: 10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    requestMap['service'],
+                    style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                trailing: TextButton(
+                SizedBox(
+                  height: 8,
+                ),
+                ListTile(
+                  leading: Text('Date: ' + requestMap['date']),
+                  trailing: TextButton(
+                    onPressed: () {},
+                    child: Text('Change Date'),
+                  ),
+                ),
+                ListTile(
+                  leading: Text('Time: ' + requestMap['time']),
+                  trailing: TextButton(
+                    onPressed: () {},
+                    child: Text('Change Time'),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFFF0005),
+                  ),
                   onPressed: () {},
-                  child: Text('Reject'),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.cancel_outlined),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text('Reject'),
+                    ],
+                  ),
                 ),
-              ),
-              Divider(
-                height: 2.0,
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
           );
         },
       );

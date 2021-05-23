@@ -27,10 +27,10 @@ DatabaseReference requestRefrence =
 
 String formatTime({TimeOfDay unformattedTime}) {
   String time = '';
-  if (unformattedTime.hour <= 9)
-    time += '0${unformattedTime.hour}';
+  if (unformattedTime.hourOfPeriod <= 9)
+    time += '0${unformattedTime.hourOfPeriod}';
   else
-    time += '${unformattedTime.hour}';
+    time += '${unformattedTime.hourOfPeriod}';
 
   if (unformattedTime.minute <= 9)
     time += ':0${unformattedTime.minute}';
