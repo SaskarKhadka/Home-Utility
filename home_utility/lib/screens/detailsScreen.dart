@@ -1,9 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:home_utility/components/customTextField.dart';
-import 'package:home_utility/components/roundedButton.dart';
-import 'package:home_utility/main.dart';
+import '../components/customTextField.dart';
+import '../components/roundedButton.dart';
+import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -16,25 +14,32 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  String uniqueID;
   final addressController = TextEditingController();
   DateTime pickedDate;
   TimeOfDay selectedTime;
-  List requestKeysForThisSession = [];
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    addressController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
-    usersRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .once()
-        .then((value) {
-      if (value.value != null) {
-        Map.from(value.value).forEach((key, value) {
-          requestKeysForThisSession.add(key);
-        });
-      }
-    });
+    // try {
+    //   usersRefrence
+    //       .child(userAuthentication.userID)
+    //       .child('requests')
+    //       .once()
+    //       .then((value) {
+    //     if (value.value != null) {
+    //       Map.from(value.value).forEach((key, value) {
+    //         requestKeysForThisSession.add(key);
+    //       });
+    //     }
+    //   });
+    // } catch (e) {}
 
     pickedDate = DateTime.now();
     selectedTime = TimeOfDay.now();
@@ -44,29 +49,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          if (index == 1)
-            Get.to(
-              RequestStream(
-                requestKey: uniqueID,
-              ),
-              arguments: requestKeysForThisSession,
-            );
-          else
-            Get.to(DetailsScreen());
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.request_page_sharp),
-            label: 'New Request',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.request_page_outlined),
-            label: 'My Requests',
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -147,9 +129,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: size.height * 0.05,
-            ),
           ],
         ),
       ),
@@ -201,141 +180,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
       onConfirm: () async {
         Get.back();
         requestKeysForThisSession.clear();
-        uniqueID = Uuid().v1();
-        userRequestCounter = await database.totalUserRequests;
+        newRequestKey = Uuid().v1();
+
         await database.saveRequest(
-            id: uniqueID,
+            id: newRequestKey,
             service: Get.parameters['service'],
             address: addressController.text.trim(),
             date: pickedDate,
             time: selectedTime);
+        // userRequestCounter = database.totalUserRequests;
+        print(userRequestCounter);
       },
-    );
-  }
-}
-
-class RequestStream extends StatefulWidget {
-  final requestKey;
-  RequestStream({this.requestKey});
-  @override
-  _RequestStreamState createState() => _RequestStreamState();
-}
-
-class _RequestStreamState extends State<RequestStream> {
-  Query _query;
-  bool isQueryNull = true;
-  @override
-  void initState() {
-    String temp;
-    List args = Get.arguments;
-    if (widget.requestKey == null && args.isNotEmpty) {
-      temp = Get.arguments[0];
-      database.requestQuery(temp).then((Query query) {
-        setState(() {
-          _query = query;
-          isQueryNull = false;
-        });
-      });
-    } else if (widget.requestKey != null && args.isEmpty) {
-      temp = widget.requestKey;
-      database.requestQuery(temp).then((Query query) {
-        setState(() {
-          _query = query;
-          isQueryNull = false;
-        });
-      });
-    } else {
-      isQueryNull = true;
-    }
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget scaffoldBody = Column(
-      children: [
-        Text('You have no requests'),
-      ],
-    );
-    if (!isQueryNull) {
-      scaffoldBody = FirebaseAnimatedList(
-        query: _query,
-        itemBuilder: (
-          BuildContext context,
-          DataSnapshot snapshot,
-          Animation<double> animation,
-          int index,
-        ) {
-          // String mountainKey = snapshot.key;
-
-          Map requestMap = snapshot.value;
-
-          return Card(
-            elevation: 3,
-            margin: EdgeInsets.only(
-              bottom: 10,
-              // top: 10,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    requestMap['service'],
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                ListTile(
-                  leading: Text('Date: ' + requestMap['date']),
-                  trailing: TextButton(
-                    onPressed: () {},
-                    child: Text('Change Date'),
-                  ),
-                ),
-                ListTile(
-                  leading: Text('Time: ' + requestMap['time']),
-                  trailing: TextButton(
-                    onPressed: () {},
-                    child: Text('Change Time'),
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFFF0005),
-                  ),
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.cancel_outlined),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('Reject'),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My Requests'),
-        centerTitle: true,
-      ),
-      body: scaffoldBody,
     );
   }
 }

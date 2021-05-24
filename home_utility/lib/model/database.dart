@@ -1,29 +1,23 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:home_utility/main.dart';
+import '../main.dart';
 
 class Database {
-  Future<int> get totalUserRequests async {
-    var userID = userAuthentication.userID;
-    int counter = 0;
-    await usersRefrence
-        .child(userID)
+  void totalUsersRequests() {
+    usersRefrence
+        .child(userAuthentication.userID)
         .child('requests')
         .once()
-        .then((DataSnapshot snapshot) {
-      try {
-        Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
-          counter++;
-        });
-        return counter;
-      } catch (e) {
-        return counter;
-      }
+        .then((value) {
+      // print(value.value);
+      if (value.value != null) {
+        userRequestCounter = Map.from(value.value).length;
+        print(userRequestCounter);
+      } else
+        userRequestCounter = 0;
     });
-    return counter;
   }
 
   void addUserInfo({User user, Map userData}) {
@@ -78,32 +72,27 @@ class Database {
     }
   }
 
-  void deleteRequest(String service) async {
+  void deleteRequest(String requestKey) {
     // if (userRequestCounter > 0) {
     String userID = userAuthentication.userID;
     // usersRefrence.child(uid).once().then((value) => null);
-    await requestRefrence
-        .child(userID)
-        .child('requests')
-        .once()
-        .then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
-        if (key == 'request $userRequestCounter') {
-          usersRefrence.child(userID).child('requests').child(key).remove();
-        }
-      });
-    });
-    //
+    // requestRefrence
+    //     .child(userID)
+    //     .child('requests')
+    //     .once()
+    //     .then((DataSnapshot snapshot) {
+    //   Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
+    //     if (key == 'request $userRequestCounter') {
+    //       usersRefrence.child(userID).child('requests').child(key).remove();
+    //     }
+    //   });
+    // });
+    requestRefrence.child(requestKey).remove();
+    usersRefrence.child(userID).child('requests').child(requestKey).remove();
+    // userRequestCounter--;
   }
 
   Future<Query> requestQuery(String requestKey) async {
-    usersRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .once()
-        .then((value) {
-      print(value.value);
-    });
     return usersRefrence
         .child(userAuthentication.userID)
         .child('requests')

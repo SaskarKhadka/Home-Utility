@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../model/servicesHandler.dart';
-import 'detailsScreen.dart';
+import '../../main.dart';
+import '../../model/servicesHandler.dart';
+import '../detailsScreen.dart';
 
-class MainScreen extends StatelessWidget {
+class ServicesPage extends StatefulWidget {
   static const id = '/mainScreen';
+
+  @override
+  _ServicesPageState createState() => _ServicesPageState();
+}
+
+class _ServicesPageState extends State<ServicesPage> {
   final ServiceHandler serviceHandler = ServiceHandler();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(requestKeysForThisSession);
+
+    requestKeysForThisSession.clear();
+
+    usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .once()
+        .then((value) {
+      if (value.value != null) {
+        Map.from(value.value).forEach((key, value) {
+          requestKeysForThisSession.add(key);
+        });
+      }
+    });
+
+    print(requestKeysForThisSession);
+    database.totalUsersRequests();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +68,11 @@ class MainScreen extends StatelessWidget {
                 left: 10.0,
                 right: 10.0,
               ),
-              color: Colors.lightBlue,
-              elevation: 5.0,
+              color: Colors.red,
+              elevation: 10.0,
               child: Container(
                 height: 150.0,
-                margin: EdgeInsets.all(3.0),
+                margin: EdgeInsets.all(2.0),
                 // padding: EdgeInsets.all(15.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(0.0),
@@ -79,29 +111,3 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
-
-// ListView.builder(
-//         itemCount: services.length,
-//         itemBuilder: (context, index) {
-//     return Card(
-//       margin: EdgeInsets.only(
-//         top: 10.0,
-//         bottom: 10.0,
-//         left: 15.0,
-//         right: 15.0,
-//       ),
-//       color: Colors.lightBlue,
-//       elevation: 0.0,
-//       child: Container(
-//         height: 150.0,
-//         margin: EdgeInsets.all(3.0),
-//         padding: EdgeInsets.all(15.0),
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(10.0),
-//           color: Colors.white,
-//         ),
-//         child: Text('${services[index]}'),
-//       ),
-//     );
-//   },
-// ),

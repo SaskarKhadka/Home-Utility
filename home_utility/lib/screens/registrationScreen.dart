@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_utility/screens/logInScreen.dart';
+import 'logInScreen.dart';
 import '../components/roundedButton.dart';
 import '../components/customTextField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/dialogBox.dart';
-import 'ourServices.dart';
+import 'mainScreen.dart';
 import '../main.dart';
 
 class RegistrationScreen extends StatelessWidget {

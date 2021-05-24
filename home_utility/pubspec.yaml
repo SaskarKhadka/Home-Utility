@@ -36,6 +36,7 @@ dependencies:
   geolocator: ^7.0.3
   firebase_database: ^6.1.2
   uuid: ^3.0.4
+  salomon_bottom_bar: ^3.0.0
 
 dev_dependencies:
   flutter_test:
