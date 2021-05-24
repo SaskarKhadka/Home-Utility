@@ -49,6 +49,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      // backgroundColor: Colors.red[400],
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -56,76 +57,65 @@ class _DetailsScreenState extends State<DetailsScreen> {
               Get.parameters['imgPath'],
               fit: BoxFit.fill,
             ),
-            Center(
-              child: Container(
-                width: size.height * 0.45,
-                height: size.height * 0.5,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-                  child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        Get.parameters['service'],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.w600,
-                        ),
+            Container(
+              height: size.height * 0.8,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: size.height * 0.03,
+                    horizontal: size.width * 0.02),
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      Get.parameters['service'],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(
-                        height: size.height * 0.02,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    Text(
+                      'When would you like us to come?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w400,
                       ),
-                      Text(
-                        'When would you like us to come?',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      CustomTextField(
-                        hintText: 'Enter your address',
-                        icon: EvaIcons.homeOutline,
-                        controller: addressController,
-                        lableText: 'ADDRESS',
-                        obsecure: false,
-                        onChanged: null,
-                      ),
-                      ListTile(
-                        title: Text(
-                            "Date: ${pickedDate.year}/${pickedDate.month}/${pickedDate.day}"),
-                        trailing: Icon(Icons.keyboard_arrow_down),
-                        onTap: _pickDate,
-                      ),
-                      ListTile(
-                        title: Text(
-                            "Time: ${formatTime(unformattedTime: selectedTime)}"),
-                        trailing: Icon(Icons.keyboard_arrow_down),
-                        onTap: _selectTime,
-                      ),
-                      SizedBox(
-                        height: size.height * 0.01,
-                      ),
-                      Flexible(
-                        child: RoundedButton(
-                          text: 'Confirm',
-                          onPressed: _getDialog,
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    CustomTextField(
+                      hintText: 'Enter your address',
+                      icon: EvaIcons.homeOutline,
+                      controller: addressController,
+                      lableText: 'ADDRESS',
+                      obsecure: false,
+                      onChanged: null,
+                    ),
+                    ListTile(
+                      title: Text(
+                          "Date: ${pickedDate.year}/${pickedDate.month}/${pickedDate.day}"),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                      onTap: _pickDate,
+                    ),
+                    ListTile(
+                      title: Text(
+                          "Time: ${formatTime(unformattedTime: selectedTime)}"),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                      onTap: _selectTime,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.003,
+                    ),
+                    RoundedButton(
+                      text: 'Confirm',
+                      onPressed: _getDialog,
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -40,7 +40,9 @@ class _ServicesPageState extends State<ServicesPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
+      // backgroundColor: Colors.red[200],
       appBar: AppBar(
         title: Text('Our Services'),
         centerTitle: true,
@@ -62,30 +64,36 @@ class _ServicesPageState extends State<ServicesPage> {
               },
             ),
             child: Card(
-              margin: EdgeInsets.only(
-                top: 10.0,
-                bottom: 10.0,
-                left: 10.0,
-                right: 10.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
               ),
-              color: Colors.red,
+              margin: EdgeInsets.only(
+                top: size.height * 0.015,
+                bottom: size.height * 0.015,
+                left: size.width * 0.025,
+                right: size.width * 0.025,
+              ),
               elevation: 10.0,
               child: Container(
                 height: 150.0,
-                margin: EdgeInsets.all(2.0),
-                // padding: EdgeInsets.all(15.0),
+                // margin: EdgeInsets.all(0.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(0.0),
-                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Colors.red[100],
                 ),
                 child: Column(
                   children: [
                     Expanded(
                       flex: 5,
-                      child: Image.asset(
-                        // 'images/img-1.jpg',
-                        imgPath,
-                        fit: BoxFit.fill,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30.0),
+                            topLeft: Radius.circular(30.0)),
+                        child: Image.asset(
+                          // 'images/img-1.jpg',
+                          imgPath,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     SizedBox(

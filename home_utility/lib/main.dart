@@ -31,9 +31,13 @@ DatabaseReference requestRefrence =
 
 String formatTime({TimeOfDay unformattedTime}) {
   String time = '';
-  if (unformattedTime.hourOfPeriod <= 9)
-    time += '0${unformattedTime.hourOfPeriod}';
-  else
+
+  if (unformattedTime.hourOfPeriod <= 9) {
+    if (unformattedTime.hour == 12) {
+      time += '${unformattedTime.hour}';
+    } else
+      time += '0${unformattedTime.hourOfPeriod}';
+  } else
     time += '${unformattedTime.hourOfPeriod}';
 
   if (unformattedTime.minute <= 9)
@@ -56,7 +60,7 @@ class HomeUtility extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       // home: WelcomeScreen(),
-      initialRoute: MainScreen.id,
+      initialRoute: LogInScreen.id,
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),

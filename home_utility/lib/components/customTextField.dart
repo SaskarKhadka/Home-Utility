@@ -36,7 +36,7 @@ class _NewTextfieldState extends State<CustomTextField> {
           color: Color(0xffE8E9ED),
           spreadRadius: 10,
           blurRadius: 20,
-          offset: Offset(0, 0), // changes position of shadow
+          offset: Offset(5, 7), // changes position of shadow
         ),
       ]),
       child: TextField(

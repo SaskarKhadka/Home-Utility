@@ -46,7 +46,8 @@ class _MainScreenState extends State<MainScreen>
         ],
       ),
       bottomNavigationBar: SalomonBottomBar(
-        unselectedItemColor: Colors.black,
+        selectedColorOpacity: 0.3,
+        unselectedItemColor: Colors.grey.shade600,
         selectedItemColor: Colors.red,
         currentIndex: _selectedIndex,
         onTap: (index) {
