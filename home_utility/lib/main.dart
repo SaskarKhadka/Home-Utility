@@ -71,10 +71,14 @@ class HomeUtility extends StatelessWidget {
           page: () => WelcomeScreen(),
         ),
         GetPage(
+          curve: Curves.easeIn,
+          transition: Transition.downToUp,
           name: LogInScreen.id,
           page: () => LogInScreen(),
         ),
         GetPage(
+          curve: Curves.easeIn,
+          transition: Transition.upToDown,
           name: RegistrationScreen.id,
           page: () => RegistrationScreen(),
         ),

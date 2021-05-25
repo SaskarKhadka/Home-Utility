@@ -1,6 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import '../components/customTextField.dart';
-import '../components/roundedButton.dart';
+import '../components/customButton.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -90,11 +90,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                     CustomTextField(
                       hintText: 'Enter your address',
-                      icon: EvaIcons.homeOutline,
-                      controller: addressController,
-                      lableText: 'ADDRESS',
-                      obsecure: false,
-                      onChanged: null,
+                      icon: EvaIcons.home,
+                      isPhoneNumber: false,
+                      textController: addressController,
+                      labelText: 'ADDRESS',
+                      // onChanged: null,
                     ),
                     ListTile(
                       title: Text(
@@ -111,9 +111,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     SizedBox(
                       height: size.height * 0.003,
                     ),
-                    RoundedButton(
+                    CustomButton(
                       text: 'Confirm',
-                      onPressed: _getDialog,
+                      onTap: _getDialog,
+                      // color: Colors.red,
                     ),
                   ],
                 ),

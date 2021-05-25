@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomPasswordTextField extends StatefulWidget {
   final TextEditingController textController;
-  final bool isPhoneNumber;
   final IconData icon;
   final String hintText;
   final String labelText;
-  CustomTextField({
+  CustomPasswordTextField({
     this.textController,
-    this.isPhoneNumber,
     this.icon,
     this.hintText,
     this.labelText,
   });
 
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
+  _CustomPasswordTextFieldState createState() =>
+      _CustomPasswordTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
+  IconData eyeIcon = Icons.visibility_off;
   Color _focusColour = Color(0xff737373);
+  bool isObscureText = true;
   // Color _focusColour;
 
   @override
@@ -49,16 +50,31 @@ class _CustomTextFieldState extends State<CustomTextField> {
           });
         },
         controller: widget.textController,
-        keyboardType: widget.isPhoneNumber
-            ? TextInputType.number
-            : TextInputType.emailAddress,
-        // onChanged: widget.onChanged,
+        keyboardType: TextInputType.emailAddress,
+        obscureText: isObscureText,
+        obscuringCharacter: '*',
         style: GoogleFonts.cabin(
           fontSize: 15,
           // color: Color(0xFFD4145A),
           color: _focusColour,
         ),
         decoration: InputDecoration(
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                isObscureText = !isObscureText;
+                if (isObscureText)
+                  eyeIcon = Icons.visibility_off;
+                else
+                  eyeIcon = Icons.visibility;
+              });
+            },
+            child: Icon(
+              eyeIcon,
+              color: _focusColour,
+            ),
+          ),
+
           labelText: widget.labelText,
           labelStyle: GoogleFonts.cabin(
             fontSize: 17.5,
@@ -90,6 +106,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             borderSide: BorderSide(
               // color: Color(0xFFD4145A),
               color: _focusColour,
+              // style: BorderStyle.none,
               width: 1.0,
             ),
             borderRadius: BorderRadius.all(Radius.circular(40.0)),

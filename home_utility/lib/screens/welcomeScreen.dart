@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../components/roundedButton.dart';
+import '../components/customButton.dart';
 import 'logInScreen.dart';
 // import 'registrationScreen.dart';
 
@@ -36,9 +36,10 @@ class WelcomeScreen extends StatelessWidget {
                     'images/splashscreen.gif',
                   )),
             ),
-            RoundedButton(
+            CustomButton(
               text: 'GET STARTED',
-              onPressed: () {
+              // color: Colors.black,
+              onTap: () {
                 Get.toNamed(LogInScreen.id);
               },
             ),

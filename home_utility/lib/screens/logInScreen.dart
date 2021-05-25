@@ -1,123 +1,211 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../services/userAuthentication.dart';
-import '../components/roundedButton.dart';
+import '../components/customButton.dart';
 import 'mainScreen.dart';
 import 'registrationScreen.dart';
 import '../components/customTextField.dart';
 import '../components/dialogBox.dart';
+import '../components/customPasswordTextField.dart';
+import '../components/backgroundGradient.dart';
 
-class LogInScreen extends StatelessWidget {
+class LogInScreen extends StatefulWidget {
+  static const id = '/login';
+
+  @override
+  _LogInScreenState createState() => _LogInScreenState();
+}
+
+class _LogInScreenState extends State<LogInScreen> {
   final userAuthentication = UserAuthentication();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  static const id = '/login';
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 15.0,
-            vertical: 50.0,
-          ),
+        child: BackgroundGradient(
+          isRegistrationScreen: false,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                  height: size.height * 0.3,
-                  child: Center(child: Image.asset('images/signin.jpg'))),
+              SizedBox(
+                height: size.height * 0.08,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 5.0,
+                          horizontal: 21.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Text(
+                          'SIGN IN',
+                          style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            letterSpacing: 2,
+                            fontSize: 30,
+                            wordSpacing: 2,
+                            // decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () => Get.toNamed(RegistrationScreen.id),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 4.6,
+                          horizontal: 17.0,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          border: Border.all(
+                            style: BorderStyle.solid,
+                            color: Colors.white,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: Text(
+                          'SIGN UP',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 2,
+                            fontSize: 30,
+                            wordSpacing: 2,
+                            // decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: size.height * 0.01,
               ),
-              Text(
-                'Welcome back !',
-                style: GoogleFonts.montserrat(
-                  color: Color(0xff25232c),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28.0,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.025,
-              ),
-              Text(
-                'Log in to your existing account of Home Utility',
-                style: GoogleFonts.lato(
-                  color: Color(0xffaaabac),
-                  fontSize: 15.0,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.04,
-              ),
-              CustomTextField(
-                hintText: 'Enter your email address',
-                icon: EvaIcons.personOutline,
-                onChanged: null,
-                controller: emailController,
-                lableText: 'ENTER EMAIL',
-                obsecure: false,
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              CustomTextField(
-                hintText: 'Enter your password',
-                icon: EvaIcons.lockOutline,
-                onChanged: null,
-                controller: passwordController,
-                lableText: 'ENTER PASSWORD',
-                obsecure: true,
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              RoundedButton(
-                text: 'LOG IN',
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) => DialogBox(),
-                  );
-                  try {
-                    await userAuthentication.signIn(
-                        email: emailController.text.trim(),
-                        password: passwordController.text);
-                    Get.back();
-                    Get.toNamed(MainScreen.id);
-                  } catch (e) {
-                    print(e);
-                  }
-                },
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Dont have an account ?  ',
-                    style: GoogleFonts.roboto(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(60.0),
+                      // topLeft: Radius.circular(120.0),
+                      // bottomLeft: Radius.circular(60.0),
+                      // bottomRight: Radius.circular(50.0),
+                    ),
                   ),
-                  GestureDetector(
-                      onTap: () => Get.toNamed(RegistrationScreen.id),
-                      child: Text('Sign Up',
-                          style: GoogleFonts.roboto(
-                            color: Color(0xff024BBC),
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w600,
-                          ))),
-                ],
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: size.height * 0.035,
+                      horizontal: size.width * 0.07,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.04,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomTextField(
+                              textController: emailController,
+                              isPhoneNumber: true,
+                              icon: EvaIcons.emailOutline,
+                              labelText: 'Email',
+                              hintText: 'Enter your email address',
+                            ),
+                            SizedBox(
+                              height: size.height * 0.03,
+                            ),
+                            CustomPasswordTextField(
+                              textController: passwordController,
+                              icon: EvaIcons.lockOutline,
+                              labelText: 'Password',
+                              hintText: 'Enter your password',
+                            ),
+                            SizedBox(
+                              //0.078
+                              height: size.height * 0.08,
+                            ),
+                            CustomButton(
+                              color: Colors.orange[900],
+                              text: 'SIGN IN',
+                              onTap: () async {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => DialogBox(),
+                                );
+                                try {
+                                  await userAuthentication.signIn(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text);
+                                  Get.back();
+                                  Get.toNamed(MainScreen.id);
+                                } catch (e) {
+                                  print(e);
+                                }
+                              },
+                            ),
+                            SizedBox(
+                              height: size.height * 0.1,
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Text(
+                            //       'Don\'t have an account?',
+                            //       textAlign: TextAlign.center,
+                            //       style: GoogleFonts.montserrat(
+                            //         fontSize: 16.0,
+                            //         color: Colors.black.withOpacity(0.5),
+                            //       ),
+                            //     ),
+                            //     TextButton(
+                            //         onPressed: () =>
+                            //             Get.toNamed(RegistrationScreen.id),
+                            //         child: Text(
+                            //           'Register Here',
+                            //           style: GoogleFonts.montserrat(
+                            //             fontSize: 16.0,
+                            //             color: Colors.orange[800],
+                            //           ),
+                            //         ))
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
