@@ -184,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  google_nav_bar:
+    dependency: "direct main"
+    description:
+      name: google_nav_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.5"
   http:
     dependency: transitive
     description:
@@ -212,6 +219,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  line_icons:
+    dependency: "direct main"
+    description:
+      name: line_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   matcher:
     dependency: transitive
     description:
@@ -296,13 +310,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.1"
-  salomon_bottom_bar:
-    dependency: "direct main"
-    description:
-      name: salomon_bottom_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

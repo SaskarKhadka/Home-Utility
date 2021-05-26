@@ -62,6 +62,19 @@ class HomeUtility extends StatelessWidget {
       // home: WelcomeScreen(),
       initialRoute: LogInScreen.id,
       theme: ThemeData(
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(
+            Colors.white,
+          ),
+
+          thickness: MaterialStateProperty.all(
+            6,
+          ),
+          radius: Radius.circular(10.0),
+          // isAlwaysShown: true,
+          showTrackOnHover: true,
+          trackColor: MaterialStateProperty.all(Colors.white),
+        ),
         primarySwatch: Colors.red,
       ),
       defaultTransition: Transition.fade,
