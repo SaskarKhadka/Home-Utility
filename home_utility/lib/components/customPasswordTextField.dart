@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../constants.dart';
 
 class CustomPasswordTextField extends StatefulWidget {
   final TextEditingController textController;
@@ -35,10 +36,10 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
         borderRadius: BorderRadius.circular(40.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: kBlackColour.withOpacity(0.2),
             // spreadRadius: 5,
             blurRadius: 10,
-            offset: Offset(0, 7),
+            offset: Offset(2, 7),
           ),
         ],
       ),
@@ -115,7 +116,7 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             borderSide: BorderSide(
               // color: Color(0xFFD4145A),
               color: _focusColour,
-              width: 1.0,
+              width: 2.0,
             ),
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
           ),

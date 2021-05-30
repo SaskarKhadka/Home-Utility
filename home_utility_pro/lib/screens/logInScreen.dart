@@ -1,5 +1,4 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -204,7 +203,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       await database.prosProfession;
 
                                   Get.back();
-                                  Get.toNamed(MainScreen.id);
+                                  Get.offAllNamed(MainScreen.id);
                                 } else if (code == 'wrong-password') {
                                   Get.back();
                                   userAuthentication.signOut();

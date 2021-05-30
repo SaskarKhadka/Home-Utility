@@ -37,7 +37,6 @@ class _LogInScreenState extends State<LogInScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: BackgroundGradient(
-          isRegistrationScreen: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -132,11 +131,11 @@ class _LogInScreenState extends State<LogInScreen> {
                           height: size.height * 0.04,
                         ),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             CustomTextField(
                               textController: emailController,
-                              isPhoneNumber: true,
+                              isPhoneNumber: false,
                               icon: EvaIcons.emailOutline,
                               labelText: 'Email',
                               hintText: 'Enter your email address',
@@ -158,48 +157,76 @@ class _LogInScreenState extends State<LogInScreen> {
                               color: Colors.orange[900],
                               text: 'SIGN IN',
                               onTap: () async {
+                                // bool proceed = false;
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
-                                  builder: (context) => DialogBox(),
+                                  builder: (context) => DialogBox(
+                                    title: 'Authenticating',
+                                  ),
                                 );
-                                try {
-                                  await userAuthentication.signIn(
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text);
+
+                                if (emailController.text.isEmpty) {
                                   Get.back();
-                                  Get.toNamed(MainScreen.id);
-                                } catch (e) {
-                                  print(e);
+                                  getSnackBar(
+                                    title: 'ERROR!',
+                                    message: 'Please enter your email address',
+                                  );
+                                  return;
+                                } else {
+                                  if (!emailController.text.isEmail) {
+                                    Get.back();
+                                    // proceed = false;
+                                    getSnackBar(
+                                        title: 'ERROR!',
+                                        message:
+                                            'Please enter a valid email address');
+                                    return;
+                                  }
                                 }
+                                if (passwordController.text.isEmpty) {
+                                  Get.back();
+
+                                  getSnackBar(
+                                    title: 'ERROR!',
+                                    message: 'Please enter your password',
+                                  );
+                                  return;
+                                }
+
+                                String code = await userAuthentication.signIn(
+                                    email: emailController.text.trim(),
+                                    password: passwordController.text);
+
+                                if (code == 'success') {
+                                  Get.back();
+                                  Get.offAllNamed(MainScreen.id);
+                                } else if (code == 'wrong-password') {
+                                  Get.back();
+                                  userAuthentication.signOut();
+                                  getSnackBar(
+                                      title: 'ERROR!',
+                                      message:
+                                          'Wrong Password! Please enter your valid password');
+                                  return;
+                                } else {
+                                  Get.back();
+                                  userAuthentication.signOut();
+                                  getSnackBar(
+                                    title: 'ERROR!',
+                                    message:
+                                        'Record not found! Please create a new account if you donot have one.',
+                                  );
+                                  return;
+                                }
+                                // } else {
+                                // Get.back();
+                                // }
                               },
                             ),
                             SizedBox(
                               height: size.height * 0.1,
                             ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Text(
-                            //       'Don\'t have an account?',
-                            //       textAlign: TextAlign.center,
-                            //       style: GoogleFonts.montserrat(
-                            //         fontSize: 16.0,
-                            //         color: Colors.black.withOpacity(0.5),
-                            //       ),
-                            //     ),
-                            //     TextButton(
-                            //         onPressed: () =>
-                            //             Get.toNamed(RegistrationScreen.id),
-                            //         child: Text(
-                            //           'Register Here',
-                            //           style: GoogleFonts.montserrat(
-                            //             fontSize: 16.0,
-                            //             color: Colors.orange[800],
-                            //           ),
-                            //         ))
-                            //   ],
-                            // ),
                           ],
                         ),
                       ],

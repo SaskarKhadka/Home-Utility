@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../constants.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController textController;
@@ -34,10 +34,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(40.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: kBlackColour.withOpacity(0.2),
             // spreadRadius: 5,
             blurRadius: 10,
-            offset: Offset(0, 7),
+            offset: Offset(2, 7),
           ),
         ],
       ),
@@ -76,7 +76,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           // floatingLabelBehavior: FloatingLabelBehavior.auto,
           contentPadding: EdgeInsets.all(20.0),
           prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 25.0),
+            padding: EdgeInsets.only(left: 20.0, right: 25.0),
             child: Icon(
               widget.icon,
               // color: Color(0xFFD4145A),
@@ -98,7 +98,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             borderSide: BorderSide(
               // color: Color(0xFFD4145A),
               color: _focusColour,
-              width: 1.0,
+              width: 2.0,
             ),
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
           ),

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 class Database {
-  void totalUsersRequests() {
-    usersRefrence
+  void totalUsersRequests() async {
+    await usersRefrence
         .child(userAuthentication.userID)
         .child('requests')
         .once()
@@ -60,6 +60,7 @@ class Database {
       userInfo['date'] = '${date.year}/${date.month}/${date.day}';
       userInfo['time'] = '${formatTime(unformattedTime: time)}';
       userInfo['requestKey'] = '$id';
+      userInfo['state'] = 'pending';
 
       requestRefrence.child('$id').set(userInfo);
       final ref = usersRefrence.child(userID).child('requests');
@@ -72,30 +73,49 @@ class Database {
     }
   }
 
-  void deleteRequest(String requestKey) {
-    // if (userRequestCounter > 0) {
+  Future<void> deleteRequest(String requestKey) async {
     String userID = userAuthentication.userID;
-    // usersRefrence.child(uid).once().then((value) => null);
-    // requestRefrence
-    //     .child(userID)
-    //     .child('requests')
-    //     .once()
-    //     .then((DataSnapshot snapshot) {
-    //   Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
-    //     if (key == 'request $userRequestCounter') {
-    //       usersRefrence.child(userID).child('requests').child(key).remove();
-    //     }
-    //   });
-    // });
-    requestRefrence.child(requestKey).remove();
-    usersRefrence.child(userID).child('requests').child(requestKey).remove();
+
+    await requestRefrence.child(requestKey).remove();
+    await usersRefrence
+        .child(userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
     // userRequestCounter--;
   }
 
   Future<Query> requestQuery(String requestKey) async {
+    // return requestRefrence
+    //     .orderByChild('uid')
+    //     .equalTo(userAuthentication.userID);
     return usersRefrence
         .child(userAuthentication.userID)
         .child('requests')
         .orderByChild(requestKey);
+  }
+
+  Future<bool> checkAccount(User user) async {
+    bool accountExists = false;
+    await usersRefrence.child(user.uid).once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null)
+        accountExists = true;
+      else
+        accountExists = false;
+    });
+    return accountExists;
+  }
+
+  Future<bool> checkPhoneNumber(int phoneNo) async {
+    bool isAlreadyUsed = true;
+    print(phoneNo);
+    Query query = usersRefrence.orderByChild('phoneNo').equalTo(phoneNo);
+    await query.once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null)
+        isAlreadyUsed = true;
+      else
+        isAlreadyUsed = false;
+    });
+    return isAlreadyUsed;
   }
 }

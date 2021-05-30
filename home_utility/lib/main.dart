@@ -5,13 +5,14 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
-import 'screens/detailsScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/userAuthentication.dart';
 import 'model/database.dart';
 
 //TODO: probably make another file to store all these resuable accessories
+
+bool isQueryNull = true;
 
 int userRequestCounter;
 
@@ -75,7 +76,21 @@ class HomeUtility extends StatelessWidget {
           showTrackOnHover: true,
           trackColor: MaterialStateProperty.all(Colors.white),
         ),
-        primarySwatch: Colors.red,
+        primarySwatch: MaterialColor(
+          0xff131313,
+          <int, Color>{
+            50: Colors.white.withOpacity(0.1), //10%
+            100: Colors.white.withOpacity(0.2), //20%
+            200: Colors.white.withOpacity(0.3), //30%
+            300: Colors.white.withOpacity(0.4), //40%
+            400: Colors.white.withOpacity(0.5), //50%
+            500: Colors.white.withOpacity(0.6), //60%
+            600: Colors.white.withOpacity(0.7), //70%
+            700: Colors.white.withOpacity(0.8), //80%
+            800: Colors.white.withOpacity(0.9), //90%
+            900: Colors.white.withOpacity(0.1), //100%
+          },
+        ),
       ),
       defaultTransition: Transition.fade,
       getPages: [
@@ -98,10 +113,6 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           name: MainScreen.id,
           page: () => MainScreen(),
-        ),
-        GetPage(
-          name: DetailsScreen.id,
-          page: () => DetailsScreen(),
         ),
       ],
     );

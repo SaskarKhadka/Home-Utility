@@ -7,7 +7,7 @@ class ServiceHandler {
     HomeServices('Home Cleaning', 'images/img-1.jpg'),
     HomeServices('Electrical Services', 'images/img-3.jpg'),
     HomeServices('Plumbing', 'images/img-2.jpg'),
-    HomeServices('Goods Transportation', 'images/img-4.jpeg'),
+    HomeServices('Goods Transport', 'images/img-4.jpeg'),
     HomeServices('Furniture Assembly', 'images/img-4.jpeg'),
     HomeServices('Gardening', 'images/img-4.jpeg'),
     HomeServices('Babysitting', 'images/img-4.jpeg'),

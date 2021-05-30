@@ -135,7 +135,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           height: size.height * 0.03,
                         ),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             CustomTextField(
                               textController: nameController,
@@ -183,34 +183,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
-                                  builder: (context) => DialogBox(),
+                                  builder: (context) => DialogBox(
+                                    title: 'Registering',
+                                  ),
                                 );
 
                                 _checkValidation();
                               },
                             ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Text(
-                            //       'Already have an account?',
-                            //       textAlign: TextAlign.center,
-                            //       style: GoogleFonts.montserrat(
-                            //         fontSize: 16.0,
-                            //         color: Colors.black.withOpacity(0.5),
-                            //       ),
-                            //     ),
-                            //     TextButton(
-                            //         onPressed: () => Get.back(),
-                            //         child: Text(
-                            //           'Login Here',
-                            //           style: GoogleFonts.montserrat(
-                            //             fontSize: 16.0,
-                            //             color: Colors.orange[800],
-                            //           ),
-                            //         ))
-                            //   ],
-                            // ),
                           ],
                         ),
                       ],
@@ -247,44 +227,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         message: 'Inavlid phone number.',
       );
       return;
-    } else if (phoneController.text.trim().length == 10) {
-      try {
-        double phoneNo = double.parse(phoneController.text);
-
-        try {
-          await userAuthentication.signUp(
-              name: nameController.text.trim(),
-              phoneNo: phoneNo,
-              email: emailController.text.trim(),
-              password: passwordController.text);
-          Get.back();
-          Get.toNamed(MainScreen.id);
-          getSnackBar(
-            title: 'CONGRATULATIONS!',
-            message: 'Your account has been created',
-          );
-          // Get.snackbar(title, message)
-        } catch (e) {
-          Get.back();
-          getSnackBar(
-            title: 'ERROR!',
-            message: e.toString(),
-          );
-        }
-      } catch (e) {
-        Get.back();
-        getSnackBar(
-          title: 'ERROR!',
-          message: 'Please enter a valid phone number',
-        );
-      }
-    } else if (!emailController.text.trim().contains('@')) {
+    } else if (!emailController.text.isEmail) {
       Get.back();
       getSnackBar(
         title: 'ERROR!',
-        message: 'Inavlid email address.',
+        message: 'Please enter a valid email address',
       );
-
       return;
     } else if (passwordController.text.length < 8) {
       Get.back();
@@ -293,6 +241,60 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         message: 'Password must be atleast 8 characters long.',
       );
       return;
+      // } else if (phoneController.text.trim().length == 10) {
+    } else {
+      try {
+        int phoneNo = int.parse(phoneController.text);
+
+        bool isAlreadyUsed = await database.checkPhoneNumber(phoneNo);
+
+        if (isAlreadyUsed) {
+          Get.back();
+          getSnackBar(
+            title: 'ERROR!',
+            message: 'The phone number is already in use',
+          );
+          return;
+        } else {
+          String code = await userAuthentication.signUp(
+              name: nameController.text.trim(),
+              phoneNo: phoneNo,
+              email: emailController.text.trim(),
+              password: passwordController.text);
+
+          if (code == 'success') {
+            Get.back();
+            getSnackBar(
+              title: 'CONGRATULATIONS!',
+              message: 'Your account has been created',
+            );
+            // Get.offAllNamed(MainScreen.id);
+            Get.toNamed(MainScreen.id);
+          } else if (code == 'email-already-exists') {
+            Get.back();
+            getSnackBar(
+              title: 'ERROR!',
+              message:
+                  'Email already exists! Try logging in if you already have an account.',
+            );
+            return;
+          } else {
+            Get.back();
+            getSnackBar(
+              title: 'ERROR!',
+              message: 'Cannot create your account',
+            );
+            return;
+          }
+        }
+      } catch (e) {
+        Get.back();
+        getSnackBar(
+          title: 'ERROR!',
+          message: 'Please enter a valid phone number',
+        );
+        return;
+      }
     }
   }
 }
@@ -301,6 +303,25 @@ getSnackBar({String title, String message}) {
   Get.snackbar(
     title,
     message,
+    titleText: Text(
+      title,
+      style: TextStyle(
+        fontSize: 20.0,
+        color: Colors.white,
+      ),
+    ),
+    messageText: Text(
+      message,
+      style: TextStyle(
+        fontSize: 15.0,
+        color: Colors.white,
+      ),
+    ),
     snackPosition: SnackPosition.BOTTOM,
+    colorText: Colors.white,
+    margin: EdgeInsets.all(15.0),
+    padding: EdgeInsets.all(15.0),
+    backgroundColor: Color(0xff131313),
+    snackStyle: SnackStyle.FLOATING,
   );
 }

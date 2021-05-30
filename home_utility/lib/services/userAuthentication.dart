@@ -11,8 +11,9 @@ class UserAuthentication {
     return user.uid;
   }
 
-  Future<void> signUp(
-      {String email, String password, double phoneNo, String name}) async {
+  Future<String> signUp(
+      {String email, String password, int phoneNo, String name}) async {
+    String code;
     try {
       final firebaseUser = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -27,22 +28,36 @@ class UserAuthentication {
         // usersRefrence.child(firebaseUser.user.uid).set(userData);
 
         database.addUserInfo(user: firebaseUser.user, userData: userData);
+        code = 'success';
 
         //TODO:save user to data base
 
       } else {
         //TODO:Display error message
+        code = 'error';
       }
     } on FirebaseAuthException catch (e) {
-      print(e);
+      code = e.code;
     }
+    return code;
   }
 
-  Future<void> signIn({String email, String password}) async {
+  Future<String> signIn({String email, String password}) async {
+    String code;
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final firebaseUser = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      bool accountExists = await database.checkAccount(firebaseUser.user);
+      accountExists ? code = 'success' : code = 'record-not-found';
     } on FirebaseAuthException catch (e) {
-      print(e);
+      code = e.code;
     }
+
+    return code;
+  }
+
+  Future<void> signOut() {
+    _auth.signOut();
   }
 }

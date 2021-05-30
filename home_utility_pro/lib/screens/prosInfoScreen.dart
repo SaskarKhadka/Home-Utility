@@ -33,6 +33,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  prosProfessionValue = professionController.text.trim();
                   database.updateProfession(professionController.text.trim());
                   Get.toNamed(MainScreen.id);
                 },

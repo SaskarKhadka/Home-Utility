@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility/components/detailsDialog.dart';
+import 'package:home_utility/constants.dart';
 import '../../main.dart';
 import '../../model/servicesHandler.dart';
-import '../detailsScreen.dart';
 
 class ServicesPage extends StatefulWidget {
-  static const id = '/mainScreen';
-
   @override
   _ServicesPageState createState() => _ServicesPageState();
 }
@@ -50,14 +48,15 @@ class _ServicesPageState extends State<ServicesPage> {
           width: double.infinity,
           height: size.height * 10,
           decoration: BoxDecoration(
-            color: Color(0xff131313),
-          ),
+              // color: Color(0xff131313),
+              ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 flex: 2,
                 child: Container(
+                  color: Color(0xff131313),
                   padding: EdgeInsets.only(
                     left: 30.0,
                     right: 15.0,
@@ -85,8 +84,11 @@ class _ServicesPageState extends State<ServicesPage> {
                       Text(
                         'Our Services',
                         style: GoogleFonts.montserrat(
+                          // color: Color(0xff131313),
                           color: Colors.white,
                           fontSize: 37,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 2,
                           // decoration: TextDecoration.underline,
                         ),
                       ),
@@ -110,11 +112,15 @@ class _ServicesPageState extends State<ServicesPage> {
                   ),
                 ),
               ),
+              Divider(
+                height: 1,
+              ),
               Expanded(
                 flex: 17,
                 child: Scrollbar(
                   controller: _scrollController,
                   child: Container(
+                    color: Color(0xff131313),
                     padding: EdgeInsets.only(
                         // left: 30.0,
                         ),
@@ -156,13 +162,32 @@ class _ServicesPageState extends State<ServicesPage> {
                           child: Row(
                             children: [
                               GestureDetector(
-                                onTap: () => Get.toNamed(
-                                  DetailsScreen.id,
-                                  parameters: {
-                                    'imgPath': imgPath,
-                                    'service': service,
-                                  },
-                                ),
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      backgroundColor: kBlackColour,
+                                      barrierColor:
+                                          kBlackColour.withOpacity(0.6),
+                                      isDismissible: true,
+                                      enableDrag: true,
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (context) => DetailsDialog(
+                                            service: service,
+                                          ));
+                                  // showDialog(
+                                  //   context: context,
+                                  //   builder: (context) => DetailsDialog(
+                                  //     service: service,
+                                  //   ),
+                                  // );
+                                },
+                                // onTap: () => Get.toNamed(
+                                //   DetailsScreen.id,
+                                //   parameters: {
+                                //     'imgPath': imgPath,
+                                //     'service': service,
+                                //   },
+                                // ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(30.0),

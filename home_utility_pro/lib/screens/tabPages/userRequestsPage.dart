@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../main.dart';
 
 class UserRequestsPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
   void initState() {
     print(requestKeysForThisSession);
 
-    requestKeysForThisSession.clear();
+    // requestKeysForThisSession.clear();
 
     requestRefrence.once().then((DataSnapshot snapshot) {
       if (snapshot.value != null) {
@@ -33,6 +34,7 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
       }
     });
     print(requestKeysForThisSession);
+    print(prosProfessionValue);
 
     if (requestKeysForThisSession.isNotEmpty) {
       database.requestQuery().then((Query query) {
@@ -46,6 +48,7 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
     } else {
       isQueryNull = true;
     }
+    requestKeysForThisSession.clear();
     super.initState();
   }
 
@@ -53,10 +56,9 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    Widget scaffoldBody = Column(
-      children: [
-        Text('You have no requests'),
-      ],
+    Widget scaffoldBody;
+    scaffoldBody = Center(
+      child: Text('You have no requests'),
     );
     // Widget scaffoldBody2 = Column(
     //   children: [
@@ -74,28 +76,8 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
           Animation<double> animation,
           int index,
         ) {
-          // bool isDesiredPro = false;
-          // ++userRequestCounter;
-          // String mountainKey = snapshot.key;
-
           Map requestMap = snapshot.value;
-          // String profession = database.prosProfession;
-          print(requestMap);
-          print(prosProfessionValue);
 
-          // requestMap.forEach((key, value) {
-          //   if (key == 'service') {
-          //     print('inside service');
-          //     if (value == prosProfessionValue) {
-          //       isDesiredPro = true;
-          //       print(isDesiredPro);
-          //     } else
-          //       print('outside service');
-          //   }
-          // });
-
-          // if (isDesiredPro) {
-          // requestCount++;
           return Stack(
             // alignment: Alignment.bottomCenter,
             children: [
@@ -209,7 +191,26 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
         title: Text('My Requests'),
         centerTitle: true,
       ),
-      body: scaffoldBody,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          requestRefrence.once().then((DataSnapshot snapshot) {
+            if (snapshot.value != null) {
+              Map.from(snapshot.value).forEach((key, value) {
+                Map.from(value).forEach((keyIn, valueIn) {
+                  if (keyIn == 'service') {
+                    if (valueIn == prosProfessionValue) {
+                      requestKeysForThisSession.add(key);
+                    }
+                  }
+                });
+              });
+            }
+          });
+        },
+        child: Scrollbar(
+          child: scaffoldBody,
+        ),
+      ),
     );
   }
 }

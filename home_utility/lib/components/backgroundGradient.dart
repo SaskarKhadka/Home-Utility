@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BackgroundGradient extends StatelessWidget {
   final Widget child;
   final bool isRegistrationScreen;
-  BackgroundGradient({this.child, this.isRegistrationScreen});
+  BackgroundGradient({this.child, this.isRegistrationScreen = false});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
