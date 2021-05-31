@@ -6,10 +6,10 @@ class BackgroundGradient extends StatelessWidget {
   BackgroundGradient({this.child, this.isRegistrationScreen});
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
-      height: isRegistrationScreen ? size.height * 1.1 : size.height,
+      // height: size.height,
       color: Color(0xff131313),
       // decoration: BoxDecoration(
       //   color: Colors.white,

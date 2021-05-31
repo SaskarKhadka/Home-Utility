@@ -39,7 +39,8 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: TabBarView(
-        dragStartBehavior: DragStartBehavior.down,
+        physics: NeverScrollableScrollPhysics(),
+        // dragStartBehavior: DragStartBehavior.down,
         controller: tabController,
         children: [
           UserRequestsPage(),

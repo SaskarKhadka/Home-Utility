@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../main.dart';
 
 class UserRequestsPage extends StatefulWidget {
@@ -57,14 +56,11 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
     Size size = MediaQuery.of(context).size;
 
     Widget scaffoldBody;
-    scaffoldBody = Center(
-      child: Text('You have no requests'),
-    );
-    // Widget scaffoldBody2 = Column(
-    //   children: [
-    //     Text('You have no requests2'),
-    //   ],
-    // );
+    scaffoldBody = ListView(children: [
+      Center(
+        child: Text('You have no requests'),
+      ),
+    ]);
 
     if (!isQueryNull) {
       scaffoldBody = FirebaseAnimatedList(
@@ -193,19 +189,22 @@ class _UserRequestsPageState extends State<UserRequestsPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          requestRefrence.once().then((DataSnapshot snapshot) {
-            if (snapshot.value != null) {
-              Map.from(snapshot.value).forEach((key, value) {
-                Map.from(value).forEach((keyIn, valueIn) {
-                  if (keyIn == 'service') {
-                    if (valueIn == prosProfessionValue) {
-                      requestKeysForThisSession.add(key);
-                    }
-                  }
-                });
-              });
-            }
-          });
+          setState(() {});
+          // setState(() {
+          // requestRefrence.once().then((DataSnapshot snapshot) {
+          //   if (snapshot.value != null) {
+          //     Map.from(snapshot.value).forEach((key, value) {
+          //       Map.from(value).forEach((keyIn, valueIn) {
+          //         if (keyIn == 'service') {
+          //           if (valueIn == prosProfessionValue) {
+          //             requestKeysForThisSession.add(key);
+          //           }
+          //         }
+          //       });
+          //     });
+          //   }
+          // });
+          // });
         },
         child: Scrollbar(
           child: scaffoldBody,

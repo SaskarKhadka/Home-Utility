@@ -209,20 +209,28 @@ class _DetailsDialogState extends State<DetailsDialog> {
       ),
       barrierDismissible: false,
       middleText: 'Your request has been placed',
-      onConfirm: () async {
-        Get.back();
-        requestKeysForThisSession.clear();
-        newRequestKey = Uuid().v1();
+      confirm: ElevatedButton(
+        onPressed: () async {
+          Get.back();
+          requestKeysForThisSession.clear();
+          newRequestKey = Uuid().v1();
 
-        await database.saveRequest(
-            id: newRequestKey,
-            service: widget.service,
-            address: _addressController.text.trim(),
-            date: _pickedDate,
-            time: _selectedTime);
-        // userRequestCounter = database.totalUserRequests;
-        print(userRequestCounter);
-      },
+          await database.saveRequest(
+              id: newRequestKey,
+              service: widget.service,
+              address: _addressController.text.trim(),
+              date: _pickedDate,
+              time: _selectedTime);
+          // userRequestCounter = database.totalUserRequests;
+          print(userRequestCounter);
+        },
+        child: Text(
+          'Ok',
+          style: TextStyle(
+            color: kWhiteColour,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/constants.dart';
 
 class CustomPasswordTextField extends StatefulWidget {
   final TextEditingController textController;
@@ -46,7 +47,7 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
         onTap: () {
           setState(() {
             // _focusColour = Colors.deepOrangeAccent.shade400;
-            _focusColour = Color(0xff131313);
+            _focusColour = kBlackColour;
           });
         },
         controller: widget.textController,
@@ -100,7 +101,7 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             ),
           ),
 
-          fillColor: Colors.white,
+          fillColor: kWhiteColour,
           filled: true,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(

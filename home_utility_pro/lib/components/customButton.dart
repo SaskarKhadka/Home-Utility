@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/constants.dart';
 
 class CustomButton extends StatelessWidget {
   final Function onTap;
-  final Color color;
   final String text;
   CustomButton({
     this.onTap,
-    this.color,
     this.text,
   });
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -23,7 +22,7 @@ class CustomButton extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40.0),
-            color: Color(0xff131313),
+            color: kBlackColour,
             // gradient: LinearGradient(
             //   colors: [
             //     Colors.orange[500],
@@ -44,7 +43,7 @@ class CustomButton extends StatelessWidget {
             child: Text(
               text,
               style: GoogleFonts.montserrat(
-                color: Colors.white,
+                color: kWhiteColour,
                 fontSize: 20.0,
                 letterSpacing: 3,
               ),

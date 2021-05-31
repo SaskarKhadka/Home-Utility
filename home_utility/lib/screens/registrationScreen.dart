@@ -269,7 +269,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               message: 'Your account has been created',
             );
             // Get.offAllNamed(MainScreen.id);
-            Get.toNamed(MainScreen.id);
+            Get.offAllNamed(MainScreen.id);
           } else if (code == 'email-already-exists') {
             Get.back();
             getSnackBar(

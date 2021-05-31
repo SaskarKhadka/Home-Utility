@@ -16,7 +16,7 @@ class DialogBox extends StatelessWidget {
       // insetAnimationDuration: Duration(seconds: 3),
       // insetPadding: EdgeInsets.all(25.0),
       child: Container(
-        margin: EdgeInsets.all(20.0),
+        margin: EdgeInsets.all(10.0),
         padding: EdgeInsets.symmetric(vertical: 20.0),
         width: double.infinity,
         decoration: BoxDecoration(

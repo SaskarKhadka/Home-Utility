@@ -77,7 +77,21 @@ class HomeUtility extends StatelessWidget {
           showTrackOnHover: true,
           trackColor: MaterialStateProperty.all(Colors.white),
         ),
-        primarySwatch: Colors.red,
+        primarySwatch: MaterialColor(
+          0xff131313,
+          <int, Color>{
+            50: Color(0xff131313).withOpacity(0.1), //10%
+            100: Color(0xff131313).withOpacity(0.2), //20%
+            200: Color(0xff131313).withOpacity(0.3), //30%
+            300: Color(0xff131313).withOpacity(0.4), //40%
+            400: Color(0xff131313).withOpacity(0.5), //50%
+            500: Color(0xff131313).withOpacity(0.6), //60%
+            600: Color(0xff131313).withOpacity(0.7), //70%
+            700: Color(0xff131313).withOpacity(0.8), //80%
+            800: Color(0xff131313).withOpacity(0.9), //90%
+            900: Color(0xff131313).withOpacity(1), //100%
+          },
+        ),
       ),
       defaultTransition: Transition.fade,
       getPages: [
