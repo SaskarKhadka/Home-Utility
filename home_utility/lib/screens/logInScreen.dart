@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:home_utility/main.dart';
 import '../services/userAuthentication.dart';
 import '../components/customButton.dart';
 import 'mainScreen.dart';
@@ -199,6 +200,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     password: passwordController.text);
 
                                 if (code == 'success') {
+                                  await database.totalUsersRequests();
                                   Get.back();
                                   Get.offAllNamed(MainScreen.id);
                                 } else if (code == 'wrong-password') {

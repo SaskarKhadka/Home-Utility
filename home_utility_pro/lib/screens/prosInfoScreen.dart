@@ -19,13 +19,13 @@ class ProsInfoScreen extends StatefulWidget {
 class _ProsInfoScreenState extends State<ProsInfoScreen> {
   final TextEditingController professionController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  ServiceHandler _serviceHandler = ServiceHandler();
+  // ServiceHandler _serviceHandler = ServiceHandler();
   String value;
 
   @override
   void initState() {
     // TODO: implement initState
-    value = _serviceHandler.getServices()[0].getProfession();
+    value = 'Electronics Technician';
     super.initState();
   }
 
@@ -54,9 +54,9 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        prosProfessionValue = professionController.text.trim();
-                        database
-                            .updateProfession(professionController.text.trim());
+                        prosProfessionValue = value.trim();
+                        database.updateProfession(prosProfessionValue);
+                        category = professionToCategory(prosProfessionValue);
                         Get.offAndToNamed(MainScreen.id);
                       },
                       child: Text('Submit'),
@@ -94,15 +94,17 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
 
   List<DropdownMenuItem<String>> _getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = [];
-    List services = _serviceHandler.getServices();
+    List<String> professions = [
+      'Electronics Technician',
+      'Beautician',
+      'House Worker'
+    ];
 
-    for (HomeServices service in services) {
+    for (String profession in professions) {
       items.add(
         DropdownMenuItem<String>(
-          child: Text(
-            service.getProfession(),
-          ),
-          value: service.getProfession(),
+          child: Text(profession),
+          value: profession,
         ),
       );
     }

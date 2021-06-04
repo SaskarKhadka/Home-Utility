@@ -205,22 +205,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                 prosProfessionValue =
                                     await database.prosProfession;
 
-                                await requestRefrence
-                                    .once()
-                                    .then((DataSnapshot snapshot) {
-                                  if (snapshot.value != null) {
-                                    Map.from(snapshot.value)
-                                        .forEach((key, value) {
-                                      Map.from(value).forEach((keyIn, valueIn) {
-                                        if (keyIn == 'service') {
-                                          if (valueIn == prosProfessionValue) {
-                                            requestKeysForThisSession.add(key);
-                                          }
-                                        }
-                                      });
-                                    });
-                                  }
-                                });
+                                category =
+                                    professionToCategory(prosProfessionValue);
 
                                 Get.back();
                                 Get.offAllNamed(MainScreen.id);

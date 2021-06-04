@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 class Database {
-  void totalUsersRequests() async {
+  Future<void> totalUsersRequests() async {
     await usersRefrence
         .child(userAuthentication.userID)
         .child('requests')
@@ -22,10 +22,6 @@ class Database {
 
   void addUserInfo({User user, Map userData}) {
     usersRefrence.child(user.uid).set(userData);
-  }
-
-  void addProsInfo(User user, Map proData) {
-    //prosRefrence.child(user.uid).set(userData);
   }
 
   Future<Map> getUserInfo(String uid) async {
@@ -47,14 +43,17 @@ class Database {
 
   Future<void> saveRequest(
       {String service,
+      String category,
       String address,
       DateTime date,
       TimeOfDay time,
       String id}) async {
     //TODO: To the userInfo map, add type of job, date and time, (address too if we can't implement the adress directly)
+    await totalUsersRequests();
     if (userRequestCounter < 3) {
       String userID = userAuthentication.userID;
       Map userInfo = await database.getUserInfo(userID);
+      userInfo['category'] = category;
       userInfo['service'] = service;
       userInfo['address'] = address;
       userInfo['date'] = '${date.year}/${date.month}/${date.day}';
@@ -62,7 +61,7 @@ class Database {
       userInfo['requestKey'] = '$id';
       userInfo['state'] = 'pending';
 
-      requestRefrence.child('$id').set(userInfo);
+      requestRefrence.child(category).child('$id').set(userInfo);
       final ref = usersRefrence.child(userID).child('requests');
       ref.child(id).set(userInfo);
       userRequestCounter++;
@@ -71,18 +70,20 @@ class Database {
       //TODO: Set userRequestCountyer back to 0\
       print('3 request has already been made');
     }
+    await totalUsersRequests();
   }
 
-  Future<void> deleteRequest(String requestKey) async {
+  Future<void> deleteRequest({String category, String requestKey}) async {
     String userID = userAuthentication.userID;
 
-    await requestRefrence.child(requestKey).remove();
+    await requestRefrence.child(category).child(requestKey).remove();
     await usersRefrence
         .child(userID)
         .child('requests')
         .child(requestKey)
         .remove();
     // userRequestCounter--;
+    await totalUsersRequests();
   }
 
   Future<Query> requestQuery(String requestKey) async {
@@ -95,8 +96,16 @@ class Database {
         .orderByChild(requestKey);
   }
 
+  Stream userRequestsStream() {
+    return usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .onValue;
+  }
+
   Future<bool> checkAccount(User user) async {
     bool accountExists = false;
+    // Query query = usersRefrence.orderByChild('uid').equalTo(user.uid);
     await usersRefrence.child(user.uid).once().then((DataSnapshot snapshot) {
       if (snapshot.value != null)
         accountExists = true;
@@ -117,5 +126,15 @@ class Database {
         isAlreadyUsed = false;
     });
     return isAlreadyUsed;
+  }
+
+  Future<void> addService(
+      {String category, String serviceName, String imgUrl}) async {
+    Map data = {
+      'category': category,
+      'service': serviceName,
+      'imgUrl': imgUrl,
+    };
+    await serviceRefrence.child(category).child(serviceName).set(data);
   }
 }

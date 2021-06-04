@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -10,15 +11,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'services/userAuthentication.dart';
 import 'model/database.dart';
 
-//TODO: probably make another file to store all these resuable accessories
+//TODO:Addthis to main file
+DatabaseReference serviceRefrence =
+    FirebaseDatabase.instance.reference().child('services');
 
-bool isQueryNull = true;
+Reference stroageRefrence = FirebaseStorage.instance.ref();
+//TODO:up
+
+//TODO: probably make another file to store all these resuable accessories
 
 int userRequestCounter;
 
 String newRequestKey;
-
-List requestKeysForThisSession = [];
 
 final userAuthentication = UserAuthentication();
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 
@@ -31,9 +32,18 @@ class Database {
     requestRefrence.child(requestKey).remove();
   }
 
-  Future<Query> requestQuery() async {
+  Future<Query> requestQuery({String category}) async {
     // return requestRefrence.child(prosProfessionValue).orderByChild(requestKey);
-    return requestRefrence.orderByChild('service').equalTo(prosProfessionValue);
+    return requestRefrence
+        .child(category)
+        .orderByChild('category')
+        .equalTo(prosProfessionValue);
+  }
+
+  Stream userRequestsStream() {
+    print(category);
+    if (category == '') return null;
+    return requestRefrence.child(category).onValue;
   }
 
   Future<String> get prosProfession async {

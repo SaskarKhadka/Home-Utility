@@ -289,7 +289,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               title: 'CONGRATULATIONS!',
               message: 'Your account has been created',
             );
-            Get.toNamed(ProsInfoScreen.id);
+            Get.offAllNamed(ProsInfoScreen.id);
           } else if (code == 'email-already-exists') {
             Get.back();
             getSnackBar(

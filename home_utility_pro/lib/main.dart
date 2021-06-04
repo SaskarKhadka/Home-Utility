@@ -13,13 +13,13 @@ import 'model/database.dart';
 
 //TODO: probably make another file to store all these resuable accessories
 
-List requestKeysForThisSession = [];
-
 final userAuthentication = UserAuthentication();
 
 Database database = Database();
 
 String prosProfessionValue;
+
+String category;
 
 DatabaseReference prosRefrence =
     FirebaseDatabase.instance.reference().child('pros');
@@ -29,6 +29,19 @@ DatabaseReference usersRefrence =
 
 DatabaseReference requestRefrence =
     FirebaseDatabase.instance.reference().child('requests');
+
+String professionToCategory(String profession) {
+  String category;
+  if (profession.toLowerCase() == 'electronics technician')
+    category = 'repair';
+  else if (profession.toLowerCase() == 'beautician')
+    category = 'beauty';
+  else if (profession.toLowerCase() == 'householdChores')
+    category = 'householdChores';
+  else
+    category = '';
+  return category;
+}
 
 String formatTime({TimeOfDay unformattedTime}) {
   String time = '';

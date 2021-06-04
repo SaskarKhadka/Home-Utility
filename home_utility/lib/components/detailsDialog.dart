@@ -10,7 +10,8 @@ import 'customTextField.dart';
 
 class DetailsDialog extends StatefulWidget {
   final String service;
-  DetailsDialog({this.service});
+  final String category;
+  DetailsDialog({this.service, this.category});
   @override
   _DetailsDialogState createState() => _DetailsDialogState();
 }
@@ -211,17 +212,21 @@ class _DetailsDialogState extends State<DetailsDialog> {
       middleText: 'Your request has been placed',
       confirm: ElevatedButton(
         onPressed: () async {
-          Get.back();
-          requestKeysForThisSession.clear();
+          // CircularProgressIndicator();
+          await database.totalUsersRequests();
+          // Get.back();
+          // Get.back();
           newRequestKey = Uuid().v1();
 
           await database.saveRequest(
               id: newRequestKey,
+              category: widget.category,
               service: widget.service,
               address: _addressController.text.trim(),
               date: _pickedDate,
               time: _selectedTime);
-          // userRequestCounter = database.totalUserRequests;
+          Get.back();
+          Get.back();
           print(userRequestCounter);
         },
         child: Text(
