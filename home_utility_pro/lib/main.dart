@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:home_utility_pro/screens/confirmEmail.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
@@ -10,6 +11,7 @@ import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/userAuthentication.dart';
 import 'model/database.dart';
+import 'screens/forgotPassword.dart';
 
 //TODO: probably make another file to store all these resuable accessories
 
@@ -75,7 +77,7 @@ class HomeUtility extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       // home: WelcomeScreen(),
-      initialRoute: LogInScreen.id,
+      initialRoute: WelcomeScreen.id,
       theme: ThemeData(
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: MaterialStateProperty.all(
@@ -123,6 +125,14 @@ class HomeUtility extends StatelessWidget {
           transition: Transition.upToDown,
           name: RegistrationScreen.id,
           page: () => RegistrationScreen(),
+        ),
+        GetPage(
+          name: ForgotPassword.id,
+          page: () => ForgotPassword(),
+        ),
+        GetPage(
+          name: ConfirmEmail.id,
+          page: () => ConfirmEmail(),
         ),
         GetPage(
           name: MainScreen.id,
