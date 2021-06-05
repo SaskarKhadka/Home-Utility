@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:home_utility/main.dart';
+import 'package:home_utility/screens/forgotPassword.dart';
+import '../constants.dart';
 import '../services/userAuthentication.dart';
 import '../components/customButton.dart';
 import 'mainScreen.dart';
@@ -149,6 +151,28 @@ class _LogInScreenState extends State<LogInScreen> {
                               icon: EvaIcons.lockOutline,
                               labelText: 'Password',
                               hintText: 'Enter your password',
+                            ),
+                            SizedBox(
+                              //0.078
+                              height: size.height * 0.025,
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(ForgotPassword.id);
+                                },
+                                child: Text(
+                                  'Forgot Password?',
+                                  // textAlign: TextAlign.right,
+                                  style: GoogleFonts.montserrat(
+                                    color: kBlackColour.withOpacity(0.7),
+                                    fontSize: 14,
+                                    letterSpacing: 1.5,
+                                    wordSpacing: 2.0,
+                                  ),
+                                ),
+                              ),
                             ),
                             SizedBox(
                               //0.078

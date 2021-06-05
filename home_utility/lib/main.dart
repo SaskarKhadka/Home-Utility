@@ -3,6 +3,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:home_utility/screens/confirmEmail.dart';
+import 'package:home_utility/screens/forgotPassword.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
@@ -113,6 +115,14 @@ class HomeUtility extends StatelessWidget {
           transition: Transition.upToDown,
           name: RegistrationScreen.id,
           page: () => RegistrationScreen(),
+        ),
+        GetPage(
+          name: ForgotPassword.id,
+          page: () => ForgotPassword(),
+        ),
+        GetPage(
+          name: ConfirmEmail.id,
+          page: () => ConfirmEmail(),
         ),
         GetPage(
           name: MainScreen.id,
