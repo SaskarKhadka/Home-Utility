@@ -1,10 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:home_utility_pro/constants.dart';
 import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/screens/forgotPassword.dart';
 import '../services/userAuthentication.dart';
 import '../components/customButton.dart';
 import 'mainScreen.dart';
@@ -209,6 +209,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                     professionToCategory(prosProfessionValue);
 
                                 Get.back();
+
                                 Get.offAllNamed(MainScreen.id);
                               } else if (code == 'wrong-password') {
                                 Get.back();
@@ -234,7 +235,25 @@ class _LogInScreenState extends State<LogInScreen> {
                             },
                           ),
                           SizedBox(
-                            height: size.height * 0.08,
+                            height: size.height * 0.06,
+                          ),
+                          // ignore: deprecated_member_use
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                ForgotPassword.id,
+                              );
+                            },
+                            child: Text(
+                              'Forgot Your Password? Tap here',
+                              style: TextStyle(
+                                color: Colors.indigoAccent,
+                                fontSize: 14,
+                                letterSpacing: 2.5,
+                                wordSpacing: 2.0,
+                              ),
+                            ),
                           ),
                         ],
                       ),
