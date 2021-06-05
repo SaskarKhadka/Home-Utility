@@ -42,7 +42,17 @@ class UserAuthentication {
     }
     return code;
   }
-
+  
+ Future<String> passwordReset({String email}) async {
+    String code;
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      code = e.code;
+    }
+    return code;
+  }
+  
   Future<String> signIn({String email, String password}) async {
     String code;
     try {
