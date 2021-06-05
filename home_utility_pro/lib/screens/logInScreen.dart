@@ -1,10 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:home_utility_pro/constants.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/forgotPassword.dart';
+import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import '../services/userAuthentication.dart';
 import '../components/customButton.dart';
 import 'mainScreen.dart';
@@ -154,6 +156,27 @@ class _LogInScreenState extends State<LogInScreen> {
                             hintText: 'Enter your password',
                           ),
                           SizedBox(
+                            height: size.height * 0.025,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(ForgotPassword.id);
+                              },
+                              child: Text(
+                                'Forgot Password?',
+                                // textAlign: TextAlign.right,
+                                style: GoogleFonts.montserrat(
+                                  color: kBlackColour.withOpacity(0.7),
+                                  fontSize: 14,
+                                  letterSpacing: 1.5,
+                                  wordSpacing: 2.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
                             //0.078
                             height: size.height * 0.08,
                           ),
@@ -202,15 +225,127 @@ class _LogInScreenState extends State<LogInScreen> {
                                   password: passwordController.text);
 
                               if (code == 'success') {
-                                prosProfessionValue =
-                                    await database.prosProfession;
+                                if (!await userAuthentication
+                                    .isEmailVerified()) {
+                                  String email = emailController.text.trim();
+                                  await userAuthentication
+                                      .sendEmailVerification(email: email);
 
-                                category =
-                                    professionToCategory(prosProfessionValue);
+                                  // userAuthentication.signOut();
+                                  // if (code == 'success') {
+                                  Get.back();
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                        backgroundColor: kWhiteColour,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          side: BorderSide(
+                                            color: kBlackColour,
+                                            width: 4.0,
+                                            style: BorderStyle.solid,
+                                          ),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.all(20.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'We have sent a verification link to your email address.\nYou have to verify your email before moving forward.',
+                                                textAlign: TextAlign.center,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              CustomButton(
+                                                onTap: () async {
+                                                  await userAuthentication
+                                                      .reload();
+                                                  // CircularProgressIndicator();
+                                                  if (await userAuthentication
+                                                      .isEmailVerified()) {
+                                                    Get.back();
+                                                    prosProfessionValue =
+                                                        await database
+                                                            .prosProfession;
+                                                    if (prosProfessionValue !=
+                                                        null)
+                                                      category =
+                                                          professionToCategory(
+                                                              prosProfessionValue);
 
-                                Get.back();
+                                                    Get.back();
 
-                                Get.offAllNamed(MainScreen.id);
+                                                    prosProfessionValue == null
+                                                        ? Get.offAllNamed(
+                                                            ProsInfoScreen.id)
+                                                        : Get.offAllNamed(
+                                                            MainScreen.id);
+                                                    getSnackBar(
+                                                      title: 'CONGRATULATIONS!',
+                                                      message:
+                                                          'Your email has been verified',
+                                                    );
+                                                  } else {
+                                                    Get.back();
+                                                    userAuthentication
+                                                        .signOut();
+
+                                                    getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Your email has not been verified',
+                                                    );
+                                                  }
+                                                },
+                                                text: 'Confirm',
+                                              ),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              CustomButton(
+                                                onTap: () async {
+                                                  String code =
+                                                      await userAuthentication
+                                                          .sendEmailVerification(
+                                                              email: email);
+
+                                                  if (code ==
+                                                      'too-many-requests') {
+                                                    getSnackBar(
+                                                        title: 'ALERT!',
+                                                        message:
+                                                            'Too many requests. We have blocked all requests from this device due to unusual activity. Try again later.');
+                                                  }
+                                                },
+                                                text: 'Resend',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  prosProfessionValue =
+                                      await database.prosProfession;
+                                  if (prosProfessionValue != null)
+                                    category = professionToCategory(
+                                        prosProfessionValue);
+
+                                  Get.back();
+
+                                  prosProfessionValue == null
+                                      ? Get.offAllNamed(ProsInfoScreen.id)
+                                      : Get.offAllNamed(MainScreen.id);
+                                }
                               } else if (code == 'wrong-password') {
                                 Get.back();
                                 userAuthentication.signOut();
@@ -236,24 +371,6 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           SizedBox(
                             height: size.height * 0.06,
-                          ),
-                          // ignore: deprecated_member_use
-                          FlatButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                ForgotPassword.id,
-                              );
-                            },
-                            child: Text(
-                              'Forgot Your Password? Tap here',
-                              style: TextStyle(
-                                color: Colors.indigoAccent,
-                                fontSize: 14,
-                                letterSpacing: 2.5,
-                                wordSpacing: 2.0,
-                              ),
-                            ),
                           ),
                         ],
                       ),

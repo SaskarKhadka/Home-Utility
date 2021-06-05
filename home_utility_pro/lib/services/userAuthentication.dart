@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../main.dart';
@@ -10,6 +12,11 @@ class UserAuthentication {
   String get userID {
     User user = currentUser;
     return user.uid;
+  }
+
+  Future<void> reload() async {
+    User user = currentUser;
+    return await user.reload();
   }
 
   Future<String> signUp(
@@ -42,17 +49,7 @@ class UserAuthentication {
     }
     return code;
   }
-  
- Future<String> passwordReset({String email}) async {
-    String code;
-    try {
-      await _auth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      code = e.code;
-    }
-    return code;
-  }
-  
+
   Future<String> signIn({String email, String password}) async {
     String code;
     try {
@@ -68,7 +65,40 @@ class UserAuthentication {
     return code;
   }
 
-  Future<void> signOut() {
+  Future<bool> isEmailVerified() async {
+    User user = currentUser;
+    await user.reload();
+    if (user.emailVerified) {
+      return true;
+    } else
+      return false;
+  }
+
+  Future<String> sendEmailVerification({String email}) async {
+    User user = currentUser;
+    String code;
+    try {
+      await user.sendEmailVerification();
+      code = 'success';
+    } on FirebaseAuthException catch (e) {
+      code = e.code;
+    }
+    print(code);
+    return code;
+  }
+
+  Future<String> passwordReset({String email}) async {
+    String code;
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      code = e.code;
+    }
+    print(code);
+    return code;
+  }
+
+  void signOut() {
     _auth.signOut();
   }
 }

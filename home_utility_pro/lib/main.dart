@@ -77,7 +77,7 @@ class HomeUtility extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       // home: WelcomeScreen(),
-      initialRoute: WelcomeScreen.id,
+      initialRoute: LogInScreen.id,
       theme: ThemeData(
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: MaterialStateProperty.all(

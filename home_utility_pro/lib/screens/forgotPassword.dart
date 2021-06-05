@@ -33,17 +33,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 67,
+        centerTitle: true,
         title: Text(
           'Reset Password',
           style: GoogleFonts.montserrat(
             color: Colors.white,
             fontSize: 35,
             fontWeight: FontWeight.w400,
-            letterSpacing: 2,
+            letterSpacing: 1.5,
           ),
         ),
       ),
-      backgroundColor: Color(0xFFEBEBEB),
+      // backgroundColor: Color(0xFFEBEBEB),
       body: SingleChildScrollView(
         child: Form(
           child: Padding(
@@ -53,11 +55,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: size.height * 0.15,
+                    height: size.height * 0.1,
                   ),
                   Text(
-                    'Enter your email for getting a password reset link. If you havent forgot your password, tap signIn button.',
-                    style: GoogleFonts.robotoMono(
+                    'Enter your email for getting a password reset link.\n\nIf you haven\'t forgotten your password, tap the Sign In button.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.montserrat(
                       fontSize: 16,
                       color: Colors.black,
                     ),
@@ -92,7 +95,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         } else if (!emailController.text.isEmail) {
                           getSnackBar(
                             title: 'ERROR!',
-                            message: 'Please enter valid email address',
+                            message: 'Please enter a valid email address',
                           );
                           return;
                         }
