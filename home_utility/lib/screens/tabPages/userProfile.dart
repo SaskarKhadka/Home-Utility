@@ -32,10 +32,6 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Color(0xff555555),
-      ),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -43,9 +39,9 @@ class _UserProfileState extends State<UserProfile> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                height: 385,
+                height: 360,
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 10),
+                margin: EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -54,18 +50,25 @@ class _UserProfileState extends State<UserProfile> {
                     textfield(hintText: 'Address'),
                     textfield(hintText: 'Phonenumber'),
                     Container(
-                        height: 50,
-                        width: 200,
-                        child: FlatButton(
-                          shape: StadiumBorder(),
-                          padding: EdgeInsets.all(0),
-                          color: Colors.black,
-                          onPressed: () {},
-                          child: Text(
-                            "Update Info",
-                            style: TextStyle(fontSize: 23, color: Colors.white),
-                          ),
-                        ))
+                      height: 40,
+                      width: 200,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.black),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.black))),
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          "Update Info",
+                          style: TextStyle(fontSize: 23, color: Colors.black),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -82,11 +85,11 @@ class _UserProfileState extends State<UserProfile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
                 child: Text(
                   'PROFILE',
                   style: TextStyle(
-                    fontSize: 35,
+                    fontSize: 25,
                     letterSpacing: 1.5,
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -94,7 +97,7 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(0),
                 width: MediaQuery.of(context).size.width / 2,
                 height: MediaQuery.of(context).size.width / 2,
                 decoration: BoxDecoration(
