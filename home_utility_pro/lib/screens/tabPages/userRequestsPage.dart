@@ -1,7 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants.dart';
 import '../../main.dart';
@@ -60,7 +59,14 @@ class UserRequestsPage extends StatelessWidget {
   }
 }
 
-class UserRequestsStream extends StatelessWidget {
+class UserRequestsStream extends StatefulWidget {
+  @override
+  _UserRequestsStreamState createState() => _UserRequestsStreamState();
+}
+
+class _UserRequestsStreamState extends State<UserRequestsStream> {
+  bool isAccepted = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -100,7 +106,10 @@ class UserRequestsStream extends StatelessWidget {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
-
+              if (data[index]['state'] == 'pending')
+                isAccepted = false;
+              else
+                isAccepted = true;
               return Container(
                 height: size.height * 0.23,
                 width: double.infinity,
@@ -172,49 +181,172 @@ class UserRequestsStream extends StatelessWidget {
                       SizedBox(
                         height: size.height * 0.02,
                       ),
-                      GestureDetector(
-                        // onTap: () {
-                        //   database.deleteRequest(
-                        //       category: data[index]['category'],
-                        //       requestKey: data[index]['requestKey']);
-                        // },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 15.0,
-                            vertical: size.height * 0.009,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: kWhiteColour,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                offset: Offset(2, 5),
-                                blurRadius: 7,
-                              )
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                EvaIcons.close,
-                                color: kBlackColour,
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              // if (data[index]['state'] == 'pending')
+                              //   isAccepted = false;
+                              // else
+                              //   isAccepted = true;
+                              setState(() {
+                                isAccepted = !isAccepted;
+                              });
+                              isAccepted
+                                  ? await database.changeState(
+                                      category: data[index]['category'],
+                                      requestKey: data[index]['requestKey'],
+                                      state: 'accepted')
+                                  : await database.changeState(
+                                      category: data[index]['category'],
+                                      requestKey: data[index]['requestKey'],
+                                      state: 'pending');
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.0,
+                                vertical: size.height * 0.009,
                               ),
-                              SizedBox(
-                                width: size.width * 0.01,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: kWhiteColour,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white30,
+                                    offset: Offset(2, 5),
+                                    blurRadius: 7,
+                                  )
+                                ],
                               ),
-                              Text(
-                                'Cancel',
-                                style: GoogleFonts.raleway(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: kBlackColour,
-                                ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    isAccepted
+                                        ? EvaIcons.close
+                                        : EvaIcons.checkmark,
+                                    color: kBlackColour,
+                                  ),
+                                  SizedBox(
+                                    width: size.width * 0.01,
+                                  ),
+                                  Text(
+                                    isAccepted ? 'Cancel' : 'Accept',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: kBlackColour,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            width: 15.0,
+                          ),
+                          isAccepted
+                              ? GestureDetector(
+                                  onTap: () {
+                                    Get.dialog(
+                                      Dialog(
+                                        backgroundColor: kWhiteColour,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 15.0,
+                                            horizontal: 20.0,
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'Customer Profile'
+                                                    .toUpperCase(),
+                                                style: TextStyle(
+                                                  fontSize: 25.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text(
+                                                'This is the customer\'s profile',
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 15.0,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () => Get.back(),
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 10.0,
+                                                    horizontal: 20.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: kBlackColour,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  child: Text(
+                                                    'Ok',
+                                                    style: TextStyle(
+                                                      color: kWhiteColour,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      // barrierColor:
+                                      //     kWhiteColour.withOpacity(0.1),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 15.0,
+                                      vertical: size.height * 0.009,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: kWhiteColour,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.white30,
+                                          offset: Offset(2, 5),
+                                          blurRadius: 7,
+                                        )
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          EvaIcons.personOutline,
+                                          color: kBlackColour,
+                                        ),
+                                        SizedBox(
+                                          width: size.width * 0.01,
+                                        ),
+                                        Text(
+                                          'Customer\'s Profile',
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: kBlackColour,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                        ],
                       ),
                     ],
                   ),

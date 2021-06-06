@@ -90,4 +90,13 @@ class Database {
     });
     return isAlreadyUsed;
   }
+
+  Future<void> changeState(
+      {String category, String requestKey, String state}) async {
+    await requestRefrence.child(category).child(requestKey).update(
+      {
+        'state': state,
+      },
+    );
+  }
 }

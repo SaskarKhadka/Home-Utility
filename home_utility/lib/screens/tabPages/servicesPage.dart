@@ -52,14 +52,17 @@ class ServicesPage extends StatelessWidget {
         body: SingleChildScrollView(
           // controller: _scrollController,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Repairs',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30.0,
-                  color: Colors.white,
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  'Repair',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               SizedBox(
@@ -73,7 +76,7 @@ class ServicesPage extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                'Repairs',
+                'Beauty',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30.0,
@@ -91,7 +94,7 @@ class ServicesPage extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                'Repairs',
+                'House Work',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30.0,
@@ -157,7 +160,7 @@ class ServicesStream extends StatelessWidget {
                   // height: 170,
                   width: 250,
                   margin: EdgeInsets.only(
-                    top: 20.0,
+                    top: 10.0,
                     bottom: 20.0,
                     right: 25.0,
                     left: 30.0,
