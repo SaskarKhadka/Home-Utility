@@ -15,39 +15,42 @@ class UserRequestsPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: kBlackColour,
         drawer: Drawer(
-        child: ListView(
+          child: ListView(
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: <Color>[
-                    Colors.black,
-                    Colors.grey[700]
-                  ])
-                ),
+                    gradient: LinearGradient(
+                        colors: <Color>[Colors.black, Colors.grey[700]])),
                 child: Container(
                   child: Column(
                     children: <Widget>[
                       Material(
                         borderRadius: BorderRadius.all(Radius.circular(50.0)),
                         elevation: 10,
-                        child: Padding(padding:  EdgeInsets.all(8.0), 
-                        child: Image.asset('images/img-1.jpg', width: 80, height: 80) , ),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Image.asset('images/img-1.jpg',
+                              width: 80, height: 80),
                         ),
-                      Padding(padding: EdgeInsets.all(8.0),child: Text('User',style: TextStyle(color: Colors.white, fontSize:20.0),),)
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'User',
+                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                        ),
+                      )
                     ],
-                   ),
+                  ),
                 ),
-             ),
-              
-              CustomListTile(Icons.person, 'Profile',()=>{}),
-              CustomListTile(Icons.info, 'About',()=>{}),
-              CustomListTile(Icons.help, 'Help',()=>{}),
-              CustomListTile(Icons.lock, 'Sign Out',()=>{}),
-              
-              
+              ),
+              CustomListTile(Icons.person, 'Profile', () => {}),
+              CustomListTile(Icons.info, 'About', () => {}),
+              CustomListTile(Icons.help, 'Help', () => {}),
+              CustomListTile(Icons.lock, 'Sign Out', () => {}),
             ],
+          ),
         ),
-      ),
         appBar: AppBar(
           toolbarHeight: 67,
           elevation: 2,
@@ -94,44 +97,43 @@ class UserRequestsPage extends StatelessWidget {
 }
 
 class CustomListTile extends StatelessWidget {
-
-IconData icon;
-String text;
-Function onTap;
+  IconData icon;
+  String text;
+  Function onTap;
 
   CustomListTile(this.icon, this.text, this.onTap);
- 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-        ),
+            border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
         child: InkWell(
-          splashColor: Colors.grey[700],
-          onTap: ()=>{},
-          child: Container(
-            height: 40,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:<Widget>[
-                Row(
-                  children: <Widget>[
-                    Icon(icon),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(text ,style: TextStyle(
-                        fontSize: 16.0
-                        ),),
-                    ),
-                  ],
-                ),
-                Icon(Icons.arrow_right),
-              ] ,),
-          )
-        ),
+            splashColor: Colors.grey[700],
+            onTap: () => {},
+            child: Container(
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Icon(icon),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          text,
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(Icons.arrow_right),
+                ],
+              ),
+            )),
       ),
     );
   }
@@ -263,10 +265,10 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              // if (data[index]['state'] == 'pending')
-                              //   isAccepted = false;
-                              // else
-                              //   isAccepted = true;
+                              if (data[index]['state'] == 'pending')
+                                isAccepted = false;
+                              else
+                                isAccepted = true;
                               setState(() {
                                 isAccepted = !isAccepted;
                               });
