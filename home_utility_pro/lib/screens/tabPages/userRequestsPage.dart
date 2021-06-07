@@ -265,19 +265,21 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              if (data[index]['state'] == 'pending')
-                                isAccepted = false;
-                              else
-                                isAccepted = true;
+                              // if (data[index]['state'] == 'pending')
+                              //   isAccepted = false;
+                              // else
+                              //   isAccepted = true;
                               setState(() {
                                 isAccepted = !isAccepted;
                               });
                               isAccepted
                                   ? await database.changeState(
+                                      userID: data[index]['uid'],
                                       category: data[index]['category'],
                                       requestKey: data[index]['requestKey'],
                                       state: 'accepted')
                                   : await database.changeState(
+                                      userID: data[index]['uid'],
                                       category: data[index]['category'],
                                       requestKey: data[index]['requestKey'],
                                       state: 'pending');

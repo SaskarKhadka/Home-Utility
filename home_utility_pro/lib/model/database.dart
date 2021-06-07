@@ -92,8 +92,17 @@ class Database {
   }
 
   Future<void> changeState(
-      {String category, String requestKey, String state}) async {
+      {String userID, String category, String requestKey, String state}) async {
     await requestRefrence.child(category).child(requestKey).update(
+      {
+        'state': state,
+      },
+    );
+    await usersRefrence
+        .child(userID)
+        .child('requests')
+        .child(requestKey)
+        .update(
       {
         'state': state,
       },
