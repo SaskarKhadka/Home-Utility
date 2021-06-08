@@ -10,21 +10,26 @@ class Database {
     prosRefrence.child(user.uid).set(proData);
   }
 
-  Future<Map> getProsInfo(String uid) async {
-    Map userData = {
-      'uid': uid,
+  Future<Map> getProsInfo() async {
+    Map prosData = {
+      // 'uid': uid,
     };
-    await usersRefrence.child(uid).once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
-        if (key == 'name') {
-          userData['name'] = value;
-        }
-        if (key == 'phoneNo') {
-          userData['phoneNo'] = value;
-        }
-      });
-    });
-    return userData;
+    await prosRefrence.child(userAuthentication.userID).once().then(
+      (DataSnapshot snapshot) {
+        Map.from(snapshot.value).forEach(
+          (key, value) {
+            if (key == 'name') {
+              prosData['name'] = value;
+            }
+            if (key == 'phoneNo') {
+              prosData['phoneNo'] = value;
+            }
+          },
+        );
+      },
+    );
+    // print(prosData);
+    return prosData;
   }
 
   void deleteRequest(String requestKey) {
@@ -41,7 +46,7 @@ class Database {
   }
 
   Stream userRequestsStream() {
-    print(category);
+    // print(category);
     if (category == '') return null;
     return requestRefrence.child(category).onValue;
   }
@@ -93,19 +98,31 @@ class Database {
 
   Future<void> changeState(
       {String userID, String category, String requestKey, String state}) async {
-    await requestRefrence.child(category).child(requestKey).update(
-      {
-        'state': state,
-      },
-    );
-    await usersRefrence
+    Map info = await getProsInfo();
+    final reqRef =
+        requestRefrence.child(category).child(requestKey).child('state');
+    final userRef = usersRefrence
         .child(userID)
         .child('requests')
         .child(requestKey)
-        .update(
-      {
-        'state': state,
-      },
-    );
+        .child('state');
+    if (state == 'accepted') {
+      info['state'] = state;
+      await reqRef.set(info);
+      await userRef.set(info);
+    } else {
+      await reqRef.set(
+        {
+          'state': state,
+          // 'proInfo': userID,
+        },
+      );
+      await userRef.set(
+        {
+          'state': state,
+          // 'proInfo': userID,
+        },
+      );
+    }
   }
 }

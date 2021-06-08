@@ -37,13 +37,13 @@ class ServicesPage extends StatelessWidget {
               left: 16.0,
             ),
             child: Text(
-              'My Requests',
+              'Our Services',
               style: GoogleFonts.montserrat(
                 // color: Color(0xff131313),
                 color: Colors.white,
                 fontSize: 35,
                 fontWeight: FontWeight.w400,
-                letterSpacing: 2,
+                letterSpacing: 1.5,
                 // decoration: TextDecoration.underline,
               ),
             ),

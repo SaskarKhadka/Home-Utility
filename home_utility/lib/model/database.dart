@@ -59,11 +59,22 @@ class Database {
       userInfo['date'] = '${date.year}/${date.month}/${date.day}';
       userInfo['time'] = '${formatTime(unformattedTime: time)}';
       userInfo['requestKey'] = '$id';
-      userInfo['state'] = 'pending';
+      // userInfo['state'] = 'pending';
 
       requestRefrence.child(category).child('$id').set(userInfo);
+      requestRefrence.child(category).child('$id').child('state').set(
+        {'state': 'pending'},
+      );
       final ref = usersRefrence.child(userID).child('requests');
       ref.child(id).set(userInfo);
+      usersRefrence
+          .child(userID)
+          .child('requests')
+          .child('$id')
+          .child('state')
+          .set(
+        {'state': 'pending'},
+      );
       userRequestCounter++;
     } else {
       //TODO: Error message saying request if full
@@ -119,12 +130,14 @@ class Database {
     bool isAlreadyUsed = true;
     print(phoneNo);
     Query query = usersRefrence.orderByChild('phoneNo').equalTo(phoneNo);
-    await query.once().then((DataSnapshot snapshot) {
-      if (snapshot.value != null)
-        isAlreadyUsed = true;
-      else
-        isAlreadyUsed = false;
-    });
+    await query.once().then(
+      (DataSnapshot snapshot) {
+        if (snapshot.value != null)
+          isAlreadyUsed = true;
+        else
+          isAlreadyUsed = false;
+      },
+    );
     return isAlreadyUsed;
   }
 
@@ -137,4 +150,21 @@ class Database {
     };
     await serviceRefrence.child(category).child(serviceName).set(data);
   }
+
+  // Future<Map> myProsInfo(String requestKey) async {
+  //   Map data = {};
+  //   String pro;
+  //   usersRefrence
+  //       .child(userAuthentication.userID)
+  //       .child('requests')
+  //       .child(requestKey)
+  //       .child('prosInfo')
+  //       .once()
+  //       .then(
+  //     (DataSnapshot snapshot) {
+  //       pro = snapshot.value;
+  //     },
+  //   );
+
+  // }
 }

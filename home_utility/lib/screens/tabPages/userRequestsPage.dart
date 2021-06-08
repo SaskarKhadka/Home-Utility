@@ -107,7 +107,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
-              if (data[index]['state'] == 'pending')
+              if (data[index]['state']['state'] == 'pending')
                 isAccepted = false;
               else
                 isAccepted = true;
@@ -249,8 +249,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
-                                                'Customer Profile'
-                                                    .toUpperCase(),
+                                                'Pro\'s Profile'.toUpperCase(),
                                                 style: TextStyle(
                                                   fontSize: 25.0,
                                                 ),
@@ -259,7 +258,34 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                'This is the customer\'s profile',
+                                                'NAME: ${data[index]['state']['name']}',
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text(
+                                                'EMAIL: ${data[index]['state']['email']}',
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text(
+                                                'PHONE NO.: ${data[index]['state']['phoneNo']}',
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text(
+                                                'ADDRESS: %ADDRESS%',
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
@@ -323,7 +349,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                           width: size.width * 0.01,
                                         ),
                                         Text(
-                                          'Customer\'s Profile',
+                                          'Pro\'s Profile',
                                           style: GoogleFonts.raleway(
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.bold,

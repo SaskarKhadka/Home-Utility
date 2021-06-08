@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:home_utility_pro/screens/tabPages/acceptedRequests.dart';
 import 'package:line_icons/line_icons.dart';
 import 'tabPages/ratings.dart';
 import 'tabPages/userRequestsPage.dart';
@@ -23,7 +24,7 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -44,6 +45,7 @@ class _MainScreenState extends State<MainScreen>
         controller: tabController,
         children: [
           UserRequestsPage(),
+          AcceptedRequests(),
           Ratings(),
           ProsProfile(),
         ],
@@ -74,10 +76,10 @@ class _MainScreenState extends State<MainScreen>
             // activeColor: Colors.transparent,
             rippleColor: Color(0xff131313),
             hoverColor: Color(0xff131313).withOpacity(0.6),
-            gap: 5,
-            iconSize: 26,
+            gap: 0,
+            iconSize: 20,
             padding: EdgeInsets.symmetric(
-              horizontal: 20.0,
+              horizontal: 10.0,
               vertical: 15.0,
             ),
             duration: Duration(milliseconds: 400),
@@ -85,23 +87,27 @@ class _MainScreenState extends State<MainScreen>
             backgroundColor: Color(0xff131313).withOpacity(0.7),
             // backgroundColor: Colors.transparent,
             textStyle: GoogleFonts.montserrat(
-              fontSize: 16.0,
+              fontSize: 14.0,
               color: Colors.white,
             ),
             tabs: [
               GButton(
                 icon: LineIcons.handshakeAlt,
-                text: 'Requests',
+                text: ' Requests',
+              ),
+              GButton(
+                icon: LineIcons.handshakeAlt,
+                text: ' My Jobs',
               ),
               GButton(
                 // icon: LineIcons.addressCard,
                 icon: LineIcons.stickyNoteAlt,
                 // iconActiveColor: Colors.white,
-                text: 'Ratings',
+                text: ' Ratings',
               ),
               GButton(
                 icon: LineIcons.user,
-                text: 'Profile',
+                text: ' Profile',
               ),
             ],
             selectedIndex: _selectedIndex,

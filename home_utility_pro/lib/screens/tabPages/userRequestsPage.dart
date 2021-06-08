@@ -55,21 +55,21 @@ class UserRequestsPage extends StatelessWidget {
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 8.0,
-                left: 20.0,
-                right: 15.0,
-              ),
-              child: Icon(
-                Icons.more_vert,
-                // color: Color(0xff131313),
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.only(
+          //       top: 8.0,
+          //       left: 20.0,
+          //       right: 15.0,
+          //     ),
+          //     child: Icon(
+          //       Icons.more_vert,
+          //       // color: Color(0xff131313),
+          //       color: Colors.white,
+          //       size: 30,
+          //     ),
+          //   ),
+          // ],
           title: Padding(
             padding: EdgeInsets.only(
               top: 8.0,
@@ -82,7 +82,7 @@ class UserRequestsPage extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 35,
                 fontWeight: FontWeight.w400,
-                letterSpacing: 2,
+                letterSpacing: 1.5,
                 // decoration: TextDecoration.underline,
               ),
             ),
@@ -165,6 +165,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
           );
         }
         Map messages = snapshot.data.snapshot.value;
+        // print(messages);
         // ref.update(messages);
         // print(snapshot.data.snapshot.value);
         // print(messages);
@@ -186,7 +187,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
-              if (data[index]['state'] == 'pending')
+              if (data[index]['state']['state'] == 'pending')
                 isAccepted = false;
               else
                 isAccepted = true;
@@ -352,7 +353,34 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                'This is the customer\'s profile',
+                                                'NAME: ${data[index]['name']}',
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text(
+                                                'EMAIL: ${data[index]['email']}',
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text(
+                                                'PHONE NO.: ${data[index]['phoneNo']}',
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text(
+                                                'ADDRESS: %ADDRESS%',
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
