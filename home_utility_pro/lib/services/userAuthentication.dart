@@ -25,9 +25,9 @@ class UserAuthentication {
       if (firebaseUser != null) {
         //user created
         Map proData = {
-          'name': name,
-          'email': email,
-          'phoneNo': phoneNo,
+          'prosName': name,
+          'prosEmail': email,
+          'prosPhoneNo': phoneNo,
         };
 
         // usersRefrence.child(firebaseUser.user.uid).set(userData);

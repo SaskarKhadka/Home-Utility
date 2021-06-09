@@ -219,7 +219,7 @@ class _DetailsDialogState extends State<DetailsDialog> {
           newRequestKey = Uuid().v1();
 
           await database.saveRequest(
-              id: newRequestKey,
+              requestKey: newRequestKey,
               category: widget.category,
               service: widget.service,
               address: _addressController.text.trim(),

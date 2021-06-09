@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import '../main.dart';
 
 class Database {
@@ -18,11 +16,11 @@ class Database {
       (DataSnapshot snapshot) {
         Map.from(snapshot.value).forEach(
           (key, value) {
-            if (key == 'name') {
-              prosData['name'] = value;
+            if (key == 'prosName') {
+              prosData['prosName'] = value;
             }
-            if (key == 'phoneNo') {
-              prosData['phoneNo'] = value;
+            if (key == 'prosPhoneNo') {
+              prosData['prosPhoneNo'] = value;
             }
           },
         );
@@ -86,7 +84,7 @@ class Database {
   Future<bool> checkPhoneNumber(int phoneNo) async {
     bool isAlreadyUsed = true;
     print(phoneNo);
-    Query query = prosRefrence.orderByChild('phoneNo').equalTo(phoneNo);
+    Query query = prosRefrence.orderByChild('prosPhoneNo').equalTo(phoneNo);
     await query.once().then((DataSnapshot snapshot) {
       if (snapshot.value != null)
         isAlreadyUsed = true;
@@ -124,5 +122,29 @@ class Database {
         },
       );
     }
+  }
+
+  Future<void> saveRequestAsJob({String requestKey}) async {
+    DataSnapshot snapshot =
+        await requestRefrence.child(category).child(requestKey).once();
+
+    Map requestInfo = snapshot.value;
+    String userID = userAuthentication.userID;
+    print(requestInfo);
+    print(userID);
+    DatabaseReference ref = prosRefrence.child(userID).child('jobs');
+    ref.child(requestKey).set(requestInfo);
+  }
+
+  Future<void> deleteJob({String requestKey}) async {
+    prosRefrence
+        .child(userAuthentication.userID)
+        .child('jobs')
+        .child(requestKey)
+        .remove();
+  }
+
+  Stream acceptedRequestStream() {
+    return prosRefrence.child(userAuthentication.userID).child('jobs').onValue;
   }
 }

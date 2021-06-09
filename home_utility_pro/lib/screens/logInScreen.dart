@@ -224,127 +224,138 @@ class _LogInScreenState extends State<LogInScreen> {
                                   password: passwordController.text);
 
                               if (code == 'success') {
-                                if (!await userAuthentication
-                                    .isEmailVerified()) {
-                                  String email = emailController.text.trim();
-                                  await userAuthentication
-                                      .sendEmailVerification(email: email);
+                                //   if (!await userAuthentication
+                                //       .isEmailVerified()) {
+                                //     String email = emailController.text.trim();
+                                //     await userAuthentication
+                                //         .sendEmailVerification(email: email);
 
-                                  // userAuthentication.signOut();
-                                  // if (code == 'success') {
-                                  Get.back();
-                                  showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        backgroundColor: kWhiteColour,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          side: BorderSide(
-                                            color: kBlackColour,
-                                            width: 4.0,
-                                            style: BorderStyle.solid,
-                                          ),
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.all(20.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                'We have sent a verification link to your email address.\nYou have to verify your email before moving forward.',
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 20.0,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              CustomButton(
-                                                onTap: () async {
-                                                  await userAuthentication
-                                                      .reload();
-                                                  // CircularProgressIndicator();
-                                                  if (await userAuthentication
-                                                      .isEmailVerified()) {
-                                                    Get.back();
-                                                    prosProfessionValue =
-                                                        await database
-                                                            .prosProfession;
-                                                    if (prosProfessionValue !=
-                                                        null)
-                                                      category =
-                                                          professionToCategory(
-                                                              prosProfessionValue);
+                                //     // userAuthentication.signOut();
+                                //     // if (code == 'success') {
+                                //     Get.back();
+                                //     showDialog(
+                                //       barrierDismissible: false,
+                                //       context: context,
+                                //       builder: (context) {
+                                //         return Dialog(
+                                //           backgroundColor: kWhiteColour,
+                                //           shape: RoundedRectangleBorder(
+                                //             borderRadius:
+                                //                 BorderRadius.circular(10.0),
+                                //             side: BorderSide(
+                                //               color: kBlackColour,
+                                //               width: 4.0,
+                                //               style: BorderStyle.solid,
+                                //             ),
+                                //           ),
+                                //           child: Container(
+                                //             padding: EdgeInsets.all(20.0),
+                                //             child: Column(
+                                //               mainAxisSize: MainAxisSize.min,
+                                //               children: [
+                                //                 Text(
+                                //                   'We have sent a verification link to your email address.\nYou have to verify your email before moving forward.',
+                                //                   textAlign: TextAlign.center,
+                                //                   style: GoogleFonts.montserrat(
+                                //                     fontSize: 20.0,
+                                //                   ),
+                                //                 ),
+                                //                 SizedBox(
+                                //                   height: 15,
+                                //                 ),
+                                //                 CustomButton(
+                                //                   onTap: () async {
+                                //                     await userAuthentication
+                                //                         .reload();
+                                //                     // CircularProgressIndicator();
+                                //                     if (await userAuthentication
+                                //                         .isEmailVerified()) {
+                                //                       Get.back();
+                                //                       prosProfessionValue =
+                                //                           await database
+                                //                               .prosProfession;
+                                //                       if (prosProfessionValue !=
+                                //                           null)
+                                //                         category =
+                                //                             professionToCategory(
+                                //                                 prosProfessionValue);
 
-                                                    Get.back();
+                                //                       Get.back();
 
-                                                    prosProfessionValue == null
-                                                        ? Get.offAllNamed(
-                                                            ProsInfoScreen.id)
-                                                        : Get.offAllNamed(
-                                                            MainScreen.id);
-                                                    getSnackBar(
-                                                      title: 'CONGRATULATIONS!',
-                                                      message:
-                                                          'Your email has been verified',
-                                                    );
-                                                  } else {
-                                                    Get.back();
-                                                    userAuthentication
-                                                        .signOut();
+                                //                       prosProfessionValue == null
+                                //                           ? Get.offAllNamed(
+                                //                               ProsInfoScreen.id)
+                                //                           : Get.offAllNamed(
+                                //                               MainScreen.id);
+                                //                       getSnackBar(
+                                //                         title: 'CONGRATULATIONS!',
+                                //                         message:
+                                //                             'Your email has been verified',
+                                //                       );
+                                //                     } else {
+                                //                       Get.back();
+                                //                       userAuthentication
+                                //                           .signOut();
 
-                                                    getSnackBar(
-                                                      title: 'ERROR!',
-                                                      message:
-                                                          'Your email has not been verified',
-                                                    );
-                                                  }
-                                                },
-                                                text: 'Confirm',
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              CustomButton(
-                                                onTap: () async {
-                                                  String code =
-                                                      await userAuthentication
-                                                          .sendEmailVerification(
-                                                              email: email);
+                                //                       getSnackBar(
+                                //                         title: 'ERROR!',
+                                //                         message:
+                                //                             'Your email has not been verified',
+                                //                       );
+                                //                     }
+                                //                   },
+                                //                   text: 'Confirm',
+                                //                 ),
+                                //                 SizedBox(
+                                //                   height: 8,
+                                //                 ),
+                                //                 CustomButton(
+                                //                   onTap: () async {
+                                //                     String code =
+                                //                         await userAuthentication
+                                //                             .sendEmailVerification(
+                                //                                 email: email);
 
-                                                  if (code ==
-                                                      'too-many-requests') {
-                                                    getSnackBar(
-                                                        title: 'ALERT!',
-                                                        message:
-                                                            'Too many requests. We have blocked all requests from this device due to unusual activity. Try again later.');
-                                                  }
-                                                },
-                                                text: 'Resend',
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  prosProfessionValue =
-                                      await database.prosProfession;
-                                  if (prosProfessionValue != null)
-                                    category = professionToCategory(
-                                        prosProfessionValue);
+                                //                     if (code ==
+                                //                         'too-many-requests') {
+                                //                       getSnackBar(
+                                //                           title: 'ALERT!',
+                                //                           message:
+                                //                               'Too many requests. We have blocked all requests from this device due to unusual activity. Try again later.');
+                                //                     }
+                                //                   },
+                                //                   text: 'Resend',
+                                //                 ),
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         );
+                                //       },
+                                //     );
+                                //   } else {
+                                // prosProfessionValue =
+                                //     await database.prosProfession;
+                                // if (prosProfessionValue != null)
+                                //   category = professionToCategory(
+                                //       prosProfessionValue);
 
-                                  Get.back();
+                                // Get.back();
 
-                                  prosProfessionValue == null
-                                      ? Get.offAllNamed(ProsInfoScreen.id)
-                                      : Get.offAllNamed(MainScreen.id);
-                                }
+                                // prosProfessionValue == null
+                                //     ? Get.offAllNamed(ProsInfoScreen.id)
+                                //     : Get.offAllNamed(MainScreen.id);
+                                //   }
+                                prosProfessionValue =
+                                    await database.prosProfession;
+                                if (prosProfessionValue != null)
+                                  category =
+                                      professionToCategory(prosProfessionValue);
+
+                                Get.back();
+
+                                prosProfessionValue == null
+                                    ? Get.offAllNamed(ProsInfoScreen.id)
+                                    : Get.offAllNamed(MainScreen.id);
                               } else if (code == 'wrong-password') {
                                 Get.back();
                                 userAuthentication.signOut();

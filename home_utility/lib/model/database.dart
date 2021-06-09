@@ -26,18 +26,21 @@ class Database {
 
   Future<Map> getUserInfo(String uid) async {
     Map userData = {
-      'uid': uid,
+      'userID': uid,
     };
-    await usersRefrence.child(uid).once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
-        if (key == 'name') {
-          userData['name'] = value;
-        }
-        if (key == 'phoneNo') {
-          userData['phoneNo'] = value;
-        }
-      });
-    });
+    await usersRefrence.child(uid).once().then(
+      (DataSnapshot snapshot) {
+        Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
+          if (key == 'userName') {
+            userData['userName'] = value;
+          }
+          if (key == 'userPhoneNo') {
+            userData['userPhoneNo'] = value;
+          }
+        });
+      },
+    );
+    print(userData);
     return userData;
   }
 
@@ -47,7 +50,7 @@ class Database {
       String address,
       DateTime date,
       TimeOfDay time,
-      String id}) async {
+      String requestKey}) async {
     //TODO: To the userInfo map, add type of job, date and time, (address too if we can't implement the adress directly)
     await totalUsersRequests();
     if (userRequestCounter < 3) {
@@ -55,22 +58,22 @@ class Database {
       Map userInfo = await database.getUserInfo(userID);
       userInfo['category'] = category;
       userInfo['service'] = service;
-      userInfo['address'] = address;
+      userInfo['userAddress'] = address;
       userInfo['date'] = '${date.year}/${date.month}/${date.day}';
       userInfo['time'] = '${formatTime(unformattedTime: time)}';
-      userInfo['requestKey'] = '$id';
+      userInfo['requestKey'] = '$requestKey';
       // userInfo['state'] = 'pending';
 
-      requestRefrence.child(category).child('$id').set(userInfo);
-      requestRefrence.child(category).child('$id').child('state').set(
+      requestRefrence.child(category).child('$requestKey').set(userInfo);
+      requestRefrence.child(category).child('$requestKey').child('state').set(
         {'state': 'pending'},
       );
       final ref = usersRefrence.child(userID).child('requests');
-      ref.child(id).set(userInfo);
+      ref.child(requestKey).set(userInfo);
       usersRefrence
           .child(userID)
           .child('requests')
-          .child('$id')
+          .child('$requestKey')
           .child('state')
           .set(
         {'state': 'pending'},
@@ -129,7 +132,7 @@ class Database {
   Future<bool> checkPhoneNumber(int phoneNo) async {
     bool isAlreadyUsed = true;
     print(phoneNo);
-    Query query = usersRefrence.orderByChild('phoneNo').equalTo(phoneNo);
+    Query query = usersRefrence.orderByChild('userPhoneNo').equalTo(phoneNo);
     await query.once().then(
       (DataSnapshot snapshot) {
         if (snapshot.value != null)

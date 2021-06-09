@@ -289,97 +289,94 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               title: 'CONGRATULATIONS!',
               message: 'Your account has been created',
             );
-            // String email = emailController.text.trim();
-            await userAuthentication.sendEmailVerification();
+            // // String email = emailController.text.trim();
+            // await userAuthentication.sendEmailVerification();
 
-            // userAuthentication.signOut();
-            // if (code == 'success') {
+            // // userAuthentication.signOut();
+            // // if (code == 'success') {
 
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return Dialog(
-                  backgroundColor: kWhiteColour,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    side: BorderSide(
-                      color: kBlackColour,
-                      width: 4.0,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'We have sent a verification link to your email address.\nYou have to verify your email before moving forward.',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        CustomButton(
-                          onTap: () async {
-                            await userAuthentication.reload();
-                            // CircularProgressIndicator();
-                            if (await userAuthentication.isEmailVerified()) {
-                              Get.back();
+            // showDialog(
+            //   barrierDismissible: false,
+            //   context: context,
+            //   builder: (context) {
+            //     return Dialog(
+            //       backgroundColor: kWhiteColour,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(10.0),
+            //         side: BorderSide(
+            //           color: kBlackColour,
+            //           width: 4.0,
+            //           style: BorderStyle.solid,
+            //         ),
+            //       ),
+            //       child: Container(
+            //         padding: EdgeInsets.all(20.0),
+            //         child: Column(
+            //           mainAxisSize: MainAxisSize.min,
+            //           children: [
+            //             Text(
+            //               'We have sent a verification link to your email address.\nYou have to verify your email before moving forward.',
+            //               textAlign: TextAlign.center,
+            //               style: GoogleFonts.montserrat(
+            //                 fontSize: 20.0,
+            //               ),
+            //             ),
+            //             SizedBox(
+            //               height: 15,
+            //             ),
+            //             CustomButton(
+            //               onTap: () async {
+            //                 await userAuthentication.reload();
+            //                 // CircularProgressIndicator();
+            //                 if (await userAuthentication.isEmailVerified()) {
+            //                   Get.back();
 
-                              Get.offAllNamed(ProsInfoScreen.id);
-                              getSnackBar(
-                                title: 'CONGRATULATIONS!',
-                                message: 'Your email has been verified',
-                              );
-                            } else {
-                              Get.back();
-                              userAuthentication.signOut();
-                              getSnackBar(
-                                title: 'ERROR!',
-                                message: 'Your email has not been verified',
-                              );
-                            }
-                          },
-                          text: 'Confirm',
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        CustomButton(
-                          onTap: () async {
-                            String code = await userAuthentication
-                                .sendEmailVerification();
+            //                   Get.offAllNamed(ProsInfoScreen.id);
+            //                   getSnackBar(
+            //                     title: 'CONGRATULATIONS!',
+            //                     message: 'Your email has been verified',
+            //                   );
+            //                 } else {
+            //                   Get.back();
+            //                   userAuthentication.signOut();
+            //                   getSnackBar(
+            //                     title: 'ERROR!',
+            //                     message: 'Your email has not been verified',
+            //                   );
+            //                 }
+            //               },
+            //               text: 'Confirm',
+            //             ),
+            //             SizedBox(
+            //               height: 8,
+            //             ),
+            //             CustomButton(
+            //               onTap: () async {
+            //                 String code = await userAuthentication
+            //                     .sendEmailVerification();
 
-                            if (code == 'too-many-requests') {
-                              getSnackBar(
-                                  title: 'ALERT!',
-                                  message:
-                                      'Too many requests. We have blocked all requests from this device due to unusual activity. Try again later.');
-                            }
-                          },
-                          text: 'Resend',
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
+            //                 if (code == 'too-many-requests') {
+            //                   getSnackBar(
+            //                       title: 'ALERT!',
+            //                       message:
+            //                           'Too many requests. We have blocked all requests from this device due to unusual activity. Try again later.');
+            //                 }
+            //               },
+            //               text: 'Resend',
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // );
 
-            // if (await userAuthentication.isEmailVerified()) {
-            // prosProfessionValue = await database.prosProfession;
-            // category = professionToCategory(prosProfessionValue);
+            // // prosProfessionValue = await database.prosProfession;
+            // // category = professionToCategory(prosProfessionValue);
 
-            // Get.back();
+            // // Get.back();
 
-            // Get.offAllNamed(MainScreen.id);
-
-            // }
+            Get.offAllNamed(ProsInfoScreen.id);
           } else if (code == 'email-already-exists') {
             Get.back();
             getSnackBar(

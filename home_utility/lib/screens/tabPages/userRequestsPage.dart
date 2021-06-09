@@ -258,7 +258,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                'NAME: ${data[index]['state']['name']}',
+                                                'NAME: ${data[index]['state']['prosName']}',
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
@@ -267,7 +267,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                'EMAIL: ${data[index]['state']['email']}',
+                                                'EMAIL: ${data[index]['state']['prosEmail']}',
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
@@ -276,7 +276,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                'PHONE NO.: ${data[index]['state']['phoneNo']}',
+                                                'PHONE NO.: ${data[index]['state']['prosPhoneNo']}',
                                                 style: TextStyle(
                                                   fontSize: 20.0,
                                                 ),
@@ -363,51 +363,6 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                               : Container(),
                         ],
                       ),
-
-                      // GestureDetector(
-                      // onTap: () {
-                      //   database.deleteRequest(
-                      //       category: data[index]['category'],
-                      //       requestKey: data[index]['requestKey']);
-                      // },
-                      //   child: Container(
-                      //     padding: EdgeInsets.symmetric(
-                      //       horizontal: 15.0,
-                      //       vertical: size.height * 0.009,
-                      //     ),
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(10.0),
-                      //       color: kWhiteColour,
-                      //       boxShadow: [
-                      //         BoxShadow(
-                      //           color: Colors.white30,
-                      //           offset: Offset(2, 5),
-                      //           blurRadius: 7,
-                      //         )
-                      //       ],
-                      //     ),
-                      //     child: Row(
-                      //       mainAxisSize: MainAxisSize.min,
-                      //       children: [
-                      //         Icon(
-                      //           EvaIcons.close,
-                      //           color: kBlackColour,
-                      //         ),
-                      //         SizedBox(
-                      //           width: size.width * 0.01,
-                      //         ),
-                      //         Text(
-                      //           'Cancel',
-                      //           style: GoogleFonts.raleway(
-                      //             fontSize: 16.0,
-                      //             fontWeight: FontWeight.bold,
-                      //             color: kBlackColour,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
