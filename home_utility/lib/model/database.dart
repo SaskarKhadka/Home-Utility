@@ -45,7 +45,8 @@ class Database {
   }
 
   Future<void> saveRequest(
-      {String service,
+      {DateTime dateTime,
+      String service,
       String category,
       String address,
       DateTime date,
@@ -56,6 +57,7 @@ class Database {
     if (userRequestCounter < 3) {
       String userID = userAuthentication.userID;
       Map userInfo = await database.getUserInfo(userID);
+      userInfo['dateTime'] = dateTime.toString();
       userInfo['category'] = category;
       userInfo['service'] = service;
       userInfo['userAddress'] = address;

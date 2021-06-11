@@ -130,8 +130,8 @@ class Database {
 
     Map requestInfo = snapshot.value;
     String userID = userAuthentication.userID;
-    print(requestInfo);
-    print(userID);
+    // print(requestInfo);
+    // print(userID);
     DatabaseReference ref = prosRefrence.child(userID).child('jobs');
     ref.child(requestKey).set(requestInfo);
   }

@@ -107,13 +107,46 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
+              // if (DateTime.now().isAfter(data[index]['dateTimeNow'])) {
+              // database.deleteRequest(
+              //   category: data[index]['category'],
+              //   requestKey: data[index]['requestKey'],
+              // );
+              //   return Container();
+              // }
+              String value = data[index]['dateTime'];
+              List dateTime = value.split(' ');
+              List date = dateTime[0].split('-');
+              List time = dateTime[1].split(':');
+
+              DateTime requestDateTime = DateTime(
+                int.parse(date[0]),
+                int.parse(date[1]),
+                int.parse(date[2]),
+                int.parse(time[0]),
+                int.parse(time[1]),
+                // int.parse(time[2]),
+              );
+              print(requestDateTime);
+
+              DateTime now = DateTime.now();
+              print(now);
+
+              if (now.isAfter(requestDateTime)) {
+                database.deleteRequest(
+                  category: data[index]['category'],
+                  requestKey: data[index]['requestKey'],
+                );
+                return Container();
+              }
+
               if (data[index]['state']['state'] == 'pending')
                 isAccepted = false;
               else
                 isAccepted = true;
 
               return Container(
-                height: size.height * 0.23,
+                height: size.height * 0.3,
                 width: double.infinity,
                 margin: EdgeInsets.only(
                   top: 20.0,
@@ -143,6 +176,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                     left: 15.0,
                   ),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // crossAxisAlignment: CrossAxisAlignment.stretch,
                     // mainAxisAlignment: MainAxisAlignment.center,
@@ -363,6 +397,52 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                               : Container(),
                         ],
                       ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      isAccepted
+                          ? InkWell(
+                              onTap: () async {},
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 15.0,
+                                  vertical: size.height * 0.009,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: kWhiteColour,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.white30,
+                                      offset: Offset(2, 5),
+                                      blurRadius: 7,
+                                    )
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      EvaIcons.messageCircleOutline,
+                                      color: kBlackColour,
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.01,
+                                    ),
+                                    Text(
+                                      // isAccepted ? 'Cancel' : 'Accept',
+                                      'Chat',
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: kBlackColour,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

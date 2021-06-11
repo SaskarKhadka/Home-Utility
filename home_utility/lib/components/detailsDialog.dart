@@ -219,6 +219,13 @@ class _DetailsDialogState extends State<DetailsDialog> {
           newRequestKey = Uuid().v1();
 
           await database.saveRequest(
+              dateTime: DateTime(
+                _pickedDate.year,
+                _pickedDate.month,
+                _pickedDate.day,
+                _selectedTime.hour,
+                _selectedTime.minute,
+              ),
               requestKey: newRequestKey,
               category: widget.category,
               service: widget.service,

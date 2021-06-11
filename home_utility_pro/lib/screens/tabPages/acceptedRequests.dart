@@ -87,6 +87,7 @@ class AcceptedRequests extends StatelessWidget {
               ),
             ),
           ),
+          centerTitle: true,
         ),
         body: Scrollbar(
           child: AcceptedRequestsStream(),
@@ -188,7 +189,7 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
               return Container(
-                height: size.height * 0.23,
+                height: size.height * 0.3,
                 width: double.infinity,
                 margin: EdgeInsets.only(
                   top: 20.0,
@@ -261,9 +262,128 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
                       Row(
                         children: [
                           InkWell(
+                            onTap: () {
+                              showDialog(
+                                barrierDismissible: true,
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 15.0,
+                                        horizontal: 20.0,
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text('Job Description'),
+                                          SizedBox(
+                                            height: 40,
+                                          ),
+                                          Text('Enter text here'),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.0,
+                                vertical: size.height * 0.009,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: kWhiteColour,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white30,
+                                    offset: Offset(2, 5),
+                                    blurRadius: 7,
+                                  )
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    // isAccepted
+                                    // ? EvaIcons.close :
+                                    EvaIcons.questionMark,
+                                    color: kBlackColour,
+                                  ),
+                                  SizedBox(
+                                    width: size.width * 0.01,
+                                  ),
+                                  Text(
+                                    // isAccepted ? 'Cancel' : 'Accept',
+                                    'View Job Description',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: kBlackColour,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          InkWell(
+                            onTap: () async {},
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.0,
+                                vertical: size.height * 0.009,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: kWhiteColour,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white30,
+                                    offset: Offset(2, 5),
+                                    blurRadius: 7,
+                                  )
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    EvaIcons.messageCircleOutline,
+                                    color: kBlackColour,
+                                  ),
+                                  SizedBox(
+                                    width: size.width * 0.01,
+                                  ),
+                                  Text(
+                                    // isAccepted ? 'Cancel' : 'Accept',
+                                    'Chat',
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: kBlackColour,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * 0.011,
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
                             onTap: () async {
                               await database.changeState(
-                                userID: data[index]['uid'],
+                                userID: data[index]['userID'],
                                 category: data[index]['category'],
                                 requestKey: data[index]['requestKey'],
                                 state: 'pending',
