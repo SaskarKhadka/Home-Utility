@@ -31,7 +31,8 @@ class _DetailsDialogState extends State<DetailsDialog> {
   @override
   void initState() {
     _pickedDate = DateTime.now();
-    _selectedTime = TimeOfDay.now();
+    TimeOfDay now = TimeOfDay.now();
+    _selectedTime = now.replacing(hour: now.hour, minute: now.minute + 1);
     super.initState();
   }
 
@@ -173,9 +174,15 @@ class _DetailsDialogState extends State<DetailsDialog> {
       context: context,
       initialDate: _pickedDate,
       firstDate: DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day),
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+      ),
       lastDate: DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day + 29),
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day + 29,
+      ),
       // lastDate: DateTime(DateTime.now().month + 5),
     );
     if (date != null)

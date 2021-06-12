@@ -189,6 +189,23 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
+              String value = data[index]['dateTime'];
+              List dateTime = value.split(' ');
+              List date = dateTime[0].split('-');
+              List time = dateTime[1].split(':');
+
+              DateTime requestDateTime = DateTime(
+                int.parse(date[0]),
+                int.parse(date[1]),
+                int.parse(date[2]),
+                int.parse(time[0]),
+                int.parse(time[1]),
+                // int.parse(time[2]),
+              );
+              DateTime now = DateTime.now();
+              if (now.isAfter(requestDateTime)) {
+                database.deleteRequest(requestKey: data[index]['requestKey']);
+              }
               if (data[index]['state']['state'] == 'pending') {
                 totalRequests++;
                 // if (data[index]['state']['state'] == 'pending')

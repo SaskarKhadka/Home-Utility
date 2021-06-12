@@ -9,8 +9,9 @@ class Database {
   }
 
   Future<Map> getProsInfo() async {
+    String userID = userAuthentication.userID;
     Map prosData = {
-      // 'uid': uid,
+      'uid': userID,
     };
     await prosRefrence.child(userAuthentication.userID).once().then(
       (DataSnapshot snapshot) {
@@ -30,9 +31,8 @@ class Database {
     return prosData;
   }
 
-  void deleteRequest(String requestKey) {
-    String userID = userAuthentication.userID;
-    requestRefrence.child(requestKey).remove();
+  void deleteRequest({String requestKey}) {
+    requestRefrence.child(category).child(requestKey).remove();
   }
 
   Future<Query> requestQuery({String category}) async {

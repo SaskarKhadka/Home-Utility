@@ -156,20 +156,32 @@ class Database {
     await serviceRefrence.child(category).child(serviceName).set(data);
   }
 
-  // Future<Map> myProsInfo(String requestKey) async {
-  //   Map data = {};
-  //   String pro;
-  //   usersRefrence
-  //       .child(userAuthentication.userID)
-  //       .child('requests')
-  //       .child(requestKey)
-  //       .child('prosInfo')
-  //       .once()
-  //       .then(
-  //     (DataSnapshot snapshot) {
-  //       pro = snapshot.value;
-  //     },
-  //   );
+  Future<void> updateRatingAndReview(
+      {String proID, String review, double rating}) async {
+    // double proRating;
+    // await prosRefrence
+    //     .child(proID)
+    //     .child('avgRating')
+    //     .once()
+    //     .then((DataSnapshot snapshot) {
+    //   proRating = snapshot.value;
+    // });
+    // double avgRating = (proRating + rating) / 2;
 
-  // }
+    DataSnapshot snapshot =
+        await prosRefrence.child(proID).child('avgRating').once();
+
+    double avgRating = (snapshot.value + rating) / 2;
+    await prosRefrence.child(proID).update(
+      {
+        'avgRating': avgRating,
+      },
+    );
+
+    if (review.isNotEmpty) {
+      DatabaseReference ref = prosRefrence.child(proID).child('review');
+      DatabaseReference key = ref.push();
+      await key.set({'review': review});
+    }
+  }
 }
