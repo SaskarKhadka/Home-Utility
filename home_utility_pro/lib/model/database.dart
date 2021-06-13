@@ -11,7 +11,7 @@ class Database {
   Future<Map> getProsInfo() async {
     String userID = userAuthentication.userID;
     Map prosData = {
-      'uid': userID,
+      'proID': userID,
     };
     await prosRefrence.child(userAuthentication.userID).once().then(
       (DataSnapshot snapshot) {
@@ -32,7 +32,10 @@ class Database {
   }
 
   void deleteRequest({String requestKey}) {
-    requestRefrence.child(category).child(requestKey).remove();
+    // requestRefrence.child(category).child(requestKey).remove();
+    requestRefrence.child(requestKey).remove();
+
+    // usersRefrence.child(path)
   }
 
   Future<Query> requestQuery({String category}) async {
@@ -44,9 +47,23 @@ class Database {
   }
 
   Stream userRequestsStream() {
-    // print(category);
-    if (category == '') return null;
-    return requestRefrence.child(category).onValue;
+    // return requestRefrence.child(category).onValue;
+    return prosRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .onValue;
+  }
+
+  Future<Map> requestData({String requestKey}) async {
+    // DataSnapshot snapshot =
+    //     await requestRefrence.child(category).child(requestKey).once();
+    DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
+
+    print(snapshot.value);
+
+    Map data = snapshot.value as Map;
+
+    return data;
   }
 
   Future<String> get prosProfession async {
@@ -63,10 +80,13 @@ class Database {
     return profession;
   }
 
-  void updateProfession(String profession) {
+  Future<void> updateProsInfo(
+      {String profession, String municipality, String district}) async {
     String userID = userAuthentication.userID;
     prosRefrence.child(userID).update({
       'profession': profession,
+      'prosMunicipality': municipality,
+      'prosDistrict': district,
     });
   }
 
@@ -95,45 +115,38 @@ class Database {
   }
 
   Future<void> changeState(
-      {String userID, String category, String requestKey, String state}) async {
-    Map info = await getProsInfo();
-    final reqRef =
-        requestRefrence.child(category).child(requestKey).child('state');
-    final userRef = usersRefrence
-        .child(userID)
-        .child('requests')
-        .child(requestKey)
-        .child('state');
-    if (state == 'accepted') {
-      info['state'] = state;
-      await reqRef.set(info);
-      await userRef.set(info);
-    } else {
-      await reqRef.set(
-        {
-          'state': state,
-          // 'proInfo': userID,
-        },
-      );
-      await userRef.set(
-        {
-          'state': state,
-          // 'proInfo': userID,
-        },
-      );
-    }
+      {String category, String requestKey, String state}) async {
+    // Map info = await getProsInfo();
+    // await requestRefrence
+    //     .child(category)
+    //     .child(requestKey)
+    //     .update({'state': state});
+    await requestRefrence.child(requestKey).update({'state': state});
   }
 
   Future<void> saveRequestAsJob({String requestKey}) async {
-    DataSnapshot snapshot =
-        await requestRefrence.child(category).child(requestKey).once();
+    await prosRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
 
-    Map requestInfo = snapshot.value;
-    String userID = userAuthentication.userID;
-    // print(requestInfo);
-    // print(userID);
-    DatabaseReference ref = prosRefrence.child(userID).child('jobs');
-    ref.child(requestKey).set(requestInfo);
+    await prosRefrence
+        .child(userAuthentication.userID)
+        .child('jobs')
+        .child(requestKey)
+        .set({
+      'requestKey': requestKey,
+    });
+    // DataSnapshot snapshot =
+    //     await requestRefrence.child(category).child(requestKey).once();
+
+    // Map requestInfo = snapshot.value;
+    // String userID = userAuthentication.userID;
+    // // print(requestInfo);
+    // // print(userID);
+    // DatabaseReference ref = prosRefrence.child(userID).child('jobs');
+    // ref.child(requestKey).set(requestInfo);
   }
 
   Future<void> deleteJob({String requestKey}) async {

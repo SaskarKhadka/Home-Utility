@@ -2,69 +2,55 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uuid/uuid.dart';
+import 'package:home_utility/screens/professionalNearMe.dart';
+import 'package:home_utility/screens/registrationScreen.dart';
 import '../constants.dart';
 import '../main.dart';
 import 'customButton.dart';
 import 'customTextField.dart';
 
-class DetailsDialog extends StatefulWidget {
+class DetailsPage extends StatefulWidget {
+  static const id = '/detailsPage';
   final String service;
   final String category;
-  DetailsDialog({this.service, this.category});
+  DetailsPage({this.service, this.category});
+
   @override
-  _DetailsDialogState createState() => _DetailsDialogState();
+  _DetailsPageState createState() => _DetailsPageState();
 }
 
-class _DetailsDialogState extends State<DetailsDialog> {
-  final _addressController = TextEditingController();
+class _DetailsPageState extends State<DetailsPage> {
+  final _municipalityController = TextEditingController();
+  final _districtController = TextEditingController();
+  final _descriptionController = TextEditingController();
   DateTime _pickedDate;
   TimeOfDay _selectedTime;
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _addressController.dispose();
+    _municipalityController.dispose();
+    _districtController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    print(widget.category);
     _pickedDate = DateTime.now();
     TimeOfDay now = TimeOfDay.now();
-    _selectedTime = now.replacing(hour: now.hour, minute: now.minute + 1);
+    _selectedTime = now.replacing(hour: now.hour, minute: now.minute + 2);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Container(
-        color: kBlackColour.withOpacity(0.6),
-        child: Container(
-          decoration: BoxDecoration(
-            color: kWhiteColour,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-            ),
-            border: Border.all(
-              color: kBlackColour,
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-          ),
-          // insetPadding: EdgeInsets.all(25.0),
-          // backgroundColor: kWhiteColour,
-          // shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20.0),
-          //     side: BorderSide(
-          //       color: kBlackColour,
-          //       width: 2.0,
-          //       style: BorderStyle.solid,
-          //     )),
-          // elevation: 10.0,
+    return SafeArea(
+      child: Scaffold(
+        // backgroundColor: kBlackColour,
+        body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
               left: 20.0,
@@ -74,6 +60,7 @@ class _DetailsDialogState extends State<DetailsDialog> {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   widget.service,
@@ -101,10 +88,21 @@ class _DetailsDialogState extends State<DetailsDialog> {
                   height: size.height * 0.02,
                 ),
                 CustomTextField(
-                  hintText: 'Enter your address',
+                  hintText: 'Enter your municipality',
                   icon: EvaIcons.home,
                   isPhoneNumber: false,
-                  textController: _addressController,
+                  textController: _municipalityController,
+                  labelText: 'ADDRESS',
+                  // onChanged: null,
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                CustomTextField(
+                  hintText: 'Enter your district',
+                  icon: EvaIcons.home,
+                  isPhoneNumber: false,
+                  textController: _districtController,
                   labelText: 'ADDRESS',
                   // onChanged: null,
                 ),
@@ -139,7 +137,60 @@ class _DetailsDialogState extends State<DetailsDialog> {
                   onTap: _selectTime,
                 ),
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.02,
+                ),
+                Text(
+                  'Any information about the job?',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.cairo(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w700,
+                    color: kBlackColour.withOpacity(0.5),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        blurRadius: 10,
+                        offset: Offset(2, 7),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: _descriptionController,
+                    maxLines: 3,
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      fillColor: kWhiteColour,
+                      filled: true,
+                      hintText: 'Write something about the job',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(
+                          color: kBlackColour,
+                          style: BorderStyle.solid,
+                          width: 1.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(
+                          color: kBlackColour,
+                          style: BorderStyle.solid,
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.04,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -147,7 +198,38 @@ class _DetailsDialogState extends State<DetailsDialog> {
                     CustomButton(
                       // color: Colors.white,
                       text: 'Confirm',
-                      onTap: _getDialog,
+                      // onTap: _getDialog,
+                      onTap: () {
+                        if (_districtController.text.trim().isEmpty)
+                          getSnackBar(
+                              title: 'ERROR!',
+                              message: 'Please enter your district');
+
+                        if (_municipalityController.text.trim().isEmpty)
+                          getSnackBar(
+                              title: 'ERROR!',
+                              message: 'Please enter your municipality');
+
+                        print(widget.category);
+                        Get.to(
+                          ProfessionalsNearMe(
+                            dateTime: DateTime(
+                              _pickedDate.year,
+                              _pickedDate.month,
+                              _pickedDate.day,
+                              _selectedTime.hour,
+                              _selectedTime.minute,
+                            ),
+                            // requestKey: newRequestKey,
+                            category: widget.category,
+                            service: widget.service,
+                            municipality: _municipalityController.text.trim(),
+                            district: _districtController.text.trim(),
+                            date: _pickedDate,
+                            time: _selectedTime,
+                          ),
+                        );
+                      },
                       // color: Colors.red,
                     ),
                     SizedBox(
@@ -208,48 +290,49 @@ class _DetailsDialogState extends State<DetailsDialog> {
       });
   }
 
-  void _getDialog() {
-    Get.defaultDialog(
-      title: 'Request Placed!',
-      titleStyle: TextStyle(
-        fontSize: 25.0,
-        fontWeight: FontWeight.w600,
-      ),
-      barrierDismissible: false,
-      middleText: 'Your request has been placed',
-      confirm: ElevatedButton(
-        onPressed: () async {
-          // CircularProgressIndicator();
-          await database.totalUsersRequests();
-          // Get.back();
-          // Get.back();
-          newRequestKey = Uuid().v1();
+  // void _getDialog() {
+  //   Get.defaultDialog(
+  //     title: 'Request Placed!',
+  //     titleStyle: TextStyle(
+  //       fontSize: 25.0,
+  //       fontWeight: FontWeight.w600,
+  //     ),
+  //     barrierDismissible: false,
+  //     middleText: 'Your request has been placed',
+  //     confirm: ElevatedButton(
+  //       onPressed: () async {
+  //         // CircularProgressIndicator();
+  //         await database.totalUsersRequests();
+  //         // Get.back();
+  //         // Get.back();
+  //         newRequestKey = Uuid().v1();
 
-          await database.saveRequest(
-              dateTime: DateTime(
-                _pickedDate.year,
-                _pickedDate.month,
-                _pickedDate.day,
-                _selectedTime.hour,
-                _selectedTime.minute,
-              ),
-              requestKey: newRequestKey,
-              category: widget.category,
-              service: widget.service,
-              address: _addressController.text.trim(),
-              date: _pickedDate,
-              time: _selectedTime);
-          Get.back();
-          Get.back();
-          print(userRequestCounter);
-        },
-        child: Text(
-          'Ok',
-          style: TextStyle(
-            color: kWhiteColour,
-          ),
-        ),
-      ),
-    );
-  }
+  //         await database.saveRequest(
+  //             dateTime: DateTime(
+  //               _pickedDate.year,
+  //               _pickedDate.month,
+  //               _pickedDate.day,
+  //               _selectedTime.hour,
+  //               _selectedTime.minute,
+  //             ),
+  //             requestKey: newRequestKey,
+  //             category: widget.category,
+  //             service: widget.service,
+  //             municipality: _municipalityController.text.trim(),
+  //             district: _districtController.text.trim(),
+  //             date: _pickedDate,
+  //             time: _selectedTime);
+  //         Get.back();
+  //         Get.back();
+  //         print(userRequestCounter);
+  //       },
+  //       child: Text(
+  //         'Ok',
+  //         style: TextStyle(
+  //           color: kWhiteColour,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

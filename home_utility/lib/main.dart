@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/screens/confirmEmail.dart';
 import 'package:home_utility/screens/forgotPassword.dart';
 import 'screens/registrationScreen.dart';
@@ -38,6 +39,19 @@ DatabaseReference usersRefrence =
 
 DatabaseReference requestRefrence =
     FirebaseDatabase.instance.reference().child('requests');
+
+String professionToCategory(String profession) {
+  String category;
+  if (profession.toLowerCase() == 'electronics technician')
+    category = 'repair';
+  else if (profession.toLowerCase() == 'beautician')
+    category = 'beauty';
+  else if (profession.toLowerCase() == 'householdChores')
+    category = 'householdChores';
+  else
+    category = '';
+  return category;
+}
 
 String formatTime({TimeOfDay unformattedTime}) {
   String time = '';
@@ -130,6 +144,10 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           name: MainScreen.id,
           page: () => MainScreen(),
+        ),
+        GetPage(
+          name: DetailsPage.id,
+          page: () => DetailsPage(),
         ),
       ],
     );

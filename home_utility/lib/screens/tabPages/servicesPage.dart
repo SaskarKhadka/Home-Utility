@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/constants.dart';
@@ -186,17 +187,23 @@ class ServicesStream extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          showModalBottomSheet(
-                              backgroundColor: kBlackColour,
-                              barrierColor: kBlackColour.withOpacity(0.6),
-                              isDismissible: true,
-                              enableDrag: true,
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) => DetailsDialog(
-                                    service: data[index]['service'],
-                                    category: category,
-                                  ));
+                          Get.to(
+                            DetailsPage(
+                              service: data[index]['service'],
+                              category: category,
+                            ),
+                          );
+                          // showModalBottomSheet(
+                          //     backgroundColor: kBlackColour,
+                          //     barrierColor: kBlackColour.withOpacity(0.6),
+                          //     isDismissible: true,
+                          //     enableDrag: true,
+                          //     isScrollControlled: true,
+                          //     context: context,
+                          //     builder: (context) => DetailsDialog(
+                          //           service: data[index]['service'],
+                          //           category: category,
+                          //         ));
                           // showDialog(
                           //   context: context,
                           //   builder: (context) => DetailsDialog(

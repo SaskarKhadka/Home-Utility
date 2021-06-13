@@ -25,6 +25,7 @@ class UserAuthentication {
       if (firebaseUser != null) {
         //user created
         Map proData = {
+          'proID': firebaseUser.user.uid,
           'prosName': name,
           'prosEmail': email,
           'prosPhoneNo': phoneNo,

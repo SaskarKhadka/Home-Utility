@@ -20,6 +20,7 @@ class UserAuthentication {
       if (firebaseUser != null) {
         //user created
         Map userData = {
+          'userID': firebaseUser.user.uid,
           'userName': name,
           'userEmail': email,
           'userPhoneNo': phoneNo,

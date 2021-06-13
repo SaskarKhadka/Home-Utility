@@ -24,31 +24,33 @@ class Database {
     usersRefrence.child(user.uid).set(userData);
   }
 
-  Future<Map> getUserInfo(String uid) async {
+  Future<Map> getUserInfo() async {
     Map userData = {
-      'userID': uid,
+      'userID': userAuthentication.userID,
     };
-    await usersRefrence.child(uid).once().then(
-      (DataSnapshot snapshot) {
-        Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
-          if (key == 'userName') {
-            userData['userName'] = value;
-          }
-          if (key == 'userPhoneNo') {
-            userData['userPhoneNo'] = value;
-          }
-        });
-      },
-    );
+    // await usersRefrence.child(uid).once().then(
+    //   (DataSnapshot snapshot) {
+    //     Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
+    //       if (key == 'userName') {
+    //         userData['userName'] = value;
+    //       }
+    //       if (key == 'userPhoneNo') {
+    //         userData['userPhoneNo'] = value;
+    //       }
+    //     });
+    //   },
+    // );
     print(userData);
     return userData;
   }
 
   Future<void> saveRequest(
-      {DateTime dateTime,
+      {String proID,
+      DateTime dateTime,
       String service,
       String category,
-      String address,
+      String municipality,
+      String district,
       DateTime date,
       TimeOfDay time,
       String requestKey}) async {
@@ -56,34 +58,55 @@ class Database {
     await totalUsersRequests();
     if (userRequestCounter < 3) {
       String userID = userAuthentication.userID;
-      Map userInfo = await database.getUserInfo(userID);
+      Map userInfo = await database.getUserInfo();
+      // userInfo.remove('userName');
+      // userInfo.remove('userPhoneNo');
       userInfo['dateTime'] = dateTime.toString();
       userInfo['category'] = category;
       userInfo['service'] = service;
-      userInfo['userAddress'] = address;
+      userInfo['userMunicipality'] = municipality;
+      userInfo['userDistrict'] = district;
       userInfo['date'] = '${date.year}/${date.month}/${date.day}';
       userInfo['time'] = '${formatTime(unformattedTime: time)}';
       userInfo['requestKey'] = '$requestKey';
-      // userInfo['state'] = 'pending';
+      userInfo['state'] = 'pending';
 
-      requestRefrence.child(category).child('$requestKey').set(userInfo);
-      requestRefrence.child(category).child('$requestKey').child('state').set(
-        {'state': 'pending'},
-      );
+      // final reqRef = requestRefrence.child(category).child('$requestKey');
+      final reqRef = requestRefrence.child('$requestKey');
+
+      reqRef.set(userInfo);
+
+      // requestRefrence
+      //     .child(category)
+      //     .child(requestKey)
+      //     .child('requestedTo')
+      //     .set({
+      //   'proID': proID,
+      // });
+      requestRefrence.child(requestKey).child('requestedTo').set({
+        'proID': proID,
+      });
       final ref = usersRefrence.child(userID).child('requests');
-      ref.child(requestKey).set(userInfo);
-      usersRefrence
-          .child(userID)
-          .child('requests')
-          .child('$requestKey')
-          .child('state')
-          .set(
-        {'state': 'pending'},
-      );
+      ref.child(requestKey).set({
+        'requestKey': requestKey,
+        // 'state': 'pending',
+      });
+
+      // usersRefrence
+      //     .child(userID)
+      //     .child('requests')
+      //     .child(requestKey)
+      //     .child('requestedTo')
+      //     .set({
+      //   'proID': proID,
+      // });
       userRequestCounter++;
+      prosRefrence.child(proID).child('requests').child(requestKey).set({
+        'requestKey': requestKey,
+      });
     } else {
       //TODO: Error message saying request if full
-      //TODO: Set userRequestCountyer back to 0\
+      //TODO: Set userRequestCountyer back to 0
       print('3 request has already been made');
     }
     await totalUsersRequests();
@@ -92,7 +115,9 @@ class Database {
   Future<void> deleteRequest({String category, String requestKey}) async {
     String userID = userAuthentication.userID;
 
-    await requestRefrence.child(category).child(requestKey).remove();
+    // await requestRefrence.child(category).child(requestKey).remove();
+    await requestRefrence.child(requestKey).remove();
+
     await usersRefrence
         .child(userID)
         .child('requests')
@@ -117,6 +142,13 @@ class Database {
         .child(userAuthentication.userID)
         .child('requests')
         .onValue;
+    // return null;
+  }
+
+  Future<Map> requestData({String requestKey}) async {
+    DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
+    Map data = snapshot.value as Map;
+    return data;
   }
 
   Future<bool> checkAccount(User user) async {

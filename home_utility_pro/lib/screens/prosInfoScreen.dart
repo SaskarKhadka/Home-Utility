@@ -21,10 +21,9 @@ class ProsInfoScreen extends StatefulWidget {
 }
 
 class _ProsInfoScreenState extends State<ProsInfoScreen> {
-  final TextEditingController provinceController = TextEditingController();
-  final TextEditingController districtController = TextEditingController();
-  final TextEditingController proController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _proController = TextEditingController();
+  final TextEditingController _municipalityController = TextEditingController();
   // ServiceHandler _serviceHandler = ServiceHandler();
   String value;
 
@@ -33,6 +32,15 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
     // TODO: implement initState
     value = 'Electronics Technician';
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _districtController.dispose();
+    _municipalityController.dispose();
+    _proController.dispose();
+    super.dispose();
   }
 
   @override
@@ -87,40 +95,28 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         height: size.height * 0.04,
                       ),
                       CustomTextField(
-                        textController: provinceController,
-                        isPhoneNumber: false,
-                        icon: EvaIcons.barChartOutline,
-                        hintText:
-                            'Enter your Province. (eg. Province 01, Bagmati...)',
-                        labelText: 'Province',
-                      ),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                      CustomTextField(
-                        textController: districtController,
-                        isPhoneNumber: false,
-                        icon: EvaIcons.compassOutline,
-                        labelText: 'District',
-                        hintText:
-                            'Enter name of your District.(eg. Jhapa, Chitwan..)',
-                      ),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                      CustomTextField(
-                        textController: addressController,
+                        textController: _municipalityController,
                         isPhoneNumber: false,
                         icon: EvaIcons.homeOutline,
                         labelText: 'Municipality/VDC',
-                        hintText:
-                            'Enter Your Mulicipality/VDC. (eg. Kanakai, Birtamode..) ',
+                        hintText: 'Enter your Mulicipality/VDC',
                       ),
                       SizedBox(
                         height: size.height * 0.04,
                       ),
                       CustomTextField(
-                        textController: proController,
+                        textController: _districtController,
+                        isPhoneNumber: false,
+                        icon: EvaIcons.compassOutline,
+                        labelText: 'District',
+                        hintText: 'Enter your District',
+                      ),
+
+                      SizedBox(
+                        height: size.height * 0.04,
+                      ),
+                      CustomTextField(
+                        textController: _proController,
                         isPhoneNumber: false,
                         icon: EvaIcons.briefcaseOutline,
                         labelText: 'Professional work',
@@ -161,40 +157,38 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         width: 180,
                         height: 60,
                         child: CustomButton(
-                          onTap: () {
+                          onTap: () async {
                             prosProfessionValue = value.trim();
-                            database.updateProfession(prosProfessionValue);
                             category =
                                 professionToCategory(prosProfessionValue);
-                            if (provinceController.text.isEmpty) {
+
+                            await database.updateProsInfo(
+                              profession: prosProfessionValue,
+                              district: _districtController.text.trim(),
+                              municipality: _municipalityController.text.trim(),
+                            );
+
+                            if (_proController.text.isEmpty) {
                               Get.back();
                               getSnackBar(
                                 title: 'ERROR!',
-                                message: 'Please enter your Province address',
+                                message: 'Please enter your Province',
                               );
                               return;
                             }
-                            if (proController.text.isEmpty) {
+                            if (_districtController.text.isEmpty) {
                               Get.back();
                               getSnackBar(
                                 title: 'ERROR!',
-                                message: 'Please enter your Province address',
+                                message: 'Please enter your district',
                               );
                               return;
                             }
-                            if (districtController.text.isEmpty) {
+                            if (_municipalityController.text.isEmpty) {
                               Get.back();
                               getSnackBar(
                                 title: 'ERROR!',
-                                message: 'Please enter your district address',
-                              );
-                              return;
-                            }
-                            if (addressController.text.isEmpty) {
-                              Get.back();
-                              getSnackBar(
-                                title: 'ERROR!',
-                                message: 'Please enter your local address',
+                                message: 'Please enter your municipality',
                               );
                               return;
                             } else {
