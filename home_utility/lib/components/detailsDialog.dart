@@ -2,12 +2,13 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility/model/districtsAndMunicipalities.dart';
 import 'package:home_utility/screens/professionalNearMe.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
+import 'package:search_choices/search_choices.dart';
 import '../constants.dart';
 import '../main.dart';
 import 'customButton.dart';
-import 'customTextField.dart';
 
 class DetailsPage extends StatefulWidget {
   static const id = '/detailsPage';
@@ -25,6 +26,55 @@ class _DetailsPageState extends State<DetailsPage> {
   final _descriptionController = TextEditingController();
   DateTime _pickedDate;
   TimeOfDay _selectedTime;
+  String _districtValue;
+  String _municipalityValue;
+
+  DistrictsAndMuniciplities _districtsAndMuniciplities =
+      DistrictsAndMuniciplities();
+
+  List<DropdownMenuItem<String>> _getDistricts() {
+    List<DropdownMenuItem<String>> items = [];
+
+    List<String> districts = _districtsAndMuniciplities.getDistricts();
+    // _districtValue = districts[0];
+
+    for (String district in districts) {
+      items.add(
+        DropdownMenuItem<String>(
+          child: Text(district),
+          value: district,
+        ),
+      );
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> _getMunicipalities() {
+    List<DropdownMenuItem<String>> items = [];
+    // if (_districtValue == null) {
+    //   String myDistrict = "Please select your district first";
+    //   return [
+    //     DropdownMenuItem<String>(
+    //       child: Text(myDistrict),
+    //       value: myDistrict,
+    //     )
+    //   ];
+    // }
+
+    List<String> municipalities =
+        _districtsAndMuniciplities.getMunicipalities(_districtValue);
+    // _municipalityValue = municipalities[0];
+
+    for (String municipality in municipalities) {
+      items.add(
+        DropdownMenuItem<String>(
+          child: Text(municipality),
+          value: municipality,
+        ),
+      );
+    }
+    return items;
+  }
 
   @override
   void dispose() {
@@ -38,6 +88,9 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   void initState() {
     print(widget.category);
+    _districtValue = 'ACHHAM';
+    _municipalityValue =
+        _districtsAndMuniciplities.getMunicipalities(_districtValue)[0];
     _pickedDate = DateTime.now();
     TimeOfDay now = TimeOfDay.now();
     _selectedTime = now.replacing(hour: now.hour, minute: now.minute + 2);
@@ -87,24 +140,31 @@ class _DetailsPageState extends State<DetailsPage> {
                 SizedBox(
                   height: size.height * 0.02,
                 ),
-                CustomTextField(
-                  hintText: 'Enter your municipality',
-                  icon: EvaIcons.home,
-                  isPhoneNumber: false,
-                  textController: _municipalityController,
-                  labelText: 'ADDRESS',
-                  // onChanged: null,
+                SearchChoices.single(
+                  items: _getDistricts(),
+                  value: _districtValue,
+                  hint: "Select Your District",
+                  searchHint: "Select Your District",
+                  onChanged: (newValue) {
+                    setState(() {
+                      _districtValue = newValue;
+                      _municipalityValue = _districtsAndMuniciplities
+                          .getMunicipalities(_districtValue)[0];
+                    });
+                  },
+                  isExpanded: true,
                 ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                CustomTextField(
-                  hintText: 'Enter your district',
-                  icon: EvaIcons.home,
-                  isPhoneNumber: false,
-                  textController: _districtController,
-                  labelText: 'ADDRESS',
-                  // onChanged: null,
+                SearchChoices.single(
+                  items: _getMunicipalities(),
+                  value: _municipalityValue,
+                  hint: "Select Your Municiplality",
+                  searchHint: "Select Your Municipality",
+                  onChanged: (newValue) {
+                    setState(() {
+                      _municipalityValue = newValue;
+                    });
+                  },
+                  isExpanded: true,
                 ),
                 SizedBox(
                   height: size.height * 0.01,
@@ -199,16 +259,17 @@ class _DetailsPageState extends State<DetailsPage> {
                       // color: Colors.white,
                       text: 'Confirm',
                       // onTap: _getDialog,
-                      onTap: () {
-                        if (_districtController.text.trim().isEmpty)
-                          getSnackBar(
-                              title: 'ERROR!',
-                              message: 'Please enter your district');
 
-                        if (_municipalityController.text.trim().isEmpty)
+                      onTap: () {
+                        if (_districtValue.trim() == null)
                           getSnackBar(
                               title: 'ERROR!',
-                              message: 'Please enter your municipality');
+                              message: 'Please select your district');
+
+                        if (_municipalityValue.trim() == null)
+                          getSnackBar(
+                              title: 'ERROR!',
+                              message: 'Please select your municipality');
 
                         print(widget.category);
                         Get.to(
@@ -220,11 +281,12 @@ class _DetailsPageState extends State<DetailsPage> {
                               _selectedTime.hour,
                               _selectedTime.minute,
                             ),
+                            description: _descriptionController.text.trim(),
                             // requestKey: newRequestKey,
                             category: widget.category,
                             service: widget.service,
-                            municipality: _municipalityController.text.trim(),
-                            district: _districtController.text.trim(),
+                            municipality: _municipalityValue,
+                            district: _districtValue,
                             date: _pickedDate,
                             time: _selectedTime,
                           ),

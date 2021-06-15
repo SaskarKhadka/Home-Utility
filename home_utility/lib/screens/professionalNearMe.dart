@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 
 class ProfessionalsNearMe extends StatefulWidget {
   final DateTime dateTime;
+  final String description;
   final String category;
   final String service;
   final DateTime date;
@@ -18,6 +19,7 @@ class ProfessionalsNearMe extends StatefulWidget {
 
   ProfessionalsNearMe({
     this.dateTime,
+    this.description,
     this.category,
     this.service,
     this.date,
@@ -124,7 +126,7 @@ class _ProfessionalsNearMeState extends State<ProfessionalsNearMe> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: Text(
-                                'Municipality/VDC',
+                                'Municipality',
                                 style: GoogleFonts.montserrat(
                                   color: kWhiteColour,
                                 ),
@@ -172,15 +174,18 @@ class _ProfessionalsNearMeState extends State<ProfessionalsNearMe> {
                         height: 10.0,
                       ),
                       // prosStream(),
-                      ProsStream(
-                        dateTime: widget.dateTime,
-                        category: widget.category,
-                        service: widget.service,
-                        date: widget.date,
-                        time: widget.time,
-                        municipality: widget.municipality,
-                        district: widget.district,
-                        sortByMunVDC: sortByMunVDC,
+                      Expanded(
+                        child: ProsStream(
+                          dateTime: widget.dateTime,
+                          description: widget.description,
+                          category: widget.category,
+                          service: widget.service,
+                          date: widget.date,
+                          time: widget.time,
+                          municipality: widget.municipality,
+                          district: widget.district,
+                          sortByMunVDC: sortByMunVDC,
+                        ),
                       ),
                     ],
                   ),
@@ -196,6 +201,7 @@ class _ProfessionalsNearMeState extends State<ProfessionalsNearMe> {
 
 class ProsStream extends StatelessWidget {
   final DateTime dateTime;
+  final String description;
   final String category;
   final String service;
   final DateTime date;
@@ -205,6 +211,7 @@ class ProsStream extends StatelessWidget {
   final bool sortByMunVDC;
   ProsStream({
     this.dateTime,
+    this.description,
     this.category,
     this.service,
     this.date,
@@ -268,9 +275,12 @@ class ProsStream extends StatelessWidget {
               // print(category);
               if (profession != null &&
                   professionToCategory(profession) == category) {
+                String prosMunicipality = data[index]['prosMunicipality'];
+                String prosDistrict = data[index]['prosDistrict'];
                 if (sortByMunVDC) {
-                  if (data[index]['prosMunicipality'] == municipality &&
-                      data[index]['prosDistrict'] == district) {
+                  if (prosMunicipality.toLowerCase() ==
+                          municipality.toLowerCase() &&
+                      prosDistrict.toLowerCase() == district.toLowerCase()) {
                     totalRequests++;
                     return _dispalyContainer(data[index]);
                   } else if (index == data.length - 1 && totalRequests == 0)
@@ -292,7 +302,7 @@ class ProsStream extends StatelessWidget {
                   else
                     return Container();
                 } else {
-                  if (data[index]['prosDistrict'] == district) {
+                  if (prosDistrict.toLowerCase() == district.toLowerCase()) {
                     totalRequests++;
                     return _dispalyContainer(data[index]);
                   } else if (index == data.length - 1 && totalRequests == 0)
@@ -315,7 +325,7 @@ class ProsStream extends StatelessWidget {
                     return Container();
                 }
               } else
-                Container();
+                return Container();
             },
           ),
         );
@@ -394,6 +404,7 @@ class ProsStream extends StatelessWidget {
                 newRequestKey = Uuid().v1();
 
                 await database.saveRequest(
+                    description: description,
                     proID: data['proID'],
                     dateTime: dateTime,
                     requestKey: newRequestKey,

@@ -38,6 +38,7 @@ dependencies:
   uuid: ^3.0.4
   google_nav_bar: ^5.0.5
   line_icons: ^2.0.1
+  search_choices: ^2.0.3
 
 dev_dependencies:
   flutter_test:

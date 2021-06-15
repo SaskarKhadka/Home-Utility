@@ -165,7 +165,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
           );
         }
         Map userRequests = snapshot.data.snapshot.value;
-        print(userRequests);
+        // print(userRequests);
         // print(messages);
         // ref.update(messages);
         // print(snapshot.data.snapshot.value);
@@ -180,7 +180,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
         // for(Map data in data) {
         //   ref.child(path)
         // }
-        print('HI');
+        // print('HI');
 
         return Container(
           // height: 200, //TODO: manage
@@ -195,17 +195,22 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
               return FutureBuilder(
                   future: database.requestData(requestKey: data[index]),
                   builder: (context, snapshot) {
-                    // if (!snapshot.hasData) {
-                    //   return Center(
-                    //     child: Text(
-                    //       'You have no requests',
-                    //       style: TextStyle(
-                    //         color: Colors.white,
-                    //         fontSize: 25,
-                    //       ),
-                    //     ),
-                    //   );
-                    // }
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: size.height * 0.3,
+                          ),
+                          child: Text(
+                            'You have no requests',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                     Map requestData = snapshot.data;
                     // print(requestData);
 

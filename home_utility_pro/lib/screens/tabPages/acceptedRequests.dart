@@ -194,17 +194,22 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
               return FutureBuilder(
                 future: database.requestData(requestKey: data[index]),
                 builder: (context, snapshot) {
-                  // if (!snapshot.hasData) {
-                  //   return Center(
-                  //     child: Text(
-                  //       'You have no requests',
-                  //       style: TextStyle(
-                  //         color: Colors.white,
-                  //         fontSize: 25,
-                  //       ),
-                  //     ),
-                  //   );
-                  // }
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: size.height * 0.25,
+                        ),
+                        child: Text(
+                          'You have no requests',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                   Map requestData = snapshot.data;
 
                   String value = requestData['dateTime'];

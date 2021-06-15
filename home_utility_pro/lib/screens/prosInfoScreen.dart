@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,10 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/customButton.dart';
 import 'package:home_utility_pro/components/customTextField.dart';
 import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/model/districtsAndMunicipalities.dart';
 import 'package:home_utility_pro/model/services.dart';
 import 'package:home_utility_pro/model/servicesHandler.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
 import 'package:home_utility_pro/screens/registrationScreen.dart';
+import 'package:search_choices/search_choices.dart';
 
 import '../constants.dart';
 
@@ -27,10 +27,63 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
   // ServiceHandler _serviceHandler = ServiceHandler();
   String value;
 
+  String _districtValue;
+  String _municipalityValue;
+
+  DistrictsAndMuniciplities _districtsAndMuniciplities =
+      DistrictsAndMuniciplities();
+
+  List<DropdownMenuItem<String>> _getDistricts() {
+    List<DropdownMenuItem<String>> items = [];
+
+    List<String> districts = _districtsAndMuniciplities.getDistricts();
+    // _districtValue = districts[0];
+
+    for (String district in districts) {
+      items.add(
+        DropdownMenuItem<String>(
+          child: Text(district),
+          value: district,
+        ),
+      );
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> _getMunicipalities() {
+    List<DropdownMenuItem<String>> items = [];
+    // if (_districtValue == null) {
+    //   String myDistrict = "Please select your district first";
+    //   return [
+    //     DropdownMenuItem<String>(
+    //       child: Text(myDistrict),
+    //       value: myDistrict,
+    //     )
+    //   ];
+    // }
+
+    List<String> municipalities =
+        _districtsAndMuniciplities.getMunicipalities(_districtValue);
+    // _municipalityValue = municipalities[0];
+
+    for (String municipality in municipalities) {
+      items.add(
+        DropdownMenuItem<String>(
+          child: Text(municipality),
+          value: municipality,
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     value = 'Electronics Technician';
+    _districtValue = 'ACHHAM';
+    _municipalityValue =
+        _districtsAndMuniciplities.getMunicipalities(_districtValue)[0];
     super.initState();
   }
 
@@ -94,35 +147,61 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                       SizedBox(
                         height: size.height * 0.04,
                       ),
-                      CustomTextField(
-                        textController: _municipalityController,
-                        isPhoneNumber: false,
-                        icon: EvaIcons.homeOutline,
-                        labelText: 'Municipality/VDC',
-                        hintText: 'Enter your Mulicipality/VDC',
+                      SearchChoices.single(
+                        items: _getDistricts(),
+                        value: _districtValue,
+                        hint: "Select Your District",
+                        searchHint: "Select Your District",
+                        onChanged: (newValue) {
+                          setState(() {
+                            _districtValue = newValue;
+                            _municipalityValue = _districtsAndMuniciplities
+                                .getMunicipalities(_districtValue)[0];
+                          });
+                        },
+                        isExpanded: true,
                       ),
-                      SizedBox(
-                        height: size.height * 0.04,
+                      SearchChoices.single(
+                        items: _getMunicipalities(),
+                        value: _municipalityValue,
+                        hint: "Select Your Municiplality",
+                        searchHint: "Select Your Municipality",
+                        onChanged: (newValue) {
+                          setState(() {
+                            _municipalityValue = newValue;
+                          });
+                        },
+                        isExpanded: true,
                       ),
-                      CustomTextField(
-                        textController: _districtController,
-                        isPhoneNumber: false,
-                        icon: EvaIcons.compassOutline,
-                        labelText: 'District',
-                        hintText: 'Enter your District',
-                      ),
+                      // CustomTextField(
+                      //   textController: _municipalityController,
+                      //   isPhoneNumber: false,
+                      //   icon: EvaIcons.homeOutline,
+                      //   labelText: 'Municipality/VDC',
+                      //   hintText: 'Enter your Mulicipality/VDC',
+                      // ),
+                      // SizedBox(
+                      //   height: size.height * 0.04,
+                      // ),
+                      // CustomTextField(
+                      //   textController: _districtController,
+                      //   isPhoneNumber: false,
+                      //   icon: EvaIcons.compassOutline,
+                      //   labelText: 'District',
+                      //   hintText: 'Enter your District',
+                      // ),
 
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                      CustomTextField(
-                        textController: _proController,
-                        isPhoneNumber: false,
-                        icon: EvaIcons.briefcaseOutline,
-                        labelText: 'Professional work',
-                        hintText:
-                            'Enter Your professional work. (eg. Plumber....)',
-                      ),
+                      // SizedBox(
+                      //   height: size.height * 0.04,
+                      // ),
+                      // CustomTextField(
+                      //   textController: _proController,
+                      //   isPhoneNumber: false,
+                      //   icon: EvaIcons.briefcaseOutline,
+                      //   labelText: 'Professional work',
+                      //   hintText:
+                      //       'Enter Your professional work. (eg. Plumber....)',
+                      // ),
                       SizedBox(
                         height: size.height * 0.04,
                       ),

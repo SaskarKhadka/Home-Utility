@@ -24,7 +24,7 @@ class Database {
     usersRefrence.child(user.uid).set(userData);
   }
 
-  Future<Map> getUserInfo() async {
+  Map getUserInfo() {
     Map userData = {
       'userID': userAuthentication.userID,
     };
@@ -46,6 +46,7 @@ class Database {
 
   Future<void> saveRequest(
       {String proID,
+      String description,
       DateTime dateTime,
       String service,
       String category,
@@ -58,7 +59,7 @@ class Database {
     await totalUsersRequests();
     if (userRequestCounter < 3) {
       String userID = userAuthentication.userID;
-      Map userInfo = await database.getUserInfo();
+      Map userInfo = database.getUserInfo();
       // userInfo.remove('userName');
       // userInfo.remove('userPhoneNo');
       userInfo['dateTime'] = dateTime.toString();
@@ -71,19 +72,9 @@ class Database {
       userInfo['requestKey'] = '$requestKey';
       userInfo['state'] = 'pending';
 
-      // final reqRef = requestRefrence.child(category).child('$requestKey');
-      final reqRef = requestRefrence.child('$requestKey');
+      await requestRefrence.child(requestKey).set(userInfo);
 
-      reqRef.set(userInfo);
-
-      // requestRefrence
-      //     .child(category)
-      //     .child(requestKey)
-      //     .child('requestedTo')
-      //     .set({
-      //   'proID': proID,
-      // });
-      requestRefrence.child(requestKey).child('requestedTo').set({
+      await requestRefrence.child(requestKey).child('requestedTo').set({
         'proID': proID,
       });
       final ref = usersRefrence.child(userID).child('requests');
@@ -149,6 +140,12 @@ class Database {
     DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
     Map data = snapshot.value as Map;
     return data;
+  }
+
+  Stream requestDataStream({String requestKey}) {
+    // DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
+    // Map data = snapshot.value as Map;
+    return requestRefrence.child(requestKey).onValue;
   }
 
   Future<bool> checkAccount(User user) async {
