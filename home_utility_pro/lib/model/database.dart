@@ -31,10 +31,21 @@ class Database {
     return prosData;
   }
 
-  void deleteRequest({String requestKey}) {
+  Future<void> deleteRequest({String requestKey, String userID}) async {
+    print(userAuthentication.userID);
     // requestRefrence.child(category).child(requestKey).remove();
-    requestRefrence.child(requestKey).remove();
 
+    await prosRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
+    await usersRefrence
+        .child(userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
+    await requestRefrence.child(requestKey).remove();
     // usersRefrence.child(path)
   }
 
@@ -64,6 +75,10 @@ class Database {
     Map data = snapshot.value as Map;
 
     return data;
+  }
+
+  Stream requestDataStream({String requestKey}) {
+    return requestRefrence.child(requestKey).onValue;
   }
 
   Future<String> get prosProfession async {

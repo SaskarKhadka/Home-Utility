@@ -1,8 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility/model/districtsAndMunicipalities.dart';
+import 'package:home_utility/location/userLocation.dart';
+import 'package:home_utility/model/districts.dart';
+import 'package:home_utility/model/municipalities.dart';
 import 'package:home_utility/screens/professionalNearMe.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import 'package:search_choices/search_choices.dart';
@@ -29,13 +32,13 @@ class _DetailsPageState extends State<DetailsPage> {
   String _districtValue;
   String _municipalityValue;
 
-  DistrictsAndMuniciplities _districtsAndMuniciplities =
-      DistrictsAndMuniciplities();
+  Municipalities _municipalities = Municipalities();
+  Districts _districts = Districts();
 
   List<DropdownMenuItem<String>> _getDistricts() {
     List<DropdownMenuItem<String>> items = [];
 
-    List<String> districts = _districtsAndMuniciplities.getDistricts();
+    List<String> districts = _districts.getDistricts();
     // _districtValue = districts[0];
 
     for (String district in districts) {
@@ -51,18 +54,9 @@ class _DetailsPageState extends State<DetailsPage> {
 
   List<DropdownMenuItem<String>> _getMunicipalities() {
     List<DropdownMenuItem<String>> items = [];
-    // if (_districtValue == null) {
-    //   String myDistrict = "Please select your district first";
-    //   return [
-    //     DropdownMenuItem<String>(
-    //       child: Text(myDistrict),
-    //       value: myDistrict,
-    //     )
-    //   ];
-    // }
 
     List<String> municipalities =
-        _districtsAndMuniciplities.getMunicipalities(_districtValue);
+        _municipalities.getMunicipalities(_districtValue);
     // _municipalityValue = municipalities[0];
 
     for (String municipality in municipalities) {
@@ -88,9 +82,8 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   void initState() {
     print(widget.category);
-    _districtValue = 'ACHHAM';
-    _municipalityValue =
-        _districtsAndMuniciplities.getMunicipalities(_districtValue)[0];
+    _districtValue = 'Achham';
+    _municipalityValue = _municipalities.getMunicipalities(_districtValue)[0];
     _pickedDate = DateTime.now();
     TimeOfDay now = TimeOfDay.now();
     _selectedTime = now.replacing(hour: now.hour, minute: now.minute + 2);
@@ -148,8 +141,8 @@ class _DetailsPageState extends State<DetailsPage> {
                   onChanged: (newValue) {
                     setState(() {
                       _districtValue = newValue;
-                      _municipalityValue = _districtsAndMuniciplities
-                          .getMunicipalities(_districtValue)[0];
+                      _municipalityValue =
+                          _municipalities.getMunicipalities(_districtValue)[0];
                     });
                   },
                   isExpanded: true,
@@ -260,7 +253,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       text: 'Confirm',
                       // onTap: _getDialog,
 
-                      onTap: () {
+                      onTap: () async {
                         if (_districtValue.trim() == null)
                           getSnackBar(
                               title: 'ERROR!',
@@ -270,6 +263,8 @@ class _DetailsPageState extends State<DetailsPage> {
                           getSnackBar(
                               title: 'ERROR!',
                               message: 'Please select your municipality');
+
+                        Position userLocation = await Location().getLocation();
 
                         print(widget.category);
                         Get.to(
@@ -289,6 +284,8 @@ class _DetailsPageState extends State<DetailsPage> {
                             district: _districtValue,
                             date: _pickedDate,
                             time: _selectedTime,
+                            latitude: userLocation.latitude,
+                            longitude: userLocation.longitude,
                           ),
                         );
                       },

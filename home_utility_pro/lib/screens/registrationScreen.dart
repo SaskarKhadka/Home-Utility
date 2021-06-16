@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:home_utility_pro/constants.dart';
+import 'package:home_utility_pro/location/userLocation.dart';
 import 'package:home_utility_pro/model/services.dart';
 import 'package:home_utility_pro/model/servicesHandler.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
@@ -265,9 +267,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // } else if (phoneController.text.trim().length == 10) {
     } else {
       try {
+        print('HI');
         int phoneNo = int.parse(phoneController.text);
+        print('HI from herer');
 
         bool isAlreadyUsed = await database.checkPhoneNumber(phoneNo);
+        print(isAlreadyUsed);
 
         if (isAlreadyUsed) {
           Get.back();
@@ -277,11 +282,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           );
           return;
         } else {
+          print('HI again');
+          UserLocation userLocation = UserLocation();
+          Position location = await userLocation.getLocation();
+          print('HI again');
+
           String code = await userAuthentication.signUp(
-              name: nameController.text.trim(),
-              phoneNo: phoneNo,
-              email: emailController.text.trim(),
-              password: passwordController.text);
+            name: nameController.text.trim(),
+            phoneNo: phoneNo,
+            email: emailController.text.trim(),
+            password: passwordController.text,
+            latitude: location.latitude,
+            longitude: location.longitude,
+          );
 
           if (code == 'success') {
             Get.back();
@@ -396,6 +409,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         }
       } catch (e) {
         Get.back();
+        // print(e.code);
         getSnackBar(
           title: 'ERROR!',
           message: 'Please enter a valid phone number',

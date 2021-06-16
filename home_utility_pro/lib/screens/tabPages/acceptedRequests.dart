@@ -191,26 +191,13 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
 
-              return FutureBuilder(
-                future: database.requestData(requestKey: data[index]),
+              return StreamBuilder(
+                stream: database.requestDataStream(requestKey: data[index]),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.25,
-                        ),
-                        child: Text(
-                          'You have no requests',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    );
+                    return Container();
                   }
-                  Map requestData = snapshot.data;
+                  Map requestData = snapshot.data.snapshot.value;
 
                   String value = requestData['dateTime'];
                   List dateTime = value.split(' ');

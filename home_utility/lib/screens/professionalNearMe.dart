@@ -4,8 +4,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
+import 'package:home_utility/location/userLocation.dart';
 import 'package:home_utility/main.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 class ProfessionalsNearMe extends StatefulWidget {
   final DateTime dateTime;
@@ -16,6 +19,8 @@ class ProfessionalsNearMe extends StatefulWidget {
   final TimeOfDay time;
   final String municipality;
   final String district;
+  final double latitude;
+  final double longitude;
 
   ProfessionalsNearMe({
     this.dateTime,
@@ -26,6 +31,8 @@ class ProfessionalsNearMe extends StatefulWidget {
     this.time,
     this.municipality,
     this.district,
+    this.latitude,
+    this.longitude,
   });
 
   @override
@@ -34,12 +41,42 @@ class ProfessionalsNearMe extends StatefulWidget {
 
 class _ProfessionalsNearMeState extends State<ProfessionalsNearMe> {
   bool sortByMunVDC = true;
+  String _distanceValue;
+  double _distanceValueNum;
+  Map<String, double> _distanceMap = {
+    '250 meter': 250,
+    '500 meter': 500,
+    '1 Kilometer': 1000,
+    '1.25 Kilometer': 1250,
+    '1.5 Kilometer': 1500,
+    '2 Kilometer': 2000,
+    '2.5 Kilometer': 2500,
+  };
 
   @override
   void initState() {
     // TODO: implement initState
     print(widget.category);
+    _distanceValue = '250 meter';
+    _distanceValueNum = _distanceMap[_distanceValue];
     super.initState();
+  }
+
+  List<DropdownMenuItem<String>> _getItems() {
+    List<DropdownMenuItem<String>> items = [];
+    List<String> distances = [];
+    _distanceMap.forEach((key, value) {
+      distances.add(key);
+    });
+    for (String distance in distances) {
+      items.add(
+        DropdownMenuItem(
+          child: Text(distance),
+          value: distance,
+        ),
+      );
+    }
+    return items;
   }
 
   @override
@@ -84,92 +121,119 @@ class _ProfessionalsNearMeState extends State<ProfessionalsNearMe> {
                   ),
                   child: Column(
                     children: [
-                      // SizedBox(
-                      //   height: 15.0,
-                      // ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Sort By:',
+                            'Search Radius:  ',
                             style: GoogleFonts.montserrat(
-                              color: kBlackColour.withOpacity(0.7),
-                              fontSize: 15.0,
+                              color: kBlackColour,
+                              fontSize: 20.0,
                             ),
                           ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(
-                                () {
-                                  sortByMunVDC = true;
-                                },
-                              );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: sortByMunVDC
-                                    ? kBlackColour
-                                    : kBlackColour.withOpacity(0.8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    blurRadius: 15,
-                                    offset: Offset(2, 7),
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text(
-                                'Municipality',
-                                style: GoogleFonts.montserrat(
-                                  color: kWhiteColour,
-                                ),
-                              ),
+                          DropdownButton(
+                            style: GoogleFonts.montserrat(
+                              color: kBlackColour,
+                              fontSize: 20.0,
                             ),
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          GestureDetector(
-                            onTap: () {
+                            items: _getItems(),
+                            value: _distanceValue,
+                            onChanged: (newValue) {
                               setState(() {
-                                sortByMunVDC = false;
+                                _distanceValue = newValue;
+                                _distanceValueNum =
+                                    _distanceMap[_distanceValue];
                               });
                             },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: sortByMunVDC
-                                    ? kBlackColour.withOpacity(0.8)
-                                    : kBlackColour,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    blurRadius: 15,
-                                    offset: Offset(2, 7),
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Text(
-                                'District',
-                                style: GoogleFonts.montserrat(
-                                  color: kWhiteColour,
-                                ),
-                              ),
-                            ),
                           ),
                         ],
                       ),
+                      // SizedBox(
+                      //   height: 15.0,
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       'Sort By:',
+                      //       style: GoogleFonts.montserrat(
+                      //         color: kBlackColour.withOpacity(0.7),
+                      //         fontSize: 15.0,
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 10.0,
+                      //     ),
+                      //     GestureDetector(
+                      //       onTap: () {
+                      //         setState(
+                      //           () {
+                      //             sortByMunVDC = true;
+                      //           },
+                      //         );
+                      //       },
+                      //       child: Container(
+                      //         padding: EdgeInsets.symmetric(
+                      //           vertical: 10.0,
+                      //           horizontal: 15.0,
+                      //         ),
+                      //         decoration: BoxDecoration(
+                      //           color: sortByMunVDC
+                      //               ? kBlackColour
+                      //               : kBlackColour.withOpacity(0.8),
+                      //           boxShadow: [
+                      //             BoxShadow(
+                      //               color: Colors.black.withOpacity(0.3),
+                      //               blurRadius: 15,
+                      //               offset: Offset(2, 7),
+                      //             ),
+                      //           ],
+                      //           borderRadius: BorderRadius.circular(10.0),
+                      //         ),
+                      //         child: Text(
+                      //           'Municipality',
+                      //           style: GoogleFonts.montserrat(
+                      //             color: kWhiteColour,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 10.0,
+                      //     ),
+                      //     GestureDetector(
+                      //       onTap: () {
+                      //         setState(() {
+                      //           sortByMunVDC = false;
+                      //         });
+                      //       },
+                      //       child: Container(
+                      //         padding: EdgeInsets.symmetric(
+                      //           vertical: 10.0,
+                      //           horizontal: 15.0,
+                      //         ),
+                      //         decoration: BoxDecoration(
+                      //           color: sortByMunVDC
+                      //               ? kBlackColour.withOpacity(0.8)
+                      //               : kBlackColour,
+                      //           boxShadow: [
+                      //             BoxShadow(
+                      //               color: Colors.black.withOpacity(0.3),
+                      //               blurRadius: 15,
+                      //               offset: Offset(2, 7),
+                      //             ),
+                      //           ],
+                      //           borderRadius: BorderRadius.circular(10.0),
+                      //         ),
+                      //         child: Text(
+                      //           'District',
+                      //           style: GoogleFonts.montserrat(
+                      //             color: kWhiteColour,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       SizedBox(
                         height: 10.0,
                       ),
@@ -185,6 +249,10 @@ class _ProfessionalsNearMeState extends State<ProfessionalsNearMe> {
                           municipality: widget.municipality,
                           district: widget.district,
                           sortByMunVDC: sortByMunVDC,
+                          latitude: widget.latitude,
+                          longitude: widget.longitude,
+                          distanceRadius: _distanceValueNum,
+                          distanceRadiusStr: _distanceValue,
                         ),
                       ),
                     ],
@@ -209,6 +277,10 @@ class ProsStream extends StatelessWidget {
   final String municipality;
   final String district;
   final bool sortByMunVDC;
+  final double latitude;
+  final double longitude;
+  final double distanceRadius;
+  final String distanceRadiusStr;
   ProsStream({
     this.dateTime,
     this.description,
@@ -219,7 +291,12 @@ class ProsStream extends StatelessWidget {
     this.municipality,
     this.district,
     this.sortByMunVDC,
+    this.latitude,
+    this.longitude,
+    this.distanceRadius,
+    this.distanceRadiusStr,
   });
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -233,7 +310,8 @@ class ProsStream extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.25,
               ),
-              Text('Looking for professionals'),
+              Text(
+                  'Looking for professionals around your $distanceRadiusStr radius'),
               SizedBox(
                 height: 10.0,
               ),
@@ -271,59 +349,74 @@ class ProsStream extends StatelessWidget {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               String profession = data[index]['profession'];
-              // print(profession);
-              // print(category);
+
               if (profession != null &&
                   professionToCategory(profession) == category) {
-                String prosMunicipality = data[index]['prosMunicipality'];
-                String prosDistrict = data[index]['prosDistrict'];
-                if (sortByMunVDC) {
-                  if (prosMunicipality.toLowerCase() ==
-                          municipality.toLowerCase() &&
-                      prosDistrict.toLowerCase() == district.toLowerCase()) {
-                    totalRequests++;
-                    return _dispalyContainer(data[index]);
-                  } else if (index == data.length - 1 && totalRequests == 0)
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.25,
-                        ),
-                        child: Text(
-                          'Look like there are no professionals registered in your municipality',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kBlackColour.withOpacity(0.7),
-                            fontSize: 15,
+                // String prosMunicipality = data[index]['prosMunicipality'];
+                // String prosDistrict = data[index]['prosDistrict'];
+                // if (sortByMunVDC) {
+
+                // if (prosMunicipality.toLowerCase() ==
+                //         municipality.toLowerCase() &&
+                //     prosDistrict.toLowerCase() == district.toLowerCase()) {
+                print(data[index]['location']);
+                print('$latitude  $longitude');
+                double distance = Location().getDistance(
+                  latitude + 0.006,
+                  longitude,
+                  data[index]['location']['lat'],
+                  data[index]['location']['lng'],
+                );
+                print(distance);
+
+                if (distance <= distanceRadius) {
+                  totalRequests++;
+                  return _dispalyContainer(data[index]);
+                } else if (index == data.length - 1 && totalRequests == 0)
+                  return Center(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: size.height * 0.23,
+                          ),
+                          child: Text(
+                            'Looks like there are no professionals registered around your $distanceRadiusStr radius',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: kBlackColour.withOpacity(0.7),
+                              fontSize: 15,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  else
-                    return Container();
-                } else {
-                  if (prosDistrict.toLowerCase() == district.toLowerCase()) {
-                    totalRequests++;
-                    return _dispalyContainer(data[index]);
-                  } else if (index == data.length - 1 && totalRequests == 0)
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.25,
-                        ),
-                        child: Text(
-                          'Look like there are no professionals registered in your district',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kBlackColour.withOpacity(0.7),
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    );
-                  else
-                    return Container();
-                }
+                      ],
+                    ),
+                  );
+                else
+                  return Container();
+                // } else {
+                //   if (prosDistrict.toLowerCase() == district.toLowerCase()) {
+                //     totalRequests++;
+                //     return _dispalyContainer(data[index]);
+                //   } else if (index == data.length - 1 && totalRequests == 0)
+                //     return Center(
+                //       child: Padding(
+                //         padding: EdgeInsets.symmetric(
+                //           vertical: size.height * 0.25,
+                //         ),
+                //         child: Text(
+                //           'Look like there are no professionals registered in your district',
+                //           textAlign: TextAlign.center,
+                //           style: TextStyle(
+                //             color: kBlackColour.withOpacity(0.7),
+                //             fontSize: 15,
+                //           ),
+                //         ),
+                //       ),
+                //     );
+                //   else
+                //     return Container();
+                // }
               } else
                 return Container();
             },

@@ -103,17 +103,24 @@ class Database {
     await totalUsersRequests();
   }
 
-  Future<void> deleteRequest({String category, String requestKey}) async {
+  Future<void> deleteRequest(
+      {String category, String requestKey, String proID}) async {
     String userID = userAuthentication.userID;
 
     // await requestRefrence.child(category).child(requestKey).remove();
-    await requestRefrence.child(requestKey).remove();
 
     await usersRefrence
         .child(userID)
         .child('requests')
         .child(requestKey)
         .remove();
+    await prosRefrence
+        .child(proID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
+    await requestRefrence.child(requestKey).remove();
+
     // userRequestCounter--;
     await totalUsersRequests();
   }

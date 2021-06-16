@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/components/backgroundGradient.dart';
+import 'package:home_utility/location/userLocation.dart';
 import 'logInScreen.dart';
 import '../components/customButton.dart';
 import '../components/customTextField.dart';
@@ -256,11 +258,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           );
           return;
         } else {
+          Position userLocation = await Location().getLocation();
           String code = await userAuthentication.signUp(
-              name: nameController.text.trim(),
-              phoneNo: phoneNo,
-              email: emailController.text.trim(),
-              password: passwordController.text);
+            name: nameController.text.trim(),
+            phoneNo: phoneNo,
+            email: emailController.text.trim(),
+            password: passwordController.text,
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
+          );
 
           if (code == 'success') {
             Get.back();

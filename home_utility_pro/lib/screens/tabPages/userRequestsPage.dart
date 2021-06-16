@@ -192,26 +192,14 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
             itemBuilder: (context, index) {
               // Map requestMap = snapshot.value;
 
-              return FutureBuilder(
-                  future: database.requestData(requestKey: data[index]),
+              return StreamBuilder(
+                  stream: database.requestDataStream(requestKey: data[index]),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: size.height * 0.3,
-                          ),
-                          child: Text(
-                            'You have no requests',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                            ),
-                          ),
-                        ),
-                      );
+                    if (!snapshot.hasData ||
+                        snapshot.data.snapshot.value == null) {
+                      return Container();
                     }
-                    Map requestData = snapshot.data;
+                    Map requestData = snapshot.data.snapshot.value;
                     // print(requestData);
 
                     String value = requestData['dateTime'];
@@ -230,7 +218,9 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                     DateTime now = DateTime.now();
                     if (now.isAfter(requestDateTime)) {
                       database.deleteRequest(
-                          requestKey: requestData['requestKey']);
+                        requestKey: requestData['requestKey'],
+                        userID: requestData['userID'],
+                      );
                     }
                     if (requestData['state'] == 'pending') {
                       totalRequests++;

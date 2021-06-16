@@ -1,4 +1,4 @@
-class DistrictsAndMuniciplities {
+class Municipalities {
   Map _districtsAndMunicipalities = {
     "TAPLEJUNG": [
       "Sidingba",
@@ -908,15 +908,6 @@ class DistrictsAndMuniciplities {
       "Shuklaphanta "
     ]
   };
-
-  List<String> getDistricts() {
-    List<String> districts = [];
-    _districtsAndMunicipalities.forEach((key, value) {
-      districts.add(key);
-    });
-    districts.sort();
-    return districts;
-  }
 
   List<String> getMunicipalities(String district) {
     List<String> municipalities =

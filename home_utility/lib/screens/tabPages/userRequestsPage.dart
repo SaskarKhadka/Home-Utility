@@ -140,20 +140,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                   if (!snapshot.hasData ||
                       snapshot.data.snapshot.value == null) {
                     // print(snapshot.data);
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.3,
-                        ),
-                        child: Text(
-                          'You have no requests',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    );
+                    return Container();
                   }
                   // print(snapshot.data);
                   Map requestData = snapshot.data.snapshot.value;
@@ -189,13 +176,13 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                     database.deleteRequest(
                       category: requestData['category'],
                       requestKey: requestData['requestKey'],
+                      proID: requestData['requestedTo']['proID'],
                     );
                     return Container();
                   }
 
                   if (isAccepted &&
-                      now.difference(requestDateTime) >=
-                          Duration(minutes: 30)) {
+                      now.difference(requestDateTime) >= Duration(minutes: 1)) {
                     database.deleteRequest(
                       category: requestData['category'],
                       requestKey: requestData['requestKey'],

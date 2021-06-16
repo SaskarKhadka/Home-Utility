@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/customButton.dart';
 import 'package:home_utility_pro/components/customTextField.dart';
 import 'package:home_utility_pro/main.dart';
-import 'package:home_utility_pro/model/districtsAndMunicipalities.dart';
+import 'package:home_utility_pro/model/districts.dart';
+import 'package:home_utility_pro/model/municipalities.dart';
 import 'package:home_utility_pro/model/services.dart';
 import 'package:home_utility_pro/model/servicesHandler.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
@@ -24,19 +25,18 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
   final TextEditingController _districtController = TextEditingController();
   final TextEditingController _proController = TextEditingController();
   final TextEditingController _municipalityController = TextEditingController();
-  // ServiceHandler _serviceHandler = ServiceHandler();
-  String value;
+  String _professionValue;
 
   String _districtValue;
   String _municipalityValue;
 
-  DistrictsAndMuniciplities _districtsAndMuniciplities =
-      DistrictsAndMuniciplities();
+  Municipalities _municipalities = Municipalities();
+  Districts _districts = Districts();
 
   List<DropdownMenuItem<String>> _getDistricts() {
     List<DropdownMenuItem<String>> items = [];
 
-    List<String> districts = _districtsAndMuniciplities.getDistricts();
+    List<String> districts = _districts.getDistricts();
     // _districtValue = districts[0];
 
     for (String district in districts) {
@@ -52,19 +52,8 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
 
   List<DropdownMenuItem<String>> _getMunicipalities() {
     List<DropdownMenuItem<String>> items = [];
-    // if (_districtValue == null) {
-    //   String myDistrict = "Please select your district first";
-    //   return [
-    //     DropdownMenuItem<String>(
-    //       child: Text(myDistrict),
-    //       value: myDistrict,
-    //     )
-    //   ];
-    // }
-
     List<String> municipalities =
-        _districtsAndMuniciplities.getMunicipalities(_districtValue);
-    // _municipalityValue = municipalities[0];
+        _municipalities.getMunicipalities(_districtValue);
 
     for (String municipality in municipalities) {
       items.add(
@@ -80,10 +69,9 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    value = 'Electronics Technician';
-    _districtValue = 'ACHHAM';
-    _municipalityValue =
-        _districtsAndMuniciplities.getMunicipalities(_districtValue)[0];
+    _professionValue = 'Electronics Technician';
+    _districtValue = 'Achham';
+    _municipalityValue = _municipalities.getMunicipalities(_districtValue)[0];
     super.initState();
   }
 
@@ -137,6 +125,10 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
           child: Column(
             children: [
               Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 20.0,
+                  horizontal: 20.0,
+                ),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -144,35 +136,105 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                       // Text(
                       //   'This is pro\'s info scren',
                       // ),
+                      // SizedBox(
+                      //   height: size.height * 0.04,
+                      // ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 15.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: kBlackColour.withOpacity(0.5),
+                            style: BorderStyle.solid,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Select Your District",
+                              textAlign: TextAlign.justify,
+                              textDirection: TextDirection.ltr,
+                              style: GoogleFonts.montserrat(
+                                letterSpacing: 1.2,
+                                wordSpacing: 1.5,
+                              ),
+                            ),
+                            SearchChoices.single(
+                              style: GoogleFonts.montserrat(
+                                color: kBlackColour,
+                                fontSize: 15.0,
+                              ),
+                              items: _getDistricts(),
+                              value: _districtValue,
+                              hint: "Select Your District",
+                              searchHint: "Select Your District",
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _districtValue = newValue;
+                                  _municipalityValue = _municipalities
+                                      .getMunicipalities(_districtValue)[0];
+                                });
+                              },
+                              isExpanded: true,
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(
-                        height: size.height * 0.04,
+                        height: 20.0,
                       ),
-                      SearchChoices.single(
-                        items: _getDistricts(),
-                        value: _districtValue,
-                        hint: "Select Your District",
-                        searchHint: "Select Your District",
-                        onChanged: (newValue) {
-                          setState(() {
-                            _districtValue = newValue;
-                            _municipalityValue = _districtsAndMuniciplities
-                                .getMunicipalities(_districtValue)[0];
-                          });
-                        },
-                        isExpanded: true,
+
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 15.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: kBlackColour.withOpacity(0.5),
+                            style: BorderStyle.solid,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Select Your Municipality",
+                              textAlign: TextAlign.justify,
+                              textDirection: TextDirection.ltr,
+                              style: GoogleFonts.montserrat(
+                                letterSpacing: 1.2,
+                                wordSpacing: 1.5,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            SearchChoices.single(
+                              style: GoogleFonts.montserrat(
+                                color: kBlackColour,
+                                fontSize: 15.0,
+                              ),
+                              items: _getMunicipalities(),
+                              value: _municipalityValue,
+                              hint: "Select Your Municiplality",
+                              searchHint: "Select Your Municipality",
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _municipalityValue = newValue;
+                                });
+                              },
+                              isExpanded: true,
+                            ),
+                          ],
+                        ),
                       ),
-                      SearchChoices.single(
-                        items: _getMunicipalities(),
-                        value: _municipalityValue,
-                        hint: "Select Your Municiplality",
-                        searchHint: "Select Your Municipality",
-                        onChanged: (newValue) {
-                          setState(() {
-                            _municipalityValue = newValue;
-                          });
-                        },
-                        isExpanded: true,
-                      ),
+
                       // CustomTextField(
                       //   textController: _municipalityController,
                       //   isPhoneNumber: false,
@@ -205,30 +267,53 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                       SizedBox(
                         height: size.height * 0.04,
                       ),
-                      Text(
-                        "Choose your Profession category",
-                        textAlign: TextAlign.justify,
-                        textDirection: TextDirection.ltr,
-                        style: GoogleFonts.montserrat(
-                          letterSpacing: 2.8,
-                          wordSpacing: 2.8,
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 15.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: kBlackColour.withOpacity(0.5),
+                            style: BorderStyle.solid,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Select Your Profession",
+                              textAlign: TextAlign.justify,
+                              textDirection: TextDirection.ltr,
+                              style: GoogleFonts.montserrat(
+                                letterSpacing: 1.2,
+                                wordSpacing: 1.5,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            SearchChoices.single(
+                              style: GoogleFonts.montserrat(
+                                color: kBlackColour,
+                                fontSize: 15.0,
+                              ),
+                              items: _getDropDownMenuItems(),
+                              value: _professionValue,
+                              hint: "Select Your Profession",
+                              searchHint: "Select Your Profession",
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _professionValue = newValue;
+                                });
+                              },
+                              isExpanded: true,
+                            ),
+                          ],
                         ),
                       ),
-                      DropdownButton<String>(
-                        style: GoogleFonts.robotoMono(
-                          color: kBlackColour,
-                        ),
-                        elevation: 20,
-                        // focusColor: kBlackColour,
-                        items: _getDropDownMenuItems(),
-                        value: value,
-                        onChanged: (newvalue) {
-                          setState(() {
-                            value = newvalue;
-                          });
-                        },
-                        // dropdownColor: Colors.black,
-                      ),
+
                       SizedBox(
                         height: size.height * 0.05,
                       ),
@@ -237,7 +322,31 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         height: 60,
                         child: CustomButton(
                           onTap: () async {
-                            prosProfessionValue = value.trim();
+                            if (_districtValue.trim() == null) {
+                              Get.back();
+                              getSnackBar(
+                                title: 'ERROR!',
+                                message: 'Please enter your district',
+                              );
+                              return;
+                            }
+                            if (_municipalityValue.trim() == null) {
+                              Get.back();
+                              getSnackBar(
+                                title: 'ERROR!',
+                                message: 'Please enter your municipality',
+                              );
+                              return;
+                            }
+                            if (_professionValue.trim() == null) {
+                              Get.back();
+                              getSnackBar(
+                                title: 'ERROR!',
+                                message: 'Please enter your municipality',
+                              );
+                              return;
+                            }
+                            prosProfessionValue = _professionValue.trim();
                             category =
                                 professionToCategory(prosProfessionValue);
 
@@ -247,32 +356,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               municipality: _municipalityController.text.trim(),
                             );
 
-                            if (_proController.text.isEmpty) {
-                              Get.back();
-                              getSnackBar(
-                                title: 'ERROR!',
-                                message: 'Please enter your Province',
-                              );
-                              return;
-                            }
-                            if (_districtController.text.isEmpty) {
-                              Get.back();
-                              getSnackBar(
-                                title: 'ERROR!',
-                                message: 'Please enter your district',
-                              );
-                              return;
-                            }
-                            if (_municipalityController.text.isEmpty) {
-                              Get.back();
-                              getSnackBar(
-                                title: 'ERROR!',
-                                message: 'Please enter your municipality',
-                              );
-                              return;
-                            } else {
-                              Get.offAndToNamed(MainScreen.id);
-                            }
+                            Get.offAndToNamed(MainScreen.id);
                           },
                           text: 'Submit',
                         ),

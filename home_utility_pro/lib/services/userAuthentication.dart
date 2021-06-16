@@ -16,20 +16,33 @@ class UserAuthentication {
     return await user.reload();
   }
 
-  Future<String> signUp(
-      {String email, String password, int phoneNo, String name}) async {
+  Future<String> signUp({
+    String email,
+    String password,
+    int phoneNo,
+    String name,
+    double latitude,
+    double longitude,
+  }) async {
     String code;
     try {
       final firebaseUser = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (firebaseUser != null) {
+        // added//
+        Map location = {
+          'lat': latitude,
+          'lng': longitude,
+        };
         //user created
         Map proData = {
           'proID': firebaseUser.user.uid,
           'prosName': name,
           'prosEmail': email,
           'prosPhoneNo': phoneNo,
+          'location': location,
         };
+        // added//
 
         // usersRefrence.child(firebaseUser.user.uid).set(userData);
 
