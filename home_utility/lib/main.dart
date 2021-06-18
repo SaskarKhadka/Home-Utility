@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/screens/confirmEmail.dart';
 import 'package:home_utility/screens/forgotPassword.dart';
+import 'package:home_utility/screens/popUpPages/about.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
@@ -148,6 +149,10 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           name: DetailsPage.id,
           page: () => DetailsPage(),
+        ),
+        GetPage(
+          name: AboutPage.id,
+          page: () => AboutPage(),
         ),
       ],
     );

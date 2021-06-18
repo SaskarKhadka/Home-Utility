@@ -35,6 +35,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       appBar: AppBar(
         toolbarHeight: 67,
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Get.toNamed(LogInScreen.id),
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         title: Text(
           'Reset Password',
           style: GoogleFonts.montserrat(
@@ -103,14 +107,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           email: emailController.text.trim(),
                         );
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ConfirmEmail();
-                            },
-                          ),
-                        );
+                        Get.toNamed(ConfirmEmail.id);
                       },
                     ),
                   ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/constants.dart';
+import 'package:home_utility/screens/tabPages/userRequestsPage.dart';
 import '../../main.dart';
 
 class ServicesPage extends StatelessWidget {
@@ -17,6 +18,8 @@ class ServicesPage extends StatelessWidget {
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
+          automaticallyImplyLeading: false,
+          centerTitle: true,
           actions: [
             Padding(
               padding: const EdgeInsets.only(
@@ -24,11 +27,58 @@ class ServicesPage extends StatelessWidget {
                 left: 20.0,
                 right: 15.0,
               ),
-              child: Icon(
-                Icons.more_vert,
-                // color: Color(0xff131313),
+            ),
+            Theme(
+              data: Theme.of(context).copyWith(
+                  textTheme: TextTheme().apply(bodyColor: Colors.black),
+                  dividerColor: Colors.black,
+                  iconTheme: IconThemeData(color: Colors.white)),
+              child: PopupMenuButton<int>(
                 color: Colors.white,
-                size: 30,
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: Text(
+                      "About us",
+                      style: GoogleFonts.roboto(
+                        color: Colors.black,
+                        letterSpacing: 1.8,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem<int>(
+                      value: 1,
+                      child: Text(
+                        "Help",
+                        style: GoogleFonts.roboto(
+                          color: Colors.black,
+                          letterSpacing: 1.8,
+                        ),
+                      )),
+                  PopupMenuDivider(),
+                  PopupMenuItem<int>(
+                      value: 2,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            "Sign Out",
+                            style: GoogleFonts.roboto(
+                              color: Colors.black,
+                              letterSpacing: 1.8,
+                            ),
+                          )
+                        ],
+                      )),
+                ],
+                onSelected: (item) => SelectedItem(context, item),
+                offset: Offset(0, 70),
               ),
             ),
           ],
