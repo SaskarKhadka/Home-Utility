@@ -352,8 +352,8 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
 
                             await database.updateProsInfo(
                               profession: prosProfessionValue,
-                              district: _districtController.text.trim(),
-                              municipality: _municipalityController.text.trim(),
+                              district: _districtValue.trim(),
+                              municipality: _municipalityValue.trim(),
                             );
 
                             Get.offAndToNamed(MainScreen.id);

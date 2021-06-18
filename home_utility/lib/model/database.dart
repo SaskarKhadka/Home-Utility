@@ -59,9 +59,12 @@ class Database {
     await totalUsersRequests();
     if (userRequestCounter < 3) {
       String userID = userAuthentication.userID;
-      Map userInfo = database.getUserInfo();
+      // Map userInfo = database.getUserInfo();
       // userInfo.remove('userName');
       // userInfo.remove('userPhoneNo');
+      Map userInfo = {};
+      userInfo['requestedBy'] = {'userID': userID};
+      userInfo['requestedTo'] = {'proID': proID};
       userInfo['dateTime'] = dateTime.toString();
       userInfo['category'] = category;
       userInfo['service'] = service;
@@ -74,9 +77,6 @@ class Database {
 
       await requestRefrence.child(requestKey).set(userInfo);
 
-      await requestRefrence.child(requestKey).child('requestedTo').set({
-        'proID': proID,
-      });
       final ref = usersRefrence.child(userID).child('requests');
       ref.child(requestKey).set({
         'requestKey': requestKey,
@@ -103,8 +103,7 @@ class Database {
     await totalUsersRequests();
   }
 
-  Future<void> deleteRequest(
-      {String category, String requestKey, String proID}) async {
+  Future<void> deleteRequest({String requestKey}) async {
     String userID = userAuthentication.userID;
 
     // await requestRefrence.child(category).child(requestKey).remove();
@@ -114,26 +113,20 @@ class Database {
         .child('requests')
         .child(requestKey)
         .remove();
-    await prosRefrence
-        .child(proID)
-        .child('requests')
-        .child(requestKey)
-        .remove();
-    await requestRefrence.child(requestKey).remove();
 
     // userRequestCounter--;
     await totalUsersRequests();
   }
 
-  Future<Query> requestQuery(String requestKey) async {
-    // return requestRefrence
-    //     .orderByChild('uid')
-    //     .equalTo(userAuthentication.userID);
-    return usersRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .orderByChild(requestKey);
-  }
+  // Future<Query> requestQuery(String requestKey) async {
+  //   // return requestRefrence
+  //   //     .orderByChild('uid')
+  //   //     .equalTo(userAuthentication.userID);
+  //   return usersRefrence
+  //       .child(userAuthentication.userID)
+  //       .child('requests')
+  //       .orderByChild(requestKey);
+  // }
 
   Stream userRequestsStream() {
     return usersRefrence
@@ -143,11 +136,15 @@ class Database {
     // return null;
   }
 
-  Future<Map> requestData({String requestKey}) async {
-    DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
-    Map data = snapshot.value as Map;
-    return data;
+  Stream proDataStream({String proID}) {
+    return prosRefrence.child(proID).onValue;
   }
+
+  // Future<Map> requestData({String requestKey}) async {
+  //   DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
+  //   Map data = snapshot.value as Map;
+  //   return data;
+  // }
 
   Stream requestDataStream({String requestKey}) {
     // DataSnapshot snapshot = await requestRefrence.child(requestKey).once();

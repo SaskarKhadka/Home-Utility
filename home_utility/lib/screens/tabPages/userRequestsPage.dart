@@ -164,6 +164,13 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                   DateTime now = DateTime.now();
                   // print(now);
 
+                  if (requestData['state'] == 'rejected') {
+                    database.deleteRequest(
+                      requestKey: requestData['requestKey'],
+                    );
+                    return Container();
+                  }
+
                   isAccepted =
                       requestData['state'] == 'accepted' ? true : false;
 
@@ -174,9 +181,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                   }
                   if (!isAccepted && now.isAfter(requestDateTime)) {
                     database.deleteRequest(
-                      category: requestData['category'],
                       requestKey: requestData['requestKey'],
-                      proID: requestData['requestedTo']['proID'],
                     );
                     return Container();
                   }
@@ -184,18 +189,13 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                   if (isAccepted &&
                       now.difference(requestDateTime) >= Duration(minutes: 1)) {
                     database.deleteRequest(
-                      category: requestData['category'],
                       requestKey: requestData['requestKey'],
                     );
                     return Container();
                   }
 
                   return Container(
-                    height: isAccepted
-                        ? isRatingPending
-                            ? size.height * 0.23
-                            : size.height * 0.29
-                        : size.height * 0.23,
+                    height: size.height * 0.23,
                     width: double.infinity,
                     margin: EdgeInsets.only(
                       top: 20.0,
@@ -266,7 +266,6 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                           SizedBox(
                             height: size.height * 0.02,
                           ),
-
                           isRatingPending
                               ? InkWell(
                                   onTap: () async {
@@ -399,11 +398,8 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                                     .trim(),
                                                             rating: proRating,
                                                           );
-                                                          database
+                                                          await database
                                                               .deleteRequest(
-                                                            category:
-                                                                requestData[
-                                                                    'category'],
                                                             requestKey:
                                                                 requestData[
                                                                     'requestKey'],
@@ -471,12 +467,225 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                     ),
                                   ),
                                 )
-                              : Row(
-                                  children: [
-                                    InkWell(
+                              : isAccepted
+                                  ? Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.dialog(
+                                              StreamBuilder(
+                                                  stream:
+                                                      database.proDataStream(
+                                                          proID: requestData[
+                                                                  'requestedTo']
+                                                              ['proID']),
+                                                  builder: (context, snapshot) {
+                                                    if (!snapshot.hasData) {
+                                                      return Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          CircularProgressIndicator(
+                                                            color: kBlackColour,
+                                                            backgroundColor:
+                                                                kWhiteColour,
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+
+                                                    Map proData = snapshot
+                                                        .data.snapshot.value;
+                                                    return Dialog(
+                                                      backgroundColor:
+                                                          kWhiteColour,
+                                                      child: Container(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                          vertical: 15.0,
+                                                          horizontal: 20.0,
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Text(
+                                                              'Pro\'s Profile'
+                                                                  .toUpperCase(),
+                                                              style: TextStyle(
+                                                                fontSize: 25.0,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10.0,
+                                                            ),
+                                                            Text(
+                                                              'NAME: ${proData['prosName']}',
+                                                              style: TextStyle(
+                                                                fontSize: 20.0,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10.0,
+                                                            ),
+                                                            Text(
+                                                              'EMAIL:  ${proData['prosEmail']}',
+                                                              style: TextStyle(
+                                                                fontSize: 20.0,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10.0,
+                                                            ),
+                                                            Text(
+                                                              'PHONE NO.:  ${proData['prosPhoneNo']}',
+                                                              style: TextStyle(
+                                                                fontSize: 20.0,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10.0,
+                                                            ),
+                                                            Text(
+                                                              'ADDRESS:  ${proData['prosMunicipality']},  ${proData['prosDistrict']}',
+                                                              style: TextStyle(
+                                                                fontSize: 20.0,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 15.0,
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () =>
+                                                                  Get.back(),
+                                                              child: Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                  vertical:
+                                                                      10.0,
+                                                                  horizontal:
+                                                                      20.0,
+                                                                ),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color:
+                                                                      kBlackColour,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                ),
+                                                                child: Text(
+                                                                  'Ok',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color:
+                                                                        kWhiteColour,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }),
+                                              // barrierColor:
+                                              //     kWhiteColour.withOpacity(0.1),
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 15.0,
+                                              vertical: size.height * 0.009,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              color: kWhiteColour,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.white30,
+                                                  offset: Offset(2, 5),
+                                                  blurRadius: 7,
+                                                )
+                                              ],
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  EvaIcons.personOutline,
+                                                  color: kBlackColour,
+                                                ),
+                                                SizedBox(
+                                                  width: size.width * 0.01,
+                                                ),
+                                                Text(
+                                                  'Pro\'s Profile',
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 15.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: kBlackColour,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 15.0,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {},
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 15.0,
+                                              vertical: size.height * 0.009,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              color: kWhiteColour,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.white30,
+                                                  offset: Offset(2, 5),
+                                                  blurRadius: 7,
+                                                )
+                                              ],
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  EvaIcons.messageCircleOutline,
+                                                  color: kBlackColour,
+                                                ),
+                                                SizedBox(
+                                                  width: size.width * 0.01,
+                                                ),
+                                                Text(
+                                                  // isAccepted ? 'Cancel' : 'Accept',
+                                                  'Chat',
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 15.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: kBlackColour,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : InkWell(
                                       onTap: () async {
                                         await database.deleteRequest(
-                                          category: requestData['category'],
                                           requestKey: requestData['requestKey'],
                                         );
                                       },
@@ -519,198 +728,9 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 15.0,
-                                    ),
-                                    isAccepted
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              Get.dialog(
-                                                Dialog(
-                                                  backgroundColor: kWhiteColour,
-                                                  child: Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                      vertical: 15.0,
-                                                      horizontal: 20.0,
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Text(
-                                                          'Pro\'s Profile'
-                                                              .toUpperCase(),
-                                                          style: TextStyle(
-                                                            fontSize: 25.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'NAME: NAME',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'EMAIL: EMAIL',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'PHONE NO.: PHONE NO',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'ADDRESS: %ADDRESS%',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 15.0,
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () =>
-                                                              Get.back(),
-                                                          child: Container(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                              vertical: 10.0,
-                                                              horizontal: 20.0,
-                                                            ),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  kBlackColour,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                            ),
-                                                            child: Text(
-                                                              'Ok',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    kWhiteColour,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                // barrierColor:
-                                                //     kWhiteColour.withOpacity(0.1),
-                                              );
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 15.0,
-                                                vertical: size.height * 0.009,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                color: kWhiteColour,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.white30,
-                                                    offset: Offset(2, 5),
-                                                    blurRadius: 7,
-                                                  )
-                                                ],
-                                              ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    EvaIcons.personOutline,
-                                                    color: kBlackColour,
-                                                  ),
-                                                  SizedBox(
-                                                    width: size.width * 0.01,
-                                                  ),
-                                                  Text(
-                                                    'Pro\'s Profile',
-                                                    style: GoogleFonts.raleway(
-                                                      fontSize: 15.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: kBlackColour,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        : Container(),
-                                  ],
-                                ),
                           SizedBox(
                             height: 10.0,
                           ),
-                          isAccepted
-                              ? isRatingPending
-                                  ? Container()
-                                  : InkWell(
-                                      onTap: () async {},
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 15.0,
-                                          vertical: size.height * 0.009,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: kWhiteColour,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.white30,
-                                              offset: Offset(2, 5),
-                                              blurRadius: 7,
-                                            )
-                                          ],
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Icon(
-                                              EvaIcons.messageCircleOutline,
-                                              color: kBlackColour,
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.01,
-                                            ),
-                                            Text(
-                                              // isAccepted ? 'Cancel' : 'Accept',
-                                              'Chat',
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 15.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: kBlackColour,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                              : Container()
                         ],
                       ),
                     ),

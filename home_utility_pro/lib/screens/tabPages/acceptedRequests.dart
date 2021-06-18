@@ -217,7 +217,7 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
                     database.deleteJob(requestKey: requestData['requestKey']);
                   }
                   return Container(
-                    height: size.height * 0.3,
+                    height: size.height * 0.285,
                     width: double.infinity,
                     margin: EdgeInsets.only(
                       top: 20.0,
@@ -360,47 +360,6 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
                               SizedBox(
                                 width: 10.0,
                               ),
-                              InkWell(
-                                onTap: () async {},
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 15.0,
-                                    vertical: size.height * 0.009,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    color: kWhiteColour,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white30,
-                                        offset: Offset(2, 5),
-                                        blurRadius: 7,
-                                      )
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        EvaIcons.messageCircleOutline,
-                                        color: kBlackColour,
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.01,
-                                      ),
-                                      Text(
-                                        // isAccepted ? 'Cancel' : 'Accept',
-                                        'Chat',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: kBlackColour,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                           SizedBox(
@@ -408,143 +367,113 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
                           ),
                           Row(
                             children: [
-                              InkWell(
-                                onTap: () async {
-                                  await database.changeState(
-                                    category: requestData['category'],
-                                    requestKey: requestData['requestKey'],
-                                    state: 'pending',
-                                  );
-
-                                  await database.deleteJob(
-                                    requestKey: requestData['requestKey'],
-                                  );
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 15.0,
-                                    vertical: size.height * 0.009,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    color: kWhiteColour,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white30,
-                                        offset: Offset(2, 5),
-                                        blurRadius: 7,
-                                      )
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        EvaIcons.close,
-                                        color: kBlackColour,
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.01,
-                                      ),
-                                      Text(
-                                        // isAccepted ? 'Cancel' : 'Accept',
-                                        'Cancel',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: kBlackColour,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 15.0,
-                              ),
                               GestureDetector(
                                 onTap: () {
                                   Get.dialog(
-                                    Dialog(
-                                      backgroundColor: kWhiteColour,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 15.0,
-                                          horizontal: 20.0,
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Customer Profile'.toUpperCase(),
-                                              style: TextStyle(
-                                                fontSize: 25.0,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            Text(
-                                              'NAME: NAME',
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            Text(
-                                              'EMAIL: EMAIL',
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            Text(
-                                              'PHONE NO.: PHONE NUMBER',
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            Text(
-                                              'ADDRESS: %ADDRESS%',
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 15.0,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () => Get.back(),
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  vertical: 10.0,
-                                                  horizontal: 20.0,
-                                                ),
-                                                decoration: BoxDecoration(
+                                    StreamBuilder(
+                                        stream: database.userDataStream(
+                                            userID: requestData['requestedBy']
+                                                ['userID']),
+                                        builder: (context, snapshot) {
+                                          if (!snapshot.hasData) {
+                                            return Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                CircularProgressIndicator(
                                                   color: kBlackColour,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
+                                                  backgroundColor: kWhiteColour,
                                                 ),
-                                                child: Text(
-                                                  'Ok',
-                                                  style: TextStyle(
-                                                    color: kWhiteColour,
+                                              ],
+                                            );
+                                          }
+
+                                          Map userData =
+                                              snapshot.data.snapshot.value;
+                                          return Dialog(
+                                            backgroundColor: kWhiteColour,
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 15.0,
+                                                horizontal: 20.0,
+                                              ),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    'Customer Profile'
+                                                        .toUpperCase(),
+                                                    style: TextStyle(
+                                                      fontSize: 25.0,
+                                                    ),
                                                   ),
-                                                ),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text(
+                                                    'NAME: ${userData['userName']}',
+                                                    style: TextStyle(
+                                                      fontSize: 20.0,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text(
+                                                    'EMAIL: ${userData['userEmail']}',
+                                                    style: TextStyle(
+                                                      fontSize: 20.0,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text(
+                                                    'PHONE NO.: ${userData['userPhoneNo']}',
+                                                    style: TextStyle(
+                                                      fontSize: 20.0,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
+                                                  Text(
+                                                    'ADDRESS: ${requestData['userMunicipality']}, ${requestData['userDistrict']}',
+                                                    style: TextStyle(
+                                                      fontSize: 20.0,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 15.0,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () => Get.back(),
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                        vertical: 10.0,
+                                                        horizontal: 20.0,
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        color: kBlackColour,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                      ),
+                                                      child: Text(
+                                                        'Ok',
+                                                        style: TextStyle(
+                                                          color: kWhiteColour,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                          );
+                                        }),
                                     // barrierColor:
                                     //     kWhiteColour.withOpacity(0.1),
                                   );
@@ -586,7 +515,51 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
                                     ],
                                   ),
                                 ),
-                              )
+                              ),
+                              SizedBox(
+                                width: 15.0,
+                              ),
+                              InkWell(
+                                onTap: () async {},
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 15.0,
+                                    vertical: size.height * 0.009,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: kWhiteColour,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white30,
+                                        offset: Offset(2, 5),
+                                        blurRadius: 7,
+                                      )
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        EvaIcons.messageCircleOutline,
+                                        color: kBlackColour,
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.01,
+                                      ),
+                                      Text(
+                                        // isAccepted ? 'Cancel' : 'Accept',
+                                        'Chat',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: kBlackColour,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               // : Container(),
                             ],
                           ),

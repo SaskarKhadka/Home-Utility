@@ -31,7 +31,7 @@ class Database {
     return prosData;
   }
 
-  Future<void> deleteRequest({String requestKey, String userID}) async {
+  Future<void> deleteRequest({String requestKey}) async {
     print(userAuthentication.userID);
     // requestRefrence.child(category).child(requestKey).remove();
 
@@ -40,13 +40,12 @@ class Database {
         .child('requests')
         .child(requestKey)
         .remove();
-    await usersRefrence
-        .child(userID)
-        .child('requests')
-        .child(requestKey)
-        .remove();
-    await requestRefrence.child(requestKey).remove();
-    // usersRefrence.child(path)
+
+    // await usersRefrence
+    //     .child(userAuthentication.userID)
+    //     .child('requests')
+    //     .child(requestKey)
+    //     .remove();
   }
 
   Future<Query> requestQuery({String category}) async {
@@ -63,6 +62,10 @@ class Database {
         .child(userAuthentication.userID)
         .child('requests')
         .onValue;
+  }
+
+  Stream userDataStream({String userID}) {
+    return usersRefrence.child(userID).onValue;
   }
 
   Future<Map> requestData({String requestKey}) async {
@@ -129,13 +132,7 @@ class Database {
     return isAlreadyUsed;
   }
 
-  Future<void> changeState(
-      {String category, String requestKey, String state}) async {
-    // Map info = await getProsInfo();
-    // await requestRefrence
-    //     .child(category)
-    //     .child(requestKey)
-    //     .update({'state': state});
+  Future<void> changeState({String requestKey, String state}) async {
     await requestRefrence.child(requestKey).update({'state': state});
   }
 

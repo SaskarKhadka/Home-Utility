@@ -219,7 +219,6 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                     if (now.isAfter(requestDateTime)) {
                       database.deleteRequest(
                         requestKey: requestData['requestKey'],
-                        userID: requestData['userID'],
                       );
                     }
                     if (requestData['state'] == 'pending') {
@@ -229,7 +228,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                       // else
                       //   isAccepted = true;
                       return Container(
-                        height: size.height * 0.3,
+                        height: size.height * 0.285,
                         width: double.infinity,
                         margin: EdgeInsets.only(
                           top: 20.0,
@@ -372,72 +371,131 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                               ),
                               // Row(
                               // children: [
-                              InkWell(
-                                onTap: () async {
-                                  // // if (data[index]['state'] == 'pending')
-                                  // //   isAccepted = false;
-                                  // // else
-                                  // //   isAccepted = true;
-                                  // setState(() {
-                                  //   isAccepted = !isAccepted;
-                                  // });
-                                  // isAccepted
-                                  //     ?
-                                  await database.changeState(
-                                    category: requestData['category'],
-                                    requestKey: requestData['requestKey'],
-                                    state: 'accepted',
-                                  );
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      // // if (data[index]['state'] == 'pending')
+                                      // //   isAccepted = false;
+                                      // // else
+                                      // //   isAccepted = true;
+                                      // setState(() {
+                                      //   isAccepted = !isAccepted;
+                                      // });
+                                      // isAccepted
+                                      //     ?
+                                      await database.changeState(
+                                        requestKey: requestData['requestKey'],
+                                        state: 'accepted',
+                                      );
 
-                                  await database.saveRequestAsJob(
-                                    requestKey: requestData['requestKey'],
-                                  );
-                                  // : await database.changeState(
-                                  //     userID: data[index]['uid'],
-                                  //     category: data[index]['category'],
-                                  //     requestKey: data[index]['requestKey'],
-                                  //     state: 'pending');
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 15.0,
-                                    vertical: size.height * 0.009,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    color: kWhiteColour,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white30,
-                                        offset: Offset(2, 5),
-                                        blurRadius: 7,
-                                      )
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        // isAccepted
-                                        // ? EvaIcons.close :
-                                        EvaIcons.checkmark,
-                                        color: kBlackColour,
+                                      await database.saveRequestAsJob(
+                                        requestKey: requestData['requestKey'],
+                                      );
+                                      // : await database.changeState(
+                                      //     userID: data[index]['uid'],
+                                      //     category: data[index]['category'],
+                                      //     requestKey: data[index]['requestKey'],
+                                      //     state: 'pending');
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 15.0,
+                                        vertical: size.height * 0.009,
                                       ),
-                                      SizedBox(
-                                        width: size.width * 0.01,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        color: kWhiteColour,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.white30,
+                                            offset: Offset(2, 5),
+                                            blurRadius: 7,
+                                          )
+                                        ],
                                       ),
-                                      Text(
-                                        // isAccepted ? 'Cancel' : 'Accept',
-                                        'Accept',
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: kBlackColour,
-                                        ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            // isAccepted
+                                            // ? EvaIcons.close :
+                                            EvaIcons.checkmark,
+                                            color: kBlackColour,
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.01,
+                                          ),
+                                          Text(
+                                            // isAccepted ? 'Cancel' : 'Accept',
+                                            'Accept',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: kBlackColour,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(
+                                    width: 15.0,
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      await database.changeState(
+                                        requestKey: requestData['requestKey'],
+                                        state: 'rejected',
+                                      );
+                                      await database.deleteRequest(
+                                        requestKey: requestData['requestKey'],
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 15.0,
+                                        vertical: size.height * 0.009,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        color: kWhiteColour,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.white30,
+                                            offset: Offset(2, 5),
+                                            blurRadius: 7,
+                                          )
+                                        ],
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            // isAccepted
+                                            // ? EvaIcons.close :
+                                            EvaIcons.close,
+                                            color: kBlackColour,
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.01,
+                                          ),
+                                          Text(
+                                            // isAccepted ? 'Cancel' : 'Accept',
+                                            'Cancel',
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: kBlackColour,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 width: 15.0,
