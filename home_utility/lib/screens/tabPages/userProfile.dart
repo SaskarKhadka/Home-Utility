@@ -8,6 +8,7 @@ import 'package:home_utility/main.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:home_utility/location/google_map_screen.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key key}) : super(key: key);
@@ -346,7 +347,13 @@ class _UserProfileState extends State<UserProfile> {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+
+                                          Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) => GoogleMapScreen()),
+                                                      );
+                                    },
                                     child: Container(
                                       height: size.height * 0.07,
                                       width: size.width * 0.4,
