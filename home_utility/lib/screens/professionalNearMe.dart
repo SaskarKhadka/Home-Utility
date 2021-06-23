@@ -362,7 +362,7 @@ class ProsStream extends StatelessWidget {
                 print(data[index]['location']);
                 print('$latitude  $longitude');
                 double distance = Location().getDistance(
-                  latitude + 0.006,
+                  latitude + 0.00006,
                   longitude,
                   data[index]['location']['lat'],
                   data[index]['location']['lng'],

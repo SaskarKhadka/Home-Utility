@@ -23,4 +23,8 @@ class DatabaseStorage {
         .child(serviceName)
         .getDownloadURL();
   }
+
+  uploadImage(String uid) {
+    // FirebaseStorage.instance.ref().child(uid).putFile('url');
+  }
 }

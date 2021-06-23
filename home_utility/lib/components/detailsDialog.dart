@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility/location/google_map_screen.dart';
 import 'package:home_utility/location/userLocation.dart';
 import 'package:home_utility/model/districts.dart';
 import 'package:home_utility/model/municipalities.dart';
@@ -268,7 +269,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
                         print(widget.category);
                         Get.to(
-                          ProfessionalsNearMe(
+                          GoogleMapScreen(
                             dateTime: DateTime(
                               _pickedDate.year,
                               _pickedDate.month,
@@ -288,6 +289,27 @@ class _DetailsPageState extends State<DetailsPage> {
                             longitude: userLocation.longitude,
                           ),
                         );
+                        // Get.to(
+                        //   ProfessionalsNearMe(
+                        //     dateTime: DateTime(
+                        //       _pickedDate.year,
+                        //       _pickedDate.month,
+                        //       _pickedDate.day,
+                        //       _selectedTime.hour,
+                        //       _selectedTime.minute,
+                        //     ),
+                        //     description: _descriptionController.text.trim(),
+                        //     // requestKey: newRequestKey,
+                        //     category: widget.category,
+                        //     service: widget.service,
+                        //     municipality: _municipalityValue,
+                        //     district: _districtValue,
+                        //     date: _pickedDate,
+                        //     time: _selectedTime,
+                        //     latitude: userLocation.latitude,
+                        //     longitude: userLocation.longitude,
+                        //   ),
+                        // );
                       },
                       // color: Colors.red,
                     ),
