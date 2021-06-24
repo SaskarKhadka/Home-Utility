@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/location/userLocation.dart';
 import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/screens/googleMapsScreen.dart';
 
 import '../../constants.dart';
 
@@ -343,7 +347,13 @@ class ProsProfile extends StatelessWidget {
                               child: Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () async {
+                                      Position position =
+                                          await UserLocation().getLocation();
+                                      print(position);
+                                      Get.to(
+                                          GoogleMapScreen(position: position));
+                                    },
                                     child: Container(
                                       height: size.height * 0.07,
                                       width: size.width * 0.4,

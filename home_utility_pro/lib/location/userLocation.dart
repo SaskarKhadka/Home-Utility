@@ -37,4 +37,11 @@ class UserLocation {
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
   }
+
+  Stream<Position> getPositionStream() {
+    return Geolocator.getPositionStream(
+      desiredAccuracy: LocationAccuracy.best,
+      intervalDuration: Duration(seconds: 1),
+    );
+  }
 }
