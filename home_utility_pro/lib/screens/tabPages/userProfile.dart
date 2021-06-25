@@ -352,7 +352,7 @@ class ProsProfile extends StatelessWidget {
                                           await UserLocation().getLocation();
                                       print(position);
                                       Get.to(
-                                          GoogleMapScreen(position: position));
+                                          GoogleMapScreen());
                                     },
                                     child: Container(
                                       height: size.height * 0.07,
