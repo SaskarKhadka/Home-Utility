@@ -31,144 +31,385 @@ class AboutPage extends StatelessWidget {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: size.height * 0.07,
+        body: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FittedBox(
+                child: Material(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(24.0),
+                  shadowColor: Colors.black87,
+                  elevation: 12.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                  child: Text(
+                                "SAUGAT POUDEL",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 38.0,
+                                ),
+                              )),
+                              Container(
+                                  child: Text(
+                                "Flutter UI developer",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                              Row(children: <Widget>[
+                                Container(
+                                    child: Text(
+                                  "Email :",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                                Container(
+                                    child: Text(
+                                  "Saugat.poudel478@gmail.com",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ))
+                              ])
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 200.0,
+                        height: 200.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Image(
+                            image: AssetImage('images/saugat.jpg'),
+                            fit: BoxFit.cover,
+                            // alignment: Alignment.topRight,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Saugat Adhikari',
-                    style: GoogleFonts.montserrat(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Text(
-                    '{Email:saugatadhikari.sa@gmail.com}',
-                    style: GoogleFonts.mada(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.07,
-                  ),
-                  Text(
-                    'Rohan Dhakal',
-                    style: GoogleFonts.montserrat(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Text(
-                    '{Email:dhakalrohan229@gmail.com}',
-                    style: GoogleFonts.mada(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.07,
-                  ),
-                  Text(
-                    'Gaurav Khadka',
-                    style: GoogleFonts.montserrat(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Text(
-                    '{Email:gauravkhadka4593@gmail.com}',
-                    style: GoogleFonts.mada(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.07,
-                  ),
-                  Text(
-                    'Saskar Khadka',
-                    style: GoogleFonts.montserrat(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Text(
-                    '{Email:saskar.khadka@gmail.com}',
-                    style: GoogleFonts.mada(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.07,
-                  ),
-                  Text(
-                    'Saugat Poudel',
-                    style: GoogleFonts.montserrat(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Text(
-                    '{Email:saugat.poudel478@gmail.com}',
-                    style: GoogleFonts.mada(
-                      letterSpacing: 2.8,
-                      wordSpacing: 2.8,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.07,
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FittedBox(
+                child: Material(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(24.0),
+                  shadowColor: Colors.black87,
+                  elevation: 12.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                  child: Text(
+                                "SASKAR KHADKA",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 38.0,
+                                ),
+                              )),
+                              Container(
+                                  child: Text(
+                                "Flutter Backend developer",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                              Row(children: <Widget>[
+                                Container(
+                                    child: Text(
+                                  "Email :",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                                Container(
+                                    child: Text(
+                                  "saskar.khadka@gmail.com",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ))
+                              ])
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 200.0,
+                        height: 200.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Image(
+                            image: AssetImage('images/saskar.jpg'),
+                            fit: BoxFit.cover,
+                            // alignment: Alignment.topRight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FittedBox(
+                child: Material(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(24.0),
+                  shadowColor: Colors.black87,
+                  elevation: 12.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                  child: Text(
+                                "SAUGAT ADHIKARI",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 38.0,
+                                ),
+                              )),
+                              Container(
+                                  child: Text(
+                                "Flutter Backend developer",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                              Row(children: <Widget>[
+                                Container(
+                                    child: Text(
+                                  "Email :",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                                Container(
+                                    child: Text(
+                                  "saugatadhikari.sa@gmail.com",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ))
+                              ])
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 200.0,
+                        height: 200.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Image(
+                            image: AssetImage('images/saugatadh.jpg'),
+                            fit: BoxFit.cover,
+                            // alignment: Alignment.topRight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FittedBox(
+                child: Material(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(24.0),
+                  shadowColor: Colors.black87,
+                  elevation: 12.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                  child: Text(
+                                "ROHAN DHAKAL",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 38.0,
+                                ),
+                              )),
+                              Container(
+                                  child: Text(
+                                "Flutter UI developer",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                              Row(children: <Widget>[
+                                Container(
+                                    child: Text(
+                                  "Email :",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                                Container(
+                                    child: Text(
+                                  "dhakalrohan229@gmail.com",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ))
+                              ])
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 200.0,
+                        height: 200.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Image(
+                            image: AssetImage('images/rohan.jpg'),
+                            fit: BoxFit.cover,
+                            // alignment: Alignment.topRight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FittedBox(
+                child: Material(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(24.0),
+                  shadowColor: Colors.black87,
+                  elevation: 12.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                  child: Text(
+                                "GAURAV KHADKA",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 38.0,
+                                ),
+                              )),
+                              Container(
+                                  child: Text(
+                                "Flutter UI developer",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                              Row(children: <Widget>[
+                                Container(
+                                    child: Text(
+                                  "Email :",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                                Container(
+                                    child: Text(
+                                  "gauravkhadka45932gmail.com",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ))
+                              ])
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 200.0,
+                        height: 200.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Image(
+                            image: AssetImage('images/gaurab.jpg'),
+                            fit: BoxFit.cover,
+                            // alignment: Alignment.topRight,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
