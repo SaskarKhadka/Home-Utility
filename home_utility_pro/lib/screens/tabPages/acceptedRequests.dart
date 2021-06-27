@@ -1,9 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/location/userLocation.dart';
 import '../../constants.dart';
 import '../../main.dart';
+import '../googleMapsScreen.dart';
 
 class AcceptedRequests extends StatelessWidget {
   @override
@@ -359,6 +363,63 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
                               ),
                               SizedBox(
                                 width: 10.0,
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  Position position =
+                                      await UserLocation().getLocation();
+                                  print(position);
+                                  Map userPosition =
+                                      await database.getUserLocation(
+                                          userID: requestData['requestedBy']
+                                              ['userID']);
+
+                                  print(userPosition);
+                                  Get.to(
+                                    GoogleMapScreen(
+                                      position: position,
+                                      userPosition: userPosition,
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 15.0,
+                                    vertical: size.height * 0.009,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: kWhiteColour,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white30,
+                                        offset: Offset(2, 5),
+                                        blurRadius: 7,
+                                      )
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        EvaIcons.messageCircleOutline,
+                                        color: kBlackColour,
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.01,
+                                      ),
+                                      Text(
+                                        // isAccepted ? 'Cancel' : 'Accept',
+                                        'Map',
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: kBlackColour,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           ),

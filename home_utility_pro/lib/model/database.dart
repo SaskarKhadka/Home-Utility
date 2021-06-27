@@ -31,6 +31,12 @@ class Database {
     return prosData;
   }
 
+  Future<Map> getUserLocation({String userID}) async {
+    DataSnapshot snapshot =
+        await usersRefrence.child(userID).child('location').once();
+    return snapshot.value as Map;
+  }
+
   Future<void> deleteRequest({String requestKey}) async {
     print(userAuthentication.userID);
     // requestRefrence.child(category).child(requestKey).remove();
