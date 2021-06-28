@@ -72,7 +72,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void _getPolyline() async {
     var dio = Dio();
     final response = await dio.get(
-        'https://api.mapbox.com/directions/v5/mapbox/cycling/$originLng,$originLat;$destLng,$destLat?geometries=geojson&access_token=$token');
+        'https://api.mapbox.com/directions/v5/mapbox/driving/$originLng,$originLat;$destLng,$destLat?geometries=geojson&access_token=$token');
 
     List<dynamic> result =
         response.data["routes"][0]["geometry"]["coordinates"];
@@ -91,8 +91,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     //       icon: usericon,
     //       onTap: () {
     //         setState(() {
-    //           username = 'Saugat Adhikari';
-    //           address = 'Bharatpur,Chitwan';
+    //           username = 'Username';
+    //           address = 'Municipality,District';
     //           rating = 0;
 
     //           pinpillposition = pinned_visible;
@@ -104,8 +104,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     //       icon: proicon,
     //       onTap: () {
     //         setState(() {
-    //           username = 'Professional User';
-    //           address = 'Bharatpur,Chitwan';
+    //           username = 'Username';
+    //           address = 'Municipality,District';
     //           rating = 4.5;
 
     //           pinpillposition = pinned_visible;
