@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+// import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -35,13 +35,13 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   // var username = 'username';
   // var address = 'address';
   // var profession = 'Electrician';
-  double rating = 0;
+  // double rating = 0;
   // double pinpillposition = pinned_invisible;
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints = PolylinePoints();
+  // PolylinePoints polylinePoints = PolylinePoints();
   StreamSubscription myStreamSubscription;
-  Position userPosition;
+  // Position userPosition;
 
   void setIcon() async {
     usericon = await BitmapDescriptor.fromAssetImage(
@@ -57,7 +57,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   }
 
   void _addPolyLine() {
-    print(polylineCoordinates);
+    // print(polylineCoordinates);
     setState(() {
       PolylineId id = PolylineId("poly");
       Polyline polyline = Polyline(
@@ -84,35 +84,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    // setState(() {
-    //   _markers.add(Marker(
-    //       markerId: MarkerId("0"),
-    //       position: LatLng(origin_lat, origin_lng),
-    //       icon: usericon,
-    //       onTap: () {
-    //         setState(() {
-    //           username = 'Saugat Adhikari';
-    //           address = 'Bharatpur,Chitwan';
-    //           rating = 0;
-
-    //           pinpillposition = pinned_visible;
-    //         });
-    //       }));
-    //   _markers.add(Marker(
-    //       markerId: MarkerId("1"),
-    //       position: LatLng(dest_lat, dest_lng),
-    //       icon: proicon,
-    //       onTap: () {
-    //         setState(() {
-    //           username = 'Professional User';
-    //           address = 'Bharatpur,Chitwan';
-    //           rating = 4.5;
-
-    //           pinpillposition = pinned_visible;
-    //         });
-    //       }));
-    // });
-
     _setMapStyle();
     _getPolyline();
   }
@@ -138,8 +109,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     _markers.add(
       Marker(
         markerId: MarkerId('prosLocation'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(2),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
         position: LatLng(originLat, originLng),
+        infoWindow: InfoWindow(title: 'Your location'),
       ),
     );
     _markers.add(
@@ -147,6 +119,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         markerId: MarkerId('userLocation'),
         icon: BitmapDescriptor.defaultMarkerWithHue(10),
         position: LatLng(destLat, destLng),
+        infoWindow: InfoWindow(title: 'Your customer\'s location'),
       ),
     );
     // });

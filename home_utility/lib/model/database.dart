@@ -24,26 +24,6 @@ class Database {
     usersRefrence.child(user.uid).set(userData);
   }
 
-  Map getUserInfo() {
-    Map userData = {
-      'userID': userAuthentication.userID,
-    };
-    // await usersRefrence.child(uid).once().then(
-    //   (DataSnapshot snapshot) {
-    //     Map<dynamic, dynamic>.from(snapshot.value).forEach((key, value) {
-    //       if (key == 'userName') {
-    //         userData['userName'] = value;
-    //       }
-    //       if (key == 'userPhoneNo') {
-    //         userData['userPhoneNo'] = value;
-    //       }
-    //     });
-    //   },
-    // );
-    print(userData);
-    return userData;
-  }
-
   Future<void> saveRequest(
       {String proID,
       String description,
@@ -165,6 +145,7 @@ class Database {
   }
 
   Future<bool> checkPhoneNumber(int phoneNo) async {
+    print('here');
     bool isAlreadyUsed = true;
     print(phoneNo);
     Query query = usersRefrence.orderByChild('userPhoneNo').equalTo(phoneNo);
@@ -176,6 +157,7 @@ class Database {
           isAlreadyUsed = false;
       },
     );
+    print(isAlreadyUsed);
     return isAlreadyUsed;
   }
 

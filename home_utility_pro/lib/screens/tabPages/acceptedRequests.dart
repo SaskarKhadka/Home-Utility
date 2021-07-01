@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
+import 'package:home_utility_pro/screens/chatScreen.dart';
 import '../../constants.dart';
 import '../../main.dart';
 import '../googleMapsScreen.dart';
@@ -581,7 +582,11 @@ class _AcceptedRequestsStreamState extends State<AcceptedRequestsStream> {
                                 width: 15.0,
                               ),
                               InkWell(
-                                onTap: () async {},
+                                onTap: () async {
+                                  Get.to(ChatScreen(
+                                      userID: requestData['requestedBy']
+                                          ['userID']));
+                                },
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 15.0,

@@ -51,6 +51,7 @@ class UserAuthentication {
         code = 'error';
       }
     } on FirebaseAuthException catch (e) {
+      print(e.code);
       code = e.code;
     }
     return code;
@@ -82,7 +83,7 @@ class UserAuthentication {
     return code;
   }
 
-  Future<void> signOut() {
-    _auth.signOut();
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

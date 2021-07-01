@@ -6,6 +6,11 @@ class UserAuthentication {
 
   User get currentUser => _auth.currentUser;
 
+  String get email {
+    User user = currentUser;
+    return user.email;
+  }
+
   String get userID {
     User user = currentUser;
     return user.uid;

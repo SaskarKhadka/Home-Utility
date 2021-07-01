@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customButton.dart';
 import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/constants.dart';
+import 'package:home_utility/screens/charScreen.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import '../../main.dart';
@@ -714,7 +715,12 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                           width: 15.0,
                                         ),
                                         InkWell(
-                                          onTap: () async {},
+                                          onTap: () async {
+                                            Get.to(ChatScreen(
+                                                proID:
+                                                    requestData['requestedTo']
+                                                        ['proID']));
+                                          },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
                                               horizontal: 15.0,
