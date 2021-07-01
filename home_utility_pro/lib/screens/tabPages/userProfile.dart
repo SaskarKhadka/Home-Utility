@@ -347,13 +347,7 @@ class ProsProfile extends StatelessWidget {
                               child: Column(
                                 children: [
                                   GestureDetector(
-                                    onTap: () async {
-                                      Position position =
-                                          await UserLocation().getLocation();
-                                      print(position);
-                                      Get.to(
-                                          GoogleMapScreen());
-                                    },
+                                    onTap: () {},
                                     child: Container(
                                       height: size.height * 0.07,
                                       width: size.width * 0.4,
@@ -363,7 +357,7 @@ class ProsProfile extends StatelessWidget {
                                               Radius.circular(22)),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Color(0xff8F77FF)
+                                              color: Color(0xFF3BACA2)
                                                   .withOpacity(0.3),
                                               spreadRadius: 3,
                                               blurRadius: 10,
@@ -393,7 +387,7 @@ class ProsProfile extends StatelessWidget {
                                               Radius.circular(20)),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: Color(0xff8F77FF)
+                                              color: Color(0xFFCF433E)
                                                   .withOpacity(0.3),
                                               spreadRadius: 3,
                                               blurRadius: 10,

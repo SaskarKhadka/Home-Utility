@@ -2,6 +2,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/screens/mainScreen.dart';
+import 'package:home_utility_pro/screens/tabPages/userProfile.dart';
 import '../../constants.dart';
 import '../../main.dart';
 
@@ -14,43 +16,7 @@ class UserRequestsPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBlackColour,
-        drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: <Color>[Colors.black, Colors.grey[700]])),
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Material(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        elevation: 10,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Image.asset('images/img-1.jpg',
-                              width: 80, height: 80),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'User',
-                          style: TextStyle(color: Colors.white, fontSize: 20.0),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              CustomListTile(Icons.person, 'Profile', () => {}),
-              CustomListTile(Icons.info, 'About', () => {}),
-              CustomListTile(Icons.help, 'Help', () => {}),
-              CustomListTile(Icons.lock, 'Sign Out', () => {}),
-            ],
-          ),
-        ),
+        drawer: DrawerItems(),
         appBar: AppBar(
           toolbarHeight: 67,
           elevation: 2,
@@ -96,6 +62,73 @@ class UserRequestsPage extends StatelessWidget {
   }
 }
 
+class DrawerItems extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: StreamBuilder(
+        stream: prosRefrence.child(userAuthentication.userID).onValue,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          Map prosData = snapshot.data.snapshot.value;
+          return ListView(
+            children: <Widget>[
+              Container(
+                height: 190.0,
+                child: DrawerHeader(
+                  curve: Curves.fastOutSlowIn,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: <Color>[
+                    Color(0xFF130F22),
+                    Color(0xFF19152E),
+                    Color(0xFF1C182E),
+                    Color(0xFF2A263D),
+                  ])),
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        // Material(
+                        //   borderRadius:
+                        //       BorderRadius.all(Radius.circular(50.0)),
+                        //   color: kBlackColour,
+                        //   // elevation: 10,
+                        //   // child: Padding(
+                        //   // padding: EdgeInsets.all(8.0),
+                        CircleAvatar(
+                          radius: 50.0,
+                          backgroundColor: kBlackColour,
+                          backgroundImage: AssetImage('images/person.png'),
+                        ),
+                        // ),
+                        SizedBox(height: 10),
+                        // ),
+                        // Padding(
+                        // padding: EdgeInsets.all(8.0),
+                        Text('HI, ' + prosData['prosName'].toUpperCase(),
+                            style: GoogleFonts.maitree(
+                                fontSize: 16, color: Colors.white70)),
+                        // )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              CustomListTile(Icons.person_outline, 'Profile', () => {}),
+              CustomListTile(Icons.info_outline, 'About', () => {}),
+              CustomListTile(Icons.help_outline, 'Help', () => {}),
+              CustomListTile(Icons.lock_outline, 'Sign Out', () => {}),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
 class CustomListTile extends StatelessWidget {
   IconData icon;
   String text;
@@ -112,25 +145,41 @@ class CustomListTile extends StatelessWidget {
             border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
         child: InkWell(
             splashColor: Colors.grey[700],
-            onTap: () => {},
+            onTap: onTap,
             child: Container(
-              height: 40,
+              height: 60,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Icon(icon),
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: kBlackColour,
+                        child: Center(
+                          child: Icon(
+                            icon,
+                            color: Colors.grey.shade200,
+                          ),
+                        ),
+                      ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           text,
-                          style: TextStyle(fontSize: 16.0),
+                          style: GoogleFonts.mada(
+                            fontSize: 16.0,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.grey.shade500,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_right),
+                  Icon(
+                    Icons.arrow_right,
+                    color: kBlackColour,
+                  ),
                 ],
               ),
             )),
