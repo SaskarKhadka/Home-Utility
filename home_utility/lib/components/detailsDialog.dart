@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -267,6 +268,15 @@ class _DetailsPageState extends State<DetailsPage> {
 
                         Position userLocation = await Location().getLocation();
 
+                        DataSnapshot snapshot = await usersRefrence
+                            .child(userAuthentication.userID)
+                            .child('location')
+                            .once();
+                        Map userLocation2 = snapshot.value;
+                        print(userLocation2);
+                        // userLocation['lat'] = snapshot.value['lat'];
+                        // userLocation['lng'] = snapshot.value['lng'];
+
                         print(widget.category);
                         Get.to(
                           GoogleMapScreen(
@@ -287,6 +297,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             time: _selectedTime,
                             latitude: userLocation.latitude,
                             longitude: userLocation.longitude,
+                            userLocation2: userLocation2,
                           ),
                         );
                         // Get.to(
@@ -370,50 +381,4 @@ class _DetailsPageState extends State<DetailsPage> {
         _selectedTime = pickedTime;
       });
   }
-
-  // void _getDialog() {
-  //   Get.defaultDialog(
-  //     title: 'Request Placed!',
-  //     titleStyle: TextStyle(
-  //       fontSize: 25.0,
-  //       fontWeight: FontWeight.w600,
-  //     ),
-  //     barrierDismissible: false,
-  //     middleText: 'Your request has been placed',
-  //     confirm: ElevatedButton(
-  //       onPressed: () async {
-  //         // CircularProgressIndicator();
-  //         await database.totalUsersRequests();
-  //         // Get.back();
-  //         // Get.back();
-  //         newRequestKey = Uuid().v1();
-
-  //         await database.saveRequest(
-  //             dateTime: DateTime(
-  //               _pickedDate.year,
-  //               _pickedDate.month,
-  //               _pickedDate.day,
-  //               _selectedTime.hour,
-  //               _selectedTime.minute,
-  //             ),
-  //             requestKey: newRequestKey,
-  //             category: widget.category,
-  //             service: widget.service,
-  //             municipality: _municipalityController.text.trim(),
-  //             district: _districtController.text.trim(),
-  //             date: _pickedDate,
-  //             time: _selectedTime);
-  //         Get.back();
-  //         Get.back();
-  //         print(userRequestCounter);
-  //       },
-  //       child: Text(
-  //         'Ok',
-  //         style: TextStyle(
-  //           color: kWhiteColour,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

@@ -1,12 +1,18 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_database/ui/utils/stream_subscriber_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:home_utility/location/infobox.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility/location/userLocation.dart';
+
+import '../constants.dart';
+import '../main.dart';
 
 const double pinned_visible = 0;
 const double pinned_invisible = -250;
@@ -22,6 +28,7 @@ class GoogleMapScreen extends StatefulWidget {
   final String district;
   final double latitude;
   final double longitude;
+  final Map userLocation2;
 
   GoogleMapScreen({
     this.dateTime,
@@ -34,6 +41,7 @@ class GoogleMapScreen extends StatefulWidget {
     this.district,
     this.latitude,
     this.longitude,
+    this.userLocation2,
   });
 
   @override
@@ -42,9 +50,10 @@ class GoogleMapScreen extends StatefulWidget {
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
   final databaseReference = FirebaseDatabase.instance.reference();
-  double latitude = 27.6641822;
-  double longitude = 84.4315124;
-  Set<Marker> _markers = {};
+  // double latitude = 27.6641822;
+  // double longitude = 84.4315124;
+  // Set<Marker> _markers = {};
+  List<Marker> _markers = [];
   BitmapDescriptor usericon;
   BitmapDescriptor proicon;
   GoogleMapController _mapController;
@@ -54,6 +63,18 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   var profession = 'Electrician';
   double rating = 0;
   double pinpillposition = pinned_invisible;
+
+  bool sortByMunVDC = true;
+  String _distanceValue;
+  double _distanceValueNum;
+  Map<String, double> _distanceMap = {
+    '250 meter': 250,
+    '500 meter': 500,
+    '1 Kilometer': 1000,
+    '1.25 Kilometer': 1250,
+    '1.5 Kilometer': 1500,
+    '2 Kilometer': 2000,
+  };
 
   void setIcon() async {
     usericon = await BitmapDescriptor.fromAssetImage(
@@ -68,89 +89,193 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     _mapController.setMapStyle(style);
   }
 
+  // Set<Marker> getMarkers() {
+  //   return GetX<MarkersController>(
+  //     builder: (markersController) {
+  //       return Set.from(markersController.prosMarkers);
+  //     },
+  //   );
+  // }
+
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+    prosWithinProximity();
+    _setMapStyle();
+  }
 
-    databaseReference.child("pros").once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> data = snapshot.value;
-      data.forEach((key, value) {
-        double distance = Location().getDistance(
-          latitude + 0.00006,
-          longitude,
-          value['location']['lat'],
-          value['location']['lng'],
-        );
-        print(distance);
+  StreamSubscription myStreamSubscription;
 
-        setState(() {
-          _markers.add(Marker(
-              markerId: MarkerId(value['proID']),
-              position:
-                  LatLng(value['location']['lat'], value['location']['lng']),
-              icon: proicon,
-              onTap: () {
-                username = value['prosName'];
-                address = value['prosMunicipality'];
-                rating = value['avgRating'];
-                proID = value['proID'];
-                setState(() {
-                  pinpillposition = pinned_visible;
-                });
-              }));
-        });
+  void prosWithinProximity() {
+    if (myStreamSubscription != null) myStreamSubscription.cancel();
+    _markers.clear();
+    myStreamSubscription = prosRefrence.onValue.listen((Event event) {
+      Map pros = event.snapshot.value;
+      pros.forEach((key, value) {
+        double lat1 = value['location']['lat'];
+        double lng1 = value['location']['lng'];
+        double lat2 = widget.userLocation2['lat'];
+        double lng2 = widget.userLocation2['lng'];
+        double distance = Location().getDistance(lat1, lng1, lat2, lng2);
+        // print(distance);
+        if (distance <= _distanceValueNum) {
+          print(_distanceValueNum);
+          // print('hey');
+          // print(lat1);
+          setState(() {
+            _markers.add(
+              Marker(
+                markerId: MarkerId(key),
+                icon: BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueRed),
+                position: LatLng(lat1, lng1),
+                onTap: () {
+                  username = value['prosName'];
+                  address = value['prosMunicipality'];
+                  rating = value['avgRating'];
+                  proID = value['proID'];
+                  setState(() {
+                    pinpillposition = pinned_visible;
+                  });
+                },
+              ),
+            );
+          });
+        }
       });
     });
+    _markers.add(
+      Marker(
+        markerId: MarkerId('user'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+        position:
+            LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
+      ),
+    );
+    // myStreamSubscription.cancel();
+  }
 
-    _setMapStyle();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if (myStreamSubscription != null) myStreamSubscription.cancel();
+    super.dispose();
   }
 
   @override
   void initState() {
+    _distanceValue = '250 meter';
+    _distanceValueNum = _distanceMap[_distanceValue];
     super.initState();
+
+    _markers.add(
+      Marker(
+        markerId: MarkerId('user'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+        position:
+            LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
+      ),
+    );
     setIcon();
+  }
+
+  List<DropdownMenuItem<String>> _getItems() {
+    List<DropdownMenuItem<String>> items = [];
+    List<String> distances = [];
+    _distanceMap.forEach((key, value) {
+      distances.add(key);
+    });
+    for (String distance in distances) {
+      items.add(
+        DropdownMenuItem(
+          child: Text(distance),
+          value: distance,
+        ),
+      );
+    }
+    return items;
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition:
-                CameraPosition(target: LatLng(latitude, longitude), zoom: 14),
-            mapType: MapType.normal,
-            markers: _markers,
-            zoomControlsEnabled: true,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            onTap: (LatLng) {
-              setState(() {
-                this.pinpillposition = pinned_invisible;
-              });
-            },
-          ),
-          AnimatedPositioned(
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeOut,
-              bottom: this.pinpillposition,
-              child: RatingCard(
-                username: username,
-                address: address,
-                profession: profession,
-                rating: rating,
-                proID: proID,
-                dateTime: widget.dateTime,
-                description: widget.description,
-                category: widget.category,
-                service: widget.service,
-                date: widget.date,
-                time: widget.time,
-                municipality: widget.municipality,
-                district: widget.district,
-                latitude: widget.latitude,
-                longitude: widget.longitude,
-              ))
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                      widget.userLocation2['lat'], widget.userLocation2['lng']),
+                  zoom: 14),
+              mapType: MapType.normal,
+              markers: Set.from(_markers),
+              zoomControlsEnabled: true,
+              // myLocationEnabled: false,
+              myLocationButtonEnabled: true,
+              onTap: (LatLng) {
+                setState(() {
+                  this.pinpillposition = pinned_invisible;
+                });
+              },
+            ),
+            Positioned(
+              top: 20.0,
+              left: 10.0,
+              right: 10.0,
+              child: Container(
+                color: kWhiteColour,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Search Radius:  ',
+                      style: GoogleFonts.montserrat(
+                        color: kBlackColour,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                    DropdownButton(
+                      style: GoogleFonts.montserrat(
+                        color: kBlackColour,
+                        fontSize: 20.0,
+                      ),
+                      items: _getItems(),
+                      value: _distanceValue,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _distanceValue = newValue;
+                          _distanceValueNum = _distanceMap[_distanceValue];
+                          prosWithinProximity();
+                          print(_distanceValueNum);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            AnimatedPositioned(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeOut,
+                bottom: this.pinpillposition,
+                child: RatingCard(
+                  username: username,
+                  address: address,
+                  profession: profession,
+                  rating: rating,
+                  proID: proID,
+                  dateTime: widget.dateTime,
+                  description: widget.description,
+                  category: widget.category,
+                  service: widget.service,
+                  date: widget.date,
+                  time: widget.time,
+                  municipality: widget.municipality,
+                  district: widget.district,
+                  latitude: widget.latitude,
+                  longitude: widget.longitude,
+                ))
+          ],
+        ),
       ),
     );
   }

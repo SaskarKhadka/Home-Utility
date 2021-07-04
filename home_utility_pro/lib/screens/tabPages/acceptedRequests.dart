@@ -5,11 +5,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
-<<<<<<< HEAD
 import 'package:home_utility_pro/screens/chatScreen.dart';
-=======
 import 'package:home_utility_pro/screens/tabPages/userRequestsPage.dart';
->>>>>>> 57bd657235d9f65e9f0dc7fd58aeddf61bf2b995
 import '../../constants.dart';
 import '../../main.dart';
 import '../googleMapsScreen.dart';
