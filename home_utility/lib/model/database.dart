@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:home_utility/model/proData.dart';
+import 'package:home_utility/model/userData.dart';
+// import 'package:home_utility/model/user.dart';
 import '../main.dart';
 
 class Database {
@@ -98,16 +101,6 @@ class Database {
     await totalUsersRequests();
   }
 
-  // Future<Query> requestQuery(String requestKey) async {
-  //   // return requestRefrence
-  //   //     .orderByChild('uid')
-  //   //     .equalTo(userAuthentication.userID);
-  //   return usersRefrence
-  //       .child(userAuthentication.userID)
-  //       .child('requests')
-  //       .orderByChild(requestKey);
-  // }
-
   Stream userRequestsStream() {
     return usersRefrence
         .child(userAuthentication.userID)
@@ -116,8 +109,24 @@ class Database {
     // return null;
   }
 
-  Stream proDataStream({String proID}) {
-    return prosRefrence.child(proID).onValue;
+  Stream<List<UserData>> userDataStream() {
+    return usersRefrence
+        .child(userAuthentication.userID)
+        .onValue
+        .map((Event event) {
+      List<UserData> userData = [];
+      userData.add(UserData.fromData(event.snapshot.value));
+      return userData;
+    });
+  }
+
+  Stream<List<ProsData>> proDataStream({String proID}) {
+    return prosRefrence.child(proID).onValue.map((Event event) {
+      List<ProsData> prosData = [];
+      print(event.snapshot.value);
+      prosData.add(ProsData.fromData(event.snapshot.value));
+      return prosData;
+    });
   }
 
   // Future<Map> requestData({String requestKey}) async {
