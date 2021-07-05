@@ -142,6 +142,19 @@ class Database {
     await requestRefrence.child(requestKey).update({'state': state});
   }
 
+  Future<void> changeRatingState({String requestKey, bool state}) async {
+    await requestRefrence.child(requestKey)
+        // .child('isRatingPending')
+        .update({'isRatingPending': state});
+  }
+
+  Future<void> changeAcceptedState({String requestKey, bool state}) async {
+    print('heeee');
+    await requestRefrence.child(requestKey)
+        // .child('isAccepted')
+        .update({'isAccepted': state});
+  }
+
   Future<void> saveRequestAsJob({String requestKey}) async {
     await prosRefrence
         .child(userAuthentication.userID)

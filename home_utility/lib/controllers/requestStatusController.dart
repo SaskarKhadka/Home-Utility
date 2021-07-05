@@ -2,15 +2,16 @@ import 'package:get/get.dart';
 import 'package:home_utility/model/requestStatus.dart';
 
 class RequestStatusController extends GetxController {
-  var requestStatus = RequestStatus();
+  var isAccepted = false;
+  var isRatingPending = false;
 
   void changeAcceptedStatus(bool status) {
-    requestStatus.setIsAccepted(status);
+    isAccepted = status;
     update();
   }
 
   void changeRatingStatus(bool status) {
-    requestStatus.setIsRequestPending(status);
+    isRatingPending = status;
     update();
   }
 }

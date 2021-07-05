@@ -1,14 +1,16 @@
 import 'package:get/get.dart';
 
 class RequestStatus {
-  RxBool _isAccepted = RxBool(false);
-  RxBool _isRatingPending = RxBool(false);
+  bool _isAccepted;
+  bool _isRatingPending;
 
-  void setIsAccepted(bool value) => _isAccepted.value = value;
-  void setIsRequestPending(bool value) => _isRatingPending.value = value;
+  RequestStatus(this._isAccepted, this._isRatingPending);
 
-  bool getIsAccepted() => _isAccepted.value;
-  bool getIsRatingPending() => _isRatingPending.value;
+  void setIsAccepted(bool value) => _isAccepted = value;
+  void setIsRequestPending(bool value) => _isRatingPending = value;
+
+  bool getIsAccepted() => _isAccepted;
+  bool getIsRatingPending() => _isRatingPending;
 
   // RequestStatus({this.isAccepted = false, this.isRatingPending = false});
 }

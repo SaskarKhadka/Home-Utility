@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:home_utility/model/proData.dart';
+import 'package:home_utility/model/requestData.dart';
 import 'package:home_utility/model/userData.dart';
 // import 'package:home_utility/model/user.dart';
 import '../main.dart';
@@ -57,6 +58,8 @@ class Database {
       userInfo['time'] = '${formatTime(unformattedTime: time)}';
       userInfo['requestKey'] = '$requestKey';
       userInfo['state'] = 'pending';
+      userInfo['isAccepted'] = false;
+      userInfo['isRatingPending'] = false;
 
       await requestRefrence.child(requestKey).set(userInfo);
 
@@ -86,6 +89,18 @@ class Database {
     await totalUsersRequests();
   }
 
+  Future<void> changeRatingState({String requestKey, bool state}) async {
+    await requestRefrence.child(requestKey)
+        // .child('isRatingPending')
+        .update({'isRatingPending': state});
+  }
+
+  Future<void> changeAcceptedState({String requestKey, bool state}) async {
+    await requestRefrence.child(requestKey)
+        // .child('isAccepted')
+        .update({'isAccepted': state});
+  }
+
   Future<void> deleteRequest({String requestKey}) async {
     String userID = userAuthentication.userID;
 
@@ -101,11 +116,20 @@ class Database {
     await totalUsersRequests();
   }
 
-  Stream userRequestsStream() {
+  Stream<List<String>> userRequestsStream() {
     return usersRefrence
         .child(userAuthentication.userID)
         .child('requests')
-        .onValue;
+        .onValue
+        .map((Event event) {
+      List<String> requestKeys = [];
+      if (event.snapshot.value != null)
+        Map.from(event.snapshot.value).forEach((key, value) {
+          requestKeys.add(key);
+        });
+
+      return requestKeys;
+    });
     // return null;
   }
 
@@ -123,22 +147,19 @@ class Database {
   Stream<List<ProsData>> proDataStream({String proID}) {
     return prosRefrence.child(proID).onValue.map((Event event) {
       List<ProsData> prosData = [];
-      print(event.snapshot.value);
+      // print(event.snapshot.value);
       prosData.add(ProsData.fromData(event.snapshot.value));
       return prosData;
     });
   }
 
-  // Future<Map> requestData({String requestKey}) async {
-  //   DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
-  //   Map data = snapshot.value as Map;
-  //   return data;
-  // }
-
-  Stream requestDataStream({String requestKey}) {
+  Stream<RequestData> requestDataStream({String requestKey}) {
     // DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
     // Map data = snapshot.value as Map;
-    return requestRefrence.child(requestKey).onValue;
+    // print(requestKey);
+    return requestRefrence.child(requestKey).onValue.map((event) {
+      return RequestData.fromData(event.snapshot.value);
+    });
   }
 
   Future<bool> checkAccount(User user) async {

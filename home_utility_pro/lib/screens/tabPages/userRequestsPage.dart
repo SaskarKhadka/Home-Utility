@@ -433,9 +433,9 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                       // });
                                       // isAccepted
                                       //     ?
-                                      await database.changeState(
+                                      await database.changeAcceptedState(
                                         requestKey: requestData['requestKey'],
-                                        state: 'accepted',
+                                        state: true,
                                       );
 
                                       await database.saveRequestAsJob(

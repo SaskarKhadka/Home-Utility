@@ -11,8 +11,9 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:home_utility/location/google_map_screen.dart';
 
-class UserProfile extends StatelessWidget {
+class UserProfile extends GetWidget {
   final userController = Get.put(UserController());
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -56,6 +57,15 @@ class UserProfile extends StatelessWidget {
                               padding: EdgeInsets.only(top: 60, left: 20),
                               child: Obx(
                                 () {
+                                  if (userController.user.isEmpty)
+                                    return Text(
+                                      'Username',
+                                      // userData['userName'],
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 22,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    );
                                   return Text(
                                     userController.user[0].userName,
                                     // userData['userName'],
@@ -136,6 +146,15 @@ class UserProfile extends StatelessWidget {
                                   SizedBox(height: 6),
                                   Obx(
                                     () {
+                                      if (userController.user.isEmpty)
+                                        return Text(
+                                          'Username',
+                                          // userData['userName'],
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 22,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        );
                                       return Text(
                                         userController.user[0].userName,
                                         // userData['userName'],
@@ -206,6 +225,15 @@ class UserProfile extends StatelessWidget {
                                     SizedBox(height: 6),
                                     Obx(
                                       () {
+                                        if (userController.user.isEmpty)
+                                          return Text(
+                                            'Email',
+                                            // userData['userName'],
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 22,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          );
                                         return Text(
                                           userController.user[0].userEmail,
                                           // userData['userName'],
@@ -276,6 +304,15 @@ class UserProfile extends StatelessWidget {
                                     SizedBox(height: 6),
                                     Obx(
                                       () {
+                                        if (userController.user.isEmpty)
+                                          return Text(
+                                            'Phone Number',
+                                            // userData['userName'],
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 22,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          );
                                         return Text(
                                           '${userController.user[0].userPhoneNo}',
                                           // userData['userName'],
