@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility/controllers/textFieldController.dart';
+// import 'package:home_utility/controllers/textFieldController.dart';
 import '../constants.dart';
 
-class CustomPasswordTextField extends StatefulWidget {
+class CustomPasswordTextField extends StatelessWidget {
   final TextEditingController textController;
   final IconData icon;
   final String hintText;
@@ -15,23 +18,13 @@ class CustomPasswordTextField extends StatefulWidget {
     this.labelText,
   });
 
-  @override
-  _CustomPasswordTextFieldState createState() =>
-      _CustomPasswordTextFieldState();
-}
-
-class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
-  IconData eyeIcon = Icons.visibility_off;
-  Color _focusColour = Color(0xff737373);
-  bool isObscureText = true;
-  // Color _focusColour;
+  final controller = Get.put(TextFieldController());
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.09,
-      // width: size.width * 0.9,r
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(40.0),
         boxShadow: [
@@ -43,85 +36,90 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
           ),
         ],
       ),
-      child: TextField(
-        onTap: () {
-          setState(() {
-            // _focusColour = Colors.deepOrangeAccent.shade400;
-            _focusColour = Color(0xff131313);
-          });
-        },
-        controller: widget.textController,
-        keyboardType: TextInputType.emailAddress,
-        obscureText: isObscureText,
-        obscuringCharacter: '*',
-        style: GoogleFonts.cabin(
-          fontSize: 15,
-          // color: Color(0xFFD4145A),
-          color: _focusColour,
-        ),
-        decoration: InputDecoration(
-          suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                isObscureText = !isObscureText;
-                if (isObscureText)
-                  eyeIcon = Icons.visibility_off;
-                else
-                  eyeIcon = Icons.visibility;
-              });
-            },
-            child: Icon(
-              eyeIcon,
-              color: _focusColour,
-            ),
-          ),
-
-          labelText: widget.labelText,
-          labelStyle: GoogleFonts.cabin(
-            fontSize: 17.5,
-            // color: Color(0xFFD4145A),
-            color: _focusColour,
-          ),
-          hintText: widget.hintText,
-          hintStyle: GoogleFonts.cabin(
+      child: Obx(() {
+        return TextField(
+          // onEditingComplete: () {
+          //   controller.changeFocusColour(Color(0xff131313));
+          // },
+          onTap: () {
+            controller.changeFocusColour(Color(0xff131313));
+          },
+          controller: textController,
+          keyboardType: TextInputType.emailAddress,
+          // obscureText: isObscureText,
+          obscureText: controller.isObscureText,
+          obscuringCharacter: '*',
+          style: GoogleFonts.cabin(
             fontSize: 15,
             // color: Color(0xFFD4145A),
-            color: _focusColour,
+            // color: _focusColour,
+            color: controller.focusColour,
           ),
-          // helperText: 'saskar@gmail.com',
-          // errorText: 'error',
-          // floatingLabelBehavior: FloatingLabelBehavior.auto,
-          contentPadding: EdgeInsets.all(20.0),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 25.0),
-            child: Icon(
-              widget.icon,
-              // color: Color(0xFFD4145A),
-              color: _focusColour,
-            ),
-          ),
+          decoration: InputDecoration(
+            suffixIcon: GestureDetector(
+              onTap: () {
+                controller.changeObscurity(!controller.isObscureText);
 
-          fillColor: Colors.white,
-          filled: true,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              // color: Color(0xFFD4145A),
-              color: _focusColour,
-              // style: BorderStyle.none,
-              width: 1.0,
+                if (controller.isObscureText)
+                  controller.changeEyeIcon(Icons.visibility_off);
+                else
+                  controller.changeEyeIcon(Icons.visibility);
+              },
+              child: Obx(() {
+                return Icon(
+                  controller.eyeIcon,
+                  color: controller.focusColour,
+                );
+              }),
             ),
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+
+            labelText: labelText,
+            labelStyle: GoogleFonts.cabin(
+              fontSize: 17.5,
               // color: Color(0xFFD4145A),
-              color: _focusColour,
-              width: 2.0,
+              color: controller.focusColour,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            hintText: hintText,
+            hintStyle: GoogleFonts.cabin(
+              fontSize: 15,
+              // color: Color(0xFFD4145A),
+              color: controller.focusColour,
+            ),
+            // helperText: 'saskar@gmail.com',
+            // errorText: 'error',
+            // floatingLabelBehavior: FloatingLabelBehavior.auto,
+            contentPadding: EdgeInsets.all(20.0),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 25.0),
+              child: Icon(
+                icon,
+                // color: Color(0xFFD4145A),
+                color: controller.focusColour,
+              ),
+            ),
+
+            fillColor: Colors.white,
+            filled: true,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                // color: Color(0xFFD4145A),
+                color: controller.focusColour,
+                // style: BorderStyle.none,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                // color: Color(0xFFD4145A),
+                color: controller.focusColour,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(40.0)),
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

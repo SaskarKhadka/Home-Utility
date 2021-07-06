@@ -1,16 +1,27 @@
 import 'package:firebase_storage/firebase_storage.dart';
 
-class HomeServices {
+class Services {
   String _service;
-  String _imagePath;
-  HomeServices(this._service, this._imagePath);
+  String _imgPath;
+  String _category;
+  Services();
+
+  Services.fromData(Map serviceData) {
+    _service = serviceData['service'];
+    _imgPath = serviceData['imgPath'];
+    _category = serviceData['category'];
+  }
 
   String getService() {
     return _service;
   }
 
   String getImagePath() {
-    return _imagePath;
+    return _imgPath;
+  }
+
+  String getCategory() {
+    return _category;
   }
 }
 

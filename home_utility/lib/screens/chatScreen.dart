@@ -1,8 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
+import 'package:home_utility/controllers/chatController.dart';
 import 'package:home_utility/main.dart';
+import 'package:home_utility/model/chat.dart';
 
 class ChatScreen extends StatefulWidget {
   final String proID;
@@ -139,22 +142,20 @@ class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
-    return StreamBuilder(
-      stream: FirebaseDatabase.instance
-          .reference()
-          .child('messages')
-          .child('$proID$_userID')
-          .onValue,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data.snapshot.value == null)
+    return GetX<ChatController>(
+      init: Get.put(ChatController('$proID$_userID')),
+      builder: (chatController) {
+        if (chatController == null ||
+            chatController.chatData == null ||
+            chatController.chatData.isEmpty)
           return Expanded(
             child: Center(
               child: CircularProgressIndicator(),
             ),
           );
-        Map messages = snapshot.data.snapshot.value;
+        Map<String, Chat> messages = chatController.chatData;
         List<String> messageID = [];
-        List<Map> messagesInfo = [];
+        List<Chat> messagesInfo = [];
         messages.forEach((key, value) {
           messageID.add(key);
           messagesInfo.add(value);
@@ -166,8 +167,8 @@ class MessagesStream extends StatelessWidget {
           reverse: true,
           itemCount: messageID.length,
           itemBuilder: (context, index) {
-            final message = messages[messageID[index]]['message'];
-            final sentBy = messages[messageID[index]]['sentBy'];
+            final message = messages[messageID[index]].message;
+            final sentBy = messages[messageID[index]].sentBy;
             return MessageContainer(
               message: message,
               sentBy: sentBy,

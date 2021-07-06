@@ -26,8 +26,6 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  final _municipalityController = TextEditingController();
-  final _districtController = TextEditingController();
   final _descriptionController = TextEditingController();
   DateTime _pickedDate;
   TimeOfDay _selectedTime;
@@ -75,8 +73,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _municipalityController.dispose();
-    _districtController.dispose();
+
     _descriptionController.dispose();
     super.dispose();
   }

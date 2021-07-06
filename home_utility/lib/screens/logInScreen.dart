@@ -22,7 +22,7 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  final userAuthentication = UserAuthentication();
+  // final userAuthentication = UserAuthentication();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 

@@ -13,7 +13,7 @@ import 'package:home_utility/model/requestData.dart';
 // import 'package:home_utility/controllers/requestStatusController.dart';
 // import 'package:home_utility/model/proData.dart';
 import 'package:home_utility/model/requestStatus.dart';
-import 'package:home_utility/screens/charScreen.dart';
+import 'package:home_utility/screens/chatScreen.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import '../../main.dart';
@@ -150,8 +150,6 @@ class UserRequestsStream extends StatefulWidget {
 
 class _UserRequestsStreamState extends State<UserRequestsStream> {
   TextEditingController _reviewController;
-  // final requestStatusController = Get.put(RequestStatusController());
-  // final RequestStatus requestStatus = RequestStatus(false, false);
 
   // double proRating;
 
@@ -164,20 +162,12 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    _reviewController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return GetX<RequestKeysController>(
-      init: Get.put(RequestKeysController()),
-      builder: (requestController) {
-        // print(requestController.requests);
-        if (requestController == null || requestController.requests.isEmpty) {
+    return StreamBuilder(
+      stream: database.userRequestsStream(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data.snapshot.value == null) {
           return Center(
             child: Text(
               'You have no requests',
@@ -189,69 +179,55 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
           );
         }
 
-        // Map myRequests = snapshot.data.snapshot.value;
+        Map myRequests = snapshot.data.snapshot.value;
 
-        // List<String> data = [];
-        // myRequests.forEach((key, value) {
-        //   data.add(value['requestKey'] as String);
-        // });
+        // ref.update(messages);
+        // print(snapshot.data.snapshot.value);
+        // print(messages);
+        // if (messages != null) {
+        List<String> data = [];
+        myRequests.forEach((key, value) {
+          data.add(value['requestKey'] as String);
+        });
         // print(data);
-        List<String> requests = requestController.requests;
-        // print(requests);
-        int count = 0;
-
-        // List<RequestDataController> controllers = [];
-        // for (String request in requests) {
-        //   controllers.add(RequestDataController(request));
+        // List<Map> dataMap = [];
+        // for (String eachKey in data) {
+        //   dataMap.add(database.requestData(requestKey: requestKey) as Map);
         // }
-        // print(controllers[0].data.dateTime);
-        // print(controllers[1].hashCode);
-        // print(controllers[2].hashCode);
+
+        // for(Map data in data) {
+        //   ref.child(path)
+        // }
 
         return Container(
           // height: 200, //TODO: manage
           child: ListView.builder(
             // controller: scrollController,
             shrinkWrap: true,
-            itemCount: requests.length,
+            itemCount: data.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              return GetX<RequestDataController>(
-                init: RequestDataController(requests),
-                builder: (requestDataController) {
-                  // print(requestDataController.data.dateTime);
-                  // print(controllers[index].data.category);
-                  if (requestDataController == null ||
-                      requestDataController.data(index).dateTime == null) {
-                    // print(requestDataController.requestKey);
+              // Map requestMap = snapshot.value;
+              // if (DateTime.now().isAfter(data[index]['dateTimeNow'])) {
+              // database.deleteRequest(
+              //   category: data[index]['category'],
+              //   requestKey: data[index]['requestKey'],
+              // );
+              //   return Container();
+              // }
+              return StreamBuilder(
+                stream: database.requestDataStream(requestKey: data[index]),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData ||
+                      snapshot.data.snapshot.value == null) {
                     // print(snapshot.data);
-                    count++;
-                    if (count == requests.length)
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: size.height * 0.3,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'You have no requests',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                            ),
-                          ),
-                        ),
-                      );
-                    ;
                     return Container();
                   }
                   // print(snapshot.data);
-                  // Map requestData = snapshot.data.snapshot.value;
+                  Map requestData = snapshot.data.snapshot.value;
+                  // print(requestData);
 
-                  RequestData requestData = requestDataController.data(index);
-                  // print(requestData.requestKey);
-                  // print(requestData.dateTime);
-
-                  String value = requestData.dateTime;
+                  String value = requestData['dateTime'];
                   List dateTime = value.split(' ');
                   List date = dateTime[0].split('-');
                   List time = dateTime[1].split(':');
@@ -269,43 +245,35 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                   DateTime now = DateTime.now();
                   // print(now);
 
-                  if (requestData.state == 'rejected') {
+                  if (requestData['state'] == 'rejected') {
                     database.deleteRequest(
-                      requestKey: requestData.requestKey,
+                      requestKey: requestData['requestKey'],
                     );
                     return Container();
                   }
-                  // isAccepted = requestData.state == 'accepted' ? true : false;
-                  bool isAccepted =
-                      requestDataController.data(index).isAccepted;
 
-                  bool isRatingPending =
-                      requestDataController.data(index).isRatingPending;
-                  print(isRatingPending);
+                  bool isAccepted = requestData['isAccepted'];
+
+                  bool isRatingPending = requestData['isRatingPending'];
 
                   if (isAccepted && now.isAfter(requestDateTime)) {
-                    print('hi1');
-                    database.changeRatingState(
-                        requestKey: requests[index], state: true);
-                    // isRatingPending = true;
+                    isRatingPending = true;
                   }
                   if (!isAccepted && now.isAfter(requestDateTime)) {
-                    print("herrr1");
                     database.deleteRequest(
-                      requestKey: requestData.requestKey,
+                      requestKey: requestData['requestKey'],
                     );
                     return Container();
                   }
 
                   if (isAccepted &&
                       now.difference(requestDateTime) >= Duration(minutes: 1)) {
-                    print("herrr2");
                     database.deleteRequest(
-                      requestKey: requestData.requestKey,
+                      requestKey: requestData['requestKey'],
                     );
                     return Container();
                   }
-                  // print('hi2');
+
                   return Container(
                     height: size.height * 0.23,
                     width: double.infinity,
@@ -346,7 +314,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                           // crossAxisAlignment: CrossAxisAlignment.stretch,
                           // children: [
                           Text(
-                            requestData.service,
+                            requestData['service'],
                             style: TextStyle(
                               fontSize: size.height * 0.03,
                               color: Colors.white,
@@ -357,7 +325,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                             height: size.height * 0.011,
                           ),
                           Text(
-                            'Date: ' + requestData.date,
+                            'Date: ' + requestData['date'],
                             style: TextStyle(
                               fontSize: size.height * 0.021,
                               color: Colors.white,
@@ -368,7 +336,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                             height: size.height * 0.011,
                           ),
                           Text(
-                            'Time: ' + requestData.time,
+                            'Time: ' + requestData['time'],
                             style: TextStyle(
                               fontSize: size.height * 0.021,
                               color: Colors.white,
@@ -501,8 +469,9 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                         onTap: () async {
                                                           await database
                                                               .updateRatingAndReview(
-                                                            proID: requestData
-                                                                .requestedTo,
+                                                            proID: requestData[
+                                                                    'requestedTo']
+                                                                ['proID'],
                                                             review:
                                                                 _reviewController
                                                                     .text
@@ -512,8 +481,8 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                           await database
                                                               .deleteRequest(
                                                             requestKey:
-                                                                requestData
-                                                                    .requestKey,
+                                                                requestData[
+                                                                    'requestKey'],
                                                           );
                                                           // return Container();
                                                           Get.back();
@@ -586,7 +555,8 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                             Get.dialog(
                                               GetX<ProController>(
                                                   init: Get.put(ProController(
-                                                      requestData.requestedTo)),
+                                                      requestData['requestedTo']
+                                                          ['proID'])),
                                                   builder: (proController) {
                                                     if (proController == null &&
                                                         proController
@@ -753,7 +723,8 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                           onTap: () async {
                                             Get.to(ChatScreen(
                                                 proID:
-                                                    requestData.requestedTo));
+                                                    requestData['requestedTo']
+                                                        ['proID']));
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
@@ -800,7 +771,7 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                   : InkWell(
                                       onTap: () async {
                                         await database.deleteRequest(
-                                          requestKey: requestData.requestKey,
+                                          requestKey: requestData['requestKey'],
                                         );
                                       },
                                       child: Container(

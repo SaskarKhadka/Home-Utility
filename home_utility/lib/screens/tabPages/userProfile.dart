@@ -11,7 +11,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:home_utility/location/google_map_screen.dart';
 
-class UserProfile extends GetWidget {
+class UserProfile extends StatelessWidget {
   final userController = Get.put(UserController());
 
   @override

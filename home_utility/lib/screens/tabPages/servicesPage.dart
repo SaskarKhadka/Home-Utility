@@ -186,13 +186,13 @@ class ServicesStream extends StatelessWidget {
             ),
           );
         }
-        Map messages = snapshot.data.snapshot.value;
+        Map services = snapshot.data.snapshot.value;
         // ref.update(messages);
         // print(snapshot.data.snapshot.value);
         // print(messages);
-        if (messages != null) {
+        if (services != null) {
           List<Map> data = [];
-          messages.forEach((key, value) {
+          services.forEach((key, value) {
             data.add(value as Map);
           });
 
@@ -356,151 +356,3 @@ class ServicesStream extends StatelessWidget {
     );
   }
 }
-
-// Container(
-//                     color: Color(0xff131313),
-//                     padding: EdgeInsets.only(
-//                         // left: 30.0,
-//                         ),
-//                     child: ListView.builder(
-//                       controller: _scrollController,
-//                       shrinkWrap: true,
-//                       itemCount: serviceHandler.totalServicesCount(),
-//                       itemBuilder: (context, index) {
-//                         var imgPath =
-//                             serviceHandler.getServices()[index].getImagePath();
-//                         var service =
-//                             serviceHandler.getServices()[index].getService();
-// return Container(
-//   height: 170,
-//   width: double.infinity,
-//   margin: EdgeInsets.only(
-//     top: 20.0,
-//     bottom: 20.0,
-//     right: 25.0,
-//     left: 30.0,
-//     // horizontal: 25.0,
-//   ),
-//   decoration: BoxDecoration(
-//     boxShadow: [
-//       BoxShadow(
-//         color: Colors.white30,
-//         offset: Offset(2, 5),
-//         blurRadius: 10,
-//       ),
-//     ],
-//     color: Color(0xff131313),
-//     borderRadius: BorderRadius.circular(30.0),
-//     border: Border.all(
-//       color: Colors.white,
-//       width: 1.5,
-//       style: BorderStyle.solid,
-//     ),
-//   ),
-//   child: Row(
-//     children: [
-//       GestureDetector(
-//         onTap: () {
-//           showModalBottomSheet(
-//               backgroundColor: kBlackColour,
-//               barrierColor:
-//                   kBlackColour.withOpacity(0.6),
-//               isDismissible: true,
-//               enableDrag: true,
-//               isScrollControlled: true,
-//               context: context,
-//               builder: (context) => DetailsDialog(
-//                     service: service,
-//                   ));
-//           // showDialog(
-//           //   context: context,
-//           //   builder: (context) => DetailsDialog(
-//           //     service: service,
-//           //   ),
-//           // );
-//         },
-//         // onTap: () => Get.toNamed(
-//         //   DetailsScreen.id,
-//         //   parameters: {
-//         //     'imgPath': imgPath,
-//         //     'service': service,
-//         //   },
-//         // ),
-//         child: ClipRRect(
-//           borderRadius: BorderRadius.only(
-//             topLeft: Radius.circular(30.0),
-//             bottomLeft: Radius.circular(30.0),
-//           ),
-//           child: AspectRatio(
-//             aspectRatio: 1.05,
-//             child: Image.asset(
-//               imgPath,
-//               fit: BoxFit.cover,
-//             ),
-//           ),
-//         ),
-//       ),
-//       Expanded(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Center(
-//               child: Text(
-//                 service,
-//                 textAlign: TextAlign.center,
-//                 style: GoogleFonts.mateSc(
-//                     color: Colors.white,
-//                     fontSize: 24.0,
-//                     fontWeight: FontWeight.w500),
-//               ),
-//             ),
-//             SizedBox(
-//               height: 10.0,
-//             ),
-//             Center(
-//               child: Text(
-//                 'Ratings',
-//                 style: GoogleFonts.montserrat(
-//                   fontSize: 15.0,
-//                   color: Colors.white60,
-//                 ),
-//               ),
-//             ),
-//             SizedBox(
-//               height: 5.0,
-//             ),
-//             Row(
-//               mainAxisAlignment:
-//                   MainAxisAlignment.center,
-//               children: [
-//                 Icon(
-//                   Icons.star,
-//                   color: Colors.yellow,
-//                 ),
-//                 Icon(
-//                   Icons.star,
-//                   color: Colors.yellow,
-//                 ),
-//                 Icon(
-//                   Icons.star,
-//                   color: Colors.yellow,
-//                 ),
-//                 Icon(
-//                   Icons.star,
-//                   color: Colors.yellow,
-//                 ),
-//                 Icon(
-//                   Icons.star,
-//                   color: Colors.yellow,
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     ],
-//   ),
-// );
-//                       },
-//                     ),
-//                   ),

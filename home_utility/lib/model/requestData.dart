@@ -1,23 +1,4 @@
 class RequestData {
-//   category:
-// "repair"
-// date:
-// "2021/6/18"
-// dateTime:
-// "2021-06-18 16:58:00.000"
-// jobDescription:
-// ""
-// requestKey:
-// "066d0b90-cffc-11eb-939d-59c0a6e2723b"
-// requestedBy
-// requestedTo
-// service:
-// "Washing Machine Repair"
-// state:
-// "accepted"
-// time:
-// "04:58 pm"
-
   String category;
   String date;
   String dateTime;

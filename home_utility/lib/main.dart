@@ -38,6 +38,9 @@ Database database = Database();
 DatabaseReference usersRefrence =
     FirebaseDatabase.instance.reference().child('users');
 
+DatabaseReference messagesRefrence =
+    FirebaseDatabase.instance.reference().child('messages');
+
 DatabaseReference requestRefrence =
     FirebaseDatabase.instance.reference().child('requests');
 
@@ -86,6 +89,7 @@ class HomeUtility extends StatelessWidget {
     return GetMaterialApp(
       // home: WelcomeScreen(),
       initialRoute: LogInScreen.id,
+
       theme: ThemeData(
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: MaterialStateProperty.all(
