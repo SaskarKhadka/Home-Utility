@@ -32,6 +32,9 @@ DatabaseReference usersRefrence =
 DatabaseReference requestRefrence =
     FirebaseDatabase.instance.reference().child('requests');
 
+DatabaseReference messagesRefrence =
+    FirebaseDatabase.instance.reference().child('messages');
+
 String professionToCategory(String profession) {
   String category;
   if (profession.toLowerCase() == 'electronics technician')

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/components/backgroundGradient.dart';
+import 'package:home_utility/controllers/registrationController.dart';
 import 'package:home_utility/location/userLocation.dart';
 import 'logInScreen.dart';
 import '../components/customButton.dart';
@@ -13,28 +14,10 @@ import 'mainScreen.dart';
 import '../main.dart';
 import '../components/customPasswordTextField.dart';
 
-class RegistrationScreen extends StatefulWidget {
+class RegistrationScreen extends StatelessWidget {
   static const id = '/register';
 
-  @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
-}
-
-class _RegistrationScreenState extends State<RegistrationScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final nameController = TextEditingController();
-  final phoneController = TextEditingController();
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    nameController.dispose();
-    phoneController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  final registrationController = Get.put(RegistrationController());
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +123,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             CustomTextField(
-                              textController: nameController,
+                              textController:
+                                  registrationController.nameController,
                               isPhoneNumber: false,
                               icon: EvaIcons.personOutline,
                               labelText: 'Name',
@@ -150,7 +134,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               height: size.height * 0.03,
                             ),
                             CustomTextField(
-                              textController: phoneController,
+                              textController:
+                                  registrationController.phoneController,
                               isPhoneNumber: true,
                               icon: EvaIcons.phoneCallOutline,
                               labelText: 'Phone Number',
@@ -160,7 +145,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               height: size.height * 0.03,
                             ),
                             CustomTextField(
-                              textController: emailController,
+                              textController:
+                                  registrationController.emailController,
                               isPhoneNumber: false,
                               icon: Icons.email_outlined,
                               labelText: 'Email',
@@ -170,7 +156,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               height: size.height * 0.03,
                             ),
                             CustomPasswordTextField(
-                              textController: passwordController,
+                              textController:
+                                  registrationController.passwordController,
                               icon: EvaIcons.lockOutline,
                               labelText: 'Password',
                               hintText: 'Enter your password',
@@ -208,35 +195,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<void> _checkValidation() async {
-    if (nameController.text.trim().isEmpty) {
+    if (registrationController.nameController.text.trim().isEmpty) {
       Get.back();
       getSnackBar(
         title: 'ERROR!',
         message: 'Your name is mandatory.',
       );
       return;
-    } else if (phoneController.text.isEmpty) {
+    } else if (registrationController.phoneController.text.isEmpty) {
       Get.back();
       getSnackBar(
         title: 'ERROR!',
         message: 'Your phone number is mandatory.',
       );
       return;
-    } else if (phoneController.text.trim().length != 10) {
+    } else if (registrationController.phoneController.text.trim().length !=
+        10) {
       Get.back();
       getSnackBar(
         title: 'ERROR!',
         message: 'Inavlid phone number.',
       );
       return;
-    } else if (!emailController.text.isEmail) {
+    } else if (!registrationController.emailController.text.isEmail) {
       Get.back();
       getSnackBar(
         title: 'ERROR!',
         message: 'Please enter a valid email address',
       );
       return;
-    } else if (passwordController.text.length < 8) {
+    } else if (registrationController.passwordController.text.length < 8) {
       Get.back();
       getSnackBar(
         title: 'ERROR!',
@@ -246,7 +234,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // } else if (phoneController.text.trim().length == 10) {
     } else {
       try {
-        int phoneNo = int.parse(phoneController.text);
+        int phoneNo = int.parse(registrationController.phoneController.text);
 
         bool isAlreadyUsed = await database.checkPhoneNumber(phoneNo);
 
@@ -260,10 +248,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         } else {
           Position userLocation = await Location().getLocation();
           String code = await userAuthentication.signUp(
-            name: nameController.text.trim(),
+            name: registrationController.nameController.text.trim(),
             phoneNo: phoneNo,
-            email: emailController.text.trim(),
-            password: passwordController.text,
+            email: registrationController.emailController.text.trim(),
+            password: registrationController.passwordController.text,
             latitude: userLocation.latitude,
             longitude: userLocation.longitude,
           );

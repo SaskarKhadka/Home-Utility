@@ -7,34 +7,14 @@ import 'package:home_utility/controllers/chatController.dart';
 import 'package:home_utility/main.dart';
 import 'package:home_utility/model/chat.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   final String proID;
   ChatScreen({this.proID});
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
 
-class _ChatScreenState extends State<ChatScreen> {
-  TextEditingController _messagesController;
-  String userID = userAuthentication.userID;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    _messagesController = TextEditingController();
-    // _scrollController.animateTo(, duration: duration, curve: curve)
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _messagesController.dispose();
-    super.dispose();
-  }
-
+  final String userID = userAuthentication.userID;
   @override
   Widget build(BuildContext context) {
+    final chatController = Get.put(ChatController('$proID$userID'));
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -53,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             MessagesStream(
-              proID: widget.proID,
+              proID: proID,
             ),
             SizedBox(
               height: 20.0,
@@ -74,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _messagesController,
+                      controller: chatController.messageController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0),
 
@@ -96,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      if (_messagesController.text.isNotEmpty) {
+                      if (chatController.messageController.text.isNotEmpty) {
                         DateTime now = DateTime.now();
                         String dateTime = now.toString().replaceAll('-', '');
                         dateTime = dateTime.replaceAll(':', '');
@@ -105,13 +85,14 @@ class _ChatScreenState extends State<ChatScreen> {
                         FirebaseDatabase.instance
                             .reference()
                             .child('messages')
-                            .child(widget.proID + userID)
+                            .child(proID + userID)
                             .child(dateTime + userID)
                             .set({
                           'sentBy': userAuthentication.currentUser.email,
-                          'message': _messagesController.text.trim(),
+                          'message':
+                              chatController.messageController.text.trim(),
                         });
-                        _messagesController.clear();
+                        chatController.messageController.clear();
                       }
                     },
                     child: Container(
@@ -136,14 +117,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
 class MessagesStream extends StatelessWidget {
   final String proID;
-  final String _userID = userAuthentication.userID;
+  // final String _userID = userAuthentication.userID;
   final String _userEmail = userAuthentication.currentUser.email;
   MessagesStream({this.proID});
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
     return GetX<ChatController>(
-      init: Get.put(ChatController('$proID$_userID')),
+      init: Get.find<ChatController>(),
       builder: (chatController) {
         if (chatController == null ||
             chatController.chatData == null ||

@@ -9,12 +9,11 @@ class RequestData {
   String time;
   String state;
   String jobDescription;
-  bool isAccepted = false;
-  bool isRatingPending = false;
+  bool isAccepted;
+  bool isRatingPending;
   RequestData();
 
   RequestData.fromData(Map requestData) {
-    // print(requestData['requestKey']);
     category = requestData['category'];
     date = requestData['date'];
     dateTime = requestData['dateTime'];

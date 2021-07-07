@@ -41,7 +41,7 @@ class UserAuthentication {
         };
         //user created
         Map proData = {
-          'avgRating': 1,
+          'avgRating': 1.0,
           'proID': firebaseUser.user.uid,
           'prosName': name,
           'prosEmail': email,

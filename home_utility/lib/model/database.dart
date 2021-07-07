@@ -95,16 +95,19 @@ class Database {
   }
 
   Future<void> changeRatingState({String requestKey, bool state}) async {
-    await requestRefrence.child(requestKey)
+    await usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .child(requestKey)
         // .child('isRatingPending')
         .update({'isRatingPending': state});
   }
 
-  Future<void> changeAcceptedState({String requestKey, bool state}) async {
-    await requestRefrence.child(requestKey)
-        // .child('isAccepted')
-        .update({'isAccepted': state});
-  }
+  // Future<void> changeAcceptedState({String requestKey, bool state}) async {
+  //   await requestRefrence.child(requestKey)
+  //       // .child('isAccepted')
+  //       .update({'isAccepted': state});
+  // }
 
   Future<void> deleteRequest({String requestKey}) async {
     String userID = userAuthentication.userID;
@@ -138,11 +141,20 @@ class Database {
   //   // return null;
   // }
 
-  Stream userRequestsStream() {
+  Stream<Map<String, RequestData>> userRequestsStream() {
     return usersRefrence
         .child(userAuthentication.userID)
         .child('requests')
-        .onValue;
+        .onValue
+        .map((Event event) {
+      Map<String, RequestData> requestsData = {};
+      try {
+        Map.from(event.snapshot.value).forEach((key, value) {
+          requestsData[key] = RequestData.fromData(value);
+        });
+      } catch (e) {}
+      return requestsData;
+    });
     // return null;
   }
 

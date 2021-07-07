@@ -116,7 +116,7 @@ class _CustomPasswordTextFieldState extends State<CustomPasswordTextField> {
             borderSide: BorderSide(
               // color: Color(0xFFD4145A),
               color: _focusColour,
-              width: 1.0,
+              width: 2.0,
             ),
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
           ),

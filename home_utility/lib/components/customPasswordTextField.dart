@@ -65,12 +65,10 @@ class CustomPasswordTextField extends StatelessWidget {
                 else
                   controller.changeEyeIcon(Icons.visibility);
               },
-              child: Obx(() {
-                return Icon(
-                  controller.eyeIcon,
-                  color: controller.focusColour,
-                );
-              }),
+              child: Icon(
+                controller.eyeIcon,
+                color: controller.focusColour,
+              ),
             ),
 
             labelText: labelText,

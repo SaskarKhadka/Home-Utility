@@ -49,7 +49,7 @@ class GoogleMapScreen extends StatefulWidget {
 }
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
-  final databaseReference = FirebaseDatabase.instance.reference();
+  // final databaseReference = FirebaseDatabase.instance.reference();
   // double latitude = 27.6641822;
   // double longitude = 84.4315124;
   // Set<Marker> _markers = {};
@@ -108,7 +108,12 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void prosWithinProximity() {
     if (myStreamSubscription != null) myStreamSubscription.cancel();
     _markers.clear();
-    myStreamSubscription = prosRefrence.onValue.listen((Event event) {
+    // String category = professionToCategory(profession)
+    myStreamSubscription = prosRefrence
+        .orderByChild('profession')
+        .equalTo('Electronics Technician')
+        .onValue
+        .listen((Event event) {
       Map pros = event.snapshot.value;
       pros.forEach((key, value) {
         double lat1 = value['location']['lat'];
@@ -158,6 +163,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void dispose() {
     // TODO: implement dispose
     if (myStreamSubscription != null) myStreamSubscription.cancel();
+    _mapController.dispose();
     super.dispose();
   }
 

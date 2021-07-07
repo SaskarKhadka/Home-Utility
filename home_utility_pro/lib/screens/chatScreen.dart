@@ -1,36 +1,20 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/constants.dart';
+import 'package:home_utility_pro/controllers/chatController.dart';
 import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/model/chat.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   final String userID;
   ChatScreen({this.userID});
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  TextEditingController _messagesController;
-  String proID = userAuthentication.userID;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    _messagesController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _messagesController.dispose();
-    super.dispose();
-  }
+  final proID = userAuthentication.userID;
 
   @override
   Widget build(BuildContext context) {
+    final chatController = Get.put(ChatController('$proID$userID'));
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -49,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             MessagesStream(
-              userID: widget.userID,
+              userID: userID,
             ),
             SizedBox(
               height: 20.0,
@@ -70,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _messagesController,
+                      controller: chatController.messageController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 5.0),
 
@@ -92,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      if (_messagesController.text.isNotEmpty) {
+                      if (chatController.messageController.text.isNotEmpty) {
                         DateTime now = DateTime.now();
                         String dateTime = now.toString().replaceAll('-', '');
                         dateTime = dateTime.replaceAll(':', '');
@@ -101,13 +85,14 @@ class _ChatScreenState extends State<ChatScreen> {
                         FirebaseDatabase.instance
                             .reference()
                             .child('messages')
-                            .child(proID + widget.userID)
+                            .child(proID + userID)
                             .child(dateTime + proID)
                             .set({
                           'sentBy': userAuthentication.currentUser.email,
-                          'message': _messagesController.text.trim(),
+                          'message':
+                              chatController.messageController.text.trim(),
                         });
-                        _messagesController.clear();
+                        chatController.messageController.clear();
                       }
                     },
                     child: Container(
@@ -132,28 +117,26 @@ class _ChatScreenState extends State<ChatScreen> {
 
 class MessagesStream extends StatelessWidget {
   final String userID;
-  final String _proID = userAuthentication.userID;
+  // final String _proID = userAuthentication.userID;
   final String _userEmail = userAuthentication.currentUser.email;
   MessagesStream({this.userID});
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
-    return StreamBuilder(
-      stream: FirebaseDatabase.instance
-          .reference()
-          .child('messages')
-          .child('$_proID$userID')
-          .onValue,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data.snapshot.value == null)
+    return GetX<ChatController>(
+      init: Get.find<ChatController>(),
+      builder: (chatController) {
+        if (chatController == null ||
+            chatController.chatData == null ||
+            chatController.chatData.isEmpty)
           return Expanded(
             child: Center(
               child: CircularProgressIndicator(),
             ),
           );
-        Map messages = snapshot.data.snapshot.value;
+        Map<String, Chat> messages = chatController.chatData;
         List<String> messageID = [];
-        List<Map> messagesInfo = [];
+        List<Chat> messagesInfo = [];
         messages.forEach((key, value) {
           messageID.add(key);
           messagesInfo.add(value);
@@ -165,8 +148,8 @@ class MessagesStream extends StatelessWidget {
           reverse: true,
           itemCount: messageID.length,
           itemBuilder: (context, index) {
-            final message = messages[messageID[index]]['message'];
-            final sentBy = messages[messageID[index]]['sentBy'];
+            final message = messages[messageID[index]].message;
+            final sentBy = messages[messageID[index]].sentBy;
             return MessageContainer(
               message: message,
               sentBy: sentBy,

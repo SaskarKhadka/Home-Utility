@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
-import 'package:home_utility/main.dart';
-import 'package:home_utility/model/proData.dart';
+import 'package:home_utility_pro/model/database.dart';
+import 'package:home_utility_pro/model/prosData.dart';
 
 class ProController extends GetxController {
-  String proID;
-  ProController(this.proID);
   var prosData = RxList<ProsData>([]);
 
   List<ProsData> get pro => prosData;
@@ -12,7 +10,7 @@ class ProController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    prosData.bindStream(database.proDataStream(proID: proID));
+    prosData.bindStream(Database().proDataStream());
   }
 
   @override

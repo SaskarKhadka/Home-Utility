@@ -216,6 +216,7 @@ class RatingCard extends StatelessWidget {
                           time: time);
                       Get.back();
                       Get.back();
+                      Get.back();
                       print(userRequestCounter);
                     },
                     child: Text(

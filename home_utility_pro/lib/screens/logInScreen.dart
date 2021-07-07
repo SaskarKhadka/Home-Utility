@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:home_utility_pro/constants.dart';
+import 'package:home_utility_pro/controllers/logInController.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/forgotPassword.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
@@ -14,25 +15,11 @@ import '../components/customTextField.dart';
 import '../components/dialogBox.dart';
 import '../components/customPasswordTextField.dart';
 
-class LogInScreen extends StatefulWidget {
+class LogInScreen extends StatelessWidget {
   static const id = '/login';
 
-  @override
-  _LogInScreenState createState() => _LogInScreenState();
-}
-
-class _LogInScreenState extends State<LogInScreen> {
-  final userAuthentication = UserAuthentication();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  final logInController = Get.put(LogInController());
+  //TODO: obx not wrapped and same with reg screen
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +126,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CustomTextField(
-                            textController: emailController,
+                            textController: logInController.emailController,
                             isPhoneNumber: false,
                             icon: EvaIcons.emailOutline,
                             labelText: 'Email',
@@ -149,7 +136,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             height: size.height * 0.03,
                           ),
                           CustomPasswordTextField(
-                            textController: passwordController,
+                            textController: logInController.passwordController,
                             icon: EvaIcons.lockOutline,
                             labelText: 'Password',
                             hintText: 'Enter your password',
@@ -191,7 +178,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                 ),
                               );
 
-                              if (emailController.text.isEmpty) {
+                              if (logInController
+                                  .emailController.text.isEmpty) {
                                 Get.back();
                                 getSnackBar(
                                   title: 'ERROR!',
@@ -199,7 +187,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                 );
                                 return;
                               } else {
-                                if (!emailController.text.isEmail) {
+                                if (!logInController
+                                    .emailController.text.isEmail) {
                                   Get.back();
                                   // proceed = false;
                                   getSnackBar(
@@ -209,7 +198,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                   return;
                                 }
                               }
-                              if (passwordController.text.isEmpty) {
+                              if (logInController
+                                  .passwordController.text.isEmpty) {
                                 Get.back();
 
                                 getSnackBar(
@@ -220,8 +210,10 @@ class _LogInScreenState extends State<LogInScreen> {
                               }
 
                               String code = await userAuthentication.signIn(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text);
+                                  email: logInController.emailController.text
+                                      .trim(),
+                                  password:
+                                      logInController.passwordController.text);
 
                               if (code == 'success') {
                                 //   if (!await userAuthentication

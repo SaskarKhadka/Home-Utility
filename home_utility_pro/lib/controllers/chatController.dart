@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:home_utility/model/chat.dart';
+import 'package:home_utility_pro/model/chat.dart';
 
 import '../main.dart';
 
 class ChatController extends GetxController {
-  final messageController = TextEditingController();
   String _chatID;
+  final messageController = TextEditingController();
   ChatController(this._chatID);
   var _chatData = RxMap<String, Chat>({});
 
@@ -23,8 +23,8 @@ class ChatController extends GetxController {
   @override
   void onClose() {
     // TODO: implement onClose
-    super.onClose();
     print('Hi close');
+    super.onClose();
     messageController.dispose();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:home_utility/main.dart';
 import 'package:home_utility/model/database.dart';
 import 'package:home_utility/model/userData.dart';
 
@@ -11,6 +12,6 @@ class UserController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    userData.bindStream(Database().userDataStream());
+    userData.bindStream(database.userDataStream());
   }
 }

@@ -6,7 +6,7 @@ import 'package:home_utility/constants.dart';
 import 'forgotPassword.dart';
 
 class ConfirmEmail extends StatelessWidget {
-  static String id = 'confirmEmail';
+  static String id = '/confirmEmail';
   const ConfirmEmail({Key key}) : super(key: key);
 
   @override
