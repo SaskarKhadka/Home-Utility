@@ -1,12 +1,18 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/controllers/colourController.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/googleMapsScreen.dart';
+import 'package:home_utility_pro/screens/registrationScreen.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 import '../../constants.dart';
 
@@ -485,27 +491,95 @@ class ProsProfile extends StatelessWidget {
                   top: 60,
                   left: 130,
                   right: 130,
-                  child: CircleAvatar(
-                    radius: 55,
-                    backgroundColor: Colors.black,
-                    backgroundImage: AssetImage('images/person.png'),
-                  ),
+                  child: Obx(() {
+                    if (proController.pro[0].profileUrl == null ||
+                        proController.pro[0].profileUrl.isEmpty) {
+                      return CircleAvatar(
+                        radius: 55,
+                        backgroundColor: Colors.black,
+                        backgroundImage: AssetImage('images/person.png'),
+                      );
+                    }
+
+                    return CircleAvatar(
+                      radius: 55,
+                      backgroundColor: Colors.black,
+                      backgroundImage: Image.network(
+                        proController.pro[0].profileUrl,
+                        loadingBuilder: (context, child, progress) {
+                          if (progress == null) return child;
+                          return CircularProgressIndicator(
+                            color: kWhiteColour,
+                          );
+                        },
+                      ).image,
+                    );
+                    // return CircleAvatar(
+                    //   radius: 55,
+                    //   backgroundColor: Colors.black,
+                    //   backgroundImage: NetworkImage(
+                    //     proController.pro[0].profileUrl,
+                    //   ),
+                    // );
+                  }),
                 ),
                 Positioned(
                   top: 142,
                   left: 170,
                   right: 120,
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.black,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.camera_alt_rounded,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
+                  child: GetX<ColourController>(
+                      init: ColourController(),
+                      builder: (colourController) {
+                        return CircleAvatar(
+                          radius: 15,
+                          backgroundColor: colourController.color,
+                          child: GestureDetector(
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                            onTap: () async {
+                              colourController.changeColour(Colors.black);
+                              FilePickerResult file =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.image,
+                                allowMultiple: false,
+                              );
+
+                              if (file == null) {
+                                colourController.changeColour(
+                                    Colors.black.withOpacity(0.2));
+                                return;
+                              }
+                              File croppedFile = await ImageCropper.cropImage(
+                                  sourcePath: file.files.single.path,
+                                  aspectRatioPresets: [
+                                    CropAspectRatioPreset.original,
+                                    CropAspectRatioPreset.ratio16x9,
+                                    CropAspectRatioPreset.ratio3x2,
+                                    CropAspectRatioPreset.square,
+                                    CropAspectRatioPreset.ratio4x3,
+                                  ]);
+                              colourController
+                                  .changeColour(Colors.black.withOpacity(0.2));
+
+                              if (croppedFile == null) return;
+
+                              // String fileName = file.files.single.name;
+                              // String path = file.files.single.path;
+                              bool uploaded =
+                                  await cloudStorage.uploadFile(croppedFile);
+
+                              if (uploaded)
+                                getSnackBar(
+                                    title: 'SUCCESS!',
+                                    message:
+                                        'Your Profile Picture was updated');
+                            },
+                          ),
+                        );
+                      }),
                 ),
               ],
             ),

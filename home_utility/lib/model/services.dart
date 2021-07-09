@@ -24,18 +24,3 @@ class Services {
     return _category;
   }
 }
-
-class DatabaseStorage {
-  Future<String> getImageUrl({String category, String serviceName}) async {
-    return await FirebaseStorage.instance
-        .ref()
-        .child('service')
-        .child(category)
-        .child(serviceName)
-        .getDownloadURL();
-  }
-
-  uploadImage(String uid) {
-    // FirebaseStorage.instance.ref().child(uid).putFile('url');
-  }
-}

@@ -7,6 +7,7 @@ import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/screens/confirmEmail.dart';
 import 'package:home_utility/screens/forgotPassword.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
+import 'package:home_utility/services/cloudStorage.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
@@ -22,7 +23,8 @@ DatabaseReference serviceRefrence =
 DatabaseReference prosRefrence =
     FirebaseDatabase.instance.reference().child('pros');
 
-Reference stroageRefrence = FirebaseStorage.instance.ref();
+final cloudStorage = CloudStorage();
+
 //TODO:up
 
 //TODO: probably make another file to store all these resuable accessories

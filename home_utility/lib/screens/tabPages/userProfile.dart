@@ -1,15 +1,22 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/constants.dart';
+import 'package:home_utility/controllers/colourController.dart';
 import 'package:home_utility/controllers/userController.dart';
 import 'package:home_utility/main.dart';
 import 'package:home_utility/screens/logInScreen.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:home_utility/location/google_map_screen.dart';
+
+import '../registrationScreen.dart';
 
 class UserProfile extends StatelessWidget {
   final userController = Get.put(UserController());
@@ -85,11 +92,11 @@ class UserProfile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      color: Colors.black,
-                    ),
+                    // Container(
+                    //   height: 10,
+                    //   width: double.infinity,
+                    //   color: Colors.black,
+                    // ),
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0, right: 10),
@@ -147,14 +154,11 @@ class UserProfile extends StatelessWidget {
                                   Obx(
                                     () {
                                       if (userController.user.isEmpty)
-                                        return Text(
-                                          'Username',
-                                          // userData['userName'],
-                                          style: GoogleFonts.montserrat(
-                                              fontSize: 22,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        );
+                                        return Text('Username',
+                                            // userData['userName'],
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 16,
+                                                color: Colors.white70));
                                       return Text(
                                         userController.user[0].userName,
                                         // userData['userName'],
@@ -226,14 +230,11 @@ class UserProfile extends StatelessWidget {
                                     Obx(
                                       () {
                                         if (userController.user.isEmpty)
-                                          return Text(
-                                            'Email',
-                                            // userData['userName'],
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 22,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          );
+                                          return Text('Email',
+                                              // userData['userName'],
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: 16,
+                                                  color: Colors.white70));
                                         return Text(
                                           userController.user[0].userEmail,
                                           // userData['userName'],
@@ -298,21 +299,18 @@ class UserProfile extends StatelessWidget {
                                   children: <Widget>[
                                     Text('PHONE NUMBER',
                                         style: GoogleFonts.montserrat(
-                                            fontSize: 20,
+                                            fontSize: 16,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold)),
                                     SizedBox(height: 6),
                                     Obx(
                                       () {
                                         if (userController.user.isEmpty)
-                                          return Text(
-                                            'Phone Number',
-                                            // userData['userName'],
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 22,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          );
+                                          return Text('Phone Number',
+                                              // userData['userName'],
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: 16,
+                                                  color: Colors.white70));
                                         return Text(
                                           '${userController.user[0].userPhoneNo}',
                                           // userData['userName'],
@@ -328,65 +326,63 @@ class UserProfile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // SizedBox(height: 20),
-                    // Padding(
-                    //   padding:
-                    //       const EdgeInsets.only(left: 10.0, right: 10),
-                    //   child: Container(
-                    //     width: screenWidth,
-                    //     decoration: BoxDecoration(
-                    //         color: Color(0xff1F1D2B),
-                    //         borderRadius:
-                    //             BorderRadius.all(Radius.circular(20))),
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.all(16.0),
-                    //       child: Row(
-                    //         children: <Widget>[
-                    //           SizedBox(width: 10),
-                    //           Container(
-                    //             decoration: BoxDecoration(
-                    //                 shape: BoxShape.circle,
-                    //                 color: Color(0xffFEC946),
-                    //                 boxShadow: [
-                    //                   BoxShadow(
-                    //                     color: Color(0xffFEC946)
-                    //                         .withOpacity(0.6),
-                    //                     spreadRadius: 3,
-                    //                     blurRadius: 10,
-                    //                     offset: Offset(2,
-                    //                         4), // changes position of shadow
-                    //                   ),
-                    //                 ]),
-                    //             child: Padding(
-                    //               padding: const EdgeInsets.all(10.0),
-                    //               child: Icon(
-                    //                 EvaIcons.homeOutline,
-                    //                 color: Colors.white,
-                    //                 size: 40,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           SizedBox(width: 50),
-                    //           Column(
-                    //               crossAxisAlignment:
-                    //                   CrossAxisAlignment.start,
-                    //               children: <Widget>[
-                    //                 Text('ADDRESS',
-                    //                     style: GoogleFonts.montserrat(
-                    //                         fontSize: 20,
-                    //                         color: Colors.white,
-                    //                         fontWeight: FontWeight.bold)),
-                    //                 SizedBox(height: 6),
-                    //                 Text('Bharatpur,Chitwan',
-                    //                     style: GoogleFonts.roboto(
-                    //                         fontSize: 16,
-                    //                         color: Colors.white70)),
-                    //               ]),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0, right: 10),
+                      child: Container(
+                        width: screenWidth,
+                        decoration: BoxDecoration(
+                            color: Color(0xff1F1D2B),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: <Widget>[
+                              SizedBox(width: 10),
+                              Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xffFEC946),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Color(0xffFEC946).withOpacity(0.6),
+                                        spreadRadius: 3,
+                                        blurRadius: 10,
+                                        offset: Offset(
+                                            2, 4), // changes position of shadow
+                                      ),
+                                    ]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Icon(
+                                    EvaIcons.homeOutline,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 50),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('ADDRESS',
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: 6),
+                                    Text('Bharatpur,Chitwan',
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 16,
+                                            color: Colors.white70)),
+                                  ]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 30),
                     Container(
                       padding: EdgeInsets.only(
@@ -482,53 +478,95 @@ class UserProfile extends StatelessWidget {
                   top: 60,
                   left: 130,
                   right: 130,
-                  child: Container(
-                    height: 115,
-                    width: 115,
-                    padding: EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: kWhiteColour.withOpacity(0.6),
-                        style: BorderStyle.solid,
-                        width: 1.2,
-                      ),
-                    ),
-                    child: CircleAvatar(
+                  child: Obx(() {
+                    if (userController.user[0].profileUrl == null ||
+                        userController.user[0].profileUrl.isEmpty) {
+                      return CircleAvatar(
+                        radius: 55,
+                        backgroundColor: Colors.black,
+                        backgroundImage: AssetImage('images/person.png'),
+                      );
+                    }
+
+                    return CircleAvatar(
                       radius: 55,
                       backgroundColor: Colors.black,
-                      backgroundImage: AssetImage('images/person.png'),
-                    ),
-                  ),
+                      backgroundImage: Image.network(
+                        userController.user[0].profileUrl,
+                        loadingBuilder: (context, child, progress) {
+                          if (progress == null) return child;
+                          return CircularProgressIndicator(
+                            color: kWhiteColour,
+                          );
+                        },
+                      ).image,
+                    );
+                    // return CircleAvatar(
+                    //   radius: 55,
+                    //   backgroundColor: Colors.black,
+                    //   backgroundImage: NetworkImage(
+                    //     proController.pro[0].profileUrl,
+                    //   ),
+                    // );
+                  }),
                 ),
                 Positioned(
-                  top: 145,
-                  left: 180,
+                  top: 142,
+                  left: 170,
                   right: 120,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: kWhiteColour.withOpacity(0.5),
-                          width: 1.2,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      child: CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Colors.black,
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 20.0,
-                          color: Colors.white,
-                        ),
-                        // onPressed: () {},
-                        // ),
-                      ),
-                    ),
-                  ),
+                  child: GetX<ColourController>(
+                      init: ColourController(),
+                      builder: (colourController) {
+                        return CircleAvatar(
+                          radius: 15,
+                          backgroundColor: colourController.color,
+                          child: GestureDetector(
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                            onTap: () async {
+                              colourController.changeColour(Colors.black);
+                              FilePickerResult file =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.image,
+                                allowMultiple: false,
+                              );
+
+                              if (file == null) {
+                                colourController.changeColour(
+                                    Colors.black.withOpacity(0.2));
+                                return;
+                              }
+                              File croppedFile = await ImageCropper.cropImage(
+                                  sourcePath: file.files.single.path,
+                                  aspectRatioPresets: [
+                                    CropAspectRatioPreset.original,
+                                    CropAspectRatioPreset.ratio16x9,
+                                    CropAspectRatioPreset.ratio3x2,
+                                    CropAspectRatioPreset.square,
+                                    CropAspectRatioPreset.ratio4x3,
+                                  ]);
+                              colourController
+                                  .changeColour(Colors.black.withOpacity(0.2));
+
+                              if (croppedFile == null) return;
+
+                              // String fileName = file.files.single.name;
+                              // String path = file.files.single.path;
+                              bool uploaded =
+                                  await cloudStorage.uploadFile(croppedFile);
+
+                              if (uploaded)
+                                getSnackBar(
+                                    title: 'SUCCESS!',
+                                    message:
+                                        'Your Profile Picture was updated');
+                            },
+                          ),
+                        );
+                      }),
                 ),
               ],
             ),

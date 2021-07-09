@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility_pro/screens/confirmEmail.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
+import 'package:home_utility_pro/services/cloudStorage.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
@@ -16,6 +17,8 @@ import 'screens/forgotPassword.dart';
 //TODO: probably make another file to store all these resuable accessories
 
 final userAuthentication = UserAuthentication();
+
+final cloudStorage = CloudStorage();
 
 Database database = Database();
 
