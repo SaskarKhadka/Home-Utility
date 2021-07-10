@@ -47,6 +47,7 @@ class UserAuthentication {
           'prosEmail': email,
           'prosPhoneNo': phoneNo,
           'location': location,
+          // 'prosPassword': password,
         };
         // added//
 

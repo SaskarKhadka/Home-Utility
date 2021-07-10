@@ -121,3 +121,117 @@ class CustomPasswordTextField extends StatelessWidget {
     );
   }
 }
+
+class CustomPasswordTextField2 extends StatefulWidget {
+  final TextEditingController textcontroller;
+
+  final IconData icon;
+  final String hintText;
+  final String labelText;
+  final Color focusColour;
+  final Color focusColour2;
+  final Color textColour;
+  final Color iconColour;
+  final Color cursorColour;
+  final double borderRadius;
+  final bool isFilled;
+
+  CustomPasswordTextField2({
+    this.textcontroller,
+    this.icon,
+    this.hintText,
+    this.labelText,
+    this.focusColour,
+    this.focusColour2,
+    this.textColour,
+    this.iconColour,
+    this.cursorColour,
+    this.borderRadius,
+    this.isFilled,
+  });
+  @override
+  _CustomPasswordTextField2State createState() =>
+      _CustomPasswordTextField2State();
+}
+
+class _CustomPasswordTextField2State extends State<CustomPasswordTextField2> {
+  IconData eyeIcon = Icons.visibility_off;
+
+  bool isObscureText = true;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      height: size.height * 0.09,
+      // width: size.width * 0.9,r
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40.0),
+      ),
+      child: TextField(
+        onTap: () {
+          setState(() {
+            widget.focusColour2;
+          });
+        },
+        controller: widget.textcontroller,
+        keyboardType: TextInputType.emailAddress,
+        obscureText: isObscureText,
+        obscuringCharacter: '*',
+        style: GoogleFonts.cabin(
+          fontSize: 15,
+          color: widget.textColour,
+        ),
+        cursorColor: widget.cursorColour,
+        decoration: InputDecoration(
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                isObscureText = !isObscureText;
+                if (isObscureText)
+                  eyeIcon = Icons.visibility_off;
+                else
+                  eyeIcon = Icons.visibility;
+              });
+            },
+            child: Icon(
+              eyeIcon,
+              color: widget.focusColour,
+            ),
+          ),
+          fillColor: kWhiteColour,
+          filled: widget.isFilled,
+          labelText: widget.labelText,
+          labelStyle: GoogleFonts.cabin(
+            fontSize: 17.5,
+            color: widget.textColour,
+          ),
+          hintText: widget.hintText,
+          hintStyle: GoogleFonts.cabin(
+            fontSize: 15,
+            color: widget.textColour,
+          ),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 25.0),
+            child: Icon(
+              widget.icon,
+              color: widget.iconColour,
+            ),
+          ),
+          enabledBorder: new OutlineInputBorder(
+            borderSide: new BorderSide(
+              color: widget.focusColour,
+            ),
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: new BorderSide(
+              color: widget.focusColour2,
+            ),
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+          ),
+        ),
+      ),
+    );
+  }
+}

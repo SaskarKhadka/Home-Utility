@@ -10,6 +10,7 @@ class ProsData {
   double avgRating;
   Map review;
   String profileUrl;
+  String password;
 
   ProsData.fromData(Map prosData) {
     prosName = prosData['prosName'];
@@ -23,5 +24,6 @@ class ProsData {
     avgRating = double.parse(prosData['avgRating'].toString());
     review = prosData['review'];
     profileUrl = prosData['profileUrl'];
+    password = prosData['prosPassword'];
   }
 }

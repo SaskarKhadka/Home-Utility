@@ -18,3 +18,5 @@ const kTextFieldDecoration = InputDecoration(
 
 const kWhiteColour = Colors.white;
 const kBlackColour = Color(0xff131313);
+const Color kPrimaryColor = Color(0xFF1C2031);
+const Color kSecondaryColor = Color(0xFFFFFFFF);
