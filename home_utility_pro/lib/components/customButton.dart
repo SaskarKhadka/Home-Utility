@@ -52,3 +52,71 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class ProfileButton extends StatefulWidget {
+  final Function onPressed;
+  final double buttonHeight;
+  final double buttonWidth;
+  final Color primaryColour;
+  final Color shadowColour;
+  final double borderSideWidth;
+  final Color borderSideColour;
+  final double borderRadius;
+  final String buttonText;
+  final Color textColour;
+
+  const ProfileButton(
+      {this.onPressed,
+      this.buttonHeight,
+      this.buttonWidth,
+      this.primaryColour,
+      this.shadowColour,
+      this.borderSideWidth,
+      this.borderSideColour,
+      this.borderRadius,
+      this.buttonText,
+      this.textColour});
+
+  @override
+  _ProfileButtonState createState() => _ProfileButtonState();
+}
+
+class _ProfileButtonState extends State<ProfileButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: widget.buttonHeight,
+        width: widget.buttonWidth,
+        child: ElevatedButton(
+          onPressed: widget.onPressed,
+          style: ElevatedButton.styleFrom(
+            primary: widget.primaryColour,
+            // Color(0xFF5061AC),
+            shadowColor: widget.shadowColour,
+            // Color(0xFFFFFFFF),
+            side: BorderSide(
+              width: widget.borderSideWidth,
+              // width: 0.5,
+              color: widget.borderSideColour,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(widget.borderRadius),
+              ),
+            ),
+          ),
+          child: Center(
+            child: Text(
+              widget.buttonText,
+              style: TextStyle(
+                color: widget.textColour,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

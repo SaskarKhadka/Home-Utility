@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ColourController extends GetxController {
-  var colour = Rx<Color>(Colors.black.withOpacity(0.2));
+  var colour = Rx<Color>(Colors.tealAccent.withOpacity(1.0));
 
   Color get color => colour.value;
 

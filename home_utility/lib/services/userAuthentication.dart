@@ -36,6 +36,7 @@ class UserAuthentication {
           'userEmail': email,
           'userPhoneNo': phoneNo,
           'location': location,
+          'userPassword': password,
         };
         // added//
 

@@ -4,6 +4,7 @@ class UserData {
   String userEmail;
   int userPhoneNo;
   String profileUrl;
+  String password;
 
   UserData.fromData(Map userData) {
     userName = userData['userName'];
@@ -11,5 +12,6 @@ class UserData {
     userPhoneNo = userData['userPhoneNo'];
     userEmail = userData['userEmail'];
     profileUrl = userData['profileUrl'];
+    password = userData['userPassword'];
   }
 }
