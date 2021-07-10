@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -82,15 +83,24 @@ class ChatScreen extends StatelessWidget {
                         dateTime = dateTime.replaceAll(':', '');
                         dateTime = dateTime.replaceAll('.', '');
                         // print(now);
+                        final key = encrypt.Key.fromUtf8(
+                            'my 32 length key................');
+                        final iv = encrypt.IV.fromLength(16);
+
+                        final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+                        final encrypted = encrypter.encrypt(
+                            chatController.messageController.text.trim(),
+                            iv: iv);
+
                         FirebaseDatabase.instance
                             .reference()
                             .child('messages')
                             .child(proID + userID)
-                            .child(dateTime + proID)
+                            .child(dateTime + userID)
                             .set({
                           'sentBy': userAuthentication.currentUser.email,
-                          'message':
-                              chatController.messageController.text.trim(),
+                          'message': encrypted.base64,
                         });
                         chatController.messageController.clear();
                       }
@@ -150,8 +160,16 @@ class MessagesStream extends StatelessWidget {
           itemBuilder: (context, index) {
             final message = messages[messageID[index]].message;
             final sentBy = messages[messageID[index]].sentBy;
+            final key =
+                encrypt.Key.fromUtf8('my 32 length key................');
+            final iv = encrypt.IV.fromLength(16);
+
+            final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+            String decryptedMessage = encrypter.decrypt64(message, iv: iv);
+
             return MessageContainer(
-              message: message,
+              message: decryptedMessage,
               sentBy: sentBy,
               isMe: _userEmail == sentBy,
             );
