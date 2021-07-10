@@ -107,9 +107,9 @@ class UserProfile extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           );
                         return Text(
-                          'UserID: ' + userController.user[0].userID,
+                          'Verified User',
                           style: GoogleFonts.shortStack(
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                               color: Colors.grey,
                               fontWeight: FontWeight.bold),
                         );
@@ -126,18 +126,18 @@ class UserProfile extends StatelessWidget {
                       height: size.height * 0.022,
                     ),
 
-                    // DisplayField(
-                    //   icon: Icons.perm_identity_outlined,
-                    //   iconSize: 20.0,
-                    //   iconColour: Color(0xFF1163FB),
-                    //   borderRadius: 50.0,
-                    //   text: userController.user[0].userID,
-                    //   displaytext: 'Id',
-                    //   textColour: Colors.black,
-                    //   marginHorizontal: 25.0,
-                    //   marginVertical: 10.0,
-                    //   boxColor: Colors.white,
-                    // ),
+                    DisplayField(
+                      icon: Icons.person,
+                      iconSize: 20.0,
+                      iconColour: Color(0xFF1163FB),
+                      borderRadius: 50.0,
+                      text: userController.user[0].userName,
+                      displaytext: 'Id',
+                      textColour: Colors.black,
+                      marginHorizontal: 25.0,
+                      marginVertical: 10.0,
+                      boxColor: Colors.white,
+                    ),
                     DisplayField(
                       icon: EvaIcons.phone,
                       iconSize: 20.0,

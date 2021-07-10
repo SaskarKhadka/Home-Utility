@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:firebase_database/ui/utils/stream_subscriber_mixin.dart';
@@ -53,6 +54,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   // double latitude = 27.6641822;
   // double longitude = 84.4315124;
   // Set<Marker> _markers = {};
+  Set<Circle> _circles = HashSet<Circle>();
   List<Marker> _markers = [];
   BitmapDescriptor usericon;
   BitmapDescriptor proicon;
@@ -63,7 +65,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   var profession = 'Electrician';
   double rating = 0;
   double pinpillposition = pinned_invisible;
-
+  // int _circleIdCounter = 1;
   bool sortByMunVDC = true;
   String _distanceValue;
   double _distanceValueNum;
@@ -74,6 +76,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     '1.25 Kilometer': 1250,
     '1.5 Kilometer': 1500,
     '2 Kilometer': 2000,
+    '5 Kilometer': 5000,
+    '10 Kilometer': 10000,
+    '20 Kilometer': 20000,
   };
 
   void setIcon() async {
@@ -102,6 +107,10 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     prosWithinProximity();
     _setMapStyle();
   }
+
+  // void _setCircle(LatLng point) {
+  //   final String circleIdvalue = 'hello';
+  // }
 
   StreamSubscription myStreamSubscription;
 
@@ -145,6 +154,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               ),
             );
           });
+          _circles.add(
+            Circle(
+              circleId: CircleId('user'),
+              center: LatLng(lat1, lng1),
+              radius: _distanceMap[_distanceValue],
+              fillColor: Colors.tealAccent.withOpacity(0.2),
+              strokeWidth: 3,
+              strokeColor: Colors.tealAccent.withOpacity(0.6),
+            ),
+          );
         }
       });
     });
@@ -181,6 +200,17 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
       ),
     );
+    // _circles.add(
+    //   Circle(
+    //     circleId: CircleId('pros'),
+    //     center:
+    //         LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
+    //     radius: _distanceMap[_distanceValue],
+    //     fillColor: Colors.tealAccent.withOpacity(0.2),
+    //     strokeWidth: 3,
+    //     strokeColor: Colors.tealAccent.withOpacity(0.6),
+    //   ),
+    // );
     setIcon();
   }
 
@@ -203,9 +233,25 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Utility Map',
+          style: GoogleFonts.montserrat(),
+        ),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Stack(
           children: [
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              tooltip: 'Refresh',
+              onPressed: iconButtonPressed,
+            ),
             GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
@@ -214,6 +260,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   zoom: 14),
               mapType: MapType.normal,
               markers: Set.from(_markers),
+              circles: Set.from(_circles),
               zoomControlsEnabled: true,
               // myLocationEnabled: false,
               myLocationButtonEnabled: true,
@@ -252,6 +299,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                           _distanceValueNum = _distanceMap[_distanceValue];
                           prosWithinProximity();
                           print(_distanceValueNum);
+                          // _circles.add('user');
                         });
                       },
                     ),
@@ -285,4 +333,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       ),
     );
   }
+
+  void iconButtonPressed() {}
 }

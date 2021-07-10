@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customButton.dart';
+import 'package:home_utility/components/customDialogBoxProfile.dart';
 import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/proController.dart';
@@ -542,97 +543,365 @@ class UserRequestsStream extends StatelessWidget {
                                                   );
                                                 }
 
-                                                // Map proData = snapshot
-                                                //     .data.snapshot.value;
                                                 return Dialog(
-                                                  backgroundColor: kWhiteColour,
-                                                  child: Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                      vertical: 15.0,
-                                                      horizontal: 20.0,
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Text(
-                                                          'Pro\'s Profile'
-                                                              .toUpperCase(),
-                                                          style: TextStyle(
-                                                            fontSize: 25.0,
-                                                          ),
+                                                  shape: RoundedRectangleBorder(
+                                                      side: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0)),
+
+                                                  insetAnimationCurve:
+                                                      Curves.bounceIn,
+                                                  // backgroundColor: Color(0xFF110E1F),
+                                                  elevation: 0.0,
+                                                  // backgroundColor: Color(0xff141a1e),
+                                                  backgroundColor: Colors.white,
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        width: size.width,
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          top: 0.0,
+                                                          bottom: 20.0,
+                                                          left: 20.0,
+                                                          right: 20.0,
                                                         ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'NAME: ${proController.pro[0].prosName}',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'EMAIL:  ${proController.pro[0].prosEmail}',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'PHONE NO.:  ${proController.pro[0].prosPhoneNo}',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10.0,
-                                                        ),
-                                                        Text(
-                                                          'ADDRESS:  ${proController.pro[0].prosMunicipality},  ${proController.pro[0].prosDistrict}',
-                                                          style: TextStyle(
-                                                            fontSize: 20.0,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 15.0,
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () =>
-                                                              Get.back(),
-                                                          child: Container(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                              vertical: 10.0,
-                                                              horizontal: 20.0,
-                                                            ),
-                                                            decoration:
-                                                                BoxDecoration(
+                                                        margin: EdgeInsets.only(
+                                                            top: 80),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xff141a1e),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.0),
+                                                          boxShadow: [
+                                                            BoxShadow(
                                                               color:
-                                                                  kBlackColour,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
+                                                                  Colors.grey,
+                                                              offset:
+                                                                  Offset(0, 2),
+                                                              blurRadius: 10.0,
                                                             ),
-                                                            child: Text(
-                                                              'Ok',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    kWhiteColour,
+                                                          ],
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            SizedBox(
+                                                              height:
+                                                                  size.height *
+                                                                      0.09,
+                                                            ),
+                                                            Center(
+                                                              child: Text(
+                                                                proController
+                                                                    .pro[0]
+                                                                    .prosName
+                                                                    .toUpperCase(),
+                                                                style: GoogleFonts
+                                                                    .shortStack(
+                                                                  fontSize:
+                                                                      20.0,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 6.0),
+                                                              child: Text(
+                                                                proController
+                                                                    .pro[0]
+                                                                    .profession,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .sansita(
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 150,
+                                                              child: Divider(
+                                                                color: Colors
+                                                                    .blueGrey,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      top: 26.0,
+                                                                      left:
+                                                                          20.0),
+                                                                  child: Text(
+                                                                    'Contact Details:',
+                                                                    style: GoogleFonts
+                                                                        .raleway(
+                                                                      fontSize:
+                                                                          14.0,
+                                                                      color: Colors
+                                                                          .greenAccent,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          20.0),
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: 180,
+                                                                    child:
+                                                                        Divider(
+                                                                      color: Colors
+                                                                          .blueGrey,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          16.0),
+                                                                  child: Icon(
+                                                                    Icons.phone,
+                                                                    color: Colors
+                                                                        .teal,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          16.0),
+                                                                  child: Text(
+                                                                    '${proController.pro[0].prosPhoneNo}',
+                                                                    style: GoogleFonts.montserrat(
+                                                                        fontSize:
+                                                                            16,
+                                                                        color:
+                                                                            kWhiteColour,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height:
+                                                                  size.height *
+                                                                      0.005,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          16.0),
+                                                                  child: Icon(
+                                                                    Icons.email,
+                                                                    size: 22,
+                                                                    color: Colors
+                                                                        .yellow,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          16.0),
+                                                                  child: Text(
+                                                                    proController
+                                                                        .pro[0]
+                                                                        .prosEmail,
+                                                                    style: GoogleFonts
+                                                                        .raleway(
+                                                                      fontSize:
+                                                                          14.0,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height:
+                                                                  size.height *
+                                                                      0.05,
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () =>
+                                                                  Get.back(),
+                                                              child: Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                  vertical:
+                                                                      10.0,
+                                                                  horizontal:
+                                                                      20.0,
+                                                                ),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Color(
+                                                                      0xff4f5b8a),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                      color: Color(
+                                                                          0xff2f3650),
+                                                                      offset:
+                                                                          Offset(
+                                                                              0,
+                                                                              1),
+                                                                      blurRadius:
+                                                                          4.0,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Text(
+                                                                  'Ok',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                      Positioned(
+                                                        top: 20,
+                                                        left: 45.0,
+                                                        right: 45.0,
+                                                        child: CircleAvatar(
+                                                          radius: 55.0,
+                                                          backgroundColor:
+                                                              Colors.redAccent,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 );
+
+                                                // Map proData = snapshot
+                                                //     .data.snapshot.value;
+                                                // return Dialog(
+                                                //   backgroundColor: kWhiteColour,
+                                                //   child: Container(
+                                                //     padding:
+                                                //         EdgeInsets.symmetric(
+                                                //       vertical: 15.0,
+                                                //       horizontal: 20.0,
+                                                //     ),
+                                                //     child: Column(
+                                                //       mainAxisSize:
+                                                //           MainAxisSize.min,
+                                                //       children: [
+                                                //         Text(
+                                                //           'Pro\'s Profile'
+                                                //               .toUpperCase(),
+                                                //           style: TextStyle(
+                                                //             fontSize: 25.0,
+                                                //           ),
+                                                //         ),
+                                                //         SizedBox(
+                                                //           height: 10.0,
+                                                //         ),
+                                                //         Text(
+                                                //           'NAME: ${proController.pro[0].prosName}',
+                                                //           style: TextStyle(
+                                                //             fontSize: 20.0,
+                                                //           ),
+                                                //         ),
+                                                //         SizedBox(
+                                                //           height: 10.0,
+                                                //         ),
+                                                //         Text(
+                                                //           'EMAIL:  ${proController.pro[0].prosEmail}',
+                                                //           style: TextStyle(
+                                                //             fontSize: 20.0,
+                                                //           ),
+                                                //         ),
+                                                //         SizedBox(
+                                                //           height: 10.0,
+                                                //         ),
+                                                //         Text(
+                                                //           'PHONE NO.:  ${proController.pro[0].prosPhoneNo}',
+                                                //           style: TextStyle(
+                                                //             fontSize: 20.0,
+                                                //           ),
+                                                //         ),
+                                                //         SizedBox(
+                                                //           height: 10.0,
+                                                //         ),
+                                                //         Text(
+                                                //           'ADDRESS:  ${proController.pro[0].prosMunicipality},  ${proController.pro[0].prosDistrict}',
+                                                //           style: TextStyle(
+                                                //             fontSize: 20.0,
+                                                //           ),
+                                                //         ),
+                                                //         SizedBox(
+                                                //           height: 15.0,
+                                                //         ),
+                                                //         GestureDetector(
+                                                //           onTap: () =>
+                                                //               Get.back(),
+                                                //           child: Container(
+                                                //             padding: EdgeInsets
+                                                //                 .symmetric(
+                                                //               vertical: 10.0,
+                                                //               horizontal: 20.0,
+                                                //             ),
+                                                //             decoration:
+                                                //                 BoxDecoration(
+                                                //               color:
+                                                //                   kBlackColour,
+                                                //               borderRadius:
+                                                //                   BorderRadius
+                                                //                       .circular(
+                                                //                           10.0),
+                                                //             ),
+                                                //             child: Text(
+                                                //               'Ok',
+                                                //               style: TextStyle(
+                                                //                 color:
+                                                //                     kWhiteColour,
+                                                //               ),
+                                                //             ),
+                                                //           ),
+                                                //         ),
+                                                //       ],
+                                                //     ),
+                                                //   ),
+                                                // );
                                               }),
                                           // barrierColor:
                                           //     kWhiteColour.withOpacity(0.1),
