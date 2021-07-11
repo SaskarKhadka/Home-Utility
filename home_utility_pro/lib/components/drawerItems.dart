@@ -91,6 +91,7 @@ class DrawerItems extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CustomListTile extends StatelessWidget {
   IconData icon;
   String text;

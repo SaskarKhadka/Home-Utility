@@ -4,7 +4,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customButton.dart';
-import 'package:home_utility/components/customDialogBoxProfile.dart';
 import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/components/drawerItems.dart';
 import 'package:home_utility/constants.dart';
@@ -26,7 +25,9 @@ class UserRequestsPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kBlackColour,
+        // backgroundColor: kBlackColour,
+        backgroundColor: Color(0xff141a1e),
+
         drawer: DrawerItems(),
         appBar: AppBar(
           toolbarHeight: 67,
@@ -99,7 +100,7 @@ class UserRequestsPage extends StatelessWidget {
           title: Padding(
             padding: EdgeInsets.only(
               top: 8.0,
-              // left: 16.0,
+              left: 16.0,
             ),
             child: Text(
               'My Requests',

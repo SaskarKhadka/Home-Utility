@@ -14,7 +14,9 @@ class ServicesPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xff131313),
+        // backgroundColor: Color(0xff131313),
+        backgroundColor: Color(0xff141a1e),
+
         drawer: DrawerItems(),
         appBar: AppBar(
           toolbarHeight: 67,
@@ -85,9 +87,7 @@ class ServicesPage extends StatelessWidget {
             ),
           ],
           title: Padding(
-            padding: EdgeInsets.only(
-              left: 16.0,
-            ),
+            padding: EdgeInsets.only(left: 16.0, top: 8.0),
             child: Text(
               'Our Services',
               style: GoogleFonts.montserrat(
@@ -226,7 +226,7 @@ class ServicesStream extends StatelessWidget {
                         blurRadius: 10,
                       ),
                     ],
-                    color: Color(0xff131313),
+                    color: Color(0xff141a1e),
                     borderRadius: BorderRadius.circular(30.0),
                     border: Border.all(
                       color: Colors.white,
@@ -238,27 +238,35 @@ class ServicesStream extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Get.to(
-                            DetailsPage(
-                              service: data[index]['service'],
-                              category: category,
-                            ),
-                          );
-                          // showModalBottomSheet(
-                          //     backgroundColor: kBlackColour,
-                          //     barrierColor: kBlackColour.withOpacity(0.6),
-                          //     isDismissible: true,
-                          //     enableDrag: true,
-                          //     isScrollControlled: true,
-                          //     context: context,
-                          //     builder: (context) => DetailsDialog(
-                          //           service: data[index]['service'],
-                          //           category: category,
-                          //         ));
+                          // Get.to(
+                          //   DetailsPage(
+                          //     service: data[index]['service'],
+                          //     category: category,
+                          //   ),
+                          // );
+                          showModalBottomSheet(
+                              elevation: 4.0,
+                              barrierColor: kBlackColour.withOpacity(0.6),
+                              isDismissible: true,
+                              enableDrag: true,
+                              isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(26.0),
+                                  topRight: Radius.circular(26.0),
+                                ),
+                              ),
+                              // backgroundColor: Color(0xFF0E0E0F),
+                              backgroundColor: Color(0xFFFDFDFF),
+                              context: context,
+                              builder: (context) => DetailsPage(
+                                    service: data[index]['service'],
+                                    category: category,
+                                  ));
                           // showDialog(
                           //   context: context,
-                          //   builder: (context) => DetailsDialog(
-                          //     service: service,
+                          //   builder: (context) => DetailsPage(
+                          //     service: data[index]['service'],
                           //   ),
                           // );
                         },

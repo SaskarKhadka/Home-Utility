@@ -36,8 +36,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         toolbarHeight: 67,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Get.toNamed(LogInScreen.id),
-          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back),
         ),
         title: Text(
           'Reset Password',

@@ -77,8 +77,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     '1.5 Kilometer': 1500,
     '2 Kilometer': 2000,
     '5 Kilometer': 5000,
-    '10 Kilometer': 10000,
-    '20 Kilometer': 20000,
+    // '10 Kilometer': 10000,
+    // '20 Kilometer': 20000,
   };
 
   void setIcon() async {
@@ -229,29 +229,38 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Utility Map',
-          style: GoogleFonts.montserrat(),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.refresh),
-        ),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: true,
+      //   title: Text(
+      //     'Utility Map',
+      //     style: GoogleFonts.montserrat(),
+      //   ),
+      //   centerTitle: true,
+      //   actions: [
+      //     Padding(
+      //       padding: const EdgeInsets.only(
+      //         top: 8.0,
+      //         left: 20.0,
+      //         right: 15.0,
+      //       ),
+      //     ),
+      //     Theme(
+      //       data: Theme.of(context).copyWith(
+      //           textTheme: TextTheme().apply(bodyColor: Colors.black),
+      //           dividerColor: Colors.black,
+      //           iconTheme: IconThemeData(color: Colors.white)),
+      //       child: IconButton(
+      //         onPressed: () {
+      //           RefreshIndicator(child: child, onRefresh: onRefresh)
+      //         },
+      //         icon: Icon(Icons.refresh),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: SafeArea(
         child: Stack(
           children: [
-            IconButton(
-              icon: Icon(
-                Icons.refresh,
-                color: Colors.white,
-              ),
-              tooltip: 'Refresh',
-              onPressed: iconButtonPressed,
-            ),
             GoogleMap(
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(

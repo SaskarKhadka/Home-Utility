@@ -18,8 +18,8 @@ class ConfirmEmail extends StatelessWidget {
         centerTitle: true,
         shadowColor: Colors.white,
         leading: IconButton(
-          onPressed: () => Get.toNamed(ForgotPassword.id),
-          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back),
         ),
         title: Text(
           'Go back',

@@ -8,7 +8,9 @@ class DialogBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       // insetAnimationCurve: Curves.elasticInOut,
-      backgroundColor: Color(0xff131313),
+      // backgroundColor: Color(0xff131313),
+      backgroundColor: Color(0xff141a1e),
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(7.0),
       ),

@@ -173,10 +173,17 @@ class RatingCard extends StatelessWidget {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 150,
-                                              child: Divider(
-                                                color: Colors.blueGrey,
-                                              ),
+                                              height: size.height * 0.006,
+                                            ),
+                                            RatingStars(
+                                              starCount: 5,
+                                              starSize: 15,
+                                              starColor: Color(0xffF3CF31),
+                                              starSpacing: 2,
+                                              starOffColor:
+                                                  const Color(0xffe7e8ea),
+                                              valueLabelColor: Colors.red,
+                                              value: rating,
                                             ),
                                             Row(
                                               children: [
@@ -229,11 +236,9 @@ class RatingCard extends StatelessWidget {
                                                     '9816933888',
                                                     style:
                                                         GoogleFonts.montserrat(
-                                                            fontSize: 16,
-                                                            color: kWhiteColour,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                      fontSize: 14,
+                                                      color: kWhiteColour,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
