@@ -2,6 +2,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/components/dialogBox.dart';
+import 'package:home_utility_pro/components/drawerItems.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
 // import 'package:home_utility_pro/controllers/requestKeysController.dart';
 // import 'package:home_utility_pro/controllers/controller.dart';
@@ -9,7 +11,10 @@ import 'package:home_utility_pro/controllers/requestsDataController.dart';
 import 'package:home_utility_pro/controllers/userController.dart';
 // import 'package:home_utility_pro/controllers/requestscontroller.dart';
 import 'package:home_utility_pro/model/requestData.dart';
+import 'package:home_utility_pro/screens/logInScreen.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
+import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
+import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
 import 'package:home_utility_pro/screens/tabPages/userProfile.dart';
 import '../../constants.dart';
 import '../../main.dart';
@@ -28,21 +33,68 @@ class UserRequestsPage extends StatelessWidget {
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
-          // actions: [
-          //   Padding(
-          //     padding: const EdgeInsets.only(
-          //       top: 8.0,
-          //       left: 20.0,
-          //       right: 15.0,
-          //     ),
-          //     child: Icon(
-          //       Icons.more_vert,
-          //       // color: Color(0xff131313),
-          //       color: Colors.white,
-          //       size: 30,
-          //     ),
-          //   ),
-          // ],
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 8.0,
+                left: 20.0,
+                right: 15.0,
+              ),
+            ),
+            Theme(
+              data: Theme.of(context).copyWith(
+                  textTheme: TextTheme().apply(bodyColor: Colors.black),
+                  dividerColor: Colors.black,
+                  iconTheme: IconThemeData(color: Colors.white)),
+              child: PopupMenuButton<int>(
+                color: Colors.white,
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: Text(
+                      "About us",
+                      style: GoogleFonts.roboto(
+                        color: Colors.black,
+                        letterSpacing: 1.8,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem<int>(
+                      value: 1,
+                      child: Text(
+                        "Help",
+                        style: GoogleFonts.roboto(
+                          color: Colors.black,
+                          letterSpacing: 1.8,
+                        ),
+                      )),
+                  PopupMenuDivider(),
+                  PopupMenuItem<int>(
+                      value: 2,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            "Sign Out",
+                            style: GoogleFonts.roboto(
+                              color: Colors.black,
+                              letterSpacing: 1.8,
+                            ),
+                          )
+                        ],
+                      )),
+                ],
+                onSelected: (item) => SelectedItem(context, item),
+                offset: Offset(0, 70),
+              ),
+            ),
+          ],
           title: Padding(
             padding: EdgeInsets.only(
               top: 8.0,
@@ -53,7 +105,7 @@ class UserRequestsPage extends StatelessWidget {
               style: GoogleFonts.montserrat(
                 // color: Color(0xff131313),
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: 28,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.5,
                 // decoration: TextDecoration.underline,
@@ -69,136 +121,34 @@ class UserRequestsPage extends StatelessWidget {
   }
 }
 
-class DrawerItems extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      // child: StreamBuilder(
-      //   stream: prosRefrence.child(userAuthentication.userID).onValue,
-      //   builder: (context, snapshot) {
-      //     if (!snapshot.hasData) {
-      //       return Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //     Map prosData = snapshot.data.snapshot.value;
-      child: ListView(
-        children: <Widget>[
-          Container(
-            height: 190.0,
-            child: DrawerHeader(
-              curve: Curves.fastOutSlowIn,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: <Color>[
-                Color(0xFF130F22),
-                Color(0xFF19152E),
-                Color(0xFF1C182E),
-                Color(0xFF2A263D),
-              ])),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    // Material(
-                    //   borderRadius:
-                    //       BorderRadius.all(Radius.circular(50.0)),
-                    //   color: kBlackColour,
-                    //   // elevation: 10,
-                    //   // child: Padding(
-                    //   // padding: EdgeInsets.all(8.0),
-                    CircleAvatar(
-                      radius: 50.0,
-                      backgroundColor: kBlackColour,
-                      backgroundImage: AssetImage('images/person.png'),
-                    ),
-                    // ),
-                    SizedBox(height: 10),
-                    // ),
-                    // Padding(
-                    // padding: EdgeInsets.all(8.0),
-                    Obx(() {
-                      return Text(
-                          'HI, ' +
-                              Get.find<ProController>()
-                                  .pro[0]
-                                  .prosName
-                                  .toUpperCase(),
-                          style: GoogleFonts.maitree(
-                              fontSize: 16, color: Colors.white70));
-                    }),
-                    // )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          CustomListTile(Icons.person_outline, 'Profile', () => {}),
-          CustomListTile(Icons.info_outline, 'About', () => {}),
-          CustomListTile(Icons.help_outline, 'Help', () => {}),
-          CustomListTile(Icons.lock_outline, 'Sign Out', () => {}),
-        ],
-      ),
-      // },
-      // ),
-    );
-  }
-}
+Future<void> SelectedItem(BuildContext context, int item) async {
+  switch (item) {
+    case 0:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AboutPage()),
+      );
+      // Get.toNamed(AboutPage.id);
+      break;
+    case 1:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HelpPage()),
+      );
+      // Get.toNamed(HelpPage.id);
+      break;
+    case 2:
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => DialogBox(
+          title: 'Signing Out',
+        ),
+      );
+      await userAuthentication.signOut();
+      Get.offAndToNamed(LogInScreen.id);
 
-class CustomListTile extends StatelessWidget {
-  IconData icon;
-  String text;
-  Function onTap;
-
-  CustomListTile(this.icon, this.text, this.onTap);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
-        child: InkWell(
-            splashColor: Colors.grey[700],
-            onTap: onTap,
-            child: Container(
-              height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 18,
-                        backgroundColor: kBlackColour,
-                        child: Center(
-                          child: Icon(
-                            icon,
-                            color: Colors.grey.shade200,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          text,
-                          style: GoogleFonts.mada(
-                            fontSize: 16.0,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Icon(
-                    Icons.arrow_right,
-                    color: kBlackColour,
-                  ),
-                ],
-              ),
-            )),
-      ),
-    );
+      break;
   }
 }
 

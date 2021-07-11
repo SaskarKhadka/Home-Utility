@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/components/drawerItems.dart';
 import 'package:home_utility_pro/controllers/acceptedRequestsController.dart';
 import 'package:home_utility_pro/controllers/userController.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
@@ -39,7 +40,7 @@ class AcceptedRequests extends StatelessWidget {
               style: GoogleFonts.montserrat(
                 // color: Color(0xff131313),
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: 30,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.5,
                 // decoration: TextDecoration.underline,
@@ -47,6 +48,68 @@ class AcceptedRequests extends StatelessWidget {
             ),
           ),
           centerTitle: true,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 8.0,
+                left: 20.0,
+                right: 15.0,
+              ),
+            ),
+            Theme(
+              data: Theme.of(context).copyWith(
+                  textTheme: TextTheme().apply(bodyColor: Colors.black),
+                  dividerColor: Colors.black,
+                  iconTheme: IconThemeData(color: Colors.white)),
+              child: PopupMenuButton<int>(
+                color: Colors.white,
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: Text(
+                      "About us",
+                      style: GoogleFonts.roboto(
+                        color: Colors.black,
+                        letterSpacing: 1.8,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem<int>(
+                      value: 1,
+                      child: Text(
+                        "Help",
+                        style: GoogleFonts.roboto(
+                          color: Colors.black,
+                          letterSpacing: 1.8,
+                        ),
+                      )),
+                  PopupMenuDivider(),
+                  PopupMenuItem<int>(
+                      value: 2,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            "Sign Out",
+                            style: GoogleFonts.roboto(
+                              color: Colors.black,
+                              letterSpacing: 1.8,
+                            ),
+                          )
+                        ],
+                      )),
+                ],
+                onSelected: (item) => SelectedItem(context, item),
+                offset: Offset(0, 70),
+              ),
+            ),
+          ],
         ),
         body: Scrollbar(
           child: AcceptedRequestsStream(),

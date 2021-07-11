@@ -7,6 +7,8 @@ import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/screens/confirmEmail.dart';
 import 'package:home_utility/screens/forgotPassword.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
+import 'package:home_utility/screens/popUpPages/help.dart';
+import 'package:home_utility/screens/tabPages/userProfile.dart';
 import 'package:home_utility/services/cloudStorage.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
@@ -157,8 +159,16 @@ class HomeUtility extends StatelessWidget {
           page: () => DetailsPage(),
         ),
         GetPage(
+          name: UserProfile.id,
+          page: () => UserProfile(),
+        ),
+        GetPage(
           name: AboutPage.id,
           page: () => AboutPage(),
+        ),
+        GetPage(
+          name: HelpPage.id,
+          page: () => HelpPage(),
         ),
       ],
     );

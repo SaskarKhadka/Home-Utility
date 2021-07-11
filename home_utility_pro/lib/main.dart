@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility_pro/screens/confirmEmail.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
+import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
+import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
 import 'package:home_utility_pro/services/cloudStorage.dart';
 import 'screens/registrationScreen.dart';
 import 'screens/logInScreen.dart';
@@ -148,6 +150,14 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           name: ProsInfoScreen.id,
           page: () => ProsInfoScreen(),
+        ),
+        GetPage(
+          name: AboutPage.id,
+          page: () => AboutPage(),
+        ),
+        GetPage(
+          name: HelpPage.id,
+          page: () => HelpPage(),
         ),
       ],
     );

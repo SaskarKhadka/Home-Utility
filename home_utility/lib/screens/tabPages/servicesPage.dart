@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/detailsDialog.dart';
+import 'package:home_utility/components/drawerItems.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/screens/tabPages/userRequestsPage.dart';
 import '../../main.dart';
@@ -14,11 +15,12 @@ class ServicesPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff131313),
+        drawer: DrawerItems(),
         appBar: AppBar(
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
-          automaticallyImplyLeading: false,
+          // automaticallyImplyLeading: false,
           centerTitle: true,
           actions: [
             Padding(
@@ -84,7 +86,6 @@ class ServicesPage extends StatelessWidget {
           ],
           title: Padding(
             padding: EdgeInsets.only(
-              top: 8.0,
               left: 16.0,
             ),
             child: Text(
@@ -92,7 +93,7 @@ class ServicesPage extends StatelessWidget {
               style: GoogleFonts.montserrat(
                 // color: Color(0xff131313),
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: 28,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.5,
                 // decoration: TextDecoration.underline,

@@ -74,7 +74,7 @@ class _MainScreenState extends State<MainScreen>
             // activeColor: Colors.transparent,
             rippleColor: Color(0xff131313),
             hoverColor: Color(0xff131313).withOpacity(0.6),
-            gap: 5,
+            gap: 1,
             iconSize: 26,
             padding: EdgeInsets.symmetric(
               horizontal: 20.0,

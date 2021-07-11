@@ -108,10 +108,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     _setMapStyle();
   }
 
-  // void _setCircle(LatLng point) {
-  //   final String circleIdvalue = 'hello';
-  // }
-
   StreamSubscription myStreamSubscription;
 
   void prosWithinProximity() {
@@ -240,6 +236,10 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           style: GoogleFonts.montserrat(),
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.refresh),
+        ),
       ),
       body: SafeArea(
         child: Stack(

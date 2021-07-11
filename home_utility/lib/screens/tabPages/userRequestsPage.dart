@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customButton.dart';
 import 'package:home_utility/components/customDialogBoxProfile.dart';
 import 'package:home_utility/components/dialogBox.dart';
+import 'package:home_utility/components/drawerItems.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/proController.dart';
 import 'package:home_utility/controllers/requestsDataController.dart';
@@ -14,6 +15,7 @@ import 'package:home_utility/model/requestStatus.dart';
 import 'package:home_utility/screens/chatScreen.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
+import 'package:home_utility/screens/popUpPages/help.dart';
 import '../../main.dart';
 
 class UserRequestsPage extends StatelessWidget {
@@ -25,11 +27,12 @@ class UserRequestsPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBlackColour,
+        drawer: DrawerItems(),
         appBar: AppBar(
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
-          automaticallyImplyLeading: false,
+          // automaticallyImplyLeading: false,
           centerTitle: true,
           actions: [
             Padding(
@@ -96,14 +99,14 @@ class UserRequestsPage extends StatelessWidget {
           title: Padding(
             padding: EdgeInsets.only(
               top: 8.0,
-              left: 16.0,
+              // left: 16.0,
             ),
             child: Text(
               'My Requests',
               style: GoogleFonts.montserrat(
                 // color: Color(0xff131313),
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: 28,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.5,
                 // decoration: TextDecoration.underline,
@@ -125,6 +128,11 @@ Future<void> SelectedItem(BuildContext context, int item) async {
       Get.toNamed(AboutPage.id);
       break;
     case 1:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HelpPage()),
+      );
+      // Get.toNamed(HelpPage.id);
       break;
     case 2:
       showDialog(
