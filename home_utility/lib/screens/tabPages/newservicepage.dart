@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/components/detailsDialog.dart';
+import '../../constants.dart';
 import '../../main.dart';
 import 'package:google_fonts/google_fonts.dart';
 //0xffd17842
@@ -13,8 +14,8 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  TabController tabController;
+class _HomeScreenState extends State<HomeScreen>{
+  // TabController tabController;
   // int _selectedIndex = 0;
 
   // void _onItemTapped(int index) {
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController = TabController(length: 6, vsync: this);
+    
     super.initState();
   }
 
@@ -217,11 +218,30 @@ ServiceCard({this.category});
                 children: [
                   GestureDetector(
                     onTap: (){
-                       Get.to(
-                            DetailsPage(
-                              service: data[index]['service'],
-                              category: category,
-                            ));
+                      //  Get.to(
+                      //       DetailsPage(
+                      //         service: data[index]['service'],
+                      //         category: category,
+                      //       ));
+                                                showModalBottomSheet(
+                              elevation: 4.0,
+                              barrierColor: kBlackColour.withOpacity(0.6),
+                              isDismissible: true,
+                              enableDrag: true,
+                              isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(26.0),
+                                  topRight: Radius.circular(26.0),
+                                ),
+                              ),
+                              // backgroundColor: Color(0xFF0E0E0F),
+                              backgroundColor: Color(0xFFFDFDFF),
+                              context: context,
+                              builder: (context) => DetailsPage(
+                                    service: data[index]['service'],
+                                    category: category,
+                                  ));
                     },
                     child: Container(
                       height: 230,
