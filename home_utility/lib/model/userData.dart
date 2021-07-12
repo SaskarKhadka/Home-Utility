@@ -12,6 +12,5 @@ class UserData {
     userPhoneNo = userData['userPhoneNo'];
     userEmail = userData['userEmail'];
     profileUrl = userData['profileUrl'];
-    password = userData['userPassword'];
   }
 }

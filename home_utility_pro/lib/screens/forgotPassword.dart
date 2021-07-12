@@ -62,7 +62,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     height: size.height * 0.1,
                   ),
                   Text(
-                    'Enter your email for getting a password reset link.\n\nIf you haven\'t forgotten your password, tap the Sign In button.',
+                    'Enter your email for getting a password reset link.\n\nIf you don\'t want to change your password, you can go back.',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
@@ -113,27 +113,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                   SizedBox(
                     height: size.height * 0.01,
-                  ),
-                  Text(
-                    "OR",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-
-                  Container(
-                    width: 150,
-                    height: 60,
-                    child: CustomButton(
-                      text: 'Sign In',
-                      onTap: () {
-                        Get.offAllNamed(LogInScreen.id);
-                      },
-                    ),
                   ),
                 ],
               ),
