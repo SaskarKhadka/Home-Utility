@@ -84,7 +84,7 @@ class ChatScreen extends StatelessWidget {
                         dateTime = dateTime.replaceAll('.', '');
                         // print(now);
                         final key = encrypt.Key.fromUtf8(
-                            'my 32 length key................');
+                            'my 32 length key is very coooool');
                         final iv = encrypt.IV.fromLength(16);
 
                         final encrypter = encrypt.Encrypter(encrypt.AES(key));

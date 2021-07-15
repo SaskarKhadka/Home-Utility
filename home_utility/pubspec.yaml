@@ -48,6 +48,8 @@ dependencies:
   firebase_storage: ^9.0.0
   image_cropper: ^1.4.1
   encrypt: ^5.0.0
+  firebase_messaging: ^10.0.3
+  flutter_local_notifications: ^6.0.0
 
 dev_dependencies:
   flutter_test:

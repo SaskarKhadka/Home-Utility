@@ -25,9 +25,7 @@ class UserRequestsPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: kBlackColour,
-        backgroundColor: Color(0xff141a1e),
-
+        backgroundColor: kBlackColour,
         drawer: DrawerItems(),
         appBar: AppBar(
           toolbarHeight: 67,

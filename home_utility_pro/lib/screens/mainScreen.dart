@@ -1,9 +1,12 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:home_utility_pro/screens/tabPages/acceptedRequests.dart';
 import 'package:line_icons/line_icons.dart';
+import '../main.dart';
 import 'tabPages/ratings.dart';
 import 'tabPages/userRequestsPage.dart';
 import 'tabPages/userProfile.dart';
@@ -25,6 +28,38 @@ class _MainScreenState extends State<MainScreen>
     // TODO: implement initState
     super.initState();
     tabController = TabController(length: 4, vsync: this);
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                icon: android?.smallIcon,
+                priority: Priority.high,
+                importance: Importance.high,
+                fullScreenIntent: true,
+              ),
+            ));
+      }
+    });
+    getToken();
+  }
+
+  getToken() async {
+    String token = await FirebaseMessaging.instance.getToken();
+    print(token);
   }
 
   @override
