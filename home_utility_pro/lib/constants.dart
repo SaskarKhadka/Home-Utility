@@ -20,3 +20,6 @@ const kWhiteColour = Colors.white;
 const kBlackColour = Color(0xff131313);
 const Color kPrimaryColor = Color(0xFF1C2031);
 const Color kSecondaryColor = Color(0xFFFFFFFF);
+
+const key =
+    "key=AAAAfrFRsck:APA91bEDEz41WGZHN62FWoc4idgrUELYGUe4mxc87Tz3XSKHALS-BrNj1smjX_k3_cEtfJVeAS5J9k2C7HQgOAQj2xKFw6npM9z_AmigoeJw6r97LhWJtjb7t2a3viLrfjUFka_xACdk";

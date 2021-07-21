@@ -1,11 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:io';
-
-import 'package:firebase_database/ui/utils/stream_subscriber_mixin.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:home_utility/location/infobox.dart';
@@ -93,14 +88,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         .loadString('images/map_style.json');
     _mapController.setMapStyle(style);
   }
-
-  // Set<Marker> getMarkers() {
-  //   return GetX<MarkersController>(
-  //     builder: (markersController) {
-  //       return Set.from(markersController.prosMarkers);
-  //     },
-  //   );
-  // }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;

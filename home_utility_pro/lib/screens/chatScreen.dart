@@ -161,7 +161,7 @@ class MessagesStream extends StatelessWidget {
             final message = messages[messageID[index]].message;
             final sentBy = messages[messageID[index]].sentBy;
             final key =
-                encrypt.Key.fromUtf8('my 32 length key................');
+                encrypt.Key.fromUtf8('my 32 length key is very coooool');
             final iv = encrypt.IV.fromLength(16);
 
             final encrypter = encrypt.Encrypter(encrypt.AES(key));

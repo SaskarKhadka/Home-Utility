@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility_pro/model/chat.dart';
 import 'package:home_utility_pro/model/prosData.dart';
-import 'package:home_utility_pro/model/requestData.dart';
 import 'package:home_utility_pro/model/userData.dart';
 import '../main.dart';
 
@@ -43,7 +42,6 @@ class Database {
 
   Future<void> deleteRequest({String requestKey}) async {
     print(userAuthentication.userID);
-    // requestRefrence.child(category).child(requestKey).remove();
 
     await prosRefrence
         .child(userAuthentication.userID)
@@ -51,11 +49,11 @@ class Database {
         .child(requestKey)
         .remove();
 
-    // await usersRefrence
-    //     .child(userAuthentication.userID)
-    //     .child('requests')
-    //     .child(requestKey)
-    //     .remove();
+    await usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
   }
 
   Future<Query> requestQuery({String category}) async {
@@ -72,6 +70,19 @@ class Database {
         .child(userAuthentication.userID)
         .child('requests')
         .onValue;
+  }
+
+  Future<String> getToken(String userID) async {
+    DataSnapshot snapshot =
+        await usersRefrence.child(userID).child('token').once();
+    String token = snapshot.value;
+    return token;
+  }
+
+  void saveToken(String token) async {
+    await prosRefrence
+        .child(userAuthentication.userID)
+        .update({'token': token});
   }
 
   // Stream<List<String>> userRequestsStream() {
@@ -129,43 +140,43 @@ class Database {
   //   });
   // }
 
-  // Stream requestDataStream({String requestKey}) {
-  //   return requestRefrence.child(requestKey).onValue;
+  Stream requestDataStream({String requestKey}) {
+    return requestRefrence.child(requestKey).onValue;
+  }
+
+  // Stream<Map<String, RequestData>> requestDataStream() {
+  //   return prosRefrence
+  //       .child(userAuthentication.userID)
+  //       .child('requests')
+  //       .onValue
+  //       .map((Event event) {
+  //     Map<String, RequestData> requestData = {};
+  //     try {
+  //       Map.from(event.snapshot.value).forEach((key, value) {
+  //         requestData[key] = RequestData.fromData(value);
+  //       });
+  //     } catch (e) {}
+  //     return requestData;
+  //   });
   // }
 
-  Stream<Map<String, RequestData>> requestDataStream() {
-    return prosRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .onValue
-        .map((Event event) {
-      Map<String, RequestData> requestData = {};
-      try {
-        Map.from(event.snapshot.value).forEach((key, value) {
-          requestData[key] = RequestData.fromData(value);
-        });
-      } catch (e) {}
-      return requestData;
-    });
-  }
-
-  Stream<Map<String, RequestData>> jobDataStream() {
-    return prosRefrence
-        .child(userAuthentication.userID)
-        .child('jobs')
-        .onValue
-        .map((Event event) {
-      // print(event.snapshot.value);
-      Map<String, RequestData> requestData = {};
-      try {
-        Map.from(event.snapshot.value).forEach((key, value) {
-          requestData[key] = RequestData.fromData(value);
-        });
-      } catch (e) {}
-      // print(requestData);
-      return requestData;
-    });
-  }
+  // Stream<Map<String, RequestData>> jobDataStream() {
+  //   return prosRefrence
+  //       .child(userAuthentication.userID)
+  //       .child('jobs')
+  //       .onValue
+  //       .map((Event event) {
+  //     // print(event.snapshot.value);
+  //     Map<String, RequestData> requestData = {};
+  //     try {
+  //       Map.from(event.snapshot.value).forEach((key, value) {
+  //         requestData[key] = RequestData.fromData(value);
+  //       });
+  //     } catch (e) {}
+  //     // print(requestData);
+  //     return requestData;
+  //   });
+  // }
 
   Future<String> get prosProfession async {
     String profession;
@@ -215,19 +226,20 @@ class Database {
     return isAlreadyUsed;
   }
 
-  Future<void> changeState(
-      {String requestKey, String state, String userID}) async {
-    await prosRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .child(requestKey)
-        .update({'state': state});
+  Future<void> changeState({String requestKey, String state}) async {
+    await requestRefrence.child(requestKey).update({'state': state});
 
-    await usersRefrence
-        .child(userID)
-        .child('requests')
-        .child(requestKey)
-        .update({'state': state});
+    // await prosRefrence
+    //     .child(userAuthentication.userID)
+    //     .child('requests')
+    //     .child(requestKey)
+    //     .update({'state': state});
+
+    // await usersRefrence
+    //     .child(userID)
+    //     .child('requests')
+    //     .child(requestKey)
+    //     .update({'state': state});
   }
 
   // Future<void> changeRatingState({String requestKey, bool state}) async {
@@ -238,18 +250,19 @@ class Database {
 
   Future<void> changeAcceptedState(
       {String requestKey, bool state, String userID}) async {
-    await prosRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .child(requestKey)
-        .update({'isAccepted': state});
-    print(userID);
+    await requestRefrence.child(requestKey).update({'isAccepted': state});
+    // await prosRefrence
+    //     .child(userAuthentication.userID)
+    //     .child('requests')
+    //     .child(requestKey)
+    //     .update({'isAccepted': state});
+    // print(userID);
 
-    await usersRefrence
-        .child(userID)
-        .child('requests')
-        .child(requestKey)
-        .update({'isAccepted': state});
+    // await usersRefrence
+    //     .child(userID)
+    //     .child('requests')
+    //     .child(requestKey)
+    //     .update({'isAccepted': state});
   }
 
   Stream<Map<String, Chat>> getChatData({String chatID}) {
@@ -264,17 +277,18 @@ class Database {
     });
   }
 
-  Future<void> saveRequestAsJob({String requestKey, Map requestData}) async {
+  Future<void> saveRequestAsJob({String requestKey}) async {
     await prosRefrence
         .child(userAuthentication.userID)
         .child('requests')
         .child(requestKey)
         .remove();
 
-    final jobRef = prosRefrence.child(userAuthentication.userID).child('jobs');
-    await jobRef.child(requestKey).set(requestData
-        // 'requestKey': requestKey,
-        );
+    prosRefrence
+        .child(userAuthentication.userID)
+        .child('jobs')
+        .child(requestKey)
+        .set({'requestKey': requestKey});
     // requestData);
     // DataSnapshot snapshot =
     //     await requestRefrence.child(category).child(requestKey).once();

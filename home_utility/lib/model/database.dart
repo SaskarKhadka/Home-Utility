@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:home_utility/model/chat.dart';
 import 'package:home_utility/model/proData.dart';
-import 'package:home_utility/model/requestData.dart';
 import 'package:home_utility/model/userData.dart';
 // import 'package:home_utility/model/user.dart';
 import '../main.dart';
@@ -64,28 +63,16 @@ class Database {
 
       await requestRefrence.child(requestKey).set(userInfo);
 
-      final ref = usersRefrence.child(userID).child('requests');
-      await ref.child(requestKey).set(userInfo
-          // 'requestKey': requestKey,
-          // 'state': 'pending',
-          );
-
-      // usersRefrence
-      //     .child(userID)
-      //     .child('requests')
-      //     .child(requestKey)
-      //     .child('requestedTo')
-      //     .set({
-      //   'proID': proID,
-      // });
-      userRequestCounter++;
-      await prosRefrence
-          .child(proID)
+      await usersRefrence
+          .child(userID)
           .child('requests')
           .child(requestKey)
-          .set(userInfo
-              // 'requestKey': requestKey,
-              );
+          .set({'requestKey': requestKey});
+
+      userRequestCounter++;
+      await prosRefrence.child(proID).child('requests').child(requestKey).set({
+        'requestKey': requestKey,
+      });
     } else {
       //TODO: Error message saying request if full
       //TODO: Set userRequestCountyer back to 0
@@ -103,12 +90,6 @@ class Database {
         .update({'isRatingPending': state});
   }
 
-  // Future<void> changeAcceptedState({String requestKey, bool state}) async {
-  //   await requestRefrence.child(requestKey)
-  //       // .child('isAccepted')
-  //       .update({'isAccepted': state});
-  // }
-
   Future<void> deleteRequest({String requestKey}) async {
     String userID = userAuthentication.userID;
 
@@ -122,6 +103,20 @@ class Database {
 
     // userRequestCounter--;
     await totalUsersRequests();
+  }
+
+  Future<String> getToken(String proID) async {
+    DataSnapshot snapshot =
+        await prosRefrence.child(proID).child('token').once();
+
+    String token = snapshot.value;
+    return token;
+  }
+
+  void saveToken(String token) async {
+    await usersRefrence
+        .child(userAuthentication.userID)
+        .update({'token': token});
   }
 
   // Stream<List<String>> userRequestsStream() {
@@ -141,22 +136,29 @@ class Database {
   //   // return null;
   // }
 
-  Stream<Map<String, RequestData>> userRequestsStream() {
+  Stream userRequestsStream() {
     return usersRefrence
         .child(userAuthentication.userID)
         .child('requests')
-        .onValue
-        .map((Event event) {
-      Map<String, RequestData> requestsData = {};
-      try {
-        Map.from(event.snapshot.value).forEach((key, value) {
-          requestsData[key] = RequestData.fromData(value);
-        });
-      } catch (e) {}
-      return requestsData;
-    });
-    // return null;
+        .onValue;
   }
+
+  // Stream<Map<String, RequestData>> userRequestsStream() {
+  //   return usersRefrence
+  //       .child(userAuthentication.userID)
+  //       .child('requests')
+  //       .onValue
+  //       .map((Event event) {
+  //     Map<String, RequestData> requestsData = {};
+  //     try {
+  //       Map.from(event.snapshot.value).forEach((key, value) {
+  //         requestsData[key] = RequestData.fromData(value);
+  //       });
+  //     } catch (e) {}
+  //     return requestsData;
+  //   });
+  //   // return null;
+  // }
 
   Stream<List<UserData>> userDataStream() {
     return usersRefrence
@@ -200,9 +202,6 @@ class Database {
   // }
 
   Stream requestDataStream({String requestKey}) {
-    // DataSnapshot snapshot = await requestRefrence.child(requestKey).once();
-    // Map data = snapshot.value as Map;
-    // print(requestKey);
     return requestRefrence.child(requestKey).onValue;
   }
 

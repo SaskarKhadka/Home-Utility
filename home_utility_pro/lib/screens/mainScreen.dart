@@ -1,5 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,8 +59,21 @@ class _MainScreenState extends State<MainScreen>
 
   getToken() async {
     String token = await FirebaseMessaging.instance.getToken();
-    print(token);
+    userToken = token;
+    print(userToken);
   }
+
+  // getToken() async {
+  //   if (await database.getToken() == null) {
+  //     print('hehhehe');
+  // String token = await FirebaseMessaging.instance.getToken();
+  //     database.saveToken(token);
+  //     userToken = token;
+  //   } else {
+  //     userToken = await database.getToken();
+  // print(userToken);
+  //   }
+  // }
 
   @override
   void dispose() {
