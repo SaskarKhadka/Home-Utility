@@ -4,7 +4,6 @@ class UserData {
   String userEmail;
   int userPhoneNo;
   String profileUrl;
-  String password;
 
   UserData.fromData(Map userData) {
     userName = userData['userName'];
