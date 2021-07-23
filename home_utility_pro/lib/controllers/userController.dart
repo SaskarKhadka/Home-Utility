@@ -12,7 +12,6 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     userData.bindStream(database.userDataStream(userID: userID));
   }

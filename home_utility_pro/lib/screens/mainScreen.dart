@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,7 +6,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:home_utility_pro/screens/tabPages/acceptedRequests.dart';
 import 'package:line_icons/line_icons.dart';
 import '../main.dart';
-import 'tabPages/ratings.dart';
 import 'tabPages/userRequestsPage.dart';
 import 'tabPages/userProfile.dart';
 
@@ -27,7 +25,7 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettings =
@@ -94,7 +92,6 @@ class _MainScreenState extends State<MainScreen>
         children: [
           UserRequestsPage(),
           AcceptedRequests(),
-          Ratings(),
           ProsProfile(),
         ],
       ),
@@ -146,12 +143,6 @@ class _MainScreenState extends State<MainScreen>
               GButton(
                 icon: LineIcons.handshakeAlt,
                 text: ' My Jobs',
-              ),
-              GButton(
-                // icon: LineIcons.addressCard,
-                icon: LineIcons.stickyNoteAlt,
-                // iconActiveColor: Colors.white,
-                text: ' Ratings',
               ),
               GButton(
                 icon: LineIcons.user,

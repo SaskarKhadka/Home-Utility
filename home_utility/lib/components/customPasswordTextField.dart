@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/controllers/textFieldController.dart';
-// import 'package:home_utility/controllers/textFieldController.dart';
 import '../constants.dart';
 
 class CustomPasswordTextField extends StatelessWidget {

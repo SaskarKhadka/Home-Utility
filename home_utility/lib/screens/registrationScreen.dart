@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:home_utility/components/backgroundGradient.dart';
 import 'package:home_utility/controllers/registrationController.dart';
 import 'package:home_utility/location/userLocation.dart';
 import 'logInScreen.dart';
@@ -16,179 +15,175 @@ import '../components/customPasswordTextField.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const id = '/register';
-
-  final registrationController = Get.put(RegistrationController());
+  final registrationController = RegistrationController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
-        child: BackgroundGradient(
-          isRegistrationScreen: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: size.height * 0.08,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () => Get.toNamed(LogInScreen.id),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 5.0,
-                          horizontal: 21.0,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          border: Border.all(
-                            style: BorderStyle.solid,
-                            color: Colors.white,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: Text(
-                          'SIGN IN',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 2,
-                            fontSize: 30,
-                            wordSpacing: 2,
-                            // decoration: TextDecoration.underline,
-                          ),
-                        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: size.height * 0.08,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () => Get.toNamed(LogInScreen.id),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5.0,
+                        horizontal: 21.0,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 4.6,
-                          horizontal: 17.0,
-                        ),
-                        decoration: BoxDecoration(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(
+                          style: BorderStyle.solid,
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
+                          width: 1.0,
                         ),
-                        child: Text(
-                          'SIGN UP',
-                          style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            letterSpacing: 2,
-                            fontSize: 30,
-                            wordSpacing: 2,
-                            // decoration: TextDecoration.underline,
-                          ),
+                      ),
+                      child: Text(
+                        'SIGN IN',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 2,
+                          fontSize: 30,
+                          wordSpacing: 2,
+                          // decoration: TextDecoration.underline,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(60.0),
-                      // topLeft: Radius.circular(120.0),
-                      // bottomLeft: Radius.circular(60.0),
-                      // bottomRight: Radius.circular(50.0),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 4.6,
+                        horizontal: 17.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Text(
+                        'SIGN UP',
+                        style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          letterSpacing: 2,
+                          fontSize: 30,
+                          wordSpacing: 2,
+                          // decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.035,
-                      horizontal: size.width * 0.07,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.03,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            CustomTextField(
-                              textController:
-                                  registrationController.nameController,
-                              isPhoneNumber: false,
-                              icon: EvaIcons.personOutline,
-                              labelText: 'Name',
-                              hintText: 'Enter your name',
-                            ),
-                            SizedBox(
-                              height: size.height * 0.03,
-                            ),
-                            CustomTextField(
-                              textController:
-                                  registrationController.phoneController,
-                              isPhoneNumber: true,
-                              icon: EvaIcons.phoneCallOutline,
-                              labelText: 'Phone Number',
-                              hintText: 'Enter your phone number',
-                            ),
-                            SizedBox(
-                              height: size.height * 0.03,
-                            ),
-                            CustomTextField(
-                              textController:
-                                  registrationController.emailController,
-                              isPhoneNumber: false,
-                              icon: Icons.email_outlined,
-                              labelText: 'Email',
-                              hintText: 'Enter your email address',
-                            ),
-                            SizedBox(
-                              height: size.height * 0.03,
-                            ),
-                            CustomPasswordTextField(
-                              textController:
-                                  registrationController.passwordController,
-                              icon: EvaIcons.lockOutline,
-                              labelText: 'Password',
-                              hintText: 'Enter your password',
-                            ),
-                            SizedBox(
-                              height: size.height * 0.06,
-                            ),
-                            CustomButton(
-                              color: Colors.orange[900],
-                              text: 'SIGN UP',
-                              onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (context) => DialogBox(
-                                    title: 'Registering',
-                                  ),
-                                );
+                ],
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.01,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(60.0),
+                    // topLeft: Radius.circular(120.0),
+                    // bottomLeft: Radius.circular(60.0),
+                    // bottomRight: Radius.circular(50.0),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: size.height * 0.035,
+                    horizontal: size.width * 0.07,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          CustomTextField(
+                            textController:
+                                registrationController.nameController,
+                            isPhoneNumber: false,
+                            icon: EvaIcons.personOutline,
+                            labelText: 'Name',
+                            hintText: 'Enter your name',
+                          ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+                          CustomTextField(
+                            textController:
+                                registrationController.phoneController,
+                            isPhoneNumber: true,
+                            icon: EvaIcons.phoneCallOutline,
+                            labelText: 'Phone Number',
+                            hintText: 'Enter your phone number',
+                          ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+                          CustomTextField(
+                            textController:
+                                registrationController.emailController,
+                            isPhoneNumber: false,
+                            icon: Icons.email_outlined,
+                            labelText: 'Email',
+                            hintText: 'Enter your email address',
+                          ),
+                          SizedBox(
+                            height: size.height * 0.03,
+                          ),
+                          CustomPasswordTextField(
+                            textController:
+                                registrationController.passwordController,
+                            icon: EvaIcons.lockOutline,
+                            labelText: 'Password',
+                            hintText: 'Enter your password',
+                          ),
+                          SizedBox(
+                            height: size.height * 0.06,
+                          ),
+                          CustomButton(
+                            color: Colors.orange[900],
+                            text: 'SIGN UP',
+                            onTap: () async {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => DialogBox(
+                                  title: 'Registering',
+                                ),
+                              );
 
-                                _checkValidation();
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              _checkValidation();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

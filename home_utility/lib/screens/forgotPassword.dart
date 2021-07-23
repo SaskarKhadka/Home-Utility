@@ -3,31 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customTextField.dart';
-import 'package:home_utility/components/dialogBox.dart';
+import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/main.dart';
 import 'package:home_utility/screens/confirmEmail.dart';
 import 'package:home_utility/screens/logInScreen.dart';
-import '../services/userAuthentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:home_utility/components/customButton.dart';
-
 import 'registrationScreen.dart';
 
-class ForgotPassword extends StatefulWidget {
+class ForgotPassword extends StatelessWidget {
   static String id = 'forgotPassword';
 
-  @override
-  _ForgotPasswordState createState() => _ForgotPasswordState();
-}
-
-class _ForgotPasswordState extends State<ForgotPassword> {
-  final emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
+  final textController = Get.find<TextController>();
 
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -73,7 +59,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     height: size.height * 0.09,
                   ),
                   CustomTextField(
-                    textController: emailController,
+                    textController: textController.emailController,
                     isPhoneNumber: false,
                     icon: EvaIcons.emailOutline,
                     labelText: 'Email',
@@ -90,13 +76,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: CustomButton(
                       text: 'Send Email',
                       onTap: () async {
-                        if (emailController.text.isEmpty) {
+                        if (textController.emailController.text.isEmpty) {
                           getSnackBar(
                             title: 'ERROR!',
                             message: 'Please enter your email address',
                           );
                           return;
-                        } else if (!emailController.text.isEmail) {
+                        } else if (!textController
+                            .emailController.text.isEmail) {
                           getSnackBar(
                             title: 'ERROR!',
                             message: 'Please enter a valid email address',
@@ -104,7 +91,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           return;
                         }
                         await userAuthentication.passwordReset(
-                          email: emailController.text.trim(),
+                          email: textController.emailController.text.trim(),
                         );
 
                         Get.toNamed(ConfirmEmail.id);

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -45,11 +44,7 @@ class GoogleMapScreen extends StatefulWidget {
 }
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
-  // final databaseReference = FirebaseDatabase.instance.reference();
-  // double latitude = 27.6641822;
-  // double longitude = 84.4315124;
-  // Set<Marker> _markers = {};
-  Set<Circle> _circles = HashSet<Circle>();
+  // Set<Circle> _circles = HashSet<Circle>();
   List<Marker> _markers = [];
   BitmapDescriptor usericon;
   BitmapDescriptor proicon;
@@ -137,16 +132,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               ),
             );
           });
-          _circles.add(
-            Circle(
-              circleId: CircleId('user'),
-              center: LatLng(lat1, lng1),
-              radius: _distanceMap[_distanceValue],
-              fillColor: Colors.tealAccent.withOpacity(0.2),
-              strokeWidth: 3,
-              strokeColor: Colors.tealAccent.withOpacity(0.6),
-            ),
-          );
+          // _circles.add(
+          //   Circle(
+          //     circleId: CircleId('user'),
+          //     center: LatLng(lat1, lng1),
+          //     radius: _distanceMap[_distanceValue],
+          //     fillColor: Colors.tealAccent.withOpacity(0.2),
+          //     strokeWidth: 3,
+          //     strokeColor: Colors.tealAccent.withOpacity(0.6),
+          //   ),
+          // );
         }
       });
     });
@@ -183,17 +178,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
       ),
     );
-    // _circles.add(
-    //   Circle(
-    //     circleId: CircleId('pros'),
-    //     center:
-    //         LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
-    //     radius: _distanceMap[_distanceValue],
-    //     fillColor: Colors.tealAccent.withOpacity(0.2),
-    //     strokeWidth: 3,
-    //     strokeColor: Colors.tealAccent.withOpacity(0.6),
-    //   ),
-    // );
+
     setIcon();
   }
 
@@ -216,35 +201,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: true,
-      //   title: Text(
-      //     'Utility Map',
-      //     style: GoogleFonts.montserrat(),
-      //   ),
-      //   centerTitle: true,
-      //   actions: [
-      //     Padding(
-      //       padding: const EdgeInsets.only(
-      //         top: 8.0,
-      //         left: 20.0,
-      //         right: 15.0,
-      //       ),
-      //     ),
-      //     Theme(
-      //       data: Theme.of(context).copyWith(
-      //           textTheme: TextTheme().apply(bodyColor: Colors.black),
-      //           dividerColor: Colors.black,
-      //           iconTheme: IconThemeData(color: Colors.white)),
-      //       child: IconButton(
-      //         onPressed: () {
-      //           RefreshIndicator(child: child, onRefresh: onRefresh)
-      //         },
-      //         icon: Icon(Icons.refresh),
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -256,7 +212,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   zoom: 14),
               mapType: MapType.normal,
               markers: Set.from(_markers),
-              circles: Set.from(_circles),
+              // circles: Set.from(_circles),
               zoomControlsEnabled: true,
               // myLocationEnabled: false,
               myLocationButtonEnabled: true,

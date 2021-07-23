@@ -16,6 +16,5 @@ class ProController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    // userData.close();
   }
 }

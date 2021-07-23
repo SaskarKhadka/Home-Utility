@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:home_utility_pro/constants.dart';
 import 'package:home_utility_pro/controllers/registrationController.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
-import 'package:home_utility_pro/model/services.dart';
-import 'package:home_utility_pro/model/servicesHandler.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import 'logInScreen.dart';
 import '../components/customButton.dart';

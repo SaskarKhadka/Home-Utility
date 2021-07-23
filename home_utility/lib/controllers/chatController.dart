@@ -16,7 +16,6 @@ class ChatController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    print('HI init');
     _chatData.bindStream(database.getChatData(chatID: _chatID));
   }
 
@@ -24,7 +23,6 @@ class ChatController extends GetxController {
   void onClose() {
     // TODO: implement onClose
     super.onClose();
-    print('Hi close');
     messageController.dispose();
   }
 }

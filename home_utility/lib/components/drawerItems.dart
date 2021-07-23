@@ -9,15 +9,6 @@ class DrawerItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // child: StreamBuilder(
-      //   stream: prosRefrence.child(userAuthentication.userID).onValue,
-      //   builder: (context, snapshot) {
-      //     if (!snapshot.hasData) {
-      //       return Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //     Map prosData = snapshot.data.snapshot.value;
       child: ListView(
         children: <Widget>[
           Container(

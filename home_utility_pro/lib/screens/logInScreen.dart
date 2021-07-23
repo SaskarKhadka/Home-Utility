@@ -7,7 +7,6 @@ import 'package:home_utility_pro/controllers/logInController.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/forgotPassword.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
-import '../services/userAuthentication.dart';
 import '../components/customButton.dart';
 import 'mainScreen.dart';
 import 'registrationScreen.dart';

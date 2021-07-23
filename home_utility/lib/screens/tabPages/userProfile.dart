@@ -8,6 +8,7 @@ import 'package:home_utility/components/customButton.dart';
 import 'package:home_utility/components/customTextField.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/colourController.dart';
+import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/controllers/userController.dart';
 import 'package:home_utility/main.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
@@ -16,16 +17,16 @@ import 'package:image_cropper/image_cropper.dart';
 class UserProfile extends StatelessWidget {
   static const id = '\UserProfile';
   final userController = Get.put(UserController());
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final textController = Get.find<TextController>();
     // double screenWidth = MediaQuery.of(context).size.width;
     //    double screenHeight = MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
-    nameController.text = userController.user[0].userName;
-    phoneController.text = '+977-${userController.user[0].userPhoneNo}';
+    textController.nameController.text = userController.user[0].userName;
+    textController.phoneController.text =
+        '+977-${userController.user[0].userPhoneNo}';
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff141a1e),
@@ -444,7 +445,8 @@ class UserProfile extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   top: 8.0),
                                               child: CustomTextField2(
-                                                textcontroller: nameController,
+                                                textcontroller: textController
+                                                    .nameController,
                                                 focusColour2: Colors.tealAccent,
                                                 focusColour: Colors.grey,
                                                 isPhoneNumber: false,
@@ -466,7 +468,8 @@ class UserProfile extends StatelessWidget {
                                               isPhoneNumber: false,
                                               labelText: 'My Phone Number',
                                               hintText: 'Update Phone Number',
-                                              textcontroller: phoneController,
+                                              textcontroller: textController
+                                                  .phoneController,
                                               textColour: Colors.white,
                                               icon: Icons.phone,
                                               iconColour: Colors.green,

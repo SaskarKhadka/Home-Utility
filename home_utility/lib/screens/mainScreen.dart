@@ -1,10 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:home_utility/controllers/textController.dart';
 import '../main.dart';
 import 'tabPages/userRequestsPage.dart';
 import 'tabPages/userProfile.dart';
-import 'tabPages/newservicepage.dart';
+import 'tabPages/servicePage.dart';
 
 class MainScreen extends StatefulWidget {
   static const id = '/mainScreen';
@@ -72,13 +74,14 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
+    Get.put(TextController());
     return Scaffold(
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),
         // dragStartBehavior: DragStartBehavior.start,
         controller: tabController,
         children: [
-          HomeScreen(),
+          ServicePage(),
           UserRequestsPage(),
           UserProfile(),
         ],

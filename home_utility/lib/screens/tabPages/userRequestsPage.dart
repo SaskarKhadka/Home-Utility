@@ -17,7 +17,6 @@ import '../../main.dart';
 class UserRequestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     database.totalUsersRequests();
 
     return SafeArea(

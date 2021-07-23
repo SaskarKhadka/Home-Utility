@@ -9,15 +9,6 @@ class DrawerItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // child: StreamBuilder(
-      //   stream: prosRefrence.child(userAuthentication.userID).onValue,
-      //   builder: (context, snapshot) {
-      //     if (!snapshot.hasData) {
-      //       return Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //     Map prosData = snapshot.data.snapshot.value;
       child: ListView(
         children: <Widget>[
           Container(
@@ -46,13 +37,6 @@ class DrawerItems extends StatelessWidget {
                 )),
                 child: Column(
                   children: <Widget>[
-                    // Material(
-                    //   borderRadius:
-                    //       BorderRadius.all(Radius.circular(50.0)),
-                    //   color: kBlackColour,
-                    //   // elevation: 10,
-                    //   // child: Padding(
-                    //   // padding: EdgeInsets.all(8.0),
                     CircleAvatar(
                       radius: 50.0,
                       backgroundColor: kBlackColour,

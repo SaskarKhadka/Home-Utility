@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
 
-import 'forgotPassword.dart';
-
 class ConfirmEmail extends StatelessWidget {
   static String id = '/confirmEmail';
   const ConfirmEmail({Key key}) : super(key: key);
