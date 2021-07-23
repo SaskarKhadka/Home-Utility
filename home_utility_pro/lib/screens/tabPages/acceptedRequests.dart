@@ -415,521 +415,239 @@ class AcceptedRequestsStream extends StatelessWidget {
 
                                           return Dialog(
                                             shape: RoundedRectangleBorder(
-                                              side: BorderSide.none,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(25.0),
-                                                bottomLeft:
-                                                    Radius.circular(25.0),
-                                                bottomRight:
-                                                    Radius.circular(25.0),
-                                                topRight: Radius.circular(25.0),
-                                              ),
-                                            ),
-                                            // insetAnimationCurve: Curves.bounceIn,
+                                                side: BorderSide.none,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        20.0)),
+
+                                            insetAnimationCurve:
+                                                Curves.bounceIn,
                                             // backgroundColor: Color(0xFF110E1F),
-                                            // elevation: 30.0,
-                                            backgroundColor: kWhiteColour,
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 15.0,
-                                                horizontal: 20.0,
-                                              ),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  // Text(
-                                                  //   'Customer\'s Profile'
-                                                  //       .toUpperCase(),
-                                                  //   style: GoogleFonts.roboto(
-                                                  //     fontSize: 28.0,
-                                                  //     color: Colors.black,
-                                                  //   ),
-                                                  // ),
-                                                  // ),
-
-                                                  SizedBox(
-                                                    height: size.height * 0.021,
+                                            elevation: 0.0,
+                                            // backgroundColor: Color(0xff141a1e),
+                                            backgroundColor: Colors.white,
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  width: size.width,
+                                                  padding: EdgeInsets.only(
+                                                    top: 0.0,
+                                                    bottom: 20.0,
+                                                    left: 20.0,
+                                                    right: 20.0,
                                                   ),
-                                                  CircleAvatar(
-                                                    radius: 50.0,
+                                                  margin:
+                                                      EdgeInsets.only(top: 80),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xff141a1e),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey,
+                                                        offset: Offset(0, 2),
+                                                        blurRadius: 10.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      SizedBox(
+                                                        height:
+                                                            size.height * 0.09,
+                                                      ),
+                                                      Center(
+                                                        child: Text(
+                                                          userData[0]
+                                                              .userName
+                                                              .toUpperCase(),
+                                                          style: GoogleFonts
+                                                              .shortStack(
+                                                            fontSize: 20.0,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       const EdgeInsets
+                                                      //           .only(top: 6.0),
+                                                      //   child: Text(
+                                                      //     'customer',
+                                                      //     style: GoogleFonts
+                                                      //         .sansita(
+                                                      //       fontSize: 16.0,
+                                                      //       color: Colors.white,
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
+                                                      SizedBox(
+                                                        width: 100,
+                                                        child: Divider(
+                                                          color:
+                                                              Colors.blueGrey,
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 26.0,
+                                                                    left: 20.0),
+                                                            child: Text(
+                                                              'Contact Details:',
+                                                              style: GoogleFonts
+                                                                  .raleway(
+                                                                fontSize: 14.0,
+                                                                color: Colors
+                                                                    .greenAccent,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 20.0),
+                                                            child: SizedBox(
+                                                              width: 180,
+                                                              child: Divider(
+                                                                color: Colors
+                                                                    .blueGrey,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16.0),
+                                                            child: Icon(
+                                                              Icons.phone,
+                                                              color:
+                                                                  Colors.teal,
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16.0),
+                                                            child: Text(
+                                                              '${userData[0].userPhoneNo}',
+                                                              style: GoogleFonts.montserrat(
+                                                                  fontSize: 16,
+                                                                  color:
+                                                                      kWhiteColour,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            size.height * 0.005,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16.0),
+                                                            child: Icon(
+                                                              Icons.email,
+                                                              size: 22,
+                                                              color:
+                                                                  Colors.yellow,
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 16.0),
+                                                            child: Text(
+                                                              userData[0]
+                                                                  .userEmail,
+                                                              style: GoogleFonts
+                                                                  .raleway(
+                                                                fontSize: 14.0,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            size.height * 0.05,
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () => Get.back(),
+                                                        child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                            vertical: 10.0,
+                                                            horizontal: 20.0,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Color(
+                                                                0xff4f5b8a),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Color(
+                                                                    0xff2f3650),
+                                                                offset: Offset(
+                                                                    0, 1),
+                                                                blurRadius: 4.0,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          child: Text(
+                                                            'Ok',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  top: 20,
+                                                  left: 45.0,
+                                                  right: 45.0,
+                                                  child: CircleAvatar(
+                                                    radius: 55.0,
                                                     backgroundColor:
-                                                        kBlackColour,
-                                                    backgroundImage: AssetImage(
-                                                        'images/person.png'),
+                                                        Colors.redAccent,
                                                   ),
-                                                  Divider(
-                                                    color: Colors.blue,
-                                                  ),
-                                                  SizedBox(
-                                                    height: size.height * 0.05,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10.0,
-                                                            right: 10.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Color(0xff1F1D2B),
-                                                          border: Border.all(
-                                                            color: kWhiteColour,
-                                                            width: 1.0,
-                                                            style: BorderStyle
-                                                                .solid,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          20))),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color: Color(
-                                                                      0xFF9751E6),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      color: Color(
-                                                                              0xFF9751E6)
-                                                                          .withOpacity(
-                                                                              0.6),
-                                                                      spreadRadius:
-                                                                          2,
-                                                                      blurRadius:
-                                                                          8.0,
-                                                                      offset:
-                                                                          Offset(
-                                                                              2,
-                                                                              4),
-                                                                    ),
-                                                                  ]),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        10.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .person_outlined,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 25,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                                width:
-                                                                    size.width *
-                                                                        0.04),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text('NAME: ',
-                                                                    style: GoogleFonts.montserrat(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                                SizedBox(
-                                                                  height:
-                                                                      size.height *
-                                                                          0.005,
-                                                                ),
-                                                                Text(
-                                                                  userData[0]
-                                                                      .userName,
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .roboto(
-                                                                    fontSize:
-                                                                        18.0,
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .shade500,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-
-                                                  SizedBox(
-                                                    height: size.height * 0.021,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 8.0,
-                                                            right: 8.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Color(0xff1F1D2B),
-                                                          border: Border.all(
-                                                            color: kWhiteColour,
-                                                            width: 1.0,
-                                                            style: BorderStyle
-                                                                .solid,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          20))),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color: Color(
-                                                                      0xFF36B460),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      color: Color(
-                                                                              0xFF36B460)
-                                                                          .withOpacity(
-                                                                              0.6),
-                                                                      spreadRadius:
-                                                                          2,
-                                                                      blurRadius:
-                                                                          8.0,
-                                                                      offset:
-                                                                          Offset(
-                                                                              2,
-                                                                              4),
-                                                                    ),
-                                                                  ]),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        10.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .phone_outlined,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 25,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            // Icon(Icons.work, color: Colors.blueGrey),
-                                                            SizedBox(
-                                                                width:
-                                                                    size.width *
-                                                                        0.04),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text('PHONE: ',
-                                                                    style: GoogleFonts.montserrat(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                                SizedBox(
-                                                                  height:
-                                                                      size.height *
-                                                                          0.005,
-                                                                ),
-                                                                Text(
-                                                                  '${userData[0].userPhoneNo}',
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .roboto(
-                                                                    fontSize:
-                                                                        18.0,
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .shade500,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-
-                                                  SizedBox(
-                                                    height: size.height * 0.021,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 8.0,
-                                                            right: 8.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Color(0xff1F1D2B),
-                                                          border: Border.all(
-                                                            color: kWhiteColour,
-                                                            width: 1.0,
-                                                            style: BorderStyle
-                                                                .solid,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          20))),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color: Color(
-                                                                      0xFFE6D751),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      color: Color(
-                                                                              0xFFE6D751)
-                                                                          .withOpacity(
-                                                                              0.6),
-                                                                      spreadRadius:
-                                                                          2,
-                                                                      blurRadius:
-                                                                          8.0,
-                                                                      offset:
-                                                                          Offset(
-                                                                              2,
-                                                                              4),
-                                                                    ),
-                                                                  ]),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        10.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .email_outlined,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 25,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            // Icon(Icons.work, color: Colors.blueGrey),
-                                                            SizedBox(
-                                                                width:
-                                                                    size.width *
-                                                                        0.04),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text('EMAIL',
-                                                                    style: GoogleFonts.montserrat(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                                SizedBox(
-                                                                  height:
-                                                                      size.height *
-                                                                          0.005,
-                                                                ),
-                                                                Column(
-                                                                  children: [
-                                                                    Text(
-                                                                      userData[
-                                                                              0]
-                                                                          .userEmail,
-                                                                      style: GoogleFonts
-                                                                          .roboto(
-                                                                        fontSize:
-                                                                            18.0,
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .shade500,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                // Flex(
-                                                                //     direction: Axis
-                                                                //         .horizontal)
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: size.height * 0.021,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 8.0,
-                                                            right: 8.0),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Color(0xff1F1D2B),
-                                                          border: Border.all(
-                                                            color: kWhiteColour,
-                                                            width: 1.0,
-                                                            style: BorderStyle
-                                                                .solid,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          20))),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  color: Color(
-                                                                      0xFFCE4040),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                      color: Color(
-                                                                              0xFFCE4040)
-                                                                          .withOpacity(
-                                                                              0.6),
-                                                                      spreadRadius:
-                                                                          2,
-                                                                      blurRadius:
-                                                                          8.0,
-                                                                      offset:
-                                                                          Offset(
-                                                                              2,
-                                                                              4),
-                                                                    ),
-                                                                  ]),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        10.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .home_outlined,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 25,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            // Icon(Icons.work, color: Colors.blueGrey),
-                                                            SizedBox(
-                                                                width:
-                                                                    size.width *
-                                                                        0.04),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text('ADDRESS',
-                                                                    style: GoogleFonts.montserrat(
-                                                                        fontSize:
-                                                                            20,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                                SizedBox(
-                                                                  height:
-                                                                      size.height *
-                                                                          0.005,
-                                                                ),
-                                                                // Column(
-                                                                //   children: [
-                                                                //     Text(
-                                                                //       '${null},\n ${null}',
-                                                                //       style:
-                                                                //           GoogleFonts
-                                                                //               .roboto(
-                                                                //         fontSize:
-                                                                //             18.0,
-                                                                //         color: Colors
-                                                                //             .grey
-                                                                //             .shade500,
-                                                                //       ),
-                                                                //     ),
-                                                                //   ],
-                                                                // ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-
-                                                  SizedBox(
-                                                    height: size.height * 0.065,
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () => Get.back(),
-                                                    child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                        vertical: 10.0,
-                                                        horizontal: 20.0,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        color: kBlackColour,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      ),
-                                                      child: Text(
-                                                        'Ok',
-                                                        style: TextStyle(
-                                                          color: kWhiteColour,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           );
                                         }),

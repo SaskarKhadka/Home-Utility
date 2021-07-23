@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/components/getProsInfo.dart';
-import 'package:home_utility/screens/confirmEmail.dart';
 import 'package:home_utility/screens/forgotPassword.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
@@ -170,10 +169,6 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           name: ForgotPassword.id,
           page: () => ForgotPassword(),
-        ),
-        GetPage(
-          name: ConfirmEmail.id,
-          page: () => ConfirmEmail(),
         ),
         GetPage(
           name: MainScreen.id,

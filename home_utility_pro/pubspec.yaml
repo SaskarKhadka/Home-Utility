@@ -35,9 +35,8 @@ dependencies:
   firebase_auth: ^1.1.4
   geolocator: ^7.0.3
   firebase_database: ^6.1.2
-  uuid: ^3.0.4
-  google_nav_bar: ^5.0.5
-  line_icons: ^2.0.1
+  # uuid: ^3.0.4
+  # line_icons: ^2.0.1
   search_choices: ^2.0.3
   flutter_rating_stars: ^1.0.3+1
   google_maps_flutter: ^2.0.6
