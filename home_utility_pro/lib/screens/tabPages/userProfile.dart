@@ -376,7 +376,7 @@ class ProsProfile extends StatelessWidget {
                             }
 
                             return CircleAvatar(
-                              radius: 55,
+                              radius: 65,
                               backgroundColor: Colors.redAccent,
                               backgroundImage: Image.network(
                                 proController.pro[0].profileUrl,
@@ -458,6 +458,9 @@ class ProsProfile extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
               ),
               Row(
                 children: [

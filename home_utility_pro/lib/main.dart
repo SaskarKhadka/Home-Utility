@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:home_utility_pro/screens/confirmEmail.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
@@ -164,10 +163,6 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           name: ForgotPassword.id,
           page: () => ForgotPassword(),
-        ),
-        GetPage(
-          name: ConfirmEmail.id,
-          page: () => ConfirmEmail(),
         ),
         GetPage(
           name: MainScreen.id,

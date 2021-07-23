@@ -294,7 +294,7 @@ getSnackBar({String title, String message}) {
     message,
     titleText: Text(
       title,
-      style: TextStyle(
+      style: GoogleFonts.shortStack(
         fontSize: 20.0,
         color: Colors.white,
       ),

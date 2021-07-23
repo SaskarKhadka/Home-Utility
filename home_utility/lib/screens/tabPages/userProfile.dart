@@ -381,6 +381,9 @@ class UserProfile extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: size.height * 0.04,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -550,7 +553,7 @@ class UserProfile extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: size.height * 0.05,
+                height: size.height * 0.02,
               ),
             ],
           ),

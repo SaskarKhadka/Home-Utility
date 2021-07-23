@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customTextField.dart';
 import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/main.dart';
-import 'package:home_utility/screens/confirmEmail.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/components/customButton.dart';
 import 'registrationScreen.dart';
@@ -48,7 +47,7 @@ class ForgotPassword extends StatelessWidget {
                     height: size.height * 0.1,
                   ),
                   Text(
-                    'Enter your email for getting a password reset link.\n\nIf you haven\'t forgotten your password, tap the Sign In button.',
+                    'Enter your email for getting a password reset link.\n\nIf you don\'t want to change your password, then you can go back.',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
@@ -94,33 +93,116 @@ class ForgotPassword extends StatelessWidget {
                           email: textController.emailController.text.trim(),
                         );
 
-                        Get.toNamed(ConfirmEmail.id);
+                        showDialog(
+                            context: (context),
+                            builder: (context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                insetAnimationCurve: Curves.bounceIn,
+                                backgroundColor: Color(0xFF110E1F),
+                                elevation: 0.0,
+                                insetPadding: EdgeInsets.symmetric(
+                                  vertical: 25.0,
+                                  horizontal: 25.0,
+                                ),
+                                child: Container(
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff141a1e),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(0, 2),
+                                        blurRadius: 10.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 18.0,
+                                          left: 8.0,
+                                          right: 8.0,
+                                        ),
+                                        child: Text(
+                                          'Confirm Email',
+                                          style: GoogleFonts.shortStack(
+                                            color: Colors.white,
+                                            fontSize: 26,
+                                            letterSpacing: 2.0,
+                                            wordSpacing: 2.0,
+                                            fontStyle: FontStyle.normal,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: Divider(
+                                          color: Colors.tealAccent,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 18.0,
+                                          left: 20.0,
+                                          right: 18.0,
+                                          bottom: 18.0,
+                                        ),
+                                        child: Text(
+                                          'An email has just been sent to you, Click the link provided to complete registration.',
+                                          style: GoogleFonts.roboto(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            letterSpacing: 2.0,
+                                            wordSpacing: 2.0,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () => Get.back(),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 10.0,
+                                            horizontal: 20.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xff4f5b8a),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0xff2f3650),
+                                                offset: Offset(0, 1),
+                                                blurRadius: 4.0,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Text(
+                                            'Ok',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.02,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
                       },
                     ),
                   ),
                   SizedBox(
                     height: size.height * 0.01,
-                  ),
-                  Text(
-                    "OR",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-
-                  Container(
-                    width: 150,
-                    height: 60,
-                    child: CustomButton(
-                      text: 'Sign In',
-                      onTap: () {
-                        Get.offAllNamed(LogInScreen.id);
-                      },
-                    ),
                   ),
                 ],
               ),
