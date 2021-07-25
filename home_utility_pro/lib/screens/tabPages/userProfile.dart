@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/customButton.dart';
 import 'package:home_utility_pro/components/customTextField.dart';
 import 'package:home_utility_pro/controllers/colourController.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
+import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -16,19 +19,16 @@ import '../../constants.dart';
 
 class ProsProfile extends StatelessWidget {
   final proController = Get.put(ProController());
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final textController = Get.find<TextController>();
     // double screenWidth = MediaQuery.of(context).size.width;
     //    double screenHeight = MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
-    nameController.text = proController.pro[0].prosName;
-    phoneController.text = '+977-${proController.pro[0].prosPhoneNo}';
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xff141a1e),
+        backgroundColor: Colors.black,
         // backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
@@ -87,15 +87,16 @@ class ProsProfile extends StatelessWidget {
                                         style: GoogleFonts.shortStack(
                                             fontSize: 24.0,
                                             color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.w500),
                                       );
                                     return Text(
                                       proController.pro[0].prosName
                                           .toUpperCase(),
-                                      style: GoogleFonts.shortStack(
-                                          fontSize: 24.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 24.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     );
                                   },
                                 ),
@@ -108,20 +109,48 @@ class ProsProfile extends StatelessWidget {
                                       return Text(
                                         'profession',
                                         style: GoogleFonts.sansita(
-                                            fontSize: 16.0,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 16.0,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       );
                                     return Text(
                                       proController.pro[0].profession,
-                                      style: GoogleFonts.sansita(
-                                          fontSize: 16.0,
-                                          color: Colors.white60,
-                                          fontWeight: FontWeight.bold),
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 16.0,
+                                        color: Colors.white60,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     );
                                   },
                                 ),
                               ),
+                              Obx(() {
+                                return RatingBar.builder(
+                                  initialRating: proController.pro.isEmpty
+                                      ? 0
+                                      : proController.pro[0].avgRating,
+                                  glowColor: Colors.amber,
+                                  itemSize: 25,
+                                  unratedColor: Colors.white54,
+                                  ignoreGestures: true,
+                                  glowRadius: 1,
+                                  itemPadding: EdgeInsets.all(5),
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  // itemPadding: EdgeInsets.symmetric(
+                                  //     horizontal: 4.0),
+                                  itemBuilder: (context, index) => Icon(
+                                    EvaIcons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    // proRating = rating;
+                                  },
+                                );
+                              }),
 
                               Row(
                                 children: [
@@ -131,7 +160,7 @@ class ProsProfile extends StatelessWidget {
                                     child: Text(
                                       'My Information:',
                                       style: GoogleFonts.raleway(
-                                        fontSize: 16.0,
+                                        fontSize: 20.0,
                                         color: Colors.greenAccent,
                                       ),
                                     ),
@@ -163,7 +192,7 @@ class ProsProfile extends StatelessWidget {
                                           const EdgeInsets.only(left: 16.0),
                                       child: Icon(
                                         Icons.person,
-                                        size: 22,
+                                        size: 25.0,
                                         color: Colors.purpleAccent,
                                       ),
                                     ),
@@ -175,30 +204,23 @@ class ProsProfile extends StatelessWidget {
                                           () {
                                             if (proController.pro.isEmpty)
                                               return Text(
-                                                'user name',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16.0,
+                                                'username',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 19.0,
                                                   color: Colors.white,
                                                   // fontWeight: FontWeight.bold,
                                                 ),
                                               );
                                             return Text(
                                               proController.pro[0].prosName,
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16.0,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 19.0,
                                                 color: Colors.white,
                                                 // fontWeight: FontWeight.bold,
                                               ),
                                             );
                                           },
                                         ),
-                                        // child: Text(
-                                        //   'Rohan Dhakal',
-                                        //   style: GoogleFonts.raleway(
-                                        //     fontSize: 16.0,
-                                        //     color: Colors.white,
-                                        //   ),
-                                        // ),
                                       ),
                                     ),
                                   ],
@@ -217,7 +239,7 @@ class ProsProfile extends StatelessWidget {
                                           const EdgeInsets.only(left: 16.0),
                                       child: Icon(
                                         Icons.phone,
-                                        size: 22,
+                                        size: 25.0,
                                         color: Colors.teal,
                                       ),
                                     ),
@@ -230,16 +252,16 @@ class ProsProfile extends StatelessWidget {
                                             if (proController.pro.isEmpty)
                                               return Text(
                                                 'phone number',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16.0,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 19.0,
                                                   color: Colors.white,
                                                   // fontWeight: FontWeight.bold,
                                                 ),
                                               );
                                             return Text(
                                               '${proController.pro[0].prosPhoneNo}',
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16.0,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 19.0,
                                                 color: Colors.white,
                                                 // fontWeight: FontWeight.bold,
                                               ),
@@ -267,7 +289,7 @@ class ProsProfile extends StatelessWidget {
                                           const EdgeInsets.only(left: 16.0),
                                       child: Icon(
                                         Icons.email,
-                                        size: 22,
+                                        size: 25.0,
                                         color: Colors.orangeAccent,
                                       ),
                                     ),
@@ -280,16 +302,16 @@ class ProsProfile extends StatelessWidget {
                                             if (proController.pro.isEmpty)
                                               return Text(
                                                 'email',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16.0,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 19.0,
                                                   color: Colors.white,
                                                   // fontWeight: FontWeight.bold,
                                                 ),
                                               );
                                             return Text(
                                               proController.pro[0].prosEmail,
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16.0,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 19.0,
                                                 color: Colors.white,
                                                 // fontWeight: FontWeight.bold,
                                               ),
@@ -317,7 +339,7 @@ class ProsProfile extends StatelessWidget {
                                           const EdgeInsets.only(left: 16.0),
                                       child: Icon(
                                         Icons.location_on,
-                                        size: 22,
+                                        size: 25.0,
                                         color: Colors.blue,
                                       ),
                                     ),
@@ -330,8 +352,8 @@ class ProsProfile extends StatelessWidget {
                                             if (proController.pro.isEmpty)
                                               return Text(
                                                 'municipality, district',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16.0,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 19.0,
                                                   color: Colors.white,
                                                   // fontWeight: FontWeight.bold,
                                                 ),
@@ -342,8 +364,8 @@ class ProsProfile extends StatelessWidget {
                                                   ', ' +
                                                   proController
                                                       .pro[0].prosDistrict,
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16.0,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 19.0,
                                                 color: Colors.white,
                                                 // fontWeight: FontWeight.bold,
                                               ),
@@ -376,8 +398,8 @@ class ProsProfile extends StatelessWidget {
                             }
 
                             return CircleAvatar(
-                              radius: 65,
-                              backgroundColor: Colors.redAccent,
+                              radius: 55,
+                              backgroundColor: Colors.teal,
                               backgroundImage: Image.network(
                                 proController.pro[0].profileUrl,
                                 loadingBuilder: (context, child, progress) {
@@ -396,7 +418,7 @@ class ProsProfile extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: 125.0,
+                        top: 110.0,
                         left: 100.0,
                         right: 35.0,
                         child: GetX<ColourController>(
@@ -412,44 +434,50 @@ class ProsProfile extends StatelessWidget {
                                     size: 17,
                                   ),
                                   onTap: () async {
-                                    colourController
-                                        .changeColour(Colors.tealAccent);
-                                    FilePickerResult file =
-                                        await FilePicker.platform.pickFiles(
-                                      type: FileType.image,
-                                      allowMultiple: false,
-                                    );
+                                    colourController.changeColour(Colors.white);
+                                    try {
+                                      FilePickerResult file =
+                                          await FilePicker.platform.pickFiles(
+                                        type: FileType.image,
+                                        allowMultiple: false,
+                                      );
 
-                                    if (file == null) {
-                                      colourController.changeColour(
-                                          Colors.tealAccent.withOpacity(0.8));
-                                      return;
+                                      if (file == null) {
+                                        colourController
+                                            .changeColour(Colors.white54);
+                                        return;
+                                      }
+                                      File croppedFile =
+                                          await ImageCropper.cropImage(
+                                              sourcePath:
+                                                  file.files.single.path,
+                                              aspectRatioPresets: [
+                                            CropAspectRatioPreset.original,
+                                            CropAspectRatioPreset.ratio16x9,
+                                            CropAspectRatioPreset.ratio3x2,
+                                            CropAspectRatioPreset.square,
+                                            CropAspectRatioPreset.ratio4x3,
+                                          ]);
+                                      colourController
+                                          .changeColour(Colors.white54);
+
+                                      if (croppedFile == null) return;
+
+                                      // String fileName = file.files.single.name;
+                                      // String path = file.files.single.path;
+                                      bool uploaded = await cloudStorage
+                                          .uploadFile(croppedFile);
+
+                                      if (uploaded)
+                                        getSnackBar(
+                                            title: 'SUCCESS!',
+                                            message:
+                                                'Your Profile Picture was updated');
+                                    } catch (e) {
+                                      colourController
+                                          .changeColour(Colors.white54);
+                                      print(e);
                                     }
-                                    File croppedFile =
-                                        await ImageCropper.cropImage(
-                                            sourcePath: file.files.single.path,
-                                            aspectRatioPresets: [
-                                          CropAspectRatioPreset.original,
-                                          CropAspectRatioPreset.ratio16x9,
-                                          CropAspectRatioPreset.ratio3x2,
-                                          CropAspectRatioPreset.square,
-                                          CropAspectRatioPreset.ratio4x3,
-                                        ]);
-                                    colourController.changeColour(
-                                        Colors.tealAccent.withOpacity(0.8));
-
-                                    if (croppedFile == null) return;
-
-                                    // String fileName = file.files.single.name;
-                                    // String path = file.files.single.path;
-                                    bool uploaded = await cloudStorage
-                                        .uploadFile(croppedFile);
-
-                                    if (uploaded)
-                                      getSnackBar(
-                                          title: 'SUCCESS!',
-                                          message:
-                                              'Your Profile Picture was updated');
                                   },
                                 ),
                               );
@@ -526,7 +554,8 @@ class ProsProfile extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   top: 8.0),
                                               child: CustomTextField2(
-                                                textcontroller: nameController,
+                                                textcontroller: textController
+                                                    .nameController,
                                                 focusColour2: Colors.tealAccent,
                                                 focusColour: Colors.grey,
                                                 isPhoneNumber: false,
@@ -548,7 +577,8 @@ class ProsProfile extends StatelessWidget {
                                               isPhoneNumber: false,
                                               labelText: 'My Phone Number',
                                               hintText: 'Update Phone Number',
-                                              textcontroller: phoneController,
+                                              textcontroller: textController
+                                                  .phoneController,
                                               textColour: Colors.white,
                                               icon: Icons.phone,
                                               iconColour: Colors.green,
@@ -571,6 +601,10 @@ class ProsProfile extends StatelessWidget {
                                         Expanded(
                                           child: ProfileButton(
                                             onPressed: () {
+                                              textController.phoneController
+                                                  .clear();
+                                              textController.nameController
+                                                  .clear();
                                               Get.back();
                                             },
                                             buttonHeight: 45.0,
@@ -585,7 +619,152 @@ class ProsProfile extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: ProfileButton(
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              if (textController
+                                                      .phoneController.text
+                                                      .trim()
+                                                      .isEmpty &&
+                                                  textController
+                                                      .nameController.text
+                                                      .trim()
+                                                      .isEmpty) {
+                                                Get.back();
+                                                return;
+                                              } else if (textController
+                                                  .phoneController.text
+                                                  .trim()
+                                                  .isEmpty) {
+                                                Get.back();
+                                                await usersRefrence
+                                                    .child(userAuthentication
+                                                        .userID)
+                                                    .update({
+                                                  'userName': textController
+                                                      .nameController.text
+                                                      .trim(),
+                                                });
+                                                getSnackBar(
+                                                    title: 'SUCCESS!',
+                                                    message:
+                                                        'Your username was changed');
+                                                textController.phoneController
+                                                    .clear();
+                                                textController.nameController
+                                                    .clear();
+                                                return;
+                                              } else if (textController
+                                                  .nameController.text
+                                                  .trim()
+                                                  .isEmpty) {
+                                                if (textController
+                                                        .phoneController.text
+                                                        .trim()
+                                                        .length !=
+                                                    10) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+
+                                                int phoneNo;
+                                                try {
+                                                  phoneNo = int.parse(
+                                                      textController
+                                                          .phoneController.text
+                                                          .trim());
+                                                } catch (e) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+                                                await usersRefrence
+                                                    .child(userAuthentication
+                                                        .userID)
+                                                    .update({
+                                                  'userPhoneNo': phoneNo,
+                                                });
+                                                getSnackBar(
+                                                    title: 'SUCCESS!',
+                                                    message:
+                                                        'Your phone number was changed');
+                                                textController.phoneController
+                                                    .clear();
+                                                textController.nameController
+                                                    .clear();
+                                                return;
+                                              } else {
+                                                if (textController
+                                                        .phoneController.text
+                                                        .trim()
+                                                        .length !=
+                                                    10) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+
+                                                int phoneNo;
+                                                try {
+                                                  phoneNo = int.parse(
+                                                      textController
+                                                          .phoneController.text
+                                                          .trim());
+                                                } catch (e) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+                                                Get.back();
+                                                await usersRefrence
+                                                    .child(userAuthentication
+                                                        .userID)
+                                                    .update({
+                                                  'userPhoneNo': phoneNo,
+                                                  'userName': textController
+                                                      .nameController.text
+                                                      .trim(),
+                                                });
+                                                getSnackBar(
+                                                    title: 'SUCCESS!',
+                                                    message:
+                                                        'Your profile was updated');
+                                                textController.phoneController
+                                                    .clear();
+                                                textController.nameController
+                                                    .clear();
+                                                // return;
+                                                // Get.back();
+                                                return;
+                                              }
+                                            },
                                             buttonHeight: 45.0,
                                             primaryColour: kPrimaryColor,
                                             shadowColour: kSecondaryColor,

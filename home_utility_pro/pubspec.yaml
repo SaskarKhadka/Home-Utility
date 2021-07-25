@@ -35,12 +35,9 @@ dependencies:
   firebase_auth: ^1.1.4
   geolocator: ^7.0.3
   firebase_database: ^6.1.2
-  # uuid: ^3.0.4
-  # line_icons: ^2.0.1
   search_choices: ^2.0.3
-  flutter_rating_stars: ^1.0.3+1
+  flutter_rating_bar: ^4.0.0
   google_maps_flutter: ^2.0.6
-  flutter_polyline_points: ^1.0.0
   dio: ^4.0.0
   file_picker: ^3.0.3
   firebase_storage: ^9.0.0

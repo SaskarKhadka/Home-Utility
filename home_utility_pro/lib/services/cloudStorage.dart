@@ -8,11 +8,20 @@ class CloudStorage {
 
   //uploads file in firebase storage
   Future<bool> uploadFile(File image) async {
+    final ref = instance.ref('prosProfilePics/$proID');
     try {
-      ListResult listResult =
-          await instance.ref('prosProfilePics/$proID').listAll();
+      ListResult listResult;
+      String prevProfileName;
+      try {
+        listResult = await ref.listAll();
+        if (!listResult.items.isEmpty || listResult != null) {
+          prevProfileName = listResult.items[0].name;
+          deleteFile(prevProfileName);
+        }
+      } catch (e) {
+        print(e);
+      }
 
-      String prevProfileName = listResult.items[0].name;
       String dateTime = DateTime.now()
           .toString()
           .replaceAll('.', '')
@@ -20,14 +29,11 @@ class CloudStorage {
           .replaceAll('-', '')
           .replaceAll(' ', '');
 
-      await instance
-          .ref('prosProfilePics/$proID')
-          .child(proID + dateTime)
-          .putFile(image);
+      await ref.child(proID + dateTime).putFile(image);
 
       String url = await profileUrl(proID + dateTime);
-      await prosRefrence.child(proID).update({'profileUrl': url});
-      deleteFile(prevProfileName);
+      if (url != 'error')
+        await prosRefrence.child(proID).update({'profileUrl': url});
 
       return true;
     } on FirebaseException catch (e) {
@@ -37,12 +43,21 @@ class CloudStorage {
   }
 
   deleteFile(String prevProfileName) {
-    instance.ref('prosProfilePics/$proID/$prevProfileName').delete();
+    try {
+      instance.ref('prosProfilePics/$proID/$prevProfileName').delete();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<String> profileUrl(String prevProfileName) async {
-    return await instance
-        .ref('prosProfilePics/$proID/$prevProfileName')
-        .getDownloadURL();
+    try {
+      return await instance
+          .ref('prosProfilePics/$proID/$prevProfileName')
+          .getDownloadURL();
+    } catch (e) {
+      print(e);
+      return 'error';
+    }
   }
 }

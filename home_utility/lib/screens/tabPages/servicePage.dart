@@ -1,9 +1,15 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+// import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/components/detailsDialog.dart';
+import 'package:home_utility/screens/popUpPages/about.dart';
+import 'package:home_utility/screens/popUpPages/help.dart';
 import '../../main.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../logInScreen.dart';
 //0xffd17842
 
 class ServicePage extends StatelessWidget {
@@ -25,16 +31,13 @@ class ServicePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Color(0xff1b2027),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Icon(
-                          Icons.menu,
-                          color: Color(0xff4d4f52),
-                        )),
+                    Text(
+                      "Find the best\nservice for you",
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 30,
+                      ),
+                    ),
                     Theme(
                       data: Theme.of(context).copyWith(
                           textTheme: TextTheme().apply(bodyColor: Colors.black),
@@ -84,21 +87,11 @@ class ServicePage extends StatelessWidget {
                                 ],
                               )),
                         ],
-                        onSelected: (item) => {},
+                        onSelected: (item) => SelectedItem(context, item),
                         offset: Offset(0, 70),
                       ),
-                    )
+                    ),
                   ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  "Find the best\nservice for you",
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontSize: 30,
-                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -176,6 +169,28 @@ class ServicePage extends StatelessWidget {
         ),
       )),
     );
+  }
+}
+
+Future<void> SelectedItem(BuildContext context, int item) async {
+  switch (item) {
+    case 0:
+      Get.offNamed(AboutPage.id);
+      break;
+    case 1:
+      Get.offNamed(HelpPage.id);
+      break;
+    case 2:
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+      //   builder: (context) => DialogBox(
+      //     title: 'Signing Out',
+      //   ),
+      // );
+      await userAuthentication.signOut();
+      Get.offAllNamed(LogInScreen.id);
+      break;
   }
 }
 
@@ -257,16 +272,28 @@ class ServiceCard extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          RatingStars(
-                                            value: 4,
-                                            starCount: 5,
-                                            starSize: 12,
-                                            starColor: Color(0xffd17842),
-                                            starSpacing: 2,
-                                            starOffColor:
-                                                const Color(0xffe7e8ea),
-                                            valueLabelColor: Colors.red,
-                                            valueLabelVisibility: false,
+                                          RatingBar.builder(
+                                            initialRating: 1,
+                                            glowColor: Colors.amber,
+                                            ignoreGestures: true,
+                                            unratedColor: Colors.white54,
+                                            itemSize: 17,
+                                            glowRadius: 1,
+                                            // itemPadding: EdgeInsets.all(2.5),
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: true,
+                                            itemCount: 5,
+                                            // itemPadding: EdgeInsets.symmetric(
+                                            //     horizontal: 4.0),
+                                            itemBuilder: (context, index) =>
+                                                Icon(
+                                              EvaIcons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              // proRating = rating;
+                                            },
                                           ),
                                           Container(
                                               height: 30,

@@ -5,16 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customTextField.dart';
 import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/main.dart';
-import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/components/customButton.dart';
 import 'registrationScreen.dart';
 
 class ForgotPassword extends StatelessWidget {
   static String id = 'forgotPassword';
 
-  final textController = Get.find<TextController>();
-
   Widget build(BuildContext context) {
+    final textController = TextController();
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(

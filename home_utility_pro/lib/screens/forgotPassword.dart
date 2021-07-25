@@ -4,31 +4,18 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/customTextField.dart';
 import 'package:home_utility_pro/components/dialogBox.dart';
+import 'package:home_utility_pro/constants.dart';
+import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/main.dart';
-import 'package:home_utility_pro/screens/logInScreen.dart';
-import '../services/userAuthentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:home_utility_pro/components/customButton.dart';
 
 import 'registrationScreen.dart';
 
-class ForgotPassword extends StatefulWidget {
+class ForgotPassword extends StatelessWidget {
   static String id = 'forgotPassword';
 
-  @override
-  _ForgotPasswordState createState() => _ForgotPasswordState();
-}
-
-class _ForgotPasswordState extends State<ForgotPassword> {
-  final emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
-  }
-
   Widget build(BuildContext context) {
+    final textController = Get.find<TextController>();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +59,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     height: size.height * 0.09,
                   ),
                   CustomTextField(
-                    textController: emailController,
+                    textController: textController.emailController,
                     isPhoneNumber: false,
                     icon: EvaIcons.emailOutline,
                     labelText: 'Email',
@@ -89,24 +76,32 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: CustomButton(
                       text: 'Send Email',
                       onTap: () async {
-                        if (emailController.text.isEmpty) {
+                        if (textController.emailController.text.isEmpty) {
                           getSnackBar(
                             title: 'ERROR!',
                             message: 'Please enter your email address',
                           );
                           return;
-                        } else if (!emailController.text.isEmail) {
+                        } else if (!textController
+                            .emailController.text.isEmail) {
                           getSnackBar(
                             title: 'ERROR!',
                             message: 'Please enter a valid email address',
                           );
                           return;
-                        }
-                        await userAuthentication.passwordReset(
-                          email: emailController.text.trim(),
-                        );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) => DialogBox(
+                              title: 'Authenticating',
+                            ),
+                          );
 
-                        showDialog(
+                          await userAuthentication.passwordReset(
+                            email: textController.emailController.text.trim(),
+                          );
+                          Get.back();
+                          showDialog(
                             context: (context),
                             builder: (context) {
                               return Dialog(
@@ -114,7 +109,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     side: BorderSide.none,
                                     borderRadius: BorderRadius.circular(20.0)),
                                 insetAnimationCurve: Curves.bounceIn,
-                                backgroundColor: Color(0xFF110E1F),
+                                backgroundColor: Colors.black,
                                 elevation: 0.0,
                                 insetPadding: EdgeInsets.symmetric(
                                   vertical: 25.0,
@@ -123,7 +118,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 child: Container(
                                   width: size.width,
                                   decoration: BoxDecoration(
-                                    color: Color(0xff141a1e),
+                                    color: kBlackColour,
                                     borderRadius: BorderRadius.circular(20.0),
                                     boxShadow: [
                                       BoxShadow(
@@ -144,18 +139,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                         ),
                                         child: Text(
                                           'Confirm Email',
-                                          style: GoogleFonts.shortStack(
+                                          style: GoogleFonts.montserrat(
                                             color: Colors.white,
                                             fontSize: 26,
                                             letterSpacing: 2.0,
                                             wordSpacing: 2.0,
-                                            fontStyle: FontStyle.normal,
                                           ),
                                         ),
                                       ),
                                       SizedBox(
+                                        width: 250.0,
                                         child: Divider(
-                                          color: Colors.tealAccent,
+                                          color: Colors.white70,
                                         ),
                                       ),
                                       Padding(
@@ -166,13 +161,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                           bottom: 18.0,
                                         ),
                                         child: Text(
-                                          'An email has just been sent to you, Click the link provided to complete registration.',
-                                          style: GoogleFonts.roboto(
+                                          'An email has just been sent to you, Visit the link to change your password.',
+                                          style: GoogleFonts.montserrat(
                                             color: Colors.white,
-                                            fontSize: 16,
+                                            fontSize: 19,
                                             letterSpacing: 2.0,
                                             wordSpacing: 2.0,
-                                            fontStyle: FontStyle.italic,
+                                            // fontStyle: FontStyle.italic,
                                           ),
                                         ),
                                       ),
@@ -210,7 +205,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   ),
                                 ),
                               );
-                            });
+                            },
+                          );
+                        }
                       },
                     ),
                   ),

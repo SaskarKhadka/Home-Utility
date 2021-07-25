@@ -8,11 +8,20 @@ class CloudStorage {
 
   //uploads file in firebase storage
   Future<bool> uploadFile(File image) async {
+    final ref = instance.ref('usersProfilePics/$userID');
     try {
-      // ListResult listResult =
-      //     await instance.ref('usersProfilePics/$userID').listAll();
+      ListResult listResult;
+      String prevProfileName;
+      try {
+        listResult = await ref.listAll();
+        if (!listResult.items.isEmpty || listResult != null) {
+          prevProfileName = listResult.items[0].name;
+          deleteFile(prevProfileName);
+        }
+      } catch (e) {
+        print(e);
+      }
 
-      // String prevProfileName = listResult.items[0].name;
       String dateTime = DateTime.now()
           .toString()
           .replaceAll('.', '')
@@ -20,14 +29,11 @@ class CloudStorage {
           .replaceAll('-', '')
           .replaceAll(' ', '');
 
-      await instance
-          .ref('prosProfilePics/$userID')
-          .child(userID + dateTime)
-          .putFile(image);
+      await ref.child(userID + dateTime).putFile(image);
 
       String url = await profileUrl(userID + dateTime);
-      await usersRefrence.child(userID).update({'profileUrl': url});
-      // deleteFile(prevProfileName);
+      if (url != 'error')
+        await usersRefrence.child(userID).update({'profileUrl': url});
 
       return true;
     } catch (e) {
@@ -37,12 +43,21 @@ class CloudStorage {
   }
 
   deleteFile(String prevProfileName) {
-    instance.ref('prosProfilePics/$userID/$prevProfileName').delete();
+    try {
+      instance.ref('usersProfilePics/$userID/$prevProfileName').delete();
+    } catch (e) {
+      // deleteFile(prevProfileName);
+    }
   }
 
   Future<String> profileUrl(String prevProfileName) async {
-    return await instance
-        .ref('prosProfilePics/$userID/$prevProfileName')
-        .getDownloadURL();
+    try {
+      return await instance
+          .ref('usersProfilePics/$userID/$prevProfileName')
+          .getDownloadURL();
+    } catch (e) {
+      print(e);
+      return 'error';
+    }
   }
 }

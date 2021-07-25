@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility/location/google_map_screen.dart';
+import 'package:home_utility/screens/googleMapsScreen.dart';
 import 'package:home_utility/location/userLocation.dart';
 import '../constants.dart';
 import '../main.dart';
@@ -37,11 +37,8 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   void initState() {
     print(widget.category);
-    // _districtValue = 'Achham';
-    // _municipalityValue = _municipalities.getMunicipalities(_districtValue)[0];
     _pickedDate = DateTime.now();
-    TimeOfDay now = TimeOfDay.now();
-    _selectedTime = now.replacing(hour: now.hour, minute: now.minute + 2);
+    _selectedTime = TimeOfDay.now();
     super.initState();
   }
 

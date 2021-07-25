@@ -113,6 +113,15 @@ class Database {
     return token;
   }
 
+  Future<String> getMyToken() async {
+    DataSnapshot snapshot = await usersRefrence
+        .child(userAuthentication.userID)
+        .child('token')
+        .once();
+    String token = snapshot.value;
+    return token;
+  }
+
   void saveToken(String token) async {
     await usersRefrence
         .child(userAuthentication.userID)

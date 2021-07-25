@@ -1,7 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/screens/tabPages/acceptedRequests.dart';
 import '../main.dart';
 import 'tabPages/userRequestsPage.dart';
@@ -50,14 +49,23 @@ class _MainScreenState extends State<MainScreen>
             ));
       }
     });
-    getToken();
+    resolveToken();
   }
 
-  getToken() async {
-    String token = await FirebaseMessaging.instance.getToken();
-    userToken = token;
-    print(userToken);
+  resolveToken() async {
+    String token = await database.getMyToken();
+    if (token == null || token == '') {
+      String token = await FirebaseMessaging.instance.getToken();
+      database.saveToken(token);
+      print(token);
+    }
   }
+
+  // getToken() async {
+  //   String token = await FirebaseMessaging.instance.getToken();
+  //   userToken = token;
+  //   print(userToken);
+  // }
 
   // getToken() async {
   //   if (await database.getToken() == null) {
@@ -73,15 +81,13 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     tabController.dispose();
   }
 
-  // final ServiceHandler serviceHandler = ServiceHandler();
-
   @override
   Widget build(BuildContext context) {
+    // Get.put(TextController());
     return Scaffold(
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),
@@ -103,7 +109,6 @@ class _MainScreenState extends State<MainScreen>
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "My Requests"),
           BottomNavigationBarItem(
               icon: Icon(Icons.remove_from_queue), label: "My Jobs"),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: "Ratings"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
         currentIndex: _selectedIndex,

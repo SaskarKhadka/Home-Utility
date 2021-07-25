@@ -54,7 +54,7 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class ProfileButton extends StatefulWidget {
+class ProfileButton extends StatelessWidget {
   final Function onPressed;
   final double buttonHeight;
   final double buttonWidth;
@@ -66,7 +66,7 @@ class ProfileButton extends StatefulWidget {
   final String buttonText;
   final Color textColour;
 
-  const ProfileButton(
+  ProfileButton(
       {this.onPressed,
       this.buttonHeight,
       this.buttonWidth,
@@ -79,40 +79,35 @@ class ProfileButton extends StatefulWidget {
       this.textColour});
 
   @override
-  _ProfileButtonState createState() => _ProfileButtonState();
-}
-
-class _ProfileButtonState extends State<ProfileButton> {
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: widget.buttonHeight,
-        width: widget.buttonWidth,
+        height: buttonHeight,
+        width: buttonWidth,
         child: ElevatedButton(
-          onPressed: widget.onPressed,
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            primary: widget.primaryColour,
+            primary: primaryColour,
             // Color(0xFF5061AC),
-            shadowColor: widget.shadowColour,
+            shadowColor: shadowColour,
             // Color(0xFFFFFFFF),
             side: BorderSide(
-              width: widget.borderSideWidth,
+              width: borderSideWidth,
               // width: 0.5,
-              color: widget.borderSideColour,
+              color: borderSideColour,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(widget.borderRadius),
+                Radius.circular(borderRadius),
               ),
             ),
           ),
           child: Center(
             child: Text(
-              widget.buttonText,
+              buttonText,
               style: TextStyle(
-                color: widget.textColour,
+                color: textColour,
               ),
             ),
           ),

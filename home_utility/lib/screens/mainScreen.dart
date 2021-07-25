@@ -55,17 +55,20 @@ class _MainScreenState extends State<MainScreen>
             ));
       }
     });
-    getToken();
+    resolveToken();
   }
 
-  getToken() async {
-    String token = await FirebaseMessaging.instance.getToken();
-    print(token);
+  resolveToken() async {
+    String token = await database.getMyToken();
+    if (token == null || token == '') {
+      String token = await FirebaseMessaging.instance.getToken();
+      database.saveToken(token);
+      print(token);
+    }
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     tabController.dispose();
   }

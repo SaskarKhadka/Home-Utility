@@ -5,7 +5,6 @@ class TextController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController reviewController = TextEditingController();
 
   @override
   void onClose() {
@@ -13,6 +12,5 @@ class TextController extends GetxController {
     nameController.dispose();
     phoneController.dispose();
     emailController.dispose();
-    reviewController.dispose();
   }
 }

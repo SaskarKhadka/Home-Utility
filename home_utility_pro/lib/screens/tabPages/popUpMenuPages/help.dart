@@ -2,12 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility_pro/components/customButton.dart';
-import 'package:home_utility_pro/components/customPasswordTextField.dart';
-import 'package:home_utility_pro/components/customTextField.dart';
-
-import 'package:home_utility_pro/controllers/proController.dart';
-import 'package:home_utility_pro/controllers/userController.dart';
 import 'package:home_utility_pro/screens/forgotPassword.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
 import 'package:home_utility_pro/constants.dart';

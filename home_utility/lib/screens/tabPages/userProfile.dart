@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +10,7 @@ import 'package:home_utility/controllers/colourController.dart';
 import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/controllers/userController.dart';
 import 'package:home_utility/main.dart';
+import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import 'package:image_cropper/image_cropper.dart';
 
@@ -24,12 +24,11 @@ class UserProfile extends StatelessWidget {
     // double screenWidth = MediaQuery.of(context).size.width;
     //    double screenHeight = MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
-    textController.nameController.text = userController.user[0].userName;
-    textController.phoneController.text =
-        '+977-${userController.user[0].userPhoneNo}';
+    // textController.nameController.text = userController.user[0].userName;
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xff141a1e),
+        backgroundColor: Colors.black,
         // backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
@@ -299,11 +298,11 @@ class UserProfile extends StatelessWidget {
 
                             return CircleAvatar(
                               radius: 55,
-                              backgroundColor: Colors.redAccent,
+                              backgroundColor: Colors.teal,
                               backgroundImage: Image.network(
                                 userController.user[0].profileUrl,
-                                loadingBuilder: (context, child, usergress) {
-                                  if (usergress == null) return child;
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) return child;
                                   return CircularProgressIndicator(
                                     color: kWhiteColour,
                                   );
@@ -318,7 +317,7 @@ class UserProfile extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: 125.0,
+                        top: 110.0,
                         left: 100.0,
                         right: 35.0,
                         child: GetX<ColourController>(
@@ -334,44 +333,50 @@ class UserProfile extends StatelessWidget {
                                     size: 17,
                                   ),
                                   onTap: () async {
-                                    colourController
-                                        .changeColour(Colors.tealAccent);
-                                    FilePickerResult file =
-                                        await FilePicker.platform.pickFiles(
-                                      type: FileType.image,
-                                      allowMultiple: false,
-                                    );
+                                    colourController.changeColour(Colors.white);
+                                    try {
+                                      FilePickerResult file =
+                                          await FilePicker.platform.pickFiles(
+                                        type: FileType.image,
+                                        allowMultiple: false,
+                                      );
 
-                                    if (file == null) {
-                                      colourController.changeColour(
-                                          Colors.tealAccent.withOpacity(0.8));
-                                      return;
+                                      if (file == null) {
+                                        colourController
+                                            .changeColour(Colors.white54);
+                                        return;
+                                      }
+                                      File croppedFile =
+                                          await ImageCropper.cropImage(
+                                              sourcePath:
+                                                  file.files.single.path,
+                                              aspectRatioPresets: [
+                                            CropAspectRatioPreset.original,
+                                            CropAspectRatioPreset.ratio16x9,
+                                            CropAspectRatioPreset.ratio3x2,
+                                            CropAspectRatioPreset.square,
+                                            CropAspectRatioPreset.ratio4x3,
+                                          ]);
+                                      colourController
+                                          .changeColour(Colors.white54);
+
+                                      if (croppedFile == null) return;
+
+                                      // String fileName = file.files.single.name;
+                                      // String path = file.files.single.path;
+                                      bool uploaded = await cloudStorage
+                                          .uploadFile(croppedFile);
+
+                                      if (uploaded)
+                                        getSnackBar(
+                                            title: 'SUCCESS!',
+                                            message:
+                                                'Your userfile Picture was updated');
+                                    } catch (e) {
+                                      print(e);
+                                      colourController
+                                          .changeColour(Colors.white54);
                                     }
-                                    File croppedFile =
-                                        await ImageCropper.cropImage(
-                                            sourcePath: file.files.single.path,
-                                            aspectRatioPresets: [
-                                          CropAspectRatioPreset.original,
-                                          CropAspectRatioPreset.ratio16x9,
-                                          CropAspectRatioPreset.ratio3x2,
-                                          CropAspectRatioPreset.square,
-                                          CropAspectRatioPreset.ratio4x3,
-                                        ]);
-                                    colourController.changeColour(
-                                        Colors.tealAccent.withOpacity(0.8));
-
-                                    if (croppedFile == null) return;
-
-                                    // String fileName = file.files.single.name;
-                                    // String path = file.files.single.path;
-                                    bool uploaded = await cloudStorage
-                                        .uploadFile(croppedFile);
-
-                                    if (uploaded)
-                                      getSnackBar(
-                                          title: 'SUCCESS!',
-                                          message:
-                                              'Your userfile Picture was updated');
                                   },
                                 ),
                               );
@@ -382,7 +387,7 @@ class UserProfile extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: size.height * 0.04,
+                height: size.height * 0.02,
               ),
               Row(
                 children: [
@@ -394,6 +399,7 @@ class UserProfile extends StatelessWidget {
                         //   MaterialPageRoute(builder: (context) => EditProfile()),
                         // );
                         showBottomSheet(
+                            // isScrollControlled: true,
                             elevation: 4.0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -453,7 +459,7 @@ class UserProfile extends StatelessWidget {
                                                 focusColour2: Colors.tealAccent,
                                                 focusColour: Colors.grey,
                                                 isPhoneNumber: false,
-                                                labelText: 'My UserName',
+                                                labelText: 'New UserName',
                                                 hintText: 'Update Username',
                                                 textColour: Colors.white,
                                                 icon: Icons.person,
@@ -469,7 +475,7 @@ class UserProfile extends StatelessWidget {
                                               focusColour2: Colors.tealAccent,
                                               focusColour: Colors.grey,
                                               isPhoneNumber: false,
-                                              labelText: 'My Phone Number',
+                                              labelText: 'New Phone Number',
                                               hintText: 'Update Phone Number',
                                               textcontroller: textController
                                                   .phoneController,
@@ -495,6 +501,10 @@ class UserProfile extends StatelessWidget {
                                         Expanded(
                                           child: ProfileButton(
                                             onPressed: () {
+                                              textController.phoneController
+                                                  .clear();
+                                              textController.nameController
+                                                  .clear();
                                               Get.back();
                                             },
                                             buttonHeight: 45.0,
@@ -509,7 +519,152 @@ class UserProfile extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: ProfileButton(
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              if (textController
+                                                      .phoneController.text
+                                                      .trim()
+                                                      .isEmpty &&
+                                                  textController
+                                                      .nameController.text
+                                                      .trim()
+                                                      .isEmpty) {
+                                                Get.back();
+                                                return;
+                                              } else if (textController
+                                                  .phoneController.text
+                                                  .trim()
+                                                  .isEmpty) {
+                                                Get.back();
+                                                await usersRefrence
+                                                    .child(userAuthentication
+                                                        .userID)
+                                                    .update({
+                                                  'userName': textController
+                                                      .nameController.text
+                                                      .trim(),
+                                                });
+                                                getSnackBar(
+                                                    title: 'SUCCESS!',
+                                                    message:
+                                                        'Your username was changed');
+                                                textController.phoneController
+                                                    .clear();
+                                                textController.nameController
+                                                    .clear();
+                                                return;
+                                              } else if (textController
+                                                  .nameController.text
+                                                  .trim()
+                                                  .isEmpty) {
+                                                if (textController
+                                                        .phoneController.text
+                                                        .trim()
+                                                        .length !=
+                                                    10) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+
+                                                int phoneNo;
+                                                try {
+                                                  phoneNo = int.parse(
+                                                      textController
+                                                          .phoneController.text
+                                                          .trim());
+                                                } catch (e) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+                                                await usersRefrence
+                                                    .child(userAuthentication
+                                                        .userID)
+                                                    .update({
+                                                  'userPhoneNo': phoneNo,
+                                                });
+                                                getSnackBar(
+                                                    title: 'SUCCESS!',
+                                                    message:
+                                                        'Your phone number was changed');
+                                                textController.phoneController
+                                                    .clear();
+                                                textController.nameController
+                                                    .clear();
+                                                return;
+                                              } else {
+                                                if (textController
+                                                        .phoneController.text
+                                                        .trim()
+                                                        .length !=
+                                                    10) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+
+                                                int phoneNo;
+                                                try {
+                                                  phoneNo = int.parse(
+                                                      textController
+                                                          .phoneController.text
+                                                          .trim());
+                                                } catch (e) {
+                                                  Get.back();
+                                                  getSnackBar(
+                                                      title: 'ERROR!',
+                                                      message:
+                                                          'Invalid Phone Number');
+                                                  textController.phoneController
+                                                      .clear();
+                                                  textController.nameController
+                                                      .clear();
+                                                  return;
+                                                }
+                                                Get.back();
+                                                await usersRefrence
+                                                    .child(userAuthentication
+                                                        .userID)
+                                                    .update({
+                                                  'userPhoneNo': phoneNo,
+                                                  'userName': textController
+                                                      .nameController.text
+                                                      .trim(),
+                                                });
+                                                getSnackBar(
+                                                    title: 'SUCCESS!',
+                                                    message:
+                                                        'Your profile was updated');
+                                                textController.phoneController
+                                                    .clear();
+                                                textController.nameController
+                                                    .clear();
+                                                // return;
+                                                // Get.back();
+                                                return;
+                                              }
+                                            },
                                             buttonHeight: 45.0,
                                             primaryColour: kPrimaryColor,
                                             shadowColour: kSecondaryColor,
@@ -539,7 +694,10 @@ class UserProfile extends StatelessWidget {
                   ),
                   Expanded(
                     child: ProfileButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        userAuthentication.signOut();
+                        Get.offAllNamed(LogInScreen.id);
+                      },
                       buttonHeight: 45.0,
                       primaryColour: kPrimaryColor,
                       shadowColour: kSecondaryColor,

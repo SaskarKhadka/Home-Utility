@@ -79,10 +79,17 @@ class Database {
     return token;
   }
 
-  void saveToken(String token) async {
-    await prosRefrence
+  Future<String> getMyToken() async {
+    DataSnapshot snapshot = await prosRefrence
         .child(userAuthentication.userID)
-        .update({'token': token});
+        .child('token')
+        .once();
+    String token = snapshot.value;
+    return token;
+  }
+
+  void saveToken(String token) async {
+    await prosRefrence.child(userAuthentication.userID).set({'token': token});
   }
 
   // Stream<List<String>> userRequestsStream() {

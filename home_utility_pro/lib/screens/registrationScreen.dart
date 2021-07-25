@@ -1,6 +1,8 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:home_utility_pro/components/backgroundGradient.dart';
 import 'package:home_utility_pro/constants.dart';
 import 'package:home_utility_pro/controllers/registrationController.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
@@ -24,182 +26,184 @@ class RegistrationScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kBlackColour,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: size.height * 0.08,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () => Get.toNamed(LogInScreen.id),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 5.0,
-                      horizontal: 21.0,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(
-                        style: BorderStyle.solid,
-                        color: Colors.white,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Text(
-                      'SIGN IN',
-                      style: GoogleFonts.montserrat(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 2,
-                        fontSize: 30,
-                        wordSpacing: 2,
-                        // decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 4.6,
-                      horizontal: 17.0,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Text(
-                      'SIGN UP',
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                        letterSpacing: 2,
-                        fontSize: 30,
-                        wordSpacing: 2,
-                        // decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+      body: BackgroundGradient(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: size.height * 0.08,
             ),
-          ),
-          SizedBox(
-            height: size.height * 0.01,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(60.0),
-                    // topLeft: Radius.circular(120.0),
-                    // bottomLeft: Radius.circular(60.0),
-                    // bottomRight: Radius.circular(50.0),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: size.height * 0.035,
-                    horizontal: size.width * 0.07,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.03,
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.toNamed(LogInScreen.id),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5.0,
+                        horizontal: 21.0,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CustomTextField(
-                            textController:
-                                registrationController.nameController,
-                            isPhoneNumber: false,
-                            icon: EvaIcons.personOutline,
-                            labelText: 'Name',
-                            hintText: 'Enter your name',
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          // CustomTextField(
-                          //   textController: addressController,
-                          //   isPhoneNumber: false,
-                          //   icon: EvaIcons.personOutline,
-                          //   labelText: 'Address',
-                          //   hintText: 'Enter your municipality/VDC',
-                          // ),
-                          // SizedBox(
-                          //   height: size.height * 0.03,
-                          // ),
-                          CustomTextField(
-                            textController:
-                                registrationController.phoneController,
-                            isPhoneNumber: true,
-                            icon: EvaIcons.phoneCallOutline,
-                            labelText: 'Phone Number',
-                            hintText: 'Enter your phone number',
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          CustomTextField(
-                            textController:
-                                registrationController.emailController,
-                            isPhoneNumber: false,
-                            icon: Icons.email_outlined,
-                            labelText: 'Email',
-                            hintText: 'Enter your email address',
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          CustomPasswordTextField(
-                            textController:
-                                registrationController.passwordController,
-                            icon: EvaIcons.lockOutline,
-                            labelText: 'Password',
-                            hintText: 'Enter your password',
-                          ),
-                          SizedBox(
-                            height: size.height * 0.06,
-                          ),
-                          CustomButton(
-                            text: 'SIGN UP',
-                            onTap: () async {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) => DialogBox(
-                                  title: 'Registering',
-                                ),
-                              );
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: Colors.white,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Text(
+                        'SIGN IN',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 2,
+                          fontSize: 30,
+                          wordSpacing: 2,
+                          // decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 4.6,
+                        horizontal: 17.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Text(
+                        'SIGN UP',
+                        style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          letterSpacing: 2,
+                          fontSize: 30,
+                          wordSpacing: 2,
+                          // decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.01,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(60.0),
+                      // topLeft: Radius.circular(120.0),
+                      // bottomLeft: Radius.circular(60.0),
+                      // bottomRight: Radius.circular(50.0),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: size.height * 0.035,
+                      horizontal: size.width * 0.07,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.03,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomTextField(
+                              textController:
+                                  registrationController.nameController,
+                              isPhoneNumber: false,
+                              icon: EvaIcons.personOutline,
+                              labelText: 'Name',
+                              hintText: 'Enter your name',
+                            ),
+                            SizedBox(
+                              height: size.height * 0.03,
+                            ),
+                            // CustomTextField(
+                            //   textController: addressController,
+                            //   isPhoneNumber: false,
+                            //   icon: EvaIcons.personOutline,
+                            //   labelText: 'Address',
+                            //   hintText: 'Enter your municipality/VDC',
+                            // ),
+                            // SizedBox(
+                            //   height: size.height * 0.03,
+                            // ),
+                            CustomTextField(
+                              textController:
+                                  registrationController.phoneController,
+                              isPhoneNumber: true,
+                              icon: EvaIcons.phoneCallOutline,
+                              labelText: 'Phone Number',
+                              hintText: 'Enter your phone number',
+                            ),
+                            SizedBox(
+                              height: size.height * 0.03,
+                            ),
+                            CustomTextField(
+                              textController:
+                                  registrationController.emailController,
+                              isPhoneNumber: false,
+                              icon: Icons.email_outlined,
+                              labelText: 'Email',
+                              hintText: 'Enter your email address',
+                            ),
+                            SizedBox(
+                              height: size.height * 0.03,
+                            ),
+                            CustomPasswordTextField(
+                              textController:
+                                  registrationController.passwordController,
+                              icon: EvaIcons.lockOutline,
+                              labelText: 'Password',
+                              hintText: 'Enter your password',
+                            ),
+                            SizedBox(
+                              height: size.height * 0.06,
+                            ),
+                            CustomButton(
+                              text: 'SIGN UP',
+                              onTap: () async {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => DialogBox(
+                                    title: 'Registering',
+                                  ),
+                                );
 
-                              await _checkValidation();
-                            },
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                        ],
-                      ),
-                    ],
+                                await _checkValidation();
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -279,6 +283,7 @@ class RegistrationScreen extends StatelessWidget {
               title: 'CONGRATULATIONS!',
               message: 'Your account has been created',
             );
+
             // // String email = emailController.text.trim();
             // await userAuthentication.sendEmailVerification();
 
@@ -360,6 +365,11 @@ class RegistrationScreen extends StatelessWidget {
             //     );
             //   },
             // );
+
+            //TODO: HERE
+            // String token = await FirebaseMessaging.instance.getToken();
+            // await database.saveToken(token);
+            //TODO: HERE
 
             // // prosProfessionValue = await database.prosProfession;
             // // category = professionToCategory(prosProfessionValue);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/dialogBox.dart';
-import 'package:home_utility_pro/components/drawerItems.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:home_utility_pro/screens/logInScreen.dart';
@@ -20,9 +19,11 @@ class UserRequestsPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kBlackColour,
-        drawer: DrawerItems(),
+        backgroundColor: Colors.black,
+        // drawer: DrawerItems(),
         appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.black,
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
@@ -131,13 +132,13 @@ Future<void> SelectedItem(BuildContext context, int item) async {
       // Get.toNamed(HelpPage.id);
       break;
     case 2:
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => DialogBox(
-          title: 'Signing Out',
-        ),
-      );
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+      //   builder: (context) => DialogBox(
+      //     title: 'Signing Out',
+      //   ),
+      // );
       await userAuthentication.signOut();
       Get.offAndToNamed(LogInScreen.id);
 
@@ -302,23 +303,99 @@ class UserRequestsStream extends StatelessWidget {
                               InkWell(
                                 onTap: () {
                                   showDialog(
-                                    barrierDismissible: true,
-                                    context: context,
+                                    context: (context),
                                     builder: (context) {
                                       return Dialog(
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide.none,
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        backgroundColor: Colors.black,
+                                        elevation: 25.0,
+                                        insetPadding: EdgeInsets.symmetric(
+                                          vertical: 25.0,
+                                          horizontal: 25.0,
+                                        ),
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 15.0,
-                                            horizontal: 20.0,
+                                          margin: EdgeInsets.all(1),
+                                          width: size.width,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
                                           ),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text('Job Description'),
-                                              SizedBox(
-                                                height: 40,
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 18.0,
+                                                  left: 8.0,
+                                                  right: 8.0,
+                                                ),
+                                                child: Text(
+                                                  'Job\'s Description',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.black,
+                                                    fontSize: 26,
+                                                    letterSpacing: 2.0,
+                                                    wordSpacing: 2.0,
+                                                  ),
+                                                ),
                                               ),
-                                              Text('Enter text here'),
+                                              SizedBox(
+                                                width: 250.0,
+                                                child: Divider(
+                                                  color: Colors.black
+                                                      .withOpacity(0.7),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 18.0,
+                                                  left: 20.0,
+                                                  right: 18.0,
+                                                  bottom: 18.0,
+                                                ),
+                                                child: Text(
+                                                  requestData['jobDescription'] ==
+                                                          null
+                                                      ? 'The customer has not provided any description'
+                                                      : requestData[
+                                                          'jobDescription'],
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.black,
+                                                    fontSize: 19,
+                                                    letterSpacing: 2.0,
+                                                    wordSpacing: 2.0,
+                                                    // fontStyle: FontStyle.italic,
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () => Get.back(),
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 10.0,
+                                                    horizontal: 20.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  child: Text(
+                                                    'Ok',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: size.height * 0.02,
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -376,6 +453,20 @@ class UserRequestsStream extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () async {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CircularProgressIndicator(
+                                                    color: kBlackColour,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                  ),
+                                                ],
+                                              ));
                                       await database.changeState(
                                         requestKey: requestData['requestKey'],
                                         state: 'accepted',
@@ -388,7 +479,7 @@ class UserRequestsStream extends StatelessWidget {
                                       await database.saveRequestAsJob(
                                         requestKey: requestData['requestKey'],
                                       );
-
+                                      Get.back();
                                       String token = await database.getToken(
                                           requestData['requestedBy']['userID']);
                                       try {
@@ -470,6 +561,20 @@ class UserRequestsStream extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () async {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CircularProgressIndicator(
+                                                    color: kBlackColour,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                  ),
+                                                ],
+                                              ));
                                       await database.changeState(
                                         requestKey: requestData['requestKey'],
                                         state: 'rejected',
@@ -477,7 +582,7 @@ class UserRequestsStream extends StatelessWidget {
                                       await database.deleteRequest(
                                         requestKey: requestData['requestKey'],
                                       );
-
+                                      Get.back();
                                       String token = await database.getToken(
                                           requestData['requestedBy']['userID']);
                                       try {

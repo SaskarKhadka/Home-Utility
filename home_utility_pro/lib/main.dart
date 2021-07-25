@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
@@ -106,6 +107,7 @@ void main() async {
 class HomeUtility extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Get.put(TextController());
     return GetMaterialApp(
       // home: WelcomeScreen(),
       initialRoute: userAuthentication.currentUser == null

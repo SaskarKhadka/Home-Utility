@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility/components/customButton.dart';
-import 'package:home_utility/components/customTextField.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/userController.dart';
 import 'package:home_utility/screens/forgotPassword.dart';

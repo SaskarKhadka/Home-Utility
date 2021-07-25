@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:home_utility/location/infobox.dart';
+import 'package:home_utility/components/infobox.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility/location/userLocation.dart';
 
@@ -98,7 +98,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     // String category = professionToCategory(profession)
     myStreamSubscription = prosRefrence
         .orderByChild('profession')
-        .equalTo('Electronics Technician')
+        .equalTo(widget.service)
         .onValue
         .listen((Event event) {
       Map pros = event.snapshot.value;
@@ -123,7 +123,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                 onTap: () {
                   username = value['prosName'];
                   address = value['prosMunicipality'];
-                  rating = value['avgRating'];
+                  rating = double.parse(value['avgRating'].toString());
                   proID = value['proID'];
                   setState(() {
                     pinpillposition = pinned_visible;
@@ -132,16 +132,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               ),
             );
           });
-          // _circles.add(
-          //   Circle(
-          //     circleId: CircleId('user'),
-          //     center: LatLng(lat1, lng1),
-          //     radius: _distanceMap[_distanceValue],
-          //     fillColor: Colors.tealAccent.withOpacity(0.2),
-          //     strokeWidth: 3,
-          //     strokeColor: Colors.tealAccent.withOpacity(0.6),
-          //   ),
-          // );
         }
       });
     });
@@ -285,6 +275,4 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
       ),
     );
   }
-
-  void iconButtonPressed() {}
 }

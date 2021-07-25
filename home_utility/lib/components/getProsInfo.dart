@@ -1,5 +1,7 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+// import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
@@ -89,14 +91,27 @@ class GetProsInfo extends StatelessWidget {
                           ),
                         ),
                       ),
-                      RatingStars(
-                        value: prosData.avgRating,
-                        starCount: 5,
-                        starSize: 15,
-                        starColor: Color(0xffF3CF31),
-                        starSpacing: 2,
-                        starOffColor: const Color(0xffe7e8ea),
-                        valueLabelColor: Colors.red,
+                      RatingBar.builder(
+                        initialRating: prosData.avgRating,
+                        glowColor: Colors.amber,
+                        itemSize: 25,
+                        unratedColor: Colors.white54,
+                        ignoreGestures: true,
+                        glowRadius: 1,
+                        itemPadding: EdgeInsets.all(5),
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        // itemPadding: EdgeInsets.symmetric(
+                        //     horizontal: 4.0),
+                        itemBuilder: (context, index) => Icon(
+                          EvaIcons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          // proRating = rating;
+                        },
                       ),
                       SizedBox(
                         width: 150,
@@ -216,7 +231,8 @@ class GetProsInfo extends StatelessWidget {
                   right: 45.0,
                   child: CircleAvatar(
                     radius: 55.0,
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: Colors.teal,
+                    backgroundImage: NetworkImage(prosData.profileUrl),
                   ),
                 ),
               ],

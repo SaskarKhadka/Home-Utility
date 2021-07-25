@@ -116,7 +116,7 @@ class HomeUtility extends StatelessWidget {
     return GetMaterialApp(
       // home: WelcomeScreen(),
       initialRoute: userAuthentication.currentUser == null
-          ? LogInScreen.id
+          ? WelcomeScreen.id
           : MainScreen.id,
       theme: ThemeData(
         scrollbarTheme: ScrollbarThemeData(

@@ -4,15 +4,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customButton.dart';
-import 'package:home_utility/components/dialogBox.dart';
-import 'package:home_utility/components/drawerItems.dart';
 import 'package:home_utility/components/getProsInfo.dart';
 import 'package:home_utility/constants.dart';
+import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/screens/chatScreen.dart';
-import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
 import '../../main.dart';
+import '../logInScreen.dart';
 
 class UserRequestsPage extends StatelessWidget {
   @override
@@ -21,9 +20,11 @@ class UserRequestsPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kBlackColour,
-        drawer: DrawerItems(),
+        backgroundColor: Colors.black,
+        // drawer: Container(),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.black,
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
@@ -120,48 +121,29 @@ class UserRequestsPage extends StatelessWidget {
 Future<void> SelectedItem(BuildContext context, int item) async {
   switch (item) {
     case 0:
-      Get.toNamed(AboutPage.id);
+      Get.offNamed(AboutPage.id);
       break;
     case 1:
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HelpPage()),
-      );
-      // Get.toNamed(HelpPage.id);
+      Get.offNamed(HelpPage.id);
       break;
     case 2:
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => DialogBox(
-          title: 'Signing Out',
-        ),
-      );
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+      //   builder: (context) => DialogBox(
+      //     title: 'Signing Out',
+      //   ),
+      // );
       await userAuthentication.signOut();
-      Get.offAndToNamed(LogInScreen.id);
-
+      Get.offAllNamed(LogInScreen.id);
       break;
   }
 }
 
-class UserRequestsStream extends StatefulWidget {
-  @override
-  _UserRequestsStreamState createState() => _UserRequestsStreamState();
-}
-
-class _UserRequestsStreamState extends State<UserRequestsStream> {
-  TextEditingController _reviewController;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    _reviewController = TextEditingController();
-    // proRating = 1.0;
-    super.initState();
-  }
-
+class UserRequestsStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final textController = Get.find<TextController>();
     Size size = MediaQuery.of(context).size;
     return StreamBuilder(
       stream: database.userRequestsStream(),
@@ -412,7 +394,8 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                   height: 15.0,
                                                 ),
                                                 TextField(
-                                                  controller: _reviewController,
+                                                  controller: textController
+                                                      .reviewController,
                                                   maxLines: 3,
                                                   keyboardType:
                                                       TextInputType.name,
@@ -452,10 +435,10 @@ class _UserRequestsStreamState extends State<UserRequestsStream> {
                                                             proID: requestData[
                                                                     'requestedTo']
                                                                 ['proID'],
-                                                            review:
-                                                                _reviewController
-                                                                    .text
-                                                                    .trim(),
+                                                            review: textController
+                                                                .reviewController
+                                                                .text
+                                                                .trim(),
                                                             rating: proRating,
                                                           );
                                                           await database

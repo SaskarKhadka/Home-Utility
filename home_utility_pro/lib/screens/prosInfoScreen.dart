@@ -1,14 +1,10 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/customButton.dart';
-import 'package:home_utility_pro/components/customTextField.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/model/districts.dart';
 import 'package:home_utility_pro/model/municipalities.dart';
-import 'package:home_utility_pro/model/services.dart';
-import 'package:home_utility_pro/model/servicesHandler.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
 import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:search_choices/search_choices.dart';
@@ -22,9 +18,6 @@ class ProsInfoScreen extends StatefulWidget {
 }
 
 class _ProsInfoScreenState extends State<ProsInfoScreen> {
-  final TextEditingController _districtController = TextEditingController();
-  final TextEditingController _proController = TextEditingController();
-  final TextEditingController _municipalityController = TextEditingController();
   String _professionValue;
 
   String _districtValue;
@@ -69,19 +62,10 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    _professionValue = 'Electronics Technician';
+    _professionValue = 'Hair Stylist';
     _districtValue = 'Achham';
     _municipalityValue = _municipalities.getMunicipalities(_districtValue)[0];
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _districtController.dispose();
-    _municipalityController.dispose();
-    _proController.dispose();
-    super.dispose();
   }
 
   @override
@@ -375,9 +359,26 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
   List<DropdownMenuItem<String>> _getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = [];
     List<String> professions = [
-      'Electronics Technician',
-      'Beautician',
-      'House Worker',
+      'Hair Stylist',
+      'Makeup Artist',
+      'Mehendi Artist',
+      'Construction',
+      'Electrician',
+      'Painting',
+      'Plumbing',
+      'Babysitter',
+      'Home Cleaning',
+      'AC Repair',
+      'Maid',
+      'Computer Repair',
+      'Fridge Repair',
+      'Geyser Repair',
+      'Heater Repair',
+      'Oven Repair',
+      'Printer Repair',
+      'CCTV Repair',
+      'TV Repair',
+      'Washing Machine Repair',
     ];
 
     for (String profession in professions) {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility_pro/components/drawerItems.dart';
 import 'package:home_utility_pro/controllers/userController.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
 import 'package:home_utility_pro/model/userData.dart';
@@ -18,9 +17,10 @@ class AcceptedRequests extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kBlackColour,
-        drawer: DrawerItems(),
+        backgroundColor: Colors.black,
+        // drawer: DrawerItems(),
         appBar: AppBar(
+          backgroundColor: Colors.black,
           toolbarHeight: 67,
           elevation: 2,
           shadowColor: Colors.white,
@@ -252,23 +252,99 @@ class AcceptedRequestsStream extends StatelessWidget {
                               InkWell(
                                 onTap: () {
                                   showDialog(
-                                    barrierDismissible: true,
-                                    context: context,
+                                    context: (context),
                                     builder: (context) {
                                       return Dialog(
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide.none,
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        backgroundColor: Colors.black,
+                                        elevation: 25.0,
+                                        insetPadding: EdgeInsets.symmetric(
+                                          vertical: 25.0,
+                                          horizontal: 25.0,
+                                        ),
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 15.0,
-                                            horizontal: 20.0,
+                                          margin: EdgeInsets.all(1),
+                                          width: size.width,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
                                           ),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text('Job Description'),
-                                              SizedBox(
-                                                height: 40,
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 18.0,
+                                                  left: 8.0,
+                                                  right: 8.0,
+                                                ),
+                                                child: Text(
+                                                  'Job\'s Description',
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.black,
+                                                    fontSize: 26,
+                                                    letterSpacing: 2.0,
+                                                    wordSpacing: 2.0,
+                                                  ),
+                                                ),
                                               ),
-                                              Text('Enter text here'),
+                                              SizedBox(
+                                                width: 250.0,
+                                                child: Divider(
+                                                  color: Colors.black
+                                                      .withOpacity(0.7),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 18.0,
+                                                  left: 20.0,
+                                                  right: 18.0,
+                                                  bottom: 18.0,
+                                                ),
+                                                child: Text(
+                                                  requestData['jobDescription'] ==
+                                                          null
+                                                      ? 'The customer has not provided any description'
+                                                      : requestData[
+                                                          'jobDescription'],
+                                                  style: GoogleFonts.montserrat(
+                                                    color: Colors.black,
+                                                    fontSize: 19,
+                                                    letterSpacing: 2.0,
+                                                    wordSpacing: 2.0,
+                                                    // fontStyle: FontStyle.italic,
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () => Get.back(),
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 10.0,
+                                                    horizontal: 20.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  child: Text(
+                                                    'Ok',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: size.height * 0.02,
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -401,7 +477,7 @@ class AcceptedRequestsStream extends StatelessWidget {
                                               children: [
                                                 CircularProgressIndicator(
                                                   color: kBlackColour,
-                                                  backgroundColor: kWhiteColour,
+                                                  backgroundColor: Colors.white,
                                                 ),
                                               ],
                                             );
@@ -416,14 +492,10 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                 borderRadius:
                                                     BorderRadius.circular(
                                                         20.0)),
-
-                                            insetAnimationCurve:
-                                                Curves.bounceIn,
-                                            // backgroundColor: Color(0xFF110E1F),
-                                            elevation: 0.0,
-                                            // backgroundColor: Color(0xff141a1e),
+                                            elevation: 10.0,
                                             backgroundColor: Colors.white,
-                                            child: Stack(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Container(
                                                   width: size.width,
@@ -433,8 +505,8 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                     left: 20.0,
                                                     right: 20.0,
                                                   ),
-                                                  margin:
-                                                      EdgeInsets.only(top: 80),
+                                                  // margin:
+                                                  //     EdgeInsets.only(top: 80),
                                                   decoration: BoxDecoration(
                                                     color: Color(0xff141a1e),
                                                     borderRadius:
@@ -442,7 +514,7 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                             20.0),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: Colors.grey,
+                                                        color: Colors.white38,
                                                         offset: Offset(0, 2),
                                                         blurRadius: 10.0,
                                                       ),
@@ -454,7 +526,20 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                     children: [
                                                       SizedBox(
                                                         height:
-                                                            size.height * 0.09,
+                                                            size.height * 0.02,
+                                                      ),
+                                                      CircleAvatar(
+                                                        radius: 55.0,
+                                                        backgroundColor:
+                                                            Colors.teal,
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                                userData[0]
+                                                                    .profileUrl),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            size.height * 0.02,
                                                       ),
                                                       Center(
                                                         child: Text(
@@ -462,25 +547,12 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                               .userName
                                                               .toUpperCase(),
                                                           style: GoogleFonts
-                                                              .shortStack(
+                                                              .montserrat(
                                                             fontSize: 20.0,
                                                             color: Colors.white,
                                                           ),
                                                         ),
                                                       ),
-                                                      // Padding(
-                                                      //   padding:
-                                                      //       const EdgeInsets
-                                                      //           .only(top: 6.0),
-                                                      //   child: Text(
-                                                      //     'customer',
-                                                      //     style: GoogleFonts
-                                                      //         .sansita(
-                                                      //       fontSize: 16.0,
-                                                      //       color: Colors.white,
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
                                                       SizedBox(
                                                         width: 100,
                                                         child: Divider(
@@ -499,8 +571,8 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                             child: Text(
                                                               'Contact Details:',
                                                               style: GoogleFonts
-                                                                  .raleway(
-                                                                fontSize: 14.0,
+                                                                  .montserrat(
+                                                                fontSize: 18.0,
                                                                 color: Colors
                                                                     .greenAccent,
                                                               ),
@@ -508,22 +580,8 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                           ),
                                                         ],
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 20.0),
-                                                            child: SizedBox(
-                                                              width: 180,
-                                                              child: Divider(
-                                                                color: Colors
-                                                                    .blueGrey,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      SizedBox(
+                                                        height: 5,
                                                       ),
                                                       Row(
                                                         children: [
@@ -546,9 +604,12 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                             child: Text(
                                                               '${userData[0].userPhoneNo}',
                                                               style: GoogleFonts.montserrat(
-                                                                  fontSize: 16,
+                                                                  fontSize:
+                                                                      16.0,
                                                                   color:
                                                                       kWhiteColour,
+                                                                  letterSpacing:
+                                                                      1.3,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold),
@@ -583,8 +644,8 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                               userData[0]
                                                                   .userEmail,
                                                               style: GoogleFonts
-                                                                  .raleway(
-                                                                fontSize: 14.0,
+                                                                  .montserrat(
+                                                                fontSize: 16.0,
                                                                 color: Colors
                                                                     .white,
                                                               ),
@@ -626,22 +687,12 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                             'Ok',
                                                             style: TextStyle(
                                                               color:
-                                                                  Colors.black,
+                                                                  Colors.white,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ],
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  top: 20,
-                                                  left: 45.0,
-                                                  right: 45.0,
-                                                  child: CircleAvatar(
-                                                    radius: 55.0,
-                                                    backgroundColor:
-                                                        Colors.redAccent,
                                                   ),
                                                 ),
                                               ],

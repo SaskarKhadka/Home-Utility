@@ -9,6 +9,7 @@ class ProsData {
   Map location;
   double avgRating;
   Map review;
+  String profileUrl;
 
   ProsData.fromData(Map prosData) {
     prosName = prosData['prosName'];
@@ -21,5 +22,6 @@ class ProsData {
     location = prosData['location'];
     avgRating = double.parse(prosData['avgRating'].toString());
     review = prosData['review'];
+    profileUrl = prosData['profileUrl'];
   }
 }
