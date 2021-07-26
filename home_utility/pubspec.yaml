@@ -39,7 +39,7 @@ dependencies:
   line_icons: ^2.0.1
   flutter_rating_bar: ^4.0.0
   google_maps_flutter: ^2.0.6
-  file_picker: ^3.0.3
+  image_picker: ^0.8.2
   firebase_storage: ^9.0.0
   image_cropper: ^1.4.1
   encrypt: ^5.0.0

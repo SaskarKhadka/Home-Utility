@@ -108,11 +108,10 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         double lat2 = widget.userLocation2['lat'];
         double lng2 = widget.userLocation2['lng'];
         double distance = Location().getDistance(lat1, lng1, lat2, lng2);
-        // print(distance);
+
         if (distance <= _distanceValueNum) {
           print(_distanceValueNum);
-          // print('hey');
-          // print(lat1);
+
           setState(() {
             _markers.add(
               Marker(

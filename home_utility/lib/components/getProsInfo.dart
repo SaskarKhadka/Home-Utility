@@ -9,7 +9,6 @@ import 'package:home_utility/controllers/proController.dart';
 import 'package:home_utility/model/proData.dart';
 
 class GetProsInfo extends StatelessWidget {
-  static const id = '\getProsInfo';
   final String proID;
   GetProsInfo({this.proID});
 
@@ -38,29 +37,25 @@ class GetProsInfo extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 side: BorderSide.none,
                 borderRadius: BorderRadius.circular(20.0)),
-
-            insetAnimationCurve: Curves.bounceIn,
-            // backgroundColor: Color(0xFF110E1F),
-            elevation: 0.0,
-            // backgroundColor: Color(0xff141a1e),
+            elevation: 10.0,
             backgroundColor: Colors.white,
-            child: Stack(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   width: size.width,
                   padding: EdgeInsets.only(
-                    top: 0.0,
+                    top: 15.0,
                     bottom: 20.0,
                     left: 20.0,
                     right: 20.0,
                   ),
-                  margin: EdgeInsets.only(top: 80),
                   decoration: BoxDecoration(
                     color: Color(0xff141a1e),
                     borderRadius: BorderRadius.circular(20.0),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey,
+                        color: Colors.white38,
                         offset: Offset(0, 2),
                         blurRadius: 10.0,
                       ),
@@ -69,13 +64,18 @@ class GetProsInfo extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      CircleAvatar(
+                        radius: 55.0,
+                        backgroundColor: Colors.teal,
+                        backgroundImage: NetworkImage(prosData.profileUrl),
+                      ),
                       SizedBox(
-                        height: size.height * 0.09,
+                        height: size.height * 0.02,
                       ),
                       Center(
                         child: Text(
                           prosData.prosName.toUpperCase(),
-                          style: GoogleFonts.shortStack(
+                          style: GoogleFonts.montserrat(
                             fontSize: 20.0,
                             color: Colors.white,
                           ),
@@ -123,11 +123,11 @@ class GetProsInfo extends StatelessWidget {
                         children: [
                           Padding(
                             padding:
-                                const EdgeInsets.only(top: 26.0, left: 20.0),
+                                const EdgeInsets.only(top: 20.0, left: 20.0),
                             child: Text(
                               'Contact Details:',
-                              style: GoogleFonts.raleway(
-                                fontSize: 14.0,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 18.0,
                                 color: Colors.greenAccent,
                               ),
                             ),
@@ -161,8 +161,9 @@ class GetProsInfo extends StatelessWidget {
                             child: Text(
                               '${prosData.prosPhoneNo}',
                               style: GoogleFonts.montserrat(
-                                  fontSize: 16,
+                                  fontSize: 16.0,
                                   color: kWhiteColour,
+                                  letterSpacing: 1.3,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -185,8 +186,8 @@ class GetProsInfo extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 16.0),
                             child: Text(
                               prosData.prosEmail,
-                              style: GoogleFonts.raleway(
-                                fontSize: 14.0,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 16.0,
                                 color: Colors.white,
                               ),
                             ),
@@ -194,7 +195,7 @@ class GetProsInfo extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: size.height * 0.05,
+                        height: size.height * 0.035,
                       ),
                       GestureDetector(
                         onTap: () => Get.back(),
@@ -217,22 +218,12 @@ class GetProsInfo extends StatelessWidget {
                           child: Text(
                             'Ok',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           ),
                         ),
                       ),
                     ],
-                  ),
-                ),
-                Positioned(
-                  top: 20,
-                  left: 45.0,
-                  right: 45.0,
-                  child: CircleAvatar(
-                    radius: 55.0,
-                    backgroundColor: Colors.teal,
-                    backgroundImage: NetworkImage(prosData.profileUrl),
                   ),
                 ),
               ],

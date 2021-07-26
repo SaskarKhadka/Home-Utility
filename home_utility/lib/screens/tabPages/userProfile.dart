@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,8 +83,8 @@ class UserProfile extends StatelessWidget {
                                   () {
                                     if (userController.user.isEmpty)
                                       return Text(
-                                        'User name',
-                                        style: GoogleFonts.shortStack(
+                                        'username',
+                                        style: GoogleFonts.montserrat(
                                             fontSize: 24.0,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
@@ -92,7 +92,7 @@ class UserProfile extends StatelessWidget {
                                     return Text(
                                       userController.user[0].userName
                                           .toUpperCase(),
-                                      style: GoogleFonts.shortStack(
+                                      style: GoogleFonts.montserrat(
                                           fontSize: 24.0,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
@@ -100,16 +100,22 @@ class UserProfile extends StatelessWidget {
                                   },
                                 ),
                               ),
-
+                              SizedBox(
+                                width: 120,
+                                height: 20,
+                                child: Divider(
+                                  color: Colors.blueGrey,
+                                ),
+                              ),
                               Row(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 36.0, left: 20.0),
+                                        top: 30.0, left: 20.0),
                                     child: Text(
                                       'My Information:',
                                       style: GoogleFonts.raleway(
-                                        fontSize: 16.0,
+                                        fontSize: 20.0,
                                         color: Colors.greenAccent,
                                       ),
                                     ),
@@ -141,7 +147,7 @@ class UserProfile extends StatelessWidget {
                                           const EdgeInsets.only(left: 16.0),
                                       child: Icon(
                                         Icons.person,
-                                        size: 22,
+                                        size: 25.0,
                                         color: Colors.purpleAccent,
                                       ),
                                     ),
@@ -154,16 +160,16 @@ class UserProfile extends StatelessWidget {
                                             if (userController.user.isEmpty)
                                               return Text(
                                                 'userName',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16.0,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 19.0,
                                                   color: Colors.white,
                                                   // fontWeight: FontWeight.bold,
                                                 ),
                                               );
                                             return Text(
                                               userController.user[0].userName,
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16.0,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 19.0,
                                                 color: Colors.white,
                                                 // fontWeight: FontWeight.bold,
                                               ),
@@ -188,7 +194,7 @@ class UserProfile extends StatelessWidget {
                                           const EdgeInsets.only(left: 16.0),
                                       child: Icon(
                                         Icons.phone,
-                                        size: 22,
+                                        size: 25.0,
                                         color: Colors.teal,
                                       ),
                                     ),
@@ -201,17 +207,18 @@ class UserProfile extends StatelessWidget {
                                             if (userController.user.isEmpty)
                                               return Text(
                                                 'phone number',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16.0,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 19.0,
                                                   color: Colors.white,
                                                   // fontWeight: FontWeight.bold,
                                                 ),
                                               );
                                             return Text(
                                               '${userController.user[0].userPhoneNo}',
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16.0,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 19.0,
                                                 color: Colors.white,
+                                                letterSpacing: 1.3,
                                                 // fontWeight: FontWeight.bold,
                                               ),
                                             );
@@ -238,7 +245,7 @@ class UserProfile extends StatelessWidget {
                                           const EdgeInsets.only(left: 16.0),
                                       child: Icon(
                                         Icons.email,
-                                        size: 22,
+                                        size: 25.0,
                                         color: Colors.orangeAccent,
                                       ),
                                     ),
@@ -251,16 +258,16 @@ class UserProfile extends StatelessWidget {
                                             if (userController.user.isEmpty)
                                               return Text(
                                                 'email',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 16.0,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 19.0,
                                                   color: Colors.white,
                                                   // fontWeight: FontWeight.bold,
                                                 ),
                                               );
                                             return Text(
                                               userController.user[0].userEmail,
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 16.0,
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 19.0,
                                                 color: Colors.white,
                                                 // fontWeight: FontWeight.bold,
                                               ),
@@ -286,10 +293,10 @@ class UserProfile extends StatelessWidget {
                         right: 45.0,
                         child: Obx(
                           () {
-                            if (userController.user[0].profileUrl == null ||
-                                userController.user[0].profileUrl.isEmpty) {
+                            if (userController.user == null ||
+                                userController.user.isEmpty) {
                               return CircleAvatar(
-                                radius: 65,
+                                radius: 55.0,
                                 backgroundColor: kWhiteColour,
                                 backgroundImage:
                                     AssetImage('images/person.png'),
@@ -335,11 +342,12 @@ class UserProfile extends StatelessWidget {
                                   onTap: () async {
                                     colourController.changeColour(Colors.white);
                                     try {
-                                      FilePickerResult file =
-                                          await FilePicker.platform.pickFiles(
-                                        type: FileType.image,
-                                        allowMultiple: false,
-                                      );
+                                      final pickedImage = ImagePicker();
+                                      final pickedFile =
+                                          await pickedImage.pickImage(
+                                              source: ImageSource.gallery);
+
+                                      File file = File(pickedFile.path);
 
                                       if (file == null) {
                                         colourController
@@ -348,8 +356,7 @@ class UserProfile extends StatelessWidget {
                                       }
                                       File croppedFile =
                                           await ImageCropper.cropImage(
-                                              sourcePath:
-                                                  file.files.single.path,
+                                              sourcePath: pickedFile.path,
                                               aspectRatioPresets: [
                                             CropAspectRatioPreset.original,
                                             CropAspectRatioPreset.ratio16x9,
@@ -371,7 +378,7 @@ class UserProfile extends StatelessWidget {
                                         getSnackBar(
                                             title: 'SUCCESS!',
                                             message:
-                                                'Your userfile Picture was updated');
+                                                'Your Profile Picture was updated');
                                     } catch (e) {
                                       print(e);
                                       colourController

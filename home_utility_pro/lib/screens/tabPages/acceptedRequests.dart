@@ -500,7 +500,7 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                 Container(
                                                   width: size.width,
                                                   padding: EdgeInsets.only(
-                                                    top: 0.0,
+                                                    top: 15.0,
                                                     bottom: 20.0,
                                                     left: 20.0,
                                                     right: 20.0,

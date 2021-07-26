@@ -1,12 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility/components/detailsDialog.dart';
-import 'package:home_utility/components/getProsInfo.dart';
 import 'package:home_utility/screens/forgotPassword.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
@@ -185,10 +183,6 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           name: AboutPage.id,
           page: () => AboutPage(),
-        ),
-        GetPage(
-          name: GetProsInfo.id,
-          page: () => GetProsInfo(),
         ),
         GetPage(
           name: HelpPage.id,

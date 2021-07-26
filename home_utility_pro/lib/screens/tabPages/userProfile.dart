@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -14,6 +13,7 @@ import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../constants.dart';
 
@@ -83,8 +83,8 @@ class ProsProfile extends StatelessWidget {
                                   () {
                                     if (proController.pro.isEmpty)
                                       return Text(
-                                        'User name',
-                                        style: GoogleFonts.shortStack(
+                                        'username',
+                                        style: GoogleFonts.montserrat(
                                             fontSize: 24.0,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500),
@@ -108,7 +108,7 @@ class ProsProfile extends StatelessWidget {
                                     if (proController.pro.isEmpty)
                                       return Text(
                                         'profession',
-                                        style: GoogleFonts.sansita(
+                                        style: GoogleFonts.montserrat(
                                           fontSize: 16.0,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500,
@@ -263,6 +263,7 @@ class ProsProfile extends StatelessWidget {
                                               style: GoogleFonts.montserrat(
                                                 fontSize: 19.0,
                                                 color: Colors.white,
+                                                letterSpacing: 1.3,
                                                 // fontWeight: FontWeight.bold,
                                               ),
                                             );
@@ -387,10 +388,10 @@ class ProsProfile extends StatelessWidget {
                         right: 45.0,
                         child: Obx(
                           () {
-                            if (proController.pro[0].profileUrl == null ||
-                                proController.pro[0].profileUrl.isEmpty) {
+                            if (proController.pro == null ||
+                                proController.pro.isEmpty) {
                               return CircleAvatar(
-                                radius: 65,
+                                radius: 55.0,
                                 backgroundColor: kWhiteColour,
                                 backgroundImage:
                                     AssetImage('images/person.png'),
@@ -436,12 +437,12 @@ class ProsProfile extends StatelessWidget {
                                   onTap: () async {
                                     colourController.changeColour(Colors.white);
                                     try {
-                                      FilePickerResult file =
-                                          await FilePicker.platform.pickFiles(
-                                        type: FileType.image,
-                                        allowMultiple: false,
-                                      );
+                                      final pickedImage = ImagePicker();
+                                      final pickedFile =
+                                          await pickedImage.pickImage(
+                                              source: ImageSource.gallery);
 
+                                      File file = File(pickedFile.path);
                                       if (file == null) {
                                         colourController
                                             .changeColour(Colors.white54);
@@ -449,8 +450,7 @@ class ProsProfile extends StatelessWidget {
                                       }
                                       File croppedFile =
                                           await ImageCropper.cropImage(
-                                              sourcePath:
-                                                  file.files.single.path,
+                                              sourcePath: pickedFile.path,
                                               aspectRatioPresets: [
                                             CropAspectRatioPreset.original,
                                             CropAspectRatioPreset.ratio16x9,
@@ -635,11 +635,11 @@ class ProsProfile extends StatelessWidget {
                                                   .trim()
                                                   .isEmpty) {
                                                 Get.back();
-                                                await usersRefrence
+                                                await prosRefrence
                                                     .child(userAuthentication
                                                         .userID)
                                                     .update({
-                                                  'userName': textController
+                                                  'prosName': textController
                                                       .nameController.text
                                                       .trim(),
                                                 });
@@ -691,11 +691,11 @@ class ProsProfile extends StatelessWidget {
                                                       .clear();
                                                   return;
                                                 }
-                                                await usersRefrence
+                                                await prosRefrence
                                                     .child(userAuthentication
                                                         .userID)
                                                     .update({
-                                                  'userPhoneNo': phoneNo,
+                                                  'prosPhoneNo': phoneNo,
                                                 });
                                                 getSnackBar(
                                                     title: 'SUCCESS!',
@@ -743,12 +743,12 @@ class ProsProfile extends StatelessWidget {
                                                   return;
                                                 }
                                                 Get.back();
-                                                await usersRefrence
+                                                await prosRefrence
                                                     .child(userAuthentication
                                                         .userID)
                                                     .update({
-                                                  'userPhoneNo': phoneNo,
-                                                  'userName': textController
+                                                  'prosPhoneNo': phoneNo,
+                                                  'prosName': textController
                                                       .nameController.text
                                                       .trim(),
                                                 });
