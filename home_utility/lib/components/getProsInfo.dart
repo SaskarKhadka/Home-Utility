@@ -67,34 +67,40 @@ class GetProsInfo extends StatelessWidget {
                       CircleAvatar(
                         radius: 55.0,
                         backgroundColor: Colors.teal,
-                        backgroundImage: NetworkImage(prosData.profileUrl),
+                        backgroundImage: prosData.profileUrl == null
+                            ? AssetImage('images/person.png')
+                            : NetworkImage(prosData.profileUrl),
                       ),
                       SizedBox(
                         height: size.height * 0.02,
                       ),
-                      Center(
-                        child: Text(
-                          prosData.prosName.toUpperCase(),
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20.0,
-                            color: Colors.white,
+                      Flexible(
+                        child: Center(
+                          child: Text(
+                            prosData.prosName.toUpperCase(),
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 6.0),
-                        child: Text(
-                          prosData.profession,
-                          style: GoogleFonts.sansita(
-                            fontSize: 16.0,
-                            color: Colors.white,
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 6.0),
+                          child: Text(
+                            prosData.profession,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                       RatingBar.builder(
                         initialRating: prosData.avgRating,
                         glowColor: Colors.amber,
-                        itemSize: 25,
+                        itemSize: 20,
                         unratedColor: Colors.white54,
                         ignoreGestures: true,
                         glowRadius: 1,
@@ -156,15 +162,17 @@ class GetProsInfo extends StatelessWidget {
                               color: Colors.teal,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              '${prosData.prosPhoneNo}',
-                              style: GoogleFonts.montserrat(
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                '${prosData.prosPhoneNo}',
+                                style: GoogleFonts.montserrat(
                                   fontSize: 16.0,
                                   color: kWhiteColour,
                                   letterSpacing: 1.3,
-                                  fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -182,13 +190,15 @@ class GetProsInfo extends StatelessWidget {
                               color: Colors.yellow,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              prosData.prosEmail,
-                              style: GoogleFonts.montserrat(
-                                fontSize: 16.0,
-                                color: Colors.white,
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                prosData.prosEmail,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),

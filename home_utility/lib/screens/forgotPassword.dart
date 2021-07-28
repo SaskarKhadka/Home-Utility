@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customTextField.dart';
+import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/main.dart';
 import 'package:home_utility/components/customButton.dart';
+import '../constants.dart';
 import 'registrationScreen.dart';
 
 class ForgotPassword extends StatelessWidget {
   static String id = 'forgotPassword';
 
   Widget build(BuildContext context) {
-    final textController = TextController();
+    final textController = Get.find<TextController>();
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -35,63 +37,74 @@ class ForgotPassword extends StatelessWidget {
       ),
       // backgroundColor: Color(0xFFEBEBEB),
       body: SingleChildScrollView(
-        child: Form(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
-            child: Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: size.height * 0.1,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.0),
+          child: Form(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: size.height * 0.1,
+                ),
+                Text(
+                  'Enter your email for getting a password reset link.\n\nIf you don\'t want to change your password, then you can go back.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.montserrat(
+                    fontSize: 16,
+                    color: Colors.black,
                   ),
-                  Text(
-                    'Enter your email for getting a password reset link.\n\nIf you don\'t want to change your password, then you can go back.',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.09,
-                  ),
-                  CustomTextField(
-                    textController: textController.emailController,
-                    isPhoneNumber: false,
-                    icon: EvaIcons.emailOutline,
-                    labelText: 'Email',
-                    hintText: 'Enter your email address',
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  // ignore: deprecated_member_use
+                ),
+                SizedBox(
+                  height: size.height * 0.09,
+                ),
+                CustomTextField(
+                  textController: textController.emailController,
+                  isPhoneNumber: false,
+                  icon: EvaIcons.emailOutline,
+                  labelText: 'Email',
+                  hintText: 'Enter your email address',
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                // ignore: deprecated_member_use
 
-                  Container(
-                    width: 200,
-                    height: 60,
-                    child: CustomButton(
-                      text: 'Send Email',
-                      onTap: () async {
-                        if (textController.emailController.text.isEmpty) {
-                          getSnackBar(
-                            title: 'ERROR!',
-                            message: 'Please enter your email address',
-                          );
-                          return;
-                        } else if (!textController
-                            .emailController.text.isEmail) {
-                          getSnackBar(
-                            title: 'ERROR!',
-                            message: 'Please enter a valid email address',
-                          );
-                          return;
-                        }
-                        await userAuthentication.passwordReset(
+                Container(
+                  width: 200,
+                  height: 60,
+                  child: CustomButton(
+                    text: 'Send Email',
+                    onTap: () async {
+                      if (textController.emailController.text.isEmpty) {
+                        getSnackBar(
+                          title: 'ERROR!',
+                          message: 'Please enter your email address',
+                        );
+                        return;
+                      } else if (!textController.emailController.text.isEmail) {
+                        getSnackBar(
+                          title: 'ERROR!',
+                          message: 'Please enter a valid email address',
+                        );
+                        return;
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => DialogBox(
+                            title: 'Authenticating',
+                          ),
+                        );
+                        String code = await userAuthentication.passwordReset(
                           email: textController.emailController.text.trim(),
                         );
-
+                        Get.back();
+                        if (code == 'user-not-found') {
+                          Get.back();
+                          getSnackBar(
+                              title: 'ERROR!', message: 'User not found');
+                          return;
+                        }
+                        // Get.back();
                         showDialog(
                             context: (context),
                             builder: (context) {
@@ -130,7 +143,7 @@ class ForgotPassword extends StatelessWidget {
                                         ),
                                         child: Text(
                                           'Confirm Email',
-                                          style: GoogleFonts.shortStack(
+                                          style: GoogleFonts.montserrat(
                                             color: Colors.white,
                                             fontSize: 26,
                                             letterSpacing: 2.0,
@@ -140,8 +153,9 @@ class ForgotPassword extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(
+                                        width: 250.0,
                                         child: Divider(
-                                          color: Colors.tealAccent,
+                                          color: Colors.white70,
                                         ),
                                       ),
                                       Padding(
@@ -152,13 +166,13 @@ class ForgotPassword extends StatelessWidget {
                                           bottom: 18.0,
                                         ),
                                         child: Text(
-                                          'An email has just been sent to you, Click the link provided to complete registration.',
-                                          style: GoogleFonts.roboto(
+                                          'An email has just been sent to you, Visit the link to change your password.',
+                                          style: GoogleFonts.montserrat(
                                             color: Colors.white,
-                                            fontSize: 16,
+                                            fontSize: 19,
                                             letterSpacing: 2.0,
                                             wordSpacing: 2.0,
-                                            fontStyle: FontStyle.italic,
+                                            // fontStyle: FontStyle.italic,
                                           ),
                                         ),
                                       ),
@@ -197,14 +211,15 @@ class ForgotPassword extends StatelessWidget {
                                 ),
                               );
                             });
-                      },
-                    ),
+                        textController.emailController.clear();
+                      }
+                    },
                   ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+              ],
             ),
           ),
         ),

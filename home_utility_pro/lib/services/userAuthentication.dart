@@ -41,7 +41,7 @@ class UserAuthentication {
         };
         //user created
         Map proData = {
-          'avgRating': 1.0,
+          'avgRating': 1.01,
           'proID': firebaseUser.user.uid,
           'prosName': name,
           'prosEmail': email,
@@ -53,7 +53,7 @@ class UserAuthentication {
 
         // usersRefrence.child(firebaseUser.user.uid).set(userData);
 
-        database.addProsInfo(user: firebaseUser.user, proData: proData);
+        await database.addProsInfo(user: firebaseUser.user, proData: proData);
         code = 'success';
 
         //TODO:save user to data base
@@ -63,6 +63,7 @@ class UserAuthentication {
         code = 'error';
       }
     } on FirebaseAuthException catch (e) {
+      print(e.code);
       code = e.code;
     }
     return code;
@@ -75,9 +76,10 @@ class UserAuthentication {
           email: email, password: password);
 
       bool accountExists = await database.checkAccount(firebaseUser.user);
-      accountExists ? code = 'success' : code = 'record-not-found';
+      code = accountExists ? 'success' : 'record-not-found';
     } on FirebaseAuthException catch (e) {
-      return code = e.code;
+      print(e.code);
+      code = e.code;
     }
 
     return code;

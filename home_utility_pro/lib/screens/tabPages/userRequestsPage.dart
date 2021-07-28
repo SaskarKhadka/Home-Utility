@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility_pro/components/dialogBox.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:home_utility_pro/screens/logInScreen.dart';
@@ -225,10 +224,7 @@ class UserRequestsStream extends StatelessWidget {
                     }
                     if (requestData['state'] == 'pending') {
                       totalRequests++;
-                      // if (data[index]['state']['state'] == 'pending')
-                      //   isAccepted = false;
-                      // else
-                      //   isAccepted = true;
+
                       return Container(
                         height: size.height * 0.285,
                         width: double.infinity,
@@ -455,6 +451,7 @@ class UserRequestsStream extends StatelessWidget {
                                     onTap: () async {
                                       showDialog(
                                           context: context,
+                                          barrierDismissible: false,
                                           builder: (context) => Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
@@ -467,10 +464,7 @@ class UserRequestsStream extends StatelessWidget {
                                                   ),
                                                 ],
                                               ));
-                                      await database.changeState(
-                                        requestKey: requestData['requestKey'],
-                                        state: 'accepted',
-                                      );
+
                                       await database.changeAcceptedState(
                                         requestKey: requestData['requestKey'],
                                         state: true,
@@ -575,12 +569,10 @@ class UserRequestsStream extends StatelessWidget {
                                                   ),
                                                 ],
                                               ));
-                                      await database.changeState(
+                                      await database.cancelRequest(
                                         requestKey: requestData['requestKey'],
-                                        state: 'rejected',
-                                      );
-                                      await database.deleteRequest(
-                                        requestKey: requestData['requestKey'],
+                                        userID: requestData['requestedBy']
+                                            ['userID'],
                                       );
                                       Get.back();
                                       String token = await database.getToken(

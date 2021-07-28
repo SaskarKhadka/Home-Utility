@@ -259,19 +259,26 @@ class AcceptedRequestsStream extends StatelessWidget {
                                             side: BorderSide.none,
                                             borderRadius:
                                                 BorderRadius.circular(20.0)),
-                                        backgroundColor: Colors.black,
-                                        elevation: 25.0,
+                                        insetAnimationCurve: Curves.bounceIn,
+                                        backgroundColor: Colors.teal,
+                                        elevation: 0.0,
                                         insetPadding: EdgeInsets.symmetric(
                                           vertical: 25.0,
-                                          horizontal: 25.0,
+                                          horizontal: 30.0,
                                         ),
                                         child: Container(
-                                          margin: EdgeInsets.all(1),
                                           width: size.width,
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: Color(0xff141a1e),
                                             borderRadius:
                                                 BorderRadius.circular(20.0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                offset: Offset(0, 2),
+                                                blurRadius: 10.0,
+                                              ),
+                                            ],
                                           ),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
@@ -283,9 +290,9 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                   right: 8.0,
                                                 ),
                                                 child: Text(
-                                                  'Job\'s Description',
+                                                  'Job Description',
                                                   style: GoogleFonts.montserrat(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 26,
                                                     letterSpacing: 2.0,
                                                     wordSpacing: 2.0,
@@ -295,8 +302,7 @@ class AcceptedRequestsStream extends StatelessWidget {
                                               SizedBox(
                                                 width: 250.0,
                                                 child: Divider(
-                                                  color: Colors.black
-                                                      .withOpacity(0.7),
+                                                  color: Colors.white70,
                                                 ),
                                               ),
                                               Padding(
@@ -313,7 +319,7 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                       : requestData[
                                                           'jobDescription'],
                                                   style: GoogleFonts.montserrat(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontSize: 19,
                                                     letterSpacing: 2.0,
                                                     wordSpacing: 2.0,
@@ -329,15 +335,23 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                     horizontal: 20.0,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.black,
+                                                    color: Color(0xff4f5b8a),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.0),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0xff2f3650),
+                                                        offset: Offset(0, 1),
+                                                        blurRadius: 4.0,
+                                                      ),
+                                                    ],
                                                   ),
                                                   child: Text(
                                                     'Ok',
                                                     style: TextStyle(
-                                                      color: Colors.white,
+                                                      color: Colors.black,
                                                     ),
                                                   ),
                                                 ),
@@ -500,7 +514,7 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                 Container(
                                                   width: size.width,
                                                   padding: EdgeInsets.only(
-                                                    top: 15.0,
+                                                    top: 0.0,
                                                     bottom: 20.0,
                                                     left: 20.0,
                                                     right: 20.0,
@@ -603,16 +617,14 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                                     left: 16.0),
                                                             child: Text(
                                                               '${userData[0].userPhoneNo}',
-                                                              style: GoogleFonts.montserrat(
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  color:
-                                                                      kWhiteColour,
-                                                                  letterSpacing:
-                                                                      1.3,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                              style: GoogleFonts
+                                                                  .montserrat(
+                                                                fontSize: 16.0,
+                                                                color:
+                                                                    kWhiteColour,
+                                                                letterSpacing:
+                                                                    1.3,
+                                                              ),
                                                             ),
                                                           ),
                                                         ],

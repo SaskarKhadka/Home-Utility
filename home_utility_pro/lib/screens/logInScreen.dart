@@ -341,9 +341,6 @@ class LogInScreen extends StatelessWidget {
                                   //   }
                                   prosProfessionValue =
                                       await database.prosProfession;
-                                  if (prosProfessionValue != null)
-                                    category = professionToCategory(
-                                        prosProfessionValue);
 
                                   Get.back();
 

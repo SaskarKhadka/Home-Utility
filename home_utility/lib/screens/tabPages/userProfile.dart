@@ -72,218 +72,229 @@ class UserProfile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                height: size.height * 0.09,
-                              ),
-                              Center(
-                                child: Obx(
-                                  () {
-                                    if (userController.user.isEmpty)
-                                      return Text(
-                                        'username',
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 24.0,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      );
-                                    return Text(
-                                      userController.user[0].userName
-                                          .toUpperCase(),
-                                      style: GoogleFonts.montserrat(
-                                          fontSize: 24.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    );
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                width: 120,
-                                height: 20,
-                                child: Divider(
-                                  color: Colors.blueGrey,
-                                ),
-                              ),
-                              Row(
+                          child: Container(
+                            margin: EdgeInsets.only(top: size.height * 0.08),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
+                                  SizedBox(
+                                    height: size.height * 0.002,
+                                  ),
+                                  Center(
+                                    child: Obx(
+                                      () {
+                                        if (userController.user.isEmpty)
+                                          return Text(
+                                            'username',
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 24.0,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          );
+                                        return Text(
+                                          userController.user[0].userName
+                                              .toUpperCase(),
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 24.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 120,
+                                    height: 20,
+                                    child: Divider(
+                                      color: Colors.blueGrey,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 30.0, left: 20.0),
+                                        child: Text(
+                                          'My Information:',
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.greenAccent,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: SizedBox(
+                                          width: 180,
+                                          child: Divider(
+                                            color: Colors.blueGrey,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 30.0, left: 20.0),
-                                    child: Text(
-                                      'My Information:',
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 20.0,
-                                        color: Colors.greenAccent,
-                                      ),
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 25.0,
+                                            color: Colors.purpleAccent,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Obx(
+                                              () {
+                                                if (userController.user.isEmpty)
+                                                  return Text(
+                                                    'userName',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  );
+                                                return Text(
+                                                  userController
+                                                      .user[0].userName,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              Row(
-                                children: [
+                                  // ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: SizedBox(
-                                      width: 180,
-                                      child: Divider(
-                                        color: Colors.blueGrey,
-                                      ),
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 8.0,
                                     ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Icon(
+                                            Icons.phone,
+                                            size: 25.0,
+                                            color: Colors.teal,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Obx(
+                                              () {
+                                                if (userController.user.isEmpty)
+                                                  return Text(
+                                                    'phone number',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  );
+                                                return Text(
+                                                  '${userController.user[0].userPhoneNo}',
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white,
+                                                    letterSpacing: 1.3,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // ),
+                                  SizedBox(
+                                    height: size.height * 0.005,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Icon(
+                                            Icons.email,
+                                            size: 25.0,
+                                            color: Colors.orangeAccent,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Obx(
+                                              () {
+                                                if (userController.user.isEmpty)
+                                                  return Text(
+                                                    'email',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  );
+                                                return Text(
+                                                  userController
+                                                      .user[0].userEmail,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // ),
+                                  SizedBox(
+                                    height: size.height * 0.005,
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 25.0,
-                                        color: Colors.purpleAccent,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16.0),
-                                        child: Obx(
-                                          () {
-                                            if (userController.user.isEmpty)
-                                              return Text(
-                                                'userName',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 19.0,
-                                                  color: Colors.white,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            return Text(
-                                              userController.user[0].userName,
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 19.0,
-                                                color: Colors.white,
-                                                // fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Icon(
-                                        Icons.phone,
-                                        size: 25.0,
-                                        color: Colors.teal,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16.0),
-                                        child: Obx(
-                                          () {
-                                            if (userController.user.isEmpty)
-                                              return Text(
-                                                'phone number',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 19.0,
-                                                  color: Colors.white,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            return Text(
-                                              '${userController.user[0].userPhoneNo}',
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 19.0,
-                                                color: Colors.white,
-                                                letterSpacing: 1.3,
-                                                // fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // ),
-                              SizedBox(
-                                height: size.height * 0.005,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Icon(
-                                        Icons.email,
-                                        size: 25.0,
-                                        color: Colors.orangeAccent,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16.0),
-                                        child: Obx(
-                                          () {
-                                            if (userController.user.isEmpty)
-                                              return Text(
-                                                'email',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 19.0,
-                                                  color: Colors.white,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            return Text(
-                                              userController.user[0].userEmail,
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 19.0,
-                                                color: Colors.white,
-                                                // fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // ),
-                              SizedBox(
-                                height: size.height * 0.005,
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -306,15 +317,19 @@ class UserProfile extends StatelessWidget {
                             return CircleAvatar(
                               radius: 55,
                               backgroundColor: Colors.teal,
-                              backgroundImage: Image.network(
-                                userController.user[0].profileUrl,
-                                loadingBuilder: (context, child, progress) {
-                                  if (progress == null) return child;
-                                  return CircularProgressIndicator(
-                                    color: kWhiteColour,
-                                  );
-                                },
-                              ).image,
+                              backgroundImage:
+                                  userController.user[0].profileUrl == null
+                                      ? AssetImage('images/person.png')
+                                      : Image.network(
+                                          userController.user[0].profileUrl,
+                                          loadingBuilder:
+                                              (context, child, progress) {
+                                            if (progress == null) return child;
+                                            return CircularProgressIndicator(
+                                              color: kWhiteColour,
+                                            );
+                                          },
+                                        ).image,
                             );
                           },
                           // child: CircleAvatar(

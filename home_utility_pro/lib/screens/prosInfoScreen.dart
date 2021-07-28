@@ -331,15 +331,27 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               return;
                             }
                             prosProfessionValue = _professionValue.trim();
-                            category =
-                                professionToCategory(prosProfessionValue);
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(
+                                          color: kBlackColour,
+                                          backgroundColor: Colors.white,
+                                        ),
+                                      ],
+                                    ));
 
                             await database.updateProsInfo(
                               profession: prosProfessionValue,
                               district: _districtValue.trim(),
                               municipality: _municipalityValue.trim(),
                             );
-
+                            Get.back();
                             Get.offAndToNamed(MainScreen.id);
                           },
                           text: 'Submit',

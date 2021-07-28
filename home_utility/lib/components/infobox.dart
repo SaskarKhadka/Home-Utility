@@ -14,10 +14,10 @@ import '../main.dart';
 
 class RatingCard extends StatelessWidget {
   final String username;
-  final String address;
   final String profession;
   final double rating;
   final String proID;
+  final String profileUrl;
   final DateTime dateTime;
   final String description;
   final String category;
@@ -31,10 +31,10 @@ class RatingCard extends StatelessWidget {
 
   RatingCard({
     this.username,
-    this.address,
     this.profession,
     this.rating,
     this.proID,
+    this.profileUrl,
     this.dateTime,
     this.description,
     this.category,
@@ -51,9 +51,9 @@ class RatingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    Size size = MediaQuery.of(context).size;
     return Container(
-      width: screenWidth,
+      width: size.width,
       decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.only(
@@ -64,24 +64,33 @@ class RatingCard extends StatelessWidget {
           children: [
             Row(
               children: <Widget>[
-                SizedBox(width: 10),
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xff27272A),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xff27272A).withOpacity(0.3),
-                          spreadRadius: 3,
-                          blurRadius: 10,
-                          offset: Offset(2, 4), // changes position of shadow
-                        ),
-                      ]),
-                  child: Image.asset('images/user.png'),
+                SizedBox(width: 5),
+                CircleAvatar(
+                  radius: 35,
+                  backgroundColor: Color(0xff27272A),
+                  backgroundImage: profileUrl == null
+                      ? AssetImage('images/user.png')
+                      : NetworkImage(profileUrl),
                 ),
-                SizedBox(width: 50),
+                // Container(
+                //   height: 60,
+                //   width: 60,
+                //   decoration: BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       color: Color(0xff27272A),
+                //       boxShadow: [
+                //         BoxShadow(
+                //           color: Color(0xff27272A).withOpacity(0.3),
+                //           spreadRadius: 3,
+                //           blurRadius: 10,
+                //           offset: Offset(2, 4), // changes position of shadow
+                //         ),
+                //       ]),
+                //   child: profileUrl == null
+                //       ? Image.asset('images/user.png')
+                //       : Image.network(profileUrl),
+                // ),
+                SizedBox(width: 25),
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -91,7 +100,7 @@ class RatingCard extends StatelessWidget {
                               color: Colors.white,
                               fontWeight: FontWeight.bold)),
                       SizedBox(height: 5),
-                      Text(address,
+                      Text('$municipality, $district',
                           style: GoogleFonts.roboto(
                               fontSize: 16, color: Colors.white70)),
                       SizedBox(height: 6),
@@ -189,7 +198,7 @@ class RatingCard extends StatelessWidget {
             SizedBox(height: 10),
             GestureDetector(
               child: Container(
-                width: screenWidth * 0.8,
+                width: size.width * 0.8,
                 height: 40,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -202,22 +211,45 @@ class RatingCard extends StatelessWidget {
               ),
               onTap: () {
                 Get.defaultDialog(
-                  title: 'Request Placed!',
+                  title: 'Job Request!',
                   titleStyle: TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.w600,
                   ),
                   barrierDismissible: false,
-                  middleText: 'Your request has been placed',
+                  middleText: 'Do you wish to continue?',
                   confirm: ElevatedButton(
                     onPressed: () async {
+                      Get.back();
+
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    color: kBlackColour,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  Text('Processing...',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.white,
+                                      )),
+                                ],
+                              ));
                       // CircularProgressIndicator();
                       await database.totalUsersRequests();
                       // Get.back();
                       // Get.back();
                       String newRequestKey = Uuid().v1();
 
-                      await database.saveRequest(
+                      String code = await database.saveRequest(
                           description: description,
                           // proID: data['proID'],
                           proID: proID,
@@ -225,11 +257,37 @@ class RatingCard extends StatelessWidget {
                           requestKey: newRequestKey,
                           category: category,
                           service: service,
-                          municipality: municipality,
-                          district: district,
                           date: date,
                           time: time);
+                      Get.back();
+                      if (code == 'request-full') {
+                        await Get.defaultDialog(
+                          title: 'ERROR!',
+                          titleStyle: TextStyle(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          barrierDismissible: true,
+                          middleText: 'You have reached your request limit',
+                          confirm: ElevatedButton(
+                            onPressed: () async {
+                              Get.back();
+                            },
+                            child: Text(
+                              'Ok',
+                              style: TextStyle(
+                                color: kWhiteColour,
+                              ),
+                            ),
+                          ),
+                        );
+                        // Get.back();
+                        return;
+                      }
 
+                      Get.back();
+                      Get.back();
+                      Get.back();
                       String token = await database.getToken(proID);
                       try {
                         await http.post(
@@ -258,9 +316,7 @@ class RatingCard extends StatelessWidget {
                       } catch (e) {
                         print(e);
                       }
-                      Get.back();
-                      Get.back();
-                      Get.back();
+
                       print(userRequestCounter);
                     },
                     child: Text(

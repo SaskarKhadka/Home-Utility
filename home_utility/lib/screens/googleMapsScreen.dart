@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:home_utility/components/infobox.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility/location/userLocation.dart';
-
 import '../constants.dart';
 import '../main.dart';
 
@@ -19,8 +18,6 @@ class GoogleMapScreen extends StatefulWidget {
   final String service;
   final DateTime date;
   final TimeOfDay time;
-  final String municipality;
-  final String district;
   final double latitude;
   final double longitude;
   final Map userLocation2;
@@ -32,8 +29,6 @@ class GoogleMapScreen extends StatefulWidget {
     this.service,
     this.date,
     this.time,
-    this.municipality,
-    this.district,
     this.latitude,
     this.longitude,
     this.userLocation2,
@@ -49,10 +44,12 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   BitmapDescriptor usericon;
   BitmapDescriptor proicon;
   GoogleMapController _mapController;
-  var proID = 'id';
-  var username = 'username';
-  var address = 'address';
-  var profession = 'Electrician';
+  String proID = 'id';
+  String username = 'username';
+  String district = 'district';
+  String municipality = 'municipality';
+  String profession = 'Elcetrician';
+  String profileUrl;
   double rating = 0;
   double pinpillposition = pinned_invisible;
   // int _circleIdCounter = 1;
@@ -95,6 +92,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void prosWithinProximity() {
     if (myStreamSubscription != null) myStreamSubscription.cancel();
     _markers.clear();
+    print(widget.service);
     // String category = professionToCategory(profession)
     myStreamSubscription = prosRefrence
         .orderByChild('profession')
@@ -102,37 +100,42 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         .onValue
         .listen((Event event) {
       Map pros = event.snapshot.value;
-      pros.forEach((key, value) {
-        double lat1 = value['location']['lat'];
-        double lng1 = value['location']['lng'];
-        double lat2 = widget.userLocation2['lat'];
-        double lng2 = widget.userLocation2['lng'];
-        double distance = Location().getDistance(lat1, lng1, lat2, lng2);
+      try {
+        setState(() {});
+        pros.forEach((key, value) {
+          double lat1 = value['location']['lat'];
+          double lng1 = value['location']['lng'];
+          double lat2 = widget.userLocation2['lat'];
+          double lng2 = widget.userLocation2['lng'];
+          double distance = Location().getDistance(lat1, lng1, lat2, lng2);
 
-        if (distance <= _distanceValueNum) {
-          print(_distanceValueNum);
+          if (distance <= _distanceValueNum) {
+            print(_distanceValueNum);
 
-          setState(() {
-            _markers.add(
-              Marker(
-                markerId: MarkerId(key),
-                icon: BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueRed),
-                position: LatLng(lat1, lng1),
-                onTap: () {
-                  username = value['prosName'];
-                  address = value['prosMunicipality'];
-                  rating = double.parse(value['avgRating'].toString());
-                  proID = value['proID'];
-                  setState(() {
-                    pinpillposition = pinned_visible;
-                  });
-                },
-              ),
-            );
-          });
-        }
-      });
+            setState(() {
+              _markers.add(
+                Marker(
+                  markerId: MarkerId(key),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueRed),
+                  position: LatLng(lat1, lng1),
+                  onTap: () {
+                    username = value['prosName'];
+                    municipality = value['prosMunicipality'];
+                    district = value['prosDistrict'];
+                    rating = double.parse(value['avgRating'].toString());
+                    proID = value['proID'];
+                    profileUrl = value['profileUrl'];
+                    setState(() {
+                      pinpillposition = pinned_visible;
+                    });
+                  },
+                ),
+              );
+            });
+          }
+        });
+      } catch (e) {}
     });
     _markers.add(
       Marker(
@@ -254,18 +257,18 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                 bottom: this.pinpillposition,
                 child: RatingCard(
                   username: username,
-                  address: address,
+                  district: district,
+                  municipality: municipality,
                   profession: profession,
                   rating: rating,
                   proID: proID,
+                  profileUrl: profileUrl,
                   dateTime: widget.dateTime,
                   description: widget.description,
                   category: widget.category,
                   service: widget.service,
                   date: widget.date,
                   time: widget.time,
-                  municipality: widget.municipality,
-                  district: widget.district,
                   latitude: widget.latitude,
                   longitude: widget.longitude,
                 ))

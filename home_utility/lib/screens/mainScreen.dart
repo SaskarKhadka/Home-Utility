@@ -77,7 +77,7 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
-    Get.put(TextController());
+    // Get.put(TextController());
     return Scaffold(
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),

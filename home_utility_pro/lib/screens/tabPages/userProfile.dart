@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -14,7 +13,6 @@ import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../constants.dart';
 
 class ProsProfile extends StatelessWidget {
@@ -23,8 +21,6 @@ class ProsProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textController = Get.find<TextController>();
-    // double screenWidth = MediaQuery.of(context).size.width;
-    //    double screenHeight = MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -51,7 +47,7 @@ class ProsProfile extends StatelessWidget {
                   child: Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
+                        padding: const EdgeInsets.only(top: 5.0),
                         child: Container(
                           width: size.width,
                           padding: EdgeInsets.only(
@@ -60,7 +56,7 @@ class ProsProfile extends StatelessWidget {
                             left: 20.0,
                             right: 20.0,
                           ),
-                          margin: EdgeInsets.only(top: 80),
+                          margin: EdgeInsets.only(top: 60),
                           decoration: BoxDecoration(
                             color: Color(0xff141a1e),
                             borderRadius: BorderRadius.circular(20.0),
@@ -72,318 +68,329 @@ class ProsProfile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                height: size.height * 0.09,
-                              ),
-                              Center(
-                                child: Obx(
-                                  () {
-                                    if (proController.pro.isEmpty)
-                                      return Text(
-                                        'username',
-                                        style: GoogleFonts.montserrat(
+                          child: Container(
+                            margin: EdgeInsets.only(top: size.height * 0.08),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: size.height * 0.002,
+                                  ),
+                                  Center(
+                                    child: Obx(
+                                      () {
+                                        if (proController.pro.isEmpty)
+                                          return Text(
+                                            'username',
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 24.0,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500),
+                                          );
+                                        return Text(
+                                          proController.pro[0].prosName
+                                              .toUpperCase(),
+                                          style: GoogleFonts.montserrat(
                                             fontSize: 24.0,
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w500),
-                                      );
-                                    return Text(
-                                      proController.pro[0].prosName
-                                          .toUpperCase(),
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 24.0,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: Obx(
-                                  () {
-                                    if (proController.pro.isEmpty)
-                                      return Text(
-                                        'profession',
-                                        style: GoogleFonts.montserrat(
-                                          fontSize: 16.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      );
-                                    return Text(
-                                      proController.pro[0].profession,
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 16.0,
-                                        color: Colors.white60,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Obx(() {
-                                return RatingBar.builder(
-                                  initialRating: proController.pro.isEmpty
-                                      ? 0
-                                      : proController.pro[0].avgRating,
-                                  glowColor: Colors.amber,
-                                  itemSize: 25,
-                                  unratedColor: Colors.white54,
-                                  ignoreGestures: true,
-                                  glowRadius: 1,
-                                  itemPadding: EdgeInsets.all(5),
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  // itemPadding: EdgeInsets.symmetric(
-                                  //     horizontal: 4.0),
-                                  itemBuilder: (context, index) => Icon(
-                                    EvaIcons.star,
-                                    color: Colors.amber,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                  onRatingUpdate: (rating) {
-                                    // proRating = rating;
-                                  },
-                                );
-                              }),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child: Obx(
+                                      () {
+                                        if (proController.pro.isEmpty)
+                                          return Text(
+                                            'profession',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 16.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          );
+                                        return Text(
+                                          proController.pro[0].profession,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 16.0,
+                                            color: Colors.white60,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Obx(() {
+                                    return RatingBar.builder(
+                                      initialRating: proController.pro.isEmpty
+                                          ? 0
+                                          : proController.pro[0].avgRating,
+                                      glowColor: Colors.amber,
+                                      itemSize: 25,
+                                      unratedColor: Colors.white54,
+                                      ignoreGestures: true,
+                                      glowRadius: 1,
+                                      itemPadding: EdgeInsets.all(5),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      // itemPadding: EdgeInsets.symmetric(
+                                      //     horizontal: 4.0),
+                                      itemBuilder: (context, index) => Icon(
+                                        EvaIcons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        // proRating = rating;
+                                      },
+                                    );
+                                  }),
 
-                              Row(
-                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 36.0, left: 20.0),
+                                        child: Text(
+                                          'My Information:',
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 20.0,
+                                            color: Colors.greenAccent,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: SizedBox(
+                                          width: 180,
+                                          child: Divider(
+                                            color: Colors.blueGrey,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 36.0, left: 20.0),
-                                    child: Text(
-                                      'My Information:',
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 20.0,
-                                        color: Colors.greenAccent,
-                                      ),
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 25.0,
+                                            color: Colors.purpleAccent,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Obx(
+                                              () {
+                                                if (proController.pro.isEmpty)
+                                                  return Text(
+                                                    'username',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  );
+                                                return Text(
+                                                  proController.pro[0].prosName,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              Row(
-                                children: [
+                                  // ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 20.0),
-                                    child: SizedBox(
-                                      width: 180,
-                                      child: Divider(
-                                        color: Colors.blueGrey,
-                                      ),
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Icon(
+                                            Icons.phone,
+                                            size: 25.0,
+                                            color: Colors.teal,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Obx(
+                                              () {
+                                                if (proController.pro.isEmpty)
+                                                  return Text(
+                                                    'phone number',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  );
+                                                return Text(
+                                                  '${proController.pro[0].prosPhoneNo}',
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white,
+                                                    letterSpacing: 1.3,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // ),
+                                  SizedBox(
+                                    height: size.height * 0.005,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Icon(
+                                            Icons.email,
+                                            size: 25.0,
+                                            color: Colors.orangeAccent,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Obx(
+                                              () {
+                                                if (proController.pro.isEmpty)
+                                                  return Text(
+                                                    'email',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  );
+                                                return Text(
+                                                  proController
+                                                      .pro[0].prosEmail,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // ),
+                                  SizedBox(
+                                    height: size.height * 0.005,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 8.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Icon(
+                                            Icons.location_on,
+                                            size: 25.0,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Obx(
+                                              () {
+                                                if (proController.pro.isEmpty)
+                                                  return Text(
+                                                    'municipality, district',
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      fontSize: 18.0,
+                                                      color: Colors.white,
+                                                      // fontWeight: FontWeight.bold,
+                                                    ),
+                                                  );
+                                                return Text(
+                                                  proController.pro[0]
+                                                          .prosMunicipality +
+                                                      ', ' +
+                                                      proController
+                                                          .pro[0].prosDistrict,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white,
+                                                    // fontWeight: FontWeight.bold,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 25.0,
-                                        color: Colors.purpleAccent,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16.0),
-                                        child: Obx(
-                                          () {
-                                            if (proController.pro.isEmpty)
-                                              return Text(
-                                                'username',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 19.0,
-                                                  color: Colors.white,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            return Text(
-                                              proController.pro[0].prosName,
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 19.0,
-                                                color: Colors.white,
-                                                // fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Icon(
-                                        Icons.phone,
-                                        size: 25.0,
-                                        color: Colors.teal,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16.0),
-                                        child: Obx(
-                                          () {
-                                            if (proController.pro.isEmpty)
-                                              return Text(
-                                                'phone number',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 19.0,
-                                                  color: Colors.white,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            return Text(
-                                              '${proController.pro[0].prosPhoneNo}',
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 19.0,
-                                                color: Colors.white,
-                                                letterSpacing: 1.3,
-                                                // fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // ),
-                              SizedBox(
-                                height: size.height * 0.005,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Icon(
-                                        Icons.email,
-                                        size: 25.0,
-                                        color: Colors.orangeAccent,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16.0),
-                                        child: Obx(
-                                          () {
-                                            if (proController.pro.isEmpty)
-                                              return Text(
-                                                'email',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 19.0,
-                                                  color: Colors.white,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            return Text(
-                                              proController.pro[0].prosEmail,
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 19.0,
-                                                color: Colors.white,
-                                                // fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // ),
-                              SizedBox(
-                                height: size.height * 0.005,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  bottom: 8.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 16.0),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        size: 25.0,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16.0),
-                                        child: Obx(
-                                          () {
-                                            if (proController.pro.isEmpty)
-                                              return Text(
-                                                'municipality, district',
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 19.0,
-                                                  color: Colors.white,
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
-                                              );
-                                            return Text(
-                                              proController
-                                                      .pro[0].prosMunicipality +
-                                                  ', ' +
-                                                  proController
-                                                      .pro[0].prosDistrict,
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 19.0,
-                                                color: Colors.white,
-                                                // fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                       Positioned(
-                        top: 20,
+                        top: 0,
                         left: 45.0,
                         right: 45.0,
                         child: Obx(
@@ -401,15 +408,12 @@ class ProsProfile extends StatelessWidget {
                             return CircleAvatar(
                               radius: 55,
                               backgroundColor: Colors.teal,
-                              backgroundImage: Image.network(
-                                proController.pro[0].profileUrl,
-                                loadingBuilder: (context, child, progress) {
-                                  if (progress == null) return child;
-                                  return CircularProgressIndicator(
-                                    color: kWhiteColour,
-                                  );
-                                },
-                              ).image,
+                              backgroundImage:
+                                  proController.pro[0].profileUrl == null
+                                      ? AssetImage('images/person.png')
+                                      : NetworkImage(
+                                          proController.pro[0].profileUrl,
+                                        ),
                             );
                           },
                           // child: CircleAvatar(
@@ -419,7 +423,7 @@ class ProsProfile extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: 110.0,
+                        top: 90.0,
                         left: 100.0,
                         right: 35.0,
                         child: GetX<ColourController>(

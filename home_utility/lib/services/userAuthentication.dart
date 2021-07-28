@@ -45,7 +45,7 @@ class UserAuthentication {
         database.addUserInfo(user: firebaseUser.user, userData: userData);
         code = 'success';
 
-        //TODO:save user to data base
+        //TODO:save user to database
 
       } else {
         //TODO:Display error message
@@ -65,8 +65,9 @@ class UserAuthentication {
           email: email, password: password);
 
       bool accountExists = await database.checkAccount(firebaseUser.user);
-      accountExists ? code = 'success' : code = 'record-not-found';
+      code = accountExists ? 'success' : 'record-not-found';
     } on FirebaseAuthException catch (e) {
+      print(e.code);
       code = e.code;
     }
 
@@ -78,9 +79,9 @@ class UserAuthentication {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
+      print(code);
       code = e.code;
     }
-    print(code);
     return code;
   }
 

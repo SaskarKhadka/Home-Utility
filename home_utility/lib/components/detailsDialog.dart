@@ -23,13 +23,9 @@ class _DetailsPageState extends State<DetailsPage> {
   final _descriptionController = TextEditingController();
   DateTime _pickedDate;
   TimeOfDay _selectedTime;
-  String _districtValue;
-  String _municipalityValue;
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     _descriptionController.dispose();
     super.dispose();
   }
@@ -202,8 +198,6 @@ class _DetailsPageState extends State<DetailsPage> {
                             // requestKey: newRequestKey,
                             category: widget.category,
                             service: widget.service,
-                            municipality: _municipalityValue,
-                            district: _districtValue,
                             date: _pickedDate,
                             time: _selectedTime,
                             latitude: userLocation.latitude,

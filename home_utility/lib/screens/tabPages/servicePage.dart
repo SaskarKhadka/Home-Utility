@@ -175,10 +175,10 @@ class ServicePage extends StatelessWidget {
 Future<void> SelectedItem(BuildContext context, int item) async {
   switch (item) {
     case 0:
-      Get.offNamed(AboutPage.id);
+      Get.toNamed(AboutPage.id);
       break;
     case 1:
-      Get.offNamed(HelpPage.id);
+      Get.toNamed(HelpPage.id);
       break;
     case 2:
       // showDialog(

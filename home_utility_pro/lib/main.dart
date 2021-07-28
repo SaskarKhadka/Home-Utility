@@ -28,8 +28,6 @@ Database database = Database();
 
 String prosProfessionValue;
 
-String category;
-
 String userToken;
 
 DatabaseReference prosRefrence =
@@ -110,6 +108,7 @@ class HomeUtility extends StatelessWidget {
     Get.put(TextController());
     return GetMaterialApp(
       // home: WelcomeScreen(),
+      debugShowCheckedModeBanner: false,
       initialRoute: userAuthentication.currentUser == null
           ? LogInScreen.id
           : MainScreen.id,

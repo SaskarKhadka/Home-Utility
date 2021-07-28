@@ -311,7 +311,7 @@ class UserRequestsStream extends StatelessWidget {
                           isRatingPending
                               ? InkWell(
                                   onTap: () async {
-                                    double proRating = 1;
+                                    double proRating = 1.00;
                                     showDialog(
                                       context: context,
                                       builder: (context) {
@@ -430,6 +430,36 @@ class UserRequestsStream extends StatelessWidget {
                                                     Expanded(
                                                       child: CustomButton(
                                                         onTap: () async {
+                                                          showDialog(
+                                                              barrierDismissible:
+                                                                  false,
+                                                              context: context,
+                                                              builder:
+                                                                  (context) =>
+                                                                      Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: [
+                                                                          CircularProgressIndicator(
+                                                                            color:
+                                                                                kBlackColour,
+                                                                            backgroundColor:
+                                                                                Colors.white,
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                20.0,
+                                                                          ),
+                                                                          Text(
+                                                                              'Processing...',
+                                                                              style: TextStyle(
+                                                                                fontSize: 20.0,
+                                                                                color: Colors.white,
+                                                                              )),
+                                                                        ],
+                                                                      ));
                                                           await database
                                                               .updateRatingAndReview(
                                                             proID: requestData[
@@ -447,6 +477,7 @@ class UserRequestsStream extends StatelessWidget {
                                                                 requestData[
                                                                     'requestKey'],
                                                           );
+                                                          Get.back();
                                                           // return Container();
                                                           Get.back();
                                                         },
@@ -470,6 +501,7 @@ class UserRequestsStream extends StatelessWidget {
                                         );
                                       },
                                     );
+                                    textController.reviewController.clear();
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -616,9 +648,36 @@ class UserRequestsStream extends StatelessWidget {
                                     )
                                   : InkWell(
                                       onTap: () async {
-                                        await database.deleteRequest(
+                                        showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            builder: (context) => Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    CircularProgressIndicator(
+                                                      color: kBlackColour,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20.0,
+                                                    ),
+                                                    Text('Processing...',
+                                                        style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.white,
+                                                        )),
+                                                  ],
+                                                ));
+                                        await database.cancelRequest(
                                           requestKey: requestData['requestKey'],
+                                          proID: requestData['requestedTo']
+                                              ['proID'],
                                         );
+                                        Get.back();
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(

@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility/components/detailsDialog.dart';
+import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/screens/forgotPassword.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
@@ -111,8 +112,10 @@ void main() async {
 class HomeUtility extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Get.put(TextController());
     return GetMaterialApp(
       // home: WelcomeScreen(),
+      debugShowCheckedModeBanner: false,
       initialRoute: userAuthentication.currentUser == null
           ? WelcomeScreen.id
           : MainScreen.id,
@@ -133,16 +136,16 @@ class HomeUtility extends StatelessWidget {
         primarySwatch: MaterialColor(
           0xff131313,
           <int, Color>{
-            50: Colors.white.withOpacity(0.1), //10%
-            100: Colors.white.withOpacity(0.2), //20%
-            200: Colors.white.withOpacity(0.3), //30%
-            300: Colors.white.withOpacity(0.4), //40%
-            400: Colors.white.withOpacity(0.5), //50%
-            500: Colors.white.withOpacity(0.6), //60%
-            600: Colors.white.withOpacity(0.7), //70%
-            700: Colors.white.withOpacity(0.8), //80%
-            800: Colors.white.withOpacity(0.9), //90%
-            900: Colors.white.withOpacity(0.1), //100%
+            50: Color(0xff131313).withOpacity(0.1), //10%
+            100: Color(0xff131313).withOpacity(0.2), //20%
+            200: Color(0xff131313).withOpacity(0.3), //30%
+            300: Color(0xff131313).withOpacity(0.4), //40%
+            400: Color(0xff131313).withOpacity(0.5), //50%
+            500: Color(0xff131313).withOpacity(0.6), //60%
+            600: Color(0xff131313).withOpacity(0.7), //70%
+            700: Color(0xff131313).withOpacity(0.8), //80%
+            800: Color(0xff131313).withOpacity(0.9), //90%
+            900: Color(0xff131313).withOpacity(1), //100%
           },
         ),
       ),

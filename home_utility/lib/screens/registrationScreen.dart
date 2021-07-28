@@ -233,19 +233,19 @@ class RegistrationScreen extends StatelessWidget {
       // } else if (phoneController.text.trim().length == 10) {
     } else {
       try {
-        int phoneNo = int.parse(registrationController.phoneController.text);
+        int phoneNo;
+        try {
+          phoneNo =
+              int.parse(registrationController.phoneController.text.trim());
+        } catch (e) {
+          Get.back();
+          getSnackBar(
+            title: 'ERROR!',
+            message: 'Please enter a valid phone number',
+          );
+          return;
+        }
 
-        // bool isAlreadyUsed = await database.checkPhoneNumber(phoneNo);
-
-        // if (isAlreadyUsed) {
-        //   Get.back();
-        //   getSnackBar(
-        //     title: 'ERROR!',
-        //     message: 'The phone number is already in use',
-        //   );
-        //   return;
-        // }
-        // else {
         Position userLocation = await Location().getLocation();
         String code = await userAuthentication.signUp(
           name: registrationController.nameController.text.trim(),
@@ -275,6 +275,14 @@ class RegistrationScreen extends StatelessWidget {
                 'Email already exists! Try logging in if you already have an account.',
           );
           return;
+        } else if (code == 'email-already-in-use') {
+          Get.back();
+          getSnackBar(
+            title: 'ERROR!',
+            message:
+                'Email already in use! Try logging in if you already have an account.',
+          );
+          return;
         } else {
           Get.back();
           getSnackBar(
@@ -286,9 +294,10 @@ class RegistrationScreen extends StatelessWidget {
         // }
       } catch (e) {
         Get.back();
+        print(e);
         getSnackBar(
           title: 'ERROR!',
-          message: 'Please enter a valid phone number',
+          message: '$e',
         );
         return;
       }
@@ -302,7 +311,7 @@ getSnackBar({String title, String message}) {
     message,
     titleText: Text(
       title,
-      style: GoogleFonts.shortStack(
+      style: GoogleFonts.montserrat(
         fontSize: 20.0,
         color: Colors.white,
       ),

@@ -28,7 +28,7 @@ class Database {
     usersRefrence.child(user.uid).set(userData);
   }
 
-  Future<void> saveRequest(
+  Future<String> saveRequest(
       {String proID,
       String description,
       DateTime dateTime,
@@ -77,8 +77,10 @@ class Database {
       //TODO: Error message saying request if full
       //TODO: Set userRequestCountyer back to 0
       print('3 request has already been made');
+      return 'request-full';
     }
     await totalUsersRequests();
+    return 'success';
   }
 
   Future<void> changeRatingState({String requestKey, bool state}) async {
@@ -93,16 +95,29 @@ class Database {
   Future<void> deleteRequest({String requestKey}) async {
     String userID = userAuthentication.userID;
 
-    // await requestRefrence.child(category).child(requestKey).remove();
-
     await usersRefrence
         .child(userID)
         .child('requests')
         .child(requestKey)
         .remove();
 
-    // userRequestCounter--;
     await totalUsersRequests();
+  }
+
+  Future<void> cancelRequest({String requestKey, String proID}) async {
+    await usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
+
+    await prosRefrence
+        .child(proID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
+
+    await requestRefrence.child(requestKey).remove();
   }
 
   Future<String> getToken(String proID) async {
@@ -255,16 +270,6 @@ class Database {
 
   Future<void> updateRatingAndReview(
       {String proID, String review, double rating}) async {
-    // double proRating;
-    // await prosRefrence
-    //     .child(proID)
-    //     .child('avgRating')
-    //     .once()
-    //     .then((DataSnapshot snapshot) {
-    //   proRating = snapshot.value;
-    // });
-    // double avgRating = (proRating + rating) / 2;
-
     DataSnapshot snapshot =
         await prosRefrence.child(proID).child('avgRating').once();
 

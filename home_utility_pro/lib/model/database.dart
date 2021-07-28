@@ -11,29 +11,6 @@ class Database {
     prosRefrence.child(user.uid).set(proData);
   }
 
-  Future<Map> getProsInfo() async {
-    String userID = userAuthentication.userID;
-    Map prosData = {
-      'proID': userID,
-    };
-    await prosRefrence.child(userAuthentication.userID).once().then(
-      (DataSnapshot snapshot) {
-        Map.from(snapshot.value).forEach(
-          (key, value) {
-            if (key == 'prosName') {
-              prosData['prosName'] = value;
-            }
-            if (key == 'prosPhoneNo') {
-              prosData['prosPhoneNo'] = value;
-            }
-          },
-        );
-      },
-    );
-    // print(prosData);
-    return prosData;
-  }
-
   Future<Map> getUserLocation({String userID}) async {
     DataSnapshot snapshot =
         await usersRefrence.child(userID).child('location').once();
@@ -48,12 +25,22 @@ class Database {
         .child('requests')
         .child(requestKey)
         .remove();
+  }
 
-    await usersRefrence
+  Future<void> cancelRequest({String requestKey, String userID}) async {
+    await prosRefrence
         .child(userAuthentication.userID)
         .child('requests')
         .child(requestKey)
         .remove();
+
+    await usersRefrence
+        .child(userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
+
+    await requestRefrence.child(requestKey).remove();
   }
 
   Future<Query> requestQuery({String category}) async {
@@ -89,7 +76,9 @@ class Database {
   }
 
   void saveToken(String token) async {
-    await prosRefrence.child(userAuthentication.userID).set({'token': token});
+    await prosRefrence
+        .child(userAuthentication.userID)
+        .update({'token': token});
   }
 
   // Stream<List<String>> userRequestsStream() {
@@ -202,7 +191,7 @@ class Database {
   Future<void> updateProsInfo(
       {String profession, String municipality, String district}) async {
     String userID = userAuthentication.userID;
-    prosRefrence.child(userID).update({
+    await prosRefrence.child(userID).update({
       'profession': profession,
       'prosMunicipality': municipality,
       'prosDistrict': district,
@@ -231,22 +220,6 @@ class Database {
         isAlreadyUsed = false;
     });
     return isAlreadyUsed;
-  }
-
-  Future<void> changeState({String requestKey, String state}) async {
-    await requestRefrence.child(requestKey).update({'state': state});
-
-    // await prosRefrence
-    //     .child(userAuthentication.userID)
-    //     .child('requests')
-    //     .child(requestKey)
-    //     .update({'state': state});
-
-    // await usersRefrence
-    //     .child(userID)
-    //     .child('requests')
-    //     .child(requestKey)
-    //     .update({'state': state});
   }
 
   // Future<void> changeRatingState({String requestKey, bool state}) async {
