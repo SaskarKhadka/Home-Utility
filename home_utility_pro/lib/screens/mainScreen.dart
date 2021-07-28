@@ -1,7 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:home_utility_pro/screens/tabPages/RequestsPage.dart';
 import 'package:home_utility_pro/screens/tabPages/acceptedRequests.dart';
+import 'package:home_utility_pro/screens/tabPages/jobsPage.dart';
 import '../main.dart';
 import 'tabPages/userRequestsPage.dart';
 import 'tabPages/userProfile.dart';
@@ -94,8 +96,8 @@ class _MainScreenState extends State<MainScreen>
         // dragStartBehavior: DragStartBehavior.down,
         controller: tabController,
         children: [
-          UserRequestsPage(),
-          AcceptedRequests(),
+          RequestsPage(),
+          Jobs(),
           ProsProfile(),
         ],
       ),
