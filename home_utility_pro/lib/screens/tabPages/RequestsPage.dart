@@ -4,7 +4,6 @@ import 'package:home_utility_pro/components/getUsersInfo.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
 import 'package:home_utility_pro/controllers/userController.dart';
 import 'package:home_utility_pro/model/userData.dart';
-import 'package:home_utility_pro/screens/tabPages/acceptedRequests.dart';
 import 'package:home_utility_pro/screens/tabPages/jobsPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -30,42 +29,35 @@ class RequestsPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 28.0,
+                    top: 38.0,
                     left: 32.0,
                     right: 8.0,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(
-                        () {
-                          if (proController.pro == null ||
-                              proController.pro.isEmpty) {
-                            return CircleAvatar(
-                              radius: 30.0,
-                              backgroundColor: kWhiteColour,
-                              backgroundImage: AssetImage('images/person.png'),
-                            );
-                          }
-
-                          return CircleAvatar(
-                            radius: 30.0,
-                            backgroundColor: Colors.teal,
-                            backgroundImage: Image.network(
-                              proController.pro[0].profileUrl,
-                              loadingBuilder: (context, child, progress) {
-                                if (progress == null) return child;
-                                return CircularProgressIndicator(
-                                  color: kWhiteColour,
-                                );
-                              },
-                            ).image,
-                          );
-                        },
-                        // child: CircleAvatar(
-                        //   radius: 55.0,
-                        //   backgroundColor: Colors.redAccent,
-                        // ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hello, there",
+                            style: GoogleFonts.shortStack(
+                              fontSize: 24.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6.0),
+                            child: Text(
+                              "You have following pending Requests",
+                              style: GoogleFonts.raleway(
+                                fontSize: 16.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Theme(
                         data: Theme.of(context).copyWith(
@@ -124,32 +116,6 @@ class RequestsPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 18.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Hello, there",
-                        style: GoogleFonts.shortStack(
-                          fontSize: 24.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 6.0),
-                        child: Text(
-                          "You have following pending Requests",
-                          style: GoogleFonts.raleway(
-                            fontSize: 16.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 SizedBox(
                   height: size.height * 0.06,
                 ),
@@ -163,23 +129,26 @@ class RequestsPage extends StatelessWidget {
                       );
                     }
                     Map userData = snapshot.data.snapshot.value;
-
                     return StreamBuilder(
                       stream: database.userRequestsStream(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData ||
                             snapshot.data.snapshot.value == null) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 200.0),
-                              child: Text(
-                                'No requests avaliable',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: size.height * 0.3,
+                              ),
+                              Center(
+                                child: Text(
+                                  'You have no requests',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           );
                         }
                         Map userRequests = snapshot.data.snapshot.value;
@@ -220,7 +189,6 @@ class RequestsPage extends StatelessWidget {
                                     }
                                     Map requestData =
                                         snapshot.data.snapshot.value;
-
                                     // print(requestData);
 
                                     String value = requestData['dateTime'];
@@ -244,6 +212,7 @@ class RequestsPage extends StatelessWidget {
                                     }
                                     if (requestData['state'] == 'pending') {
                                       totalRequests++;
+
                                       // if (data[index]['state']['state'] == 'pending')
                                       //   isAccepted = false;
                                       // else
@@ -710,6 +679,8 @@ class RequestsPage extends StatelessWidget {
                                                         onTap: () async {
                                                           showDialog(
                                                               context: context,
+                                                              barrierDismissible:
+                                                                  false,
                                                               builder:
                                                                   (context) =>
                                                                       Column(
@@ -726,14 +697,20 @@ class RequestsPage extends StatelessWidget {
                                                                           ),
                                                                         ],
                                                                       ));
+
                                                           await database
-                                                              .cancelRequest(
+                                                              .changeAcceptedState(
                                                             requestKey:
                                                                 requestData[
                                                                     'requestKey'],
-                                                            userID: requestData[
-                                                                    'requestedBy']
-                                                                ['userID'],
+                                                            state: true,
+                                                          );
+
+                                                          await database
+                                                              .saveRequestAsJob(
+                                                            requestKey:
+                                                                requestData[
+                                                                    'requestKey'],
                                                           );
                                                           Get.back();
                                                           String token = await database
@@ -741,7 +718,7 @@ class RequestsPage extends StatelessWidget {
                                                                       'requestedBy']
                                                                   ['userID']);
                                                           try {
-                                                            http.post(
+                                                            await http.post(
                                                                 Uri.parse(
                                                                     'https://fcm.googleapis.com/fcm/send'),
                                                                 headers: <
@@ -758,9 +735,9 @@ class RequestsPage extends StatelessWidget {
                                                                     "notification":
                                                                         {
                                                                       "body":
-                                                                          "Your request has been rejected",
+                                                                          "Your request has been accepted",
                                                                       "title":
-                                                                          "Request Rejected",
+                                                                          "Request Accepted",
                                                                       "android_channel_id":
                                                                           "high_importance_channel"
                                                                     },

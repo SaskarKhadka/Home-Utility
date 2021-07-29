@@ -396,119 +396,117 @@ class AcceptedRequestsStream extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                    side: BorderSide.none,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.0)),
-                                                backgroundColor: Colors.black,
-                                                elevation: 25.0,
-                                                insetPadding:
-                                                    EdgeInsets.symmetric(
-                                                  vertical: 25.0,
-                                                  horizontal: 25.0,
+                                          context: (context),
+                                          builder: (context) {
+                                            return Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                  side: BorderSide.none,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0)),
+                                              backgroundColor: Colors.black,
+                                              elevation: 25.0,
+                                              insetPadding:
+                                                  EdgeInsets.symmetric(
+                                                vertical: 25.0,
+                                                horizontal: 25.0,
+                                              ),
+                                              child: Container(
+                                                margin: EdgeInsets.all(1),
+                                                width: size.width,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
                                                 ),
-                                                child: Container(
-                                                  margin: EdgeInsets.all(1),
-                                                  width: size.width,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.0),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 18.0,
-                                                          left: 8.0,
-                                                          right: 8.0,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 18.0,
+                                                        left: 8.0,
+                                                        right: 8.0,
+                                                      ),
+                                                      child: Text(
+                                                        'Job\'s Description',
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          color: Colors.black,
+                                                          fontSize: 26,
+                                                          letterSpacing: 2.0,
+                                                          wordSpacing: 2.0,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 250.0,
+                                                      child: Divider(
+                                                        color: Colors.black
+                                                            .withOpacity(0.7),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        top: 18.0,
+                                                        left: 20.0,
+                                                        right: 18.0,
+                                                        bottom: 18.0,
+                                                      ),
+                                                      child: Text(
+                                                        requestData['jobDescription'] ==
+                                                                null
+                                                            ? 'The customer has not provided any description'
+                                                            : requestData[
+                                                                'jobDescription'],
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                          color: Colors.black,
+                                                          fontSize: 19,
+                                                          letterSpacing: 2.0,
+                                                          wordSpacing: 2.0,
+                                                          // fontStyle: FontStyle.italic,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () => Get.back(),
+                                                      child: Container(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                          vertical: 10.0,
+                                                          horizontal: 20.0,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.black,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
                                                         ),
                                                         child: Text(
-                                                          'Job\'s Description',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            color: Colors.black,
-                                                            fontSize: 26,
-                                                            letterSpacing: 2.0,
-                                                            wordSpacing: 2.0,
+                                                          'Ok',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
                                                           ),
                                                         ),
                                                       ),
-                                                      SizedBox(
-                                                        width: 250.0,
-                                                        child: Divider(
-                                                          color: Colors.black
-                                                              .withOpacity(0.7),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 18.0,
-                                                          left: 20.0,
-                                                          right: 18.0,
-                                                          bottom: 18.0,
-                                                        ),
-                                                        child: Text(
-                                                          requestData['jobDescription'] ==
-                                                                  null
-                                                              ? 'The customer has not provided any description'
-                                                              : requestData[
-                                                                  'jobDescription'],
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            color: Colors.black,
-                                                            fontSize: 19,
-                                                            letterSpacing: 2.0,
-                                                            wordSpacing: 2.0,
-                                                            // fontStyle: FontStyle.italic,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () => Get.back(),
-                                                        child: Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                            vertical: 10.0,
-                                                            horizontal: 20.0,
-                                                          ),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.black,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0),
-                                                          ),
-                                                          child: Text(
-                                                            'Ok',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          size.height * 0.02,
+                                                    ),
+                                                  ],
                                                 ),
-                                              );
-                                            });
+                                              ),
+                                            );
+                                          },
+                                        );
                                       },
                                       child: Container(
                                         height: 40,
@@ -544,121 +542,23 @@ class AcceptedRequestsStream extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(right: 8.0),
                                       child: InkWell(
-                                        onTap: () {
-                                          showDialog(
-                                            context: (context),
-                                            builder: (context) {
-                                              return Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                    side: BorderSide.none,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.0)),
-                                                backgroundColor: Colors.black,
-                                                elevation: 25.0,
-                                                insetPadding:
-                                                    EdgeInsets.symmetric(
-                                                  vertical: 25.0,
-                                                  horizontal: 25.0,
-                                                ),
-                                                child: Container(
-                                                  margin: EdgeInsets.all(1),
-                                                  width: size.width,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.0),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 18.0,
-                                                          left: 8.0,
-                                                          right: 8.0,
-                                                        ),
-                                                        child: Text(
-                                                          'Job\'s Description',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            color: Colors.black,
-                                                            fontSize: 26,
-                                                            letterSpacing: 2.0,
-                                                            wordSpacing: 2.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 250.0,
-                                                        child: Divider(
-                                                          color: Colors.black
-                                                              .withOpacity(0.7),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 18.0,
-                                                          left: 20.0,
-                                                          right: 18.0,
-                                                          bottom: 18.0,
-                                                        ),
-                                                        child: Text(
-                                                          requestData['jobDescription'] ==
-                                                                  null
-                                                              ? 'The customer has not provided any description'
-                                                              : requestData[
-                                                                  'jobDescription'],
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                            color: Colors.black,
-                                                            fontSize: 19,
-                                                            letterSpacing: 2.0,
-                                                            wordSpacing: 2.0,
-                                                            // fontStyle: FontStyle.italic,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () => Get.back(),
-                                                        child: Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                            vertical: 10.0,
-                                                            horizontal: 20.0,
-                                                          ),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.black,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0),
-                                                          ),
-                                                          child: Text(
-                                                            'Ok',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.02,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                        onTap: () async {
+                                          Position position =
+                                              await UserLocation()
+                                                  .getLocation();
+                                          print(position);
+                                          Map userPosition =
+                                              await database.getUserLocation(
+                                                  userID:
+                                                      requestData['requestedBy']
+                                                          ['userID']);
+
+                                          // print(userPosition);
+                                          Get.to(
+                                            GoogleMapScreen(
+                                              position: position,
+                                              userPosition: userPosition,
+                                            ),
                                           );
                                         },
                                         child: Container(
