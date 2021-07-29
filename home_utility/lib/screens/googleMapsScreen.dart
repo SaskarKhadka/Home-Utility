@@ -193,87 +193,90 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                      widget.userLocation2['lat'], widget.userLocation2['lng']),
-                  zoom: 14),
-              mapType: MapType.normal,
-              markers: Set.from(_markers),
-              // circles: Set.from(_circles),
-              zoomControlsEnabled: true,
-              // myLocationEnabled: false,
-              myLocationButtonEnabled: true,
-              onTap: (LatLng) {
-                setState(() {
-                  this.pinpillposition = pinned_invisible;
-                });
-              },
-            ),
-            Positioned(
-              top: 20.0,
-              left: 10.0,
-              right: 10.0,
-              child: Container(
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+                target: LatLng(
+                    widget.userLocation2['lat'], widget.userLocation2['lng']),
+                zoom: 14),
+            mapType: MapType.normal,
+            markers: Set.from(_markers),
+            // circles: Set.from(_circles),
+            zoomControlsEnabled: true,
+            // myLocationEnabled: false,
+            myLocationButtonEnabled: true,
+            onTap: (LatLng) {
+              setState(() {
+                this.pinpillposition = pinned_invisible;
+              });
+            },
+          ),
+          Positioned(
+            top: 50.0,
+            left: 10.0,
+            right: 10.0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
                 color: kWhiteColour,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Search Radius:  ',
-                      style: GoogleFonts.montserrat(
-                        color: kBlackColour,
-                        fontSize: 20.0,
-                      ),
+              ),
+              
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Search Radius:  ',
+                    style: GoogleFonts.montserrat(
+                      color: kBlackColour,
+                      fontSize: 16.0,
                     ),
-                    DropdownButton(
-                      style: GoogleFonts.montserrat(
-                        color: kBlackColour,
-                        fontSize: 20.0,
-                      ),
-                      items: _getItems(),
-                      value: _distanceValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _distanceValue = newValue;
-                          _distanceValueNum = _distanceMap[_distanceValue];
-                          prosWithinProximity();
-                          print(_distanceValueNum);
-                          // _circles.add('user');
-                        });
-                      },
+                  ),
+                  DropdownButton(
+                    underline: SizedBox(),
+                    style: GoogleFonts.montserrat(
+                      color: kBlackColour,
+                      fontSize: 16.0,
                     ),
-                  ],
-                ),
+                    items: _getItems(),
+                    value: _distanceValue,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _distanceValue = newValue;
+                        _distanceValueNum = _distanceMap[_distanceValue];
+                        prosWithinProximity();
+                        print(_distanceValueNum);
+                        // _circles.add('user');
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
-            AnimatedPositioned(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeOut,
-                bottom: this.pinpillposition,
-                child: RatingCard(
-                  username: username,
-                  district: district,
-                  municipality: municipality,
-                  profession: profession,
-                  rating: rating,
-                  proID: proID,
-                  profileUrl: profileUrl,
-                  dateTime: widget.dateTime,
-                  description: widget.description,
-                  category: widget.category,
-                  service: widget.service,
-                  date: widget.date,
-                  time: widget.time,
-                  latitude: widget.latitude,
-                  longitude: widget.longitude,
-                ))
-          ],
-        ),
+          ),
+          AnimatedPositioned(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeOut,
+              bottom: this.pinpillposition,
+              child: RatingCard(
+                username: username,
+                district: district,
+                municipality: municipality,
+                profession: profession,
+                rating: rating,
+                proID: proID,
+                profileUrl: profileUrl,
+                dateTime: widget.dateTime,
+                description: widget.description,
+                category: widget.category,
+                service: widget.service,
+                date: widget.date,
+                time: widget.time,
+                latitude: widget.latitude,
+                longitude: widget.longitude,
+              ))
+        ],
       ),
     );
   }
