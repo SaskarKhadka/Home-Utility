@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_utility/screens/newloginscreen.dart';
+import 'package:home_utility/screens/loginscreen.dart';
 import '../components/customButton.dart';
-import 'logInScreen.dart';
+
 // import 'registrationScreen.dart';
 
 class WelcomeScreen extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/controllers/registrationController.dart';
 import 'package:home_utility/location/userLocation.dart';
-import 'newloginscreen.dart';
+import 'loginscreen.dart';
 import '../components/customButton.dart';
 import '../components/customTextField.dart';
 import '../components/dialogBox.dart';

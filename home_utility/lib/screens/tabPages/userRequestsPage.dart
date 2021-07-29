@@ -8,10 +8,11 @@ import 'package:home_utility/components/getProsInfo.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/screens/chatScreen.dart';
+import 'package:home_utility/screens/loginscreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
 import '../../main.dart';
-import '../logInScreen.dart';
+
 
 class UserRequestsPage extends StatelessWidget {
   @override
@@ -135,7 +136,7 @@ Future<void> SelectedItem(BuildContext context, int item) async {
       //   ),
       // );
       await userAuthentication.signOut();
-      Get.offAllNamed(LogInScreen.id);
+      Get.offAllNamed(Login.id);
       break;
   }
 }

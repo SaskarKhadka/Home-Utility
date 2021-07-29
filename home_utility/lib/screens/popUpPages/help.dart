@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/userController.dart';
-import 'package:home_utility/screens/forgotPassword.dart';
+import 'package:home_utility/screens/forgetpasswordscreen.dart';
 import 'package:home_utility/screens/mainScreen.dart';
 
 class HelpPage extends StatelessWidget {
@@ -79,7 +79,7 @@ class HelpPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(ForgotPassword.id);
+                      Get.toNamed(ForgetPassword.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

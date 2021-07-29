@@ -7,74 +7,50 @@ import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/main.dart';
 import 'package:home_utility/components/customButton.dart';
-import '../constants.dart';
-import 'registrationScreen.dart';
-
-class ForgotPassword extends StatelessWidget {
-  static String id = 'forgotPassword';
-
+import 'package:home_utility/screens/loginscreen.dart';
+import 'signupscreen.dart';
+class ForgetPassword extends StatelessWidget {
+ static String id = 'forgotPassword';
+  @override
   Widget build(BuildContext context) {
     final textController = Get.find<TextController>();
-
-    Size size = MediaQuery.of(context).size;
+Size size = MediaQuery.of(context).size;
+// final TextStyle display1 = Theme.of(context).textTheme.headline4;
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 67,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back),
-        ),
-        title: Text(
-          'Reset Password',
-          style: GoogleFonts.montserrat(
-            color: Colors.white,
-            fontSize: 35,
-            fontWeight: FontWeight.w400,
-            letterSpacing: 1.5,
-          ),
-        ),
-      ),
-      // backgroundColor: Color(0xFFEBEBEB),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.0),
-          child: Form(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.height * 0.1,
-                ),
-                Text(
-                  'Enter your email for getting a password reset link.\n\nIf you don\'t want to change your password, then you can go back.',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                    fontSize: 16,
-                    color: Colors.black,
+      backgroundColor:Colors.black87,
+      body: SafeArea(
+              child: Container(
+         
+          child: SingleChildScrollView(
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children:<Widget> [
+                Container(
+                  
+                  height: size.height * 0.3,
+                  child: Center(child: Image.asset('images/forgetpassword.png'))
                   ),
-                ),
-                SizedBox(
-                  height: size.height * 0.09,
-                ),
-                CustomTextField(
+                Text('Reset Password !',style: GoogleFonts.montserrat(color: Color(0xffECECEC),fontWeight: FontWeight.bold,fontSize: 28),),
+                SizedBox(height: size.height * 0.01),
+                Text('Please Enter Your Email Address To', style: GoogleFonts.lato(color: Color(0xffaaabac), fontSize: 15),),
+                SizedBox(height: size.height * 0.01),
+                Text('Recieve a Varification Code ', style: GoogleFonts.lato(color: Color(0xffaaabac), fontSize: 15),),
+                SizedBox(height: size.height * 0.09),
+                NewTextfield(
                   textController: textController.emailController,
                   isPhoneNumber: false,
-                  icon: EvaIcons.emailOutline,
-                  labelText: 'Email',
-                  hintText: 'Enter your email address',
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                // ignore: deprecated_member_use
-
-                Container(
-                  width: 200,
-                  height: 60,
-                  child: CustomButton(
-                    text: 'Send Email',
-                    onTap: () async {
+                      hintText: 'Enter your email adress',
+                      lableText: 'ENTER EMAIL',
+                      icon: EvaIcons.personOutline,
+                      obsecure: false,
+                      
+                  ),
+                              
+                SizedBox(height: size.height * 0.09),
+                LoginButton(
+                  text: 'Send Email',
+                    ontap: ()async{
                       if (textController.emailController.text.isEmpty) {
                         getSnackBar(
                           title: 'ERROR!',
@@ -213,17 +189,31 @@ class ForgotPassword extends StatelessWidget {
                             });
                         textController.emailController.clear();
                       }
+
                     },
-                  ),
                 ),
-                SizedBox(
-                  height: size.height * 0.01,
+                SizedBox(height: size.height * 0.03),
+               
+                 SizedBox(height: size.height * 0.01),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:<Widget>[
+                    
+                      Text('Remember Password ?  ', style: GoogleFonts.roboto(color: Color(0xffaaabac),fontSize: 16),),
+                      GestureDetector(
+                        onTap: (){
+                           Get.toNamed(Login.id);
+                        },
+
+                        child: Container(child: Text('Log In ', style: GoogleFonts.roboto(color:  Color(0xff024BBC),fontSize: 18,fontWeight: FontWeight.w600,)))
+                      ),
+                  ]
                 ),
-              ],
-            ),
+           
+           ],)
           ),
         ),
-      ),
+      ) ,
     );
   }
 }

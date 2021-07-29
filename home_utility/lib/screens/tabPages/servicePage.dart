@@ -191,7 +191,7 @@ Future<void> SelectedItem(BuildContext context, int item) async {
       //   ),
       // );
       await userAuthentication.signOut();
-      Get.offAllNamed(LogInScreen.id);
+      Get.offAllNamed(Login.id);
       break;
   }
 }
