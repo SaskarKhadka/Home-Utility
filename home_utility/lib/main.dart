@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/controllers/textController.dart';
-import 'package:home_utility/screens/forgotPassword.dart';
+import 'package:home_utility/screens/newforgetpasswordscreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
+import 'package:home_utility/screens/signupscreen.dart';
 import 'package:home_utility/screens/tabPages/userProfile.dart';
 import 'package:home_utility/services/cloudStorage.dart';
-import 'screens/registrationScreen.dart';
-import 'screens/logInScreen.dart';
+import 'screens/newloginscreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -158,18 +158,18 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           curve: Curves.easeIn,
           transition: Transition.downToUp,
-          name: LogInScreen.id,
-          page: () => LogInScreen(),
+          name: Login.id,
+          page: () => Login(),
         ),
         GetPage(
           curve: Curves.easeIn,
           transition: Transition.upToDown,
-          name: RegistrationScreen.id,
-          page: () => RegistrationScreen(),
+          name: Signup.id,
+          page: () => Signup(),
         ),
         GetPage(
-          name: ForgotPassword.id,
-          page: () => ForgotPassword(),
+          name: ForgetPassword.id,
+          page: () => ForgetPassword(),
         ),
         GetPage(
           name: MainScreen.id,

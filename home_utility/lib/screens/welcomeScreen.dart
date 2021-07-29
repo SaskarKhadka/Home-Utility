@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:home_utility/screens/newloginscreen.dart';
 import '../components/customButton.dart';
 import 'logInScreen.dart';
 // import 'registrationScreen.dart';
@@ -40,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
               text: 'GET STARTED',
               // color: Colors.black,
               onTap: () {
-                Get.toNamed(LogInScreen.id);
+                Get.toNamed(Login.id);
               },
             ),
           ],
