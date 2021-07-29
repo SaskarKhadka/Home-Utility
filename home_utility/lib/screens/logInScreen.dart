@@ -74,7 +74,7 @@ Size size = MediaQuery.of(context).size;
                         child: Container(child: Text('Forget password?  ',style: TextStyle(color: Colors.blue,fontSize: 15),))))),
                 ),
                 SizedBox(height: size.height * 0.07),
-                LoginButton(
+                CustomButton(
                   text: 'SIGN IN',
                     ontap: ()async{
                           showDialog(

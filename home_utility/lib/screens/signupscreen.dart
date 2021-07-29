@@ -84,7 +84,7 @@ Size size = MediaQuery.of(context).size;
                 
               
                 SizedBox(height: size.height * 0.07),
-                LoginButton(
+                CustomButton(
                   text: 'Sign Up',
                     ontap: ()async{
                       showDialog(

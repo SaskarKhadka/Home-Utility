@@ -48,7 +48,7 @@ Size size = MediaQuery.of(context).size;
                   ),
                               
                 SizedBox(height: size.height * 0.09),
-                LoginButton(
+                CustomButton(
                   text: 'Send Email',
                     ontap: ()async{
                       if (textController.emailController.text.isEmpty) {

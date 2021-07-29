@@ -40,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
             CustomButton(
               text: 'GET STARTED',
               // color: Colors.black,
-              onTap: () {
+              ontap: () {
                 Get.toNamed(Login.id);
               },
             ),

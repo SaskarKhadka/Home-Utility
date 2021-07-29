@@ -43,27 +43,35 @@ class _DetailsPageState extends State<DetailsPage> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: kBlackColour,
+        backgroundColor:Colors.black,
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
               left: 20.0,
               right: 20.0,
-              top: 15.0,
+              top: 20.0,
               bottom: 25.0,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+               Image(
+                 image: AssetImage('images/vector.png'),
+                  height: 230,
+                  width: 230,
+                  ),
+                  SizedBox(
+                  height: size.height * 0.05,
+                ),
                 Text(
                   widget.service,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.bebasNeue(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w500,
-                    color: kBlackColour,
-                    letterSpacing: 2,
+                  style: GoogleFonts.roboto(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xffECECEC),
+                    letterSpacing: 1.5,
                   ),
                 ),
                 SizedBox(
@@ -72,41 +80,61 @@ class _DetailsPageState extends State<DetailsPage> {
                 Text(
                   'When would you like us to come?',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.lato(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w700,
-                    color: kBlackColour.withOpacity(0.5),
+                    // fontWeight: FontWeight.w700,
+                    color: Color(0xffaaabac),
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.004,
+                  height: size.height * 0.05,
                 ),
-                ListTile(
-                  // tileColor: Colors.blue,
-                  title: Text(
-                    "Date: ${_pickedDate.year}/${_pickedDate.month}/${_pickedDate.day}",
-                    style: GoogleFonts.juliusSansOne(
-                      fontSize: 17.0,
-                      letterSpacing: 1.3,
-                      fontWeight: FontWeight.w900,
-                    ),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xff101010)
+
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_down),
-                  onTap: _pickDate,
+                  
+                  child: ListTile(
+                    // tileColor: Colors.blue,
+                    title: Text(
+                      "Date: ${_pickedDate.year}/${_pickedDate.month}/${_pickedDate.day}",
+                      style: GoogleFonts.juliusSansOne(
+                        fontSize: 15.0,
+                        letterSpacing: 1.3,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xffaaabac)
+                      ),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_down,color: Color(0xffaaabac),),
+                    onTap: _pickDate,
+                  ),
                 ),
-                ListTile(
-                  minVerticalPadding: 5,
-                  // tileColor: Colors.red,
-                  title: Text(
-                    "Time: ${formatTime(unformattedTime: _selectedTime)}",
-                    style: GoogleFonts.juliusSansOne(
-                      fontSize: 17.0,
-                      letterSpacing: 1.3,
-                      fontWeight: FontWeight.w900,
-                    ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xff101010)
+
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_down),
-                  onTap: _selectTime,
+                  child: ListTile(
+                    minVerticalPadding: 5,
+                    // tileColor: Colors.red,
+                    title: Text(
+                      "Time: ${formatTime(unformattedTime: _selectedTime)}",
+                      style: GoogleFonts.juliusSansOne(
+                        fontSize: 15.0,
+                        letterSpacing: 1.3,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xffaaabac)
+                      ),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_down,color: Color(0xffaaabac)),
+                    onTap: _selectTime,
+                  ),
                 ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -114,10 +142,10 @@ class _DetailsPageState extends State<DetailsPage> {
                 Text(
                   'Any information about the job?',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.cairo(
+                  style: GoogleFonts.lato(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w700,
-                    color: kBlackColour.withOpacity(0.5),
+                    // fontWeight: FontWeight.w700,
+                    color: Color(0xffaaabac),
                   ),
                 ),
                 SizedBox(
@@ -136,10 +164,10 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                   child: TextField(
                     controller: _descriptionController,
-                    maxLines: 3,
+                    maxLines: 2,
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
-                      fillColor: kWhiteColour,
+                      fillColor: Color(0xffC5C5C5),
                       filled: true,
                       hintText: 'Write information about the work (optional)',
                       enabledBorder: OutlineInputBorder(
@@ -170,9 +198,9 @@ class _DetailsPageState extends State<DetailsPage> {
                     CustomButton(
                       // color: Colors.white,
                       text: 'Confirm',
-                      // onTap: _getDialog,
+                      width: size.width*0.35,
 
-                      onTap: () async {
+                      ontap: () async {
                         Position userLocation = await Location().getLocation();
 
                         DataSnapshot snapshot = await usersRefrence
@@ -208,13 +236,13 @@ class _DetailsPageState extends State<DetailsPage> {
                       },
                       // color: Colors.red,
                     ),
-                    SizedBox(
-                      height: size.height * 0.02,
-                    ),
+                   
                     CustomButton(
-                      // color: Colors.white,
+                      color: Colors.transparent,
                       text: 'Cancel',
-                      onTap: () => Get.back(),
+                      shadowcolor: Colors.black,
+                      ontap: () => Get.back(),
+                      width: size.width*0.35,
                       // color: Colors.red,
                     ),
                   ],

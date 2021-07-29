@@ -1,50 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomButton extends StatelessWidget {
-  final Function onTap;
-  final Color color;
-  final String text;
-  CustomButton({
-    this.onTap,
-    this.color,
-    this.text,
-  });
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-          width: size.width * 0.4,
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 17.0,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40.0),
-            color: Color(0xff131313),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.45),
-                offset: Offset(2, 7),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              text,
-              style: GoogleFonts.montserrat(
-                color: Colors.white,
-                fontSize: 20.0,
-                letterSpacing: 3,
-              ),
-            ),
-          )),
-    );
-  }
-}
+
 
 class ProfileButton extends StatelessWidget {
   final Function onPressed;
@@ -110,25 +67,29 @@ class ProfileButton extends StatelessWidget {
 }
 
 
-class LoginButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final Function ontap;
   final String text;
-  const LoginButton({ this.ontap, this.text});
+  final Color color;
+  final double height;
+  final double width;
+  final Color shadowcolor;
+  const CustomButton({ this.ontap, this.text, this.color, this.height, this.width, this.shadowcolor});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return  GestureDetector(
         onTap: ontap,
           child: Container(
-          height:size.height* 0.06,
-          
-          width:size.width * 0.45,
+          height:height==null?size.height* 0.06: height,
+          width:width == null?size.width * 0.45: width,
                         decoration: BoxDecoration(
-                          color: Color(0xff024BBC),
+                          color: color==null?Color(0xff024BBC):color,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
+                        border: Border.all(color: Color(0xff024BBC)),
                        boxShadow: [
                                     BoxShadow(
-                                      color: Color(0xff085dcf).withOpacity(0.3),
+                                      color: shadowcolor==null?Color(0xff085dcf).withOpacity(0.3):shadowcolor.withOpacity(0.3),
                                       spreadRadius: 5,
                                       blurRadius: 20,
                                       offset: Offset(3, 7), // changes position of shadow

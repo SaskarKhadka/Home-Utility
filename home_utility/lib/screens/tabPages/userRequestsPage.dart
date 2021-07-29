@@ -430,7 +430,7 @@ class UserRequestsStream extends StatelessWidget {
                                                   children: [
                                                     Expanded(
                                                       child: CustomButton(
-                                                        onTap: () async {
+                                                        ontap: () async {
                                                           showDialog(
                                                               barrierDismissible:
                                                                   false,
@@ -490,7 +490,7 @@ class UserRequestsStream extends StatelessWidget {
                                                     ),
                                                     Expanded(
                                                       child: CustomButton(
-                                                        onTap: () => Get.back(),
+                                                        ontap: () => Get.back(),
                                                         text: 'Cancel',
                                                       ),
                                                     ),
