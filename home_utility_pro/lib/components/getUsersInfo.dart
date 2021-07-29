@@ -120,7 +120,7 @@ class GetUsersInfo extends StatelessWidget {
                             child: Text(
                               '${userData.userPhoneNo}',
                               style: GoogleFonts.montserrat(
-                                  fontSize: 16.0,
+                                  fontSize: 14.0,
                                   color: kWhiteColour,
                                   letterSpacing: 1.3,
                                   fontWeight: FontWeight.bold),
@@ -141,13 +141,15 @@ class GetUsersInfo extends StatelessWidget {
                               color: Colors.yellow,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              userData.userEmail,
-                              style: GoogleFonts.montserrat(
-                                fontSize: 16.0,
-                                color: Colors.white,
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                userData.userEmail,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14.0,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
