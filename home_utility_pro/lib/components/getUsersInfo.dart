@@ -68,7 +68,7 @@ class GetUsersInfo extends StatelessWidget {
                       CircleAvatar(
                         radius: 55.0,
                         backgroundColor: Colors.teal,
-                        backgroundImage: NetworkImage(userData.profileUrl),
+                        backgroundImage: userData.profileUrl == null ? AssetImage('images/person.png') : NetworkImage( userData.profileUrl),
                       ),
                       SizedBox(
                         height: size.height * 0.02,

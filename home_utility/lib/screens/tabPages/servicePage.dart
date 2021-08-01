@@ -165,6 +165,23 @@ class ServicePage extends StatelessWidget {
                 ServiceCard(
                   category: 'beauty',
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Home Maintenance",
+                  style: GoogleFonts.montserrat(
+                      color: Color(0xffd17842), fontSize: 20),
+                ),
+                Divider(
+                  color: Color(0xffd17842),
+                  endIndent: 300,
+                  indent: 30,
+                  thickness: 1,
+                ),
+                ServiceCard(
+                  category: 'homeMaintenance',
+                ),
               ],
             ),
           ),

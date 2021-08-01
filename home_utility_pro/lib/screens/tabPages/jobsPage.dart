@@ -277,8 +277,7 @@ class AcceptedRequestsStream extends StatelessWidget {
                                       return CircleAvatar(
                                         radius: 25.0,
                                         backgroundColor: Colors.teal,
-                                        backgroundImage: NetworkImage(
-                                            userData[0].profileUrl),
+                                        backgroundImage:userData[0].profileUrl == null ? AssetImage('images/person.png') : NetworkImage( userData[0].profileUrl),
                                       );
                                     },
                                   ),
