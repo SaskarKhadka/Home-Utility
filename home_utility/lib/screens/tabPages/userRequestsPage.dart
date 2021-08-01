@@ -6,114 +6,113 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customButton.dart';
 import 'package:home_utility/components/getProsInfo.dart';
 import 'package:home_utility/constants.dart';
+import 'package:home_utility/controllers/proController.dart';
 import 'package:home_utility/controllers/textController.dart';
+import 'package:home_utility/model/proData.dart';
 import 'package:home_utility/screens/chatScreen.dart';
-import 'package:home_utility/screens/loginscreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
 import '../../main.dart';
-
+import '../logInScreen.dart';
 
 class UserRequestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     database.totalUsersRequests();
 
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.black,
+      // drawer: Container(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
-        // drawer: Container(),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
-          toolbarHeight: 67,
-          elevation: 2,
-          shadowColor: Colors.white,
-          // automaticallyImplyLeading: false,
-          centerTitle: true,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 8.0,
-                left: 20.0,
-                right: 15.0,
-              ),
+        toolbarHeight: 67,
+        elevation: 2,
+        shadowColor: Colors.white,
+        // automaticallyImplyLeading: false,
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 8.0,
+              left: 20.0,
+              right: 15.0,
             ),
-            Theme(
-              data: Theme.of(context).copyWith(
-                  textTheme: TextTheme().apply(bodyColor: Colors.black),
-                  dividerColor: Colors.black,
-                  iconTheme: IconThemeData(color: Colors.white)),
-              child: PopupMenuButton<int>(
-                color: Colors.white,
-                itemBuilder: (BuildContext context) => [
-                  PopupMenuItem<int>(
-                    value: 0,
+          ),
+          Theme(
+            data: Theme.of(context).copyWith(
+                textTheme: TextTheme().apply(bodyColor: Colors.black),
+                dividerColor: Colors.black,
+                iconTheme: IconThemeData(color: Colors.white)),
+            child: PopupMenuButton<int>(
+              color: Colors.white,
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem<int>(
+                  value: 0,
+                  child: Text(
+                    "About us",
+                    style: GoogleFonts.roboto(
+                      color: Colors.black,
+                      letterSpacing: 1.8,
+                    ),
+                  ),
+                ),
+                PopupMenuItem<int>(
+                    value: 1,
                     child: Text(
-                      "About us",
+                      "Help",
                       style: GoogleFonts.roboto(
                         color: Colors.black,
                         letterSpacing: 1.8,
                       ),
-                    ),
-                  ),
-                  PopupMenuItem<int>(
-                      value: 1,
-                      child: Text(
-                        "Help",
-                        style: GoogleFonts.roboto(
-                          color: Colors.black,
-                          letterSpacing: 1.8,
+                    )),
+                PopupMenuDivider(),
+                PopupMenuItem<int>(
+                    value: 2,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          color: Colors.red,
                         ),
-                      )),
-                  PopupMenuDivider(),
-                  PopupMenuItem<int>(
-                      value: 2,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.logout,
-                            color: Colors.red,
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        Text(
+                          "Sign Out",
+                          style: GoogleFonts.roboto(
+                            color: Colors.black,
+                            letterSpacing: 1.8,
                           ),
-                          const SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            "Sign Out",
-                            style: GoogleFonts.roboto(
-                              color: Colors.black,
-                              letterSpacing: 1.8,
-                            ),
-                          )
-                        ],
-                      )),
-                ],
-                onSelected: (item) => SelectedItem(context, item),
-                offset: Offset(0, 70),
-              ),
+                        )
+                      ],
+                    )),
+              ],
+              onSelected: (item) => SelectedItem(context, item),
+              offset: Offset(0, 70),
             ),
-          ],
-          title: Padding(
-            padding: EdgeInsets.only(
-              top: 8.0,
-              left: 16.0,
-            ),
-            child: Text(
-              'My Requests',
-              style: GoogleFonts.montserrat(
-                // color: Color(0xff131313),
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 1.5,
-                // decoration: TextDecoration.underline,
-              ),
+          ),
+        ],
+        title: Padding(
+          padding: EdgeInsets.only(
+            top: 8.0,
+            left: 16.0,
+          ),
+          child: Text(
+            'My Requests',
+            style: GoogleFonts.montserrat(
+              // color: Color(0xff131313),
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 1.5,
+              // decoration: TextDecoration.underline,
             ),
           ),
         ),
-        body: Scrollbar(
-          child: UserRequestsStream(),
-        ),
+      ),
+      body: Scrollbar(
+        child: UserRequestsStream(),
       ),
     );
   }
@@ -238,34 +237,27 @@ class UserRequestsStream extends StatelessWidget {
                   }
 
                   return Container(
-                    height: size.height * 0.23,
+                    height: size.height * 0.26,
                     width: double.infinity,
                     margin: EdgeInsets.only(
                       top: 20.0,
                       bottom: 15.0,
-                      right: 25.0,
-                      left: 25.0,
+                      right: 15.0,
+                      left: 15.0,
                     ),
                     decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white30,
-                          offset: Offset(2, 5),
-                          blurRadius: 10,
-                        ),
-                      ],
-                      color: Color(0xff131313),
+                      color: Color(0xFF18171A),
                       borderRadius: BorderRadius.circular(30.0),
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 1.5,
-                        style: BorderStyle.solid,
-                      ),
+                      // border: Border.all(
+                      //   color: Colors.white,
+                      //   width: 0.05,
+                      //   style: BorderStyle.solid,
+                      // ),
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
                         top: size.height * 0.025,
-                        left: 15.0,
+                        left: 30.0,
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -276,36 +268,124 @@ class UserRequestsStream extends StatelessWidget {
                           // child: Column(
                           // crossAxisAlignment: CrossAxisAlignment.stretch,
                           // children: [
-                          Text(
-                            requestData['service'],
-                            style: TextStyle(
-                              fontSize: size.height * 0.03,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.dialog(
+                                    GetProsInfo(
+                                        proID: requestData['requestedTo']
+                                            ['proID']),
+
+                                    // barrierColor:
+                                    //     kWhiteColour.withOpacity(0.1),
+                                  );
+                                },
+                                child: GetX<ProController>(
+                                  init: ProController(
+                                      requestData['requestedTo']['proID']),
+                                  builder: (proController) {
+                                    if (proController == null ||
+                                        proController.pro.isEmpty) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CircularProgressIndicator(
+                                            color: kBlackColour,
+                                            backgroundColor: Colors.white,
+                                          ),
+                                        ],
+                                      );
+                                    }
+
+                                    List<ProsData> prosData = proController.pro;
+                                    return CircleAvatar(
+                                      radius: 25.0,
+                                      backgroundColor: Colors.teal,
+                                      backgroundImage:
+                                          prosData[0].profileUrl == null
+                                              ? AssetImage('images/person.png')
+                                              : NetworkImage(
+                                                  prosData[0].profileUrl),
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  GetX<ProController>(
+                                      init: ProController(
+                                          requestData['requestedTo']['proID']),
+                                      builder: (proController) {
+                                        if (proController == null ||
+                                            proController.pro.isEmpty) {
+                                          return Text(
+                                            'username',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 15.0,
+                                              color: Colors.white,
+                                            ),
+                                          );
+                                        }
+                                        return Text(
+                                          proController.pro[0].prosName,
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 15.0,
+                                            color: Colors.white,
+                                          ),
+                                        );
+                                      }),
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  ),
+                                  Text(
+                                    requestData['service'],
+                                    style: GoogleFonts.shortStack(
+                                      fontSize: 12.0,
+                                      color: Colors.grey,
+                                    ),
+                                    // textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: size.height * 0.011,
                           ),
-                          Text(
-                            'Date: ' + requestData['date'],
-                            style: TextStyle(
-                              fontSize: size.height * 0.021,
-                              color: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Date:\n' + requestData['date'],
+                                  style: GoogleFonts.shortStack(
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: size.width * 0.2,
+                                ),
+                                Text(
+                                  'Time:\n' + requestData['time'],
+                                  style: GoogleFonts.shortStack(
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                          SizedBox(
-                            height: size.height * 0.011,
-                          ),
-                          Text(
-                            'Time: ' + requestData['time'],
-                            style: TextStyle(
-                              fontSize: size.height * 0.021,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                          // SizedBox(
+                          //   height: size.height * 0.011,
+                          // ),
+
                           SizedBox(
                             height: size.height * 0.02,
                           ),
@@ -512,13 +592,6 @@ class UserRequestsStream extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
                                       color: kWhiteColour,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.white30,
-                                          offset: Offset(2, 5),
-                                          blurRadius: 7,
-                                        )
-                                      ],
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -546,55 +619,124 @@ class UserRequestsStream extends StatelessWidget {
                               : isAccepted
                                   ? Row(
                                       children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            Get.dialog(
-                                              GetProsInfo(
-                                                proID:
-                                                    requestData['requestedTo']
-                                                        ['proID'],
-                                              ),
+                                        InkWell(
+                                          onTap: () async {
+                                            showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder: (context) => Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        CircularProgressIndicator(
+                                                          color: kBlackColour,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 20.0,
+                                                        ),
+                                                        Text('Processing...',
+                                                            style: TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.white,
+                                                            )),
+                                                      ],
+                                                    ));
+                                            await database.cancelRequest(
+                                              requestKey:
+                                                  requestData['requestKey'],
+                                              proID: requestData['requestedTo']
+                                                  ['proID'],
                                             );
+                                            Get.back();
                                           },
                                           child: Container(
+                                            width: 100,
+                                            height: 40,
                                             padding: EdgeInsets.symmetric(
-                                              horizontal: 15.0,
+                                              horizontal: 5.0,
                                               vertical: size.height * 0.009,
                                             ),
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: kWhiteColour,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.white30,
-                                                  offset: Offset(2, 5),
-                                                  blurRadius: 7,
-                                                )
-                                              ],
+                                                  BorderRadius.circular(16.0),
+                                              color: Color(0xFFDA5D59),
                                             ),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Icon(
-                                                  EvaIcons.personOutline,
-                                                  color: kBlackColour,
+                                                  EvaIcons.close,
+                                                  color: kWhiteColour,
                                                 ),
                                                 SizedBox(
                                                   width: size.width * 0.01,
                                                 ),
                                                 Text(
-                                                  'Pro\'s Profile',
+                                                  'Cancel',
                                                   style: GoogleFonts.raleway(
                                                     fontSize: 15.0,
                                                     fontWeight: FontWeight.bold,
-                                                    color: kBlackColour,
+                                                    color: kWhiteColour,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ),
+
+                                        SizedBox(width: 15.0),
+                                        // Expanded(
+                                        //   child: GestureDetector(
+                                        //     onTap: () {
+                                        //       Get.dialog(
+                                        //         GetProsInfo(
+                                        //           proID:
+                                        //               requestData['requestedTo']
+                                        //                   ['proID'],
+                                        //         ),
+                                        //       );
+                                        //     },
+                                        //     child: Container(
+                                        //       padding: EdgeInsets.symmetric(
+                                        //         horizontal: 5.0,
+                                        //         vertical: size.height * 0.009,
+                                        //       ),
+                                        //       decoration: BoxDecoration(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(10.0),
+                                        //         // color: kWhiteColour,
+                                        //         color: Color(0xff085dcf),
+                                        //       ),
+                                        //       child: Row(
+                                        //         mainAxisSize: MainAxisSize.min,
+                                        //         children: [
+                                        //           Icon(
+                                        //             EvaIcons.personOutline,
+                                        //             color: kWhiteColour,
+                                        //           ),
+                                        //           SizedBox(
+                                        //             width: size.width * 0.01,
+                                        //           ),
+                                        //           Text(
+                                        //             'Profile',
+                                        //             style: GoogleFonts.raleway(
+                                        //               fontSize: 15.0,
+                                        //               fontWeight:
+                                        //                   FontWeight.bold,
+                                        //               color: kWhiteColour,
+                                        //             ),
+                                        //           ),
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
                                         SizedBox(
                                           width: 15.0,
                                         ),
@@ -606,28 +748,23 @@ class UserRequestsStream extends StatelessWidget {
                                                         ['proID']));
                                           },
                                           child: Container(
+                                            width: 100,
+                                            height: 40,
                                             padding: EdgeInsets.symmetric(
                                               horizontal: 15.0,
                                               vertical: size.height * 0.009,
                                             ),
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: kWhiteColour,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.white30,
-                                                  offset: Offset(2, 5),
-                                                  blurRadius: 7,
-                                                )
-                                              ],
+                                                  BorderRadius.circular(16.0),
+                                              color: Color(0xFF59B1DA),
                                             ),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Icon(
                                                   EvaIcons.messageCircleOutline,
-                                                  color: kBlackColour,
+                                                  color: kWhiteColour,
                                                 ),
                                                 SizedBox(
                                                   width: size.width * 0.01,
@@ -638,7 +775,7 @@ class UserRequestsStream extends StatelessWidget {
                                                   style: GoogleFonts.raleway(
                                                     fontSize: 15.0,
                                                     fontWeight: FontWeight.bold,
-                                                    color: kBlackColour,
+                                                    color: kWhiteColour,
                                                   ),
                                                 ),
                                               ],
@@ -681,28 +818,23 @@ class UserRequestsStream extends StatelessWidget {
                                         Get.back();
                                       },
                                       child: Container(
+                                        width: 100,
+                                        height: 40,
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: 15.0,
+                                          horizontal: 5.0,
                                           vertical: size.height * 0.009,
                                         ),
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: kWhiteColour,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.white30,
-                                              offset: Offset(2, 5),
-                                              blurRadius: 7,
-                                            )
-                                          ],
+                                              BorderRadius.circular(16.0),
+                                          color: Color(0xFFDA5D59),
                                         ),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Icon(
                                               EvaIcons.close,
-                                              color: kBlackColour,
+                                              color: kWhiteColour,
                                             ),
                                             SizedBox(
                                               width: size.width * 0.01,
@@ -712,7 +844,7 @@ class UserRequestsStream extends StatelessWidget {
                                               style: GoogleFonts.raleway(
                                                 fontSize: 15.0,
                                                 fontWeight: FontWeight.bold,
-                                                color: kBlackColour,
+                                                color: kWhiteColour,
                                               ),
                                             ),
                                           ],

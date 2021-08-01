@@ -106,6 +106,7 @@ class ServicePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: TextField(
+                    cursorColor: Colors.grey,
                     decoration: InputDecoration(
                         hintText: "Find your service...",
                         hintStyle: TextStyle(color: Color(0xff3c4046)),
@@ -114,6 +115,7 @@ class ServicePage extends StatelessWidget {
                           Icons.search,
                           color: Colors.grey[600],
                         )),
+                        style: TextStyle(color: Colors.grey),
                   ),
                 ),
                 SizedBox(
