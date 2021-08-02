@@ -72,24 +72,6 @@ class RatingCard extends StatelessWidget {
                       ? AssetImage('images/user.png')
                       : NetworkImage(profileUrl),
                 ),
-                // Container(
-                //   height: 60,
-                //   width: 60,
-                //   decoration: BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: Color(0xff27272A),
-                //       boxShadow: [
-                //         BoxShadow(
-                //           color: Color(0xff27272A).withOpacity(0.3),
-                //           spreadRadius: 3,
-                //           blurRadius: 10,
-                //           offset: Offset(2, 4), // changes position of shadow
-                //         ),
-                //       ]),
-                //   child: profileUrl == null
-                //       ? Image.asset('images/user.png')
-                //       : Image.network(profileUrl),
-                // ),
                 SizedBox(width: 25),
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

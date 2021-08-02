@@ -73,6 +73,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: kBlackColour,
         appBar: AppBar(
           toolbarHeight: 68,
           elevation: 2,
@@ -95,7 +96,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
               'Fill up your info',
               style: GoogleFonts.montserrat(
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: 30,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 2,
               ),
@@ -130,7 +131,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kBlackColour.withOpacity(0.5),
+                            color: kWhiteColour.withOpacity(0.5),
                             style: BorderStyle.solid,
                             width: 2,
                           ),
@@ -143,15 +144,21 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               textAlign: TextAlign.justify,
                               textDirection: TextDirection.ltr,
                               style: GoogleFonts.montserrat(
+                                color: kWhiteColour,
                                 letterSpacing: 1.2,
                                 wordSpacing: 1.5,
                               ),
                             ),
                             SearchChoices.single(
                               style: GoogleFonts.montserrat(
-                                color: kBlackColour,
+                                color: kWhiteColour,
                                 fontSize: 15.0,
                               ),
+                              onTap: () {
+                                setState(() {
+                                  _districtValue = 'Achham';
+                                });
+                              },
                               items: _getDistricts(),
                               value: _districtValue,
                               hint: "Select Your District",
@@ -179,7 +186,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kBlackColour.withOpacity(0.5),
+                            color: kWhiteColour.withOpacity(0.5),
                             style: BorderStyle.solid,
                             width: 2,
                           ),
@@ -192,6 +199,8 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               textAlign: TextAlign.justify,
                               textDirection: TextDirection.ltr,
                               style: GoogleFonts.montserrat(
+                                color: kWhiteColour,
+                                fontSize: 17,
                                 letterSpacing: 1.2,
                                 wordSpacing: 1.5,
                               ),
@@ -201,7 +210,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                             ),
                             SearchChoices.single(
                               style: GoogleFonts.montserrat(
-                                color: kBlackColour,
+                                color: kWhiteColour,
                                 fontSize: 15.0,
                               ),
                               items: _getMunicipalities(),
@@ -219,35 +228,6 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         ),
                       ),
 
-                      // CustomTextField(
-                      //   textController: _municipalityController,
-                      //   isPhoneNumber: false,
-                      //   icon: EvaIcons.homeOutline,
-                      //   labelText: 'Municipality/VDC',
-                      //   hintText: 'Enter your Mulicipality/VDC',
-                      // ),
-                      // SizedBox(
-                      //   height: size.height * 0.04,
-                      // ),
-                      // CustomTextField(
-                      //   textController: _districtController,
-                      //   isPhoneNumber: false,
-                      //   icon: EvaIcons.compassOutline,
-                      //   labelText: 'District',
-                      //   hintText: 'Enter your District',
-                      // ),
-
-                      // SizedBox(
-                      //   height: size.height * 0.04,
-                      // ),
-                      // CustomTextField(
-                      //   textController: _proController,
-                      //   isPhoneNumber: false,
-                      //   icon: EvaIcons.briefcaseOutline,
-                      //   labelText: 'Professional work',
-                      //   hintText:
-                      //       'Enter Your professional work. (eg. Plumber....)',
-                      // ),
                       SizedBox(
                         height: size.height * 0.04,
                       ),
@@ -258,7 +238,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kBlackColour.withOpacity(0.5),
+                            color: kWhiteColour.withOpacity(0.5),
                             style: BorderStyle.solid,
                             width: 2,
                           ),
@@ -271,6 +251,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               textAlign: TextAlign.justify,
                               textDirection: TextDirection.ltr,
                               style: GoogleFonts.montserrat(
+                                color: kWhiteColour,
                                 letterSpacing: 1.2,
                                 wordSpacing: 1.5,
                               ),
@@ -280,7 +261,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                             ),
                             SearchChoices.single(
                               style: GoogleFonts.montserrat(
-                                color: kBlackColour,
+                                color: kWhiteColour,
                                 fontSize: 15.0,
                               ),
                               items: _getDropDownMenuItems(),
@@ -330,7 +311,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               );
                               return;
                             }
-                            prosProfessionValue = _professionValue.trim();
+                            // prosProfessionValue =_professionValue.trim() ;
                             showDialog(
                                 context: context,
                                 barrierDismissible: false,
@@ -347,7 +328,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                                     ));
 
                             await database.updateProsInfo(
-                              profession: prosProfessionValue,
+                              profession: _professionValue.trim(),
                               district: _districtValue.trim(),
                               municipality: _municipalityValue.trim(),
                             );

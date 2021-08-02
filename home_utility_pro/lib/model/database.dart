@@ -43,13 +43,13 @@ class Database {
     await requestRefrence.child(requestKey).remove();
   }
 
-  Future<Query> requestQuery({String category}) async {
-    // return requestRefrence.child(prosProfessionValue).orderByChild(requestKey);
-    return requestRefrence
-        .child(category)
-        .orderByChild('category')
-        .equalTo(prosProfessionValue);
-  }
+  // Future<Query> requestQuery({String category}) async {
+  //   // return requestRefrence.child(prosProfessionValue).orderByChild(requestKey);
+  //   return requestRefrence
+  //       .child(category)
+  //       .orderByChild('category')
+  //       .equalTo(prosProfessionValue);
+  // }
 
   Stream userRequestsStream() {
     // return requestRefrence.child(category).onValue;

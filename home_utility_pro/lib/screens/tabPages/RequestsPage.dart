@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:home_utility_pro/components/getUsersInfo.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
-import 'package:home_utility_pro/controllers/userController.dart';
-import 'package:home_utility_pro/model/userData.dart';
 import 'package:home_utility_pro/screens/tabPages/jobsPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -61,7 +58,8 @@ class RequestsPage extends StatelessWidget {
                       ),
                       Theme(
                         data: Theme.of(context).copyWith(
-                            textTheme: TextTheme().apply(bodyColor: Colors.black),
+                            textTheme:
+                                TextTheme().apply(bodyColor: Colors.black),
                             dividerColor: Colors.black,
                             iconTheme: IconThemeData(color: Colors.white)),
                         child: PopupMenuButton<int>(
@@ -157,7 +155,7 @@ class RequestsPage extends StatelessWidget {
                     //   ref.child(path)
                     // }
                     // print('HI');
-        
+
                     return Container(
                       // height: 200, //TODO: manage
                       child: ListView.builder(
@@ -167,7 +165,7 @@ class RequestsPage extends StatelessWidget {
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
                           // Map requestMap = snapshot.value;
-        
+
                           return StreamBuilder(
                               stream: database.requestDataStream(
                                   requestKey: data[index]),
@@ -178,12 +176,12 @@ class RequestsPage extends StatelessWidget {
                                 }
                                 Map requestData = snapshot.data.snapshot.value;
                                 // print(requestData);
-        
+
                                 String value = requestData['dateTime'];
                                 List dateTime = value.split(' ');
                                 List date = dateTime[0].split('-');
                                 List time = dateTime[1].split(':');
-        
+
                                 DateTime requestDateTime = DateTime(
                                   int.parse(date[0]),
                                   int.parse(date[1]),
@@ -200,7 +198,7 @@ class RequestsPage extends StatelessWidget {
                                 }
                                 if (requestData['state'] == 'pending') {
                                   totalRequests++;
-        
+
                                   // if (data[index]['state']['state'] == 'pending')
                                   //   isAccepted = false;
                                   // else
@@ -214,7 +212,7 @@ class RequestsPage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         // color: Color(0xff28272c),
                                         color: Color(0xFF18171A),
-        
+
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(
                                             16.0,
@@ -237,55 +235,53 @@ class RequestsPage extends StatelessWidget {
                                                           userID: requestData[
                                                                   'requestedBy']
                                                               ['userID']),
-        
+
                                                       // barrierColor:
                                                       //     kWhiteColour.withOpacity(0.1),
                                                     );
                                                   },
-                                                  child: GetX<UserController>(
-                                                    init: UserController(
-                                                        requestData['requestedBy']
-                                                            ['userID']),
-                                                    builder: (userController) {
-                                                      if (userController ==
-                                                              null ||
-                                                          userController
-                                                              .user.isEmpty) {
-                                                        return Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            CircularProgressIndicator(
-                                                              color: kBlackColour,
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                            ),
-                                                          ],
+                                                  child: StreamBuilder(
+                                                      stream: usersRefrence
+                                                          .child(requestData[
+                                                                  'requestedBy']
+                                                              ['userID'])
+                                                          .onValue,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (!snapshot.hasData ||
+                                                            snapshot
+                                                                    .data
+                                                                    .snapshot
+                                                                    .value ==
+                                                                null)
+                                                          return CircleAvatar(
+                                                            radius: 25.0,
+                                                            backgroundColor:
+                                                                Colors.teal,
+                                                            backgroundImage:
+                                                                AssetImage(
+                                                                    'images/person.png'),
+                                                          );
+
+                                                        Map userData = snapshot
+                                                            .data
+                                                            .snapshot
+                                                            .value;
+                                                        // print(userData['prosProfile']);
+                                                        return CircleAvatar(
+                                                          radius: 25.0,
+                                                          backgroundColor:
+                                                              Colors.teal,
+                                                          backgroundImage: userData[
+                                                                      'profileUrl'] ==
+                                                                  null
+                                                              ? AssetImage(
+                                                                  'images/person.png')
+                                                              : NetworkImage(
+                                                                  userData[
+                                                                      'profileUrl']),
                                                         );
-                                                      }
-        
-                                                      List<UserData> userData =
-                                                          userController.user;
-                                                      return CircleAvatar(
-                                                        radius: 25.0,
-                                                        backgroundColor:
-                                                            Colors.teal,
-                                                        backgroundImage:
-                                                            userData[
-                                                                        0]
-                                                                    .profileUrl ==
-                                                                null
-                                                            ? AssetImage(
-                                                                'images/person.png')
-                                                            : NetworkImage(
-                                                                userData[0]
-                                                                    .profileUrl),
-                                                      );
-                                                    },
-                                                  ),
+                                                      }),
                                                 ),
                                                 SizedBox(width: 10),
                                                 Column(
@@ -294,44 +290,56 @@ class RequestsPage extends StatelessWidget {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    GetX<UserController>(
-                                                        init: UserController(
-                                                            requestData[
+                                                    StreamBuilder(
+                                                        stream: usersRefrence
+                                                            .child(requestData[
                                                                     'requestedBy']
-                                                                ['userID']),
-                                                        builder:
-                                                            (userController) {
-                                                          if (userController ==
-                                                                  null ||
-                                                              userController
-                                                                  .user.isEmpty) {
+                                                                ['userID'])
+                                                            .onValue,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (!snapshot
+                                                                  .hasData ||
+                                                              snapshot
+                                                                      .data
+                                                                      .snapshot
+                                                                      .value ==
+                                                                  null)
                                                             return Text(
                                                               'username',
                                                               style: GoogleFonts
                                                                   .montserrat(
                                                                 fontSize: 15.0,
-                                                                color:
-                                                                    Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                               ),
                                                             );
-                                                          }
+
+                                                          Map usersData =
+                                                              snapshot
+                                                                  .data
+                                                                  .snapshot
+                                                                  .value;
+                                                          // print(userData['prosProfile']);
                                                           return Text(
-                                                            userController
-                                                                .user[0].userName,
+                                                            usersData[
+                                                                'userName'],
                                                             style: GoogleFonts
                                                                 .montserrat(
                                                               fontSize: 15.0,
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                           );
                                                         }),
                                                     SizedBox(
-                                                      height: size.height * 0.01,
+                                                      height:
+                                                          size.height * 0.01,
                                                     ),
                                                     Text(
                                                       requestData['service'],
-                                                      style:
-                                                          GoogleFonts.shortStack(
+                                                      style: GoogleFonts
+                                                          .shortStack(
                                                         fontSize: 12.0,
                                                         color: Colors.grey,
                                                       ),
@@ -342,18 +350,20 @@ class RequestsPage extends StatelessWidget {
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 18.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 18.0),
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(16.0),
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
@@ -389,8 +399,8 @@ class RequestsPage extends StatelessWidget {
                                                       builder: (context) {
                                                         return Dialog(
                                                           shape: RoundedRectangleBorder(
-                                                              side:
-                                                                  BorderSide.none,
+                                                              side: BorderSide
+                                                                  .none,
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -398,18 +408,21 @@ class RequestsPage extends StatelessWidget {
                                                           backgroundColor:
                                                               Colors.black,
                                                           elevation: 25.0,
-                                                          insetPadding: EdgeInsets
-                                                              .symmetric(
+                                                          insetPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
                                                             vertical: 25.0,
                                                             horizontal: 25.0,
                                                           ),
                                                           child: Container(
                                                             margin:
-                                                                EdgeInsets.all(1),
+                                                                EdgeInsets.all(
+                                                                    1),
                                                             width: size.width,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -445,7 +458,8 @@ class RequestsPage extends StatelessWidget {
                                                                 ),
                                                                 SizedBox(
                                                                   width: 250.0,
-                                                                  child: Divider(
+                                                                  child:
+                                                                      Divider(
                                                                     color: Colors
                                                                         .black
                                                                         .withOpacity(
@@ -459,7 +473,8 @@ class RequestsPage extends StatelessWidget {
                                                                     top: 18.0,
                                                                     left: 20.0,
                                                                     right: 18.0,
-                                                                    bottom: 18.0,
+                                                                    bottom:
+                                                                        18.0,
                                                                   ),
                                                                   child: Text(
                                                                     requestData['jobDescription'] ==
@@ -574,7 +589,13 @@ class RequestsPage extends StatelessWidget {
                                                                 ),
                                                               ],
                                                             ));
-                                                    await database.cancelRequest(
+                                                    String token = await database
+                                                        .getToken(requestData[
+                                                                'requestedBy']
+                                                            ['userID']);
+                                                    print(token);
+                                                    await database
+                                                        .cancelRequest(
                                                       requestKey: requestData[
                                                           'requestKey'],
                                                       userID: requestData[
@@ -582,10 +603,7 @@ class RequestsPage extends StatelessWidget {
                                                           ['userID'],
                                                     );
                                                     Get.back();
-                                                    String token = await database
-                                                        .getToken(requestData[
-                                                                'requestedBy']
-                                                            ['userID']);
+
                                                     try {
                                                       http.post(
                                                           Uri.parse(
@@ -607,7 +625,8 @@ class RequestsPage extends StatelessWidget {
                                                                 "android_channel_id":
                                                                     "high_importance_channel"
                                                               },
-                                                              "priority": "high",
+                                                              "priority":
+                                                                  "high",
                                                               "data": {
                                                                 "click_action":
                                                                     "FLUTTER_NOTIFICATION_CLICK",
@@ -642,40 +661,41 @@ class RequestsPage extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 18.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 18.0),
                                                   child: InkWell(
                                                     onTap: () async {
                                                       showDialog(
                                                           context: context,
                                                           barrierDismissible:
                                                               false,
-                                                          builder: (context) =>
-                                                              Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  CircularProgressIndicator(
-                                                                    color:
-                                                                        kBlackColour,
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .white,
-                                                                  ),
-                                                                ],
-                                                              ));
-        
+                                                          builder:
+                                                              (context) =>
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      CircularProgressIndicator(
+                                                                        color:
+                                                                            kBlackColour,
+                                                                        backgroundColor:
+                                                                            Colors.white,
+                                                                      ),
+                                                                    ],
+                                                                  ));
+
                                                       await database
                                                           .changeAcceptedState(
                                                         requestKey: requestData[
                                                             'requestKey'],
                                                         state: true,
                                                       );
-        
+
                                                       await database
                                                           .saveRequestAsJob(
                                                         requestKey: requestData[
@@ -699,7 +719,8 @@ class RequestsPage extends StatelessWidget {
                                                             },
                                                             body: jsonEncode(
                                                               {
-                                                                "notification": {
+                                                                "notification":
+                                                                    {
                                                                   "body":
                                                                       "Your request has been accepted",
                                                                   "title":
@@ -712,7 +733,8 @@ class RequestsPage extends StatelessWidget {
                                                                 "data": {
                                                                   "click_action":
                                                                       "FLUTTER_NOTIFICATION_CLICK",
-                                                                  "status": "done"
+                                                                  "status":
+                                                                      "done"
                                                                 },
                                                                 "to": "$token"
                                                               },
@@ -727,7 +749,8 @@ class RequestsPage extends StatelessWidget {
                                                       height: 40,
                                                       width: 40,
                                                       decoration: BoxDecoration(
-                                                        color: Color(0xff59da6f),
+                                                        color:
+                                                            Color(0xff59da6f),
                                                         borderRadius:
                                                             BorderRadius.all(
                                                           Radius.circular(

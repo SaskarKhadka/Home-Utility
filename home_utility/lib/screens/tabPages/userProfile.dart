@@ -75,6 +75,7 @@ class UserProfile extends StatelessWidget {
                           child: Container(
                             margin: EdgeInsets.only(top: size.height * 0.08),
                             child: SingleChildScrollView(
+                              physics: NeverScrollableScrollPhysics(),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -88,17 +89,19 @@ class UserProfile extends StatelessWidget {
                                           return Text(
                                             'username',
                                             style: GoogleFonts.montserrat(
-                                                fontSize: 24.0,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
+                                              fontSize: 21.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           );
                                         return Text(
                                           userController.user[0].userName
                                               .toUpperCase(),
                                           style: GoogleFonts.montserrat(
-                                              fontSize: 24.0,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
+                                            fontSize: 21.0,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         );
                                       },
                                     ),

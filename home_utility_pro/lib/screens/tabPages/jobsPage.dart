@@ -253,47 +253,51 @@ class AcceptedRequestsStream extends StatelessWidget {
                                       //     kWhiteColour.withOpacity(0.1),
                                     );
                                   },
-                                  child: GetX<UserController>(
-                                    init: UserController(
-                                        requestData['requestedBy']['userID']),
-                                    builder: (userController) {
-                                      if (userController == null ||
-                                          userController.user.isEmpty) {
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CircularProgressIndicator(
-                                              color: kBlackColour,
-                                              backgroundColor: Colors.white,
-                                            ),
-                                          ],
-                                        );
-                                      }
+                                  child: StreamBuilder(
+                                      stream: usersRefrence
+                                          .child(requestData['requestedBy']
+                                              ['userID'])
+                                          .onValue,
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData ||
+                                            snapshot.data.snapshot.value ==
+                                                null)
+                                          return CircleAvatar(
+                                            radius: 25.0,
+                                            backgroundColor: Colors.teal,
+                                            backgroundImage:
+                                                AssetImage('images/person.png'),
+                                          );
 
-                                      List<UserData> userData =
-                                          userController.user;
-                                      return CircleAvatar(
-                                        radius: 25.0,
-                                        backgroundColor: Colors.teal,
-                                        backgroundImage:userData[0].profileUrl == null ? AssetImage('images/person.png') : NetworkImage( userData[0].profileUrl),
-                                      );
-                                    },
-                                  ),
+                                        Map userData =
+                                            snapshot.data.snapshot.value;
+                                        // print(userData['prosProfile']);
+                                        return CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundColor: Colors.teal,
+                                          backgroundImage:
+                                              userData['profileUrl'] == null
+                                                  ? AssetImage(
+                                                      'images/person.png')
+                                                  : NetworkImage(
+                                                      userData['profileUrl']),
+                                        );
+                                      }),
                                 ),
                                 SizedBox(width: 15),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    GetX<UserController>(
-                                        init: UserController(
-                                            requestData['requestedBy']
-                                                ['userID']),
-                                        builder: (userController) {
-                                          if (userController == null ||
-                                              userController.user.isEmpty) {
+                                    StreamBuilder(
+                                        stream: usersRefrence
+                                            .child(requestData['requestedBy']
+                                                ['userID'])
+                                            .onValue,
+                                        builder: (context, snapshot) {
+                                          if (!snapshot.hasData ||
+                                              snapshot.data.snapshot.value ==
+                                                  null)
                                             return Text(
                                               'username',
                                               style: GoogleFonts.montserrat(
@@ -301,9 +305,12 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                 color: Colors.white,
                                               ),
                                             );
-                                          }
+
+                                          Map usersData =
+                                              snapshot.data.snapshot.value;
+                                          // print(userData['prosProfile']);
                                           return Text(
-                                            userController.user[0].userName,
+                                            usersData['userName'],
                                             style: GoogleFonts.montserrat(
                                               fontSize: 15.0,
                                               color: Colors.white,

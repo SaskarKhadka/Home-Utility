@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -6,12 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customButton.dart';
 import 'package:home_utility/components/getProsInfo.dart';
 import 'package:home_utility/constants.dart';
-import 'package:home_utility/controllers/proController.dart';
 import 'package:home_utility/controllers/textController.dart';
-import 'package:home_utility/model/proData.dart';
 import 'package:home_utility/screens/chatScreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
+import 'package:http/http.dart' as http;
 import '../../main.dart';
 import '../logInScreen.dart';
 
@@ -237,7 +237,7 @@ class UserRequestsStream extends StatelessWidget {
                   }
 
                   return Container(
-                    height: size.height * 0.26,
+                    height: size.height * 0.243,
                     width: double.infinity,
                     margin: EdgeInsets.only(
                       top: 20.0,
@@ -262,12 +262,7 @@ class UserRequestsStream extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        // crossAxisAlignment: CrossAxisAlignment.stretch,
-                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // child: Column(
-                          // crossAxisAlignment: CrossAxisAlignment.stretch,
-                          // children: [
                           Row(
                             children: [
                               GestureDetector(
@@ -281,49 +276,50 @@ class UserRequestsStream extends StatelessWidget {
                                     //     kWhiteColour.withOpacity(0.1),
                                   );
                                 },
-                                child: GetX<ProController>(
-                                  init: ProController(
-                                      requestData['requestedTo']['proID']),
-                                  builder: (proController) {
-                                    if (proController == null ||
-                                        proController.pro.isEmpty) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CircularProgressIndicator(
-                                            color: kBlackColour,
-                                            backgroundColor: Colors.white,
-                                          ),
-                                        ],
-                                      );
-                                    }
+                                child: StreamBuilder(
+                                    stream: prosRefrence
+                                        .child(
+                                            requestData['requestedTo']['proID'])
+                                        .onValue,
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData ||
+                                          snapshot.data.snapshot.value == null)
+                                        return CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundColor: Colors.teal,
+                                          backgroundImage:
+                                              AssetImage('images/person.png'),
+                                        );
 
-                                    List<ProsData> prosData = proController.pro;
-                                    return CircleAvatar(
-                                      radius: 25.0,
-                                      backgroundColor: Colors.teal,
-                                      backgroundImage:
-                                          prosData[0].profileUrl == null
-                                              ? AssetImage('images/person.png')
-                                              : NetworkImage(
-                                                  prosData[0].profileUrl),
-                                    );
-                                  },
-                                ),
+                                      Map prosData =
+                                          snapshot.data.snapshot.value;
+                                      // print(userData['prosProfile']);
+                                      return CircleAvatar(
+                                        radius: 25.0,
+                                        backgroundColor: Colors.teal,
+                                        backgroundImage:
+                                            prosData['profileUrl'] == null
+                                                ? AssetImage(
+                                                    'images/person.png')
+                                                : NetworkImage(
+                                                    prosData['profileUrl']),
+                                      );
+                                    }),
                               ),
                               SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  GetX<ProController>(
-                                      init: ProController(
-                                          requestData['requestedTo']['proID']),
-                                      builder: (proController) {
-                                        if (proController == null ||
-                                            proController.pro.isEmpty) {
+                                  StreamBuilder(
+                                      stream: prosRefrence
+                                          .child(requestData['requestedTo']
+                                              ['proID'])
+                                          .onValue,
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData ||
+                                            snapshot.data.snapshot.value ==
+                                                null)
                                           return Text(
                                             'username',
                                             style: GoogleFonts.montserrat(
@@ -331,9 +327,12 @@ class UserRequestsStream extends StatelessWidget {
                                               color: Colors.white,
                                             ),
                                           );
-                                        }
+
+                                        Map prosData =
+                                            snapshot.data.snapshot.value;
+                                        // print(userData['prosProfile']);
                                         return Text(
-                                          proController.pro[0].prosName,
+                                          prosData['prosName'],
                                           style: GoogleFonts.montserrat(
                                             fontSize: 15.0,
                                             color: Colors.white,
@@ -647,6 +646,12 @@ class UserRequestsStream extends StatelessWidget {
                                                             )),
                                                       ],
                                                     ));
+
+                                            String token =
+                                                await database.getToken(
+                                                    requestData['requestedTo']
+                                                        ['proID']);
+                                            print('hiiiiii' + token);
                                             await database.cancelRequest(
                                               requestKey:
                                                   requestData['requestKey'],
@@ -654,6 +659,40 @@ class UserRequestsStream extends StatelessWidget {
                                                   ['proID'],
                                             );
                                             Get.back();
+
+                                            try {
+                                              http.post(
+                                                  Uri.parse(
+                                                      'https://fcm.googleapis.com/fcm/send'),
+                                                  headers: <String, String>{
+                                                    'Content-Type':
+                                                        'application/json; charset=UTF-8',
+                                                    'Authorization': "$key",
+                                                  },
+                                                  body: jsonEncode(
+                                                    {
+                                                      "notification": {
+                                                        "body":
+                                                            "Your request was cancelled",
+                                                        "title":
+                                                            "Request Cancelled",
+                                                        "android_channel_id":
+                                                            "high_importance_channel"
+                                                      },
+                                                      "priority": "high",
+                                                      "data": {
+                                                        "click_action":
+                                                            "FLUTTER_NOTIFICATION_CLICK",
+                                                        "status": "done"
+                                                      },
+                                                      "to": "$token"
+                                                    },
+                                                  ));
+                                              print(
+                                                  'FCM request for device sent!');
+                                            } catch (e) {
+                                              print(e);
+                                            }
                                           },
                                           child: Container(
                                             width: 100,

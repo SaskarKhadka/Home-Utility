@@ -28,8 +28,9 @@ class ServicePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 50,),
-
+                SizedBox(
+                  height: 50,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -96,30 +97,7 @@ class ServicePage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 6.0),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Color(0xff141921),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: TextField(
-                    cursorColor: Colors.grey,
-                    decoration: InputDecoration(
-                        hintText: "Find your service...",
-                        hintStyle: TextStyle(color: Color(0xff3c4046)),
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.grey[600],
-                        )),
-                        style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Text(
                   "Repair Devices",

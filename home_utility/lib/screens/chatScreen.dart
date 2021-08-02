@@ -18,7 +18,9 @@ class ChatScreen extends StatelessWidget {
     final chatController = Get.put(ChatController('$proID$userID'));
     return SafeArea(
       child: Scaffold(
+        backgroundColor: kBlackColour,
         appBar: AppBar(
+          automaticallyImplyLeading: true,
           title: Text(
             'Chat Screen',
             style: GoogleFonts.montserrat(
@@ -46,7 +48,7 @@ class ChatScreen extends StatelessWidget {
                 right: 10.0,
               ),
               decoration: BoxDecoration(
-                color: Colors.grey,
+                color: Color(0xff8c9292),
                 borderRadius: BorderRadius.circular(30.0),
               ),
               child: Row(
@@ -61,6 +63,7 @@ class ChatScreen extends StatelessWidget {
 
                         // labelText: 'Your Message..',
                         hintText: 'Your message...',
+                        hintStyle: TextStyle(color: Colors.black),
                         enabledBorder: OutlineInputBorder(
                           // borderRadius: BorderRadius.circular(20.0),
                           borderSide: BorderSide(style: BorderStyle.none),
@@ -199,11 +202,11 @@ class MessageContainer extends StatelessWidget {
             left: 15.0,
           ),
           padding: EdgeInsets.symmetric(
-            horizontal: 15.0,
-            vertical: 10.0,
+            horizontal: 17.5,
+            vertical: 12.0,
           ),
           decoration: BoxDecoration(
-            color: Colors.grey,
+            color: Color(0xff28272C),
             borderRadius: BorderRadius.only(
               bottomLeft: isMe ? Radius.circular(60.0) : Radius.circular(0.0),
               topLeft: Radius.circular(60.0),
@@ -211,7 +214,10 @@ class MessageContainer extends StatelessWidget {
               bottomRight: isMe ? Radius.circular(0.0) : Radius.circular(60.0),
             ),
           ),
-          child: Text(message),
+          child: Text(message,
+              style: TextStyle(
+                color: Color(0xfff1f3f4),
+              )),
         ),
       ],
     );

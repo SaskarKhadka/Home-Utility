@@ -27,6 +27,7 @@ class ProsProfile extends StatelessWidget {
         backgroundColor: Colors.black,
         // backgroundColor: Colors.white,
         body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +85,7 @@ class ProsProfile extends StatelessWidget {
                                           return Text(
                                             'username',
                                             style: GoogleFonts.montserrat(
-                                                fontSize: 24.0,
+                                                fontSize: 21.0,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w500),
                                           );
@@ -92,7 +93,7 @@ class ProsProfile extends StatelessWidget {
                                           proController.pro[0].prosName
                                               .toUpperCase(),
                                           style: GoogleFonts.montserrat(
-                                            fontSize: 24.0,
+                                            fontSize: 21.0,
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
                                           ),

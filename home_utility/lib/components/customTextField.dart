@@ -215,85 +215,71 @@ class _CustomTextField2State extends State<CustomTextField2> {
   }
 }
 
-
-
-
 class NewTextfield extends StatefulWidget {
- final TextEditingController textController;
-final String hintText;
-final String lableText;
-final bool obsecure;
-final IconData icon;
-final bool isPhoneNumber;
+  final TextEditingController textController;
+  final String hintText;
+  final String lableText;
+  final bool obsecure;
+  final IconData icon;
+  final bool isPhoneNumber;
 
-   NewTextfield({
+  NewTextfield({
     key,
     this.textController,
-  this.isPhoneNumber,
+    this.isPhoneNumber,
     this.hintText,
-     this.icon,
-     this.lableText,
+    this.icon,
+    this.lableText,
     this.obsecure,
   }) : super(key: key);
-
 
   @override
   _NewTextfieldState createState() => _NewTextfieldState();
 }
 
 class _NewTextfieldState extends State<NewTextfield> {
-
-Color focuscolor = Color(0xffaaabac);
+  Color focuscolor = Color(0xffaaabac);
 
   @override
   Widget build(BuildContext context) {
-   
     Size size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.068,
       width: size.width * 0.9,
-
-     child: TextField(
-        onTap: (){
+      child: TextField(
+        onTap: () {
           setState(() {
             focuscolor = Color(0xff085dcf);
           });
         },
-
+        cursorColor: Color(0xffaaabac),
         controller: widget.textController,
         keyboardType: widget.isPhoneNumber
             ? TextInputType.number
             : TextInputType.emailAddress,
         obscureText: widget.obsecure,
-
-        
-        style: TextStyle(color: focuscolor),
-      decoration: InputDecoration(
-
-      
-      prefixIcon: Padding(
-        padding: const EdgeInsets.only(left:25.0,right: 20 ),
-        child: Icon(widget.icon,color: focuscolor,),
-      ),
-      hintText: widget.hintText,
-      hintStyle: TextStyle(color: Color(0xffaaabac),fontSize: 14),
-      enabledBorder: OutlineInputBorder(
-     
-        borderRadius: BorderRadius.all(Radius.circular(10))
-      ),
-      focusedBorder: OutlineInputBorder(
-        
-        borderSide: BorderSide(color: focuscolor,width: 1.5),
-        borderRadius: BorderRadius.all(Radius.circular(10))
-      ),
-      
-      filled: true,
-      fillColor: Color(0xff101010),
-       labelText: widget.lableText ,
-       labelStyle: TextStyle(color: focuscolor,fontSize: 14),
+        style: TextStyle(color: Color(0xffaaabac)),
+        decoration: InputDecoration(
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 25.0, right: 20),
+            child: Icon(
+              widget.icon,
+              color: focuscolor,
             ),
+          ),
+          hintText: widget.hintText,
+          hintStyle: TextStyle(color: Color(0xffaaabac), fontSize: 14),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: focuscolor, width: 1.5),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          filled: true,
+          fillColor: Color(0xff101010),
+          labelText: widget.lableText,
+          labelStyle: TextStyle(color: focuscolor, fontSize: 14),
         ),
-        
+      ),
     );
   }
 }

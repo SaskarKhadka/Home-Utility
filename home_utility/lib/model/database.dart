@@ -48,6 +48,7 @@ class Database {
       // userInfo.remove('userPhoneNo');
       Map userInfo = {};
       userInfo['requestedBy'] = {'userID': userID};
+      userInfo['jobDescription'] = description;
       userInfo['requestedTo'] = {'proID': proID};
       userInfo['dateTime'] = dateTime.toString();
       userInfo['category'] = category;

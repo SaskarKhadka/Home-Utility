@@ -109,9 +109,8 @@ class HomeUtility extends StatelessWidget {
     return GetMaterialApp(
       // home: WelcomeScreen(),
       debugShowCheckedModeBanner: false,
-      initialRoute: userAuthentication.currentUser == null
-          ? Login.id
-          : MainScreen.id,
+      initialRoute:
+          userAuthentication.currentUser == null ? Login.id : MainScreen.id,
 
       theme: ThemeData(
         scrollbarTheme: ScrollbarThemeData(
@@ -158,7 +157,7 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           curve: Curves.easeIn,
           transition: Transition.upToDown,
-          name:Signup.id,
+          name: Signup.id,
           page: () => Signup(),
         ),
         GetPage(

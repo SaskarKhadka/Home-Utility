@@ -36,7 +36,6 @@ class UserAuthentication {
           'userEmail': email,
           'userPhoneNo': phoneNo,
           'location': location,
-          'userPassword': password,
         };
         // added//
 
@@ -71,6 +70,33 @@ class UserAuthentication {
       code = e.code;
     }
 
+    return code;
+  }
+
+  Future<bool> isEmailVerified() async {
+    User user = currentUser;
+    await user.reload();
+    if (user.emailVerified) {
+      return true;
+    } else
+      return false;
+  }
+
+  Future<void> reload() async {
+    User user = currentUser;
+    return await user.reload();
+  }
+
+  Future<String> sendEmailVerification({String email}) async {
+    User user = currentUser;
+    String code;
+    try {
+      await user.sendEmailVerification();
+      code = 'success';
+    } on FirebaseAuthException catch (e) {
+      code = e.code;
+    }
+    print(code);
     return code;
   }
 
