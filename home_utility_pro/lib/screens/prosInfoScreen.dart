@@ -6,9 +6,8 @@ import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/model/districts.dart';
 import 'package:home_utility_pro/model/municipalities.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
-import 'package:home_utility_pro/screens/signupscreen.dart';
 import 'package:search_choices/search_choices.dart';
-
+import 'registrationScreen.dart';
 import '../constants.dart';
 
 class ProsInfoScreen extends StatefulWidget {

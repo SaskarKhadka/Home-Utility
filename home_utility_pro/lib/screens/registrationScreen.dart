@@ -8,11 +8,9 @@ import 'package:home_utility_pro/controllers/registrationController.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import '../constants.dart';
-import 'loginscreen.dart';
 import '../components/customButton.dart';
 import '../components/customTextField.dart';
 import '../components/dialogBox.dart';
-import 'mainScreen.dart';
 import '../main.dart';
 
 class Signup extends StatelessWidget {
@@ -76,7 +74,7 @@ class Signup extends StatelessWidget {
                 obsecure: false,
               ),
               SizedBox(height: size.height * 0.03),
-              NewPasswordTextfield(
+              NewPasswordTextField(
                 textController: registrationController.passwordController,
               ),
               SizedBox(height: size.height * 0.07),

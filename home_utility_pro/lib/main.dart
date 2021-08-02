@@ -6,17 +6,17 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
+import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
 import 'package:home_utility_pro/services/cloudStorage.dart';
-import 'screens/signupscreen.dart';
 import 'screens/loginscreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/userAuthentication.dart';
 import 'model/database.dart';
-import 'screens/forgetpasswordscreen.dart';
+import 'screens/forgotPasswordScreen.dart';
 
 //TODO: probably make another file to store all these resuable accessories
 

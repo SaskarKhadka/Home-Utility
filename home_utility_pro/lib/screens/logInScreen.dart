@@ -4,15 +4,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/customPasswordTextField.dart';
 import 'package:home_utility_pro/controllers/logInController.dart';
-import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import '../constants.dart';
-import 'forgetpasswordscreen.dart';
-import 'package:home_utility_pro/screens/signupscreen.dart';
+import 'forgotPasswordScreen.dart';
 import '../components/customButton.dart';
 import 'mainScreen.dart';
-
+import 'registrationScreen.dart';
 import '../components/customTextField.dart';
 import '../components/dialogBox.dart';
 
@@ -57,7 +55,7 @@ class Login extends StatelessWidget {
                 obsecure: false,
               ),
               SizedBox(height: size.height * 0.03),
-              NewPasswordTextfield(
+              NewPasswordTextField(
                 textController: logInController.passwordController,
               ),
               SizedBox(height: 10),

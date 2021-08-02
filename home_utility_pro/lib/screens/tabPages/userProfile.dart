@@ -10,10 +10,10 @@ import 'package:home_utility_pro/controllers/colourController.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
 import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/main.dart';
-import 'package:home_utility_pro/screens/signupscreen.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../constants.dart';
+import '../registrationScreen.dart';
 
 class ProsProfile extends StatelessWidget {
   final proController = Get.put(ProController());

@@ -74,7 +74,7 @@ class Signup extends StatelessWidget {
                 obsecure: false,
               ),
               SizedBox(height: size.height * 0.03),
-              NewPasswordTextfield(
+              NewPasswordTextField(
                 textController: registrationController.passwordController,
               ),
               SizedBox(height: size.height * 0.07),

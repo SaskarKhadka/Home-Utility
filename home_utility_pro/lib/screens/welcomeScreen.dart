@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'logInScreen.dart';
-
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = '/';

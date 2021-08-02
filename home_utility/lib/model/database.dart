@@ -102,6 +102,8 @@ class Database {
         .child(requestKey)
         .remove();
 
+    await requestRefrence.child(requestKey).remove();
+
     await totalUsersRequests();
   }
 
@@ -117,6 +119,18 @@ class Database {
         .child('requests')
         .child(requestKey)
         .remove();
+
+    await requestRefrence.child(requestKey).remove();
+  }
+
+  Future<void> cancelOnGoingRequest({String requestKey, String proID}) async {
+    await usersRefrence
+        .child(userAuthentication.userID)
+        .child('requests')
+        .child(requestKey)
+        .remove();
+
+    await prosRefrence.child(proID).child('jobs').child(requestKey).remove();
 
     await requestRefrence.child(requestKey).remove();
   }
@@ -270,7 +284,11 @@ class Database {
   }
 
   Future<void> updateRatingAndReview(
-      {String proID, String review, double rating}) async {
+      {String proID,
+      String review,
+      double rating,
+      String category,
+      String service}) async {
     DataSnapshot snapshot =
         await prosRefrence.child(proID).child('avgRating').once();
 
@@ -278,6 +296,19 @@ class Database {
     await prosRefrence.child(proID).update(
       {
         'avgRating': avgRating,
+      },
+    );
+
+    DataSnapshot serviceSnapshot = await serviceRefrence
+        .child(category)
+        .child(service)
+        .child('rating')
+        .once();
+
+    double avgServiceRating = (serviceSnapshot.value + rating) / 2;
+    await serviceRefrence.child(category).child(service).update(
+      {
+        'rating': avgServiceRating,
       },
     );
 

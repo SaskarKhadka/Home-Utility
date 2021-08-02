@@ -11,7 +11,7 @@ import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/controllers/userController.dart';
 import 'package:home_utility/main.dart';
 import 'package:home_utility/screens/logInScreen.dart';
-import 'package:home_utility/screens/signupscreen.dart';
+import 'package:home_utility/screens/registrationScreen.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 class UserProfile extends StatelessWidget {

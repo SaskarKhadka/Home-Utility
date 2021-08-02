@@ -1,16 +1,13 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-// import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
 import '../../main.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../logInScreen.dart';
-//0xffd17842
 
 class ServicePage extends StatelessWidget {
   @override
@@ -211,11 +208,9 @@ class ServiceCard extends StatelessWidget {
             );
           }
           Map services = snapshot.data.snapshot.value;
-          // ref.update(messages);
-          // print(snapshot.data.snapshot.value);
-          // print(messages);
+
+          List<Map> data = [];
           if (services != null) {
-            List<Map> data = [];
             services.forEach((key, value) {
               data.add(value as Map);
             });
@@ -272,7 +267,12 @@ class ServiceCard extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           RatingBar.builder(
-                                            initialRating: 1,
+                                            initialRating:
+                                                data[index]['rating'] == null
+                                                    ? 0.99
+                                                    : double.parse(data[index]
+                                                            ['rating']
+                                                        .toString()),
                                             glowColor: Colors.amber,
                                             ignoreGestures: true,
                                             unratedColor: Colors.white54,
@@ -283,8 +283,6 @@ class ServiceCard extends StatelessWidget {
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
                                             itemCount: 5,
-                                            // itemPadding: EdgeInsets.symmetric(
-                                            //     horizontal: 4.0),
                                             itemBuilder: (context, index) =>
                                                 Icon(
                                               EvaIcons.star,

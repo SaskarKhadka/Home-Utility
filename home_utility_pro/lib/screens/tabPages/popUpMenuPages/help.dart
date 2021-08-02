@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility_pro/screens/forgetpasswordscreen.dart';
+import 'package:home_utility_pro/screens/forgotPasswordScreen.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
 import 'package:home_utility_pro/constants.dart';
 

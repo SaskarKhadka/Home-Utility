@@ -103,7 +103,7 @@ class UserRequestsPage extends StatelessWidget {
             style: GoogleFonts.montserrat(
               // color: Color(0xff131313),
               color: Colors.white,
-              fontSize: 22,
+              fontSize: 28,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.5,
               // decoration: TextDecoration.underline,
@@ -206,13 +206,6 @@ class UserRequestsStream extends StatelessWidget {
                   DateTime now = DateTime.now();
                   // print(now);
 
-                  if (requestData['state'] == 'rejected') {
-                    database.deleteRequest(
-                      requestKey: requestData['requestKey'],
-                    );
-                    return Container();
-                  }
-
                   bool isAccepted = requestData['isAccepted'];
 
                   bool isRatingPending = requestData['isRatingPending'];
@@ -222,14 +215,15 @@ class UserRequestsStream extends StatelessWidget {
                   }
 
                   if (!isAccepted && now.isAfter(requestDateTime)) {
-                    database.deleteRequest(
+                    database.cancelRequest(
                       requestKey: requestData['requestKey'],
                     );
                     return Container();
                   }
 
                   if (isAccepted &&
-                      now.difference(requestDateTime) >= Duration(minutes: 1)) {
+                      now.difference(requestDateTime) >=
+                          Duration(minutes: 15)) {
                     database.deleteRequest(
                       requestKey: requestData['requestKey'],
                     );
@@ -509,6 +503,11 @@ class UserRequestsStream extends StatelessWidget {
                                                   children: [
                                                     Expanded(
                                                       child: CustomButton(
+                                                        color: kBlackColour,
+                                                        borderColour:
+                                                            kBlackColour,
+                                                        shadowcolor:
+                                                            kWhiteColour,
                                                         ontap: () async {
                                                           showDialog(
                                                               barrierDismissible:
@@ -550,6 +549,12 @@ class UserRequestsStream extends StatelessWidget {
                                                                 .text
                                                                 .trim(),
                                                             rating: proRating,
+                                                            category:
+                                                                requestData[
+                                                                    'category'],
+                                                            service:
+                                                                requestData[
+                                                                    'service'],
                                                           );
                                                           await database
                                                               .deleteRequest(
@@ -569,6 +574,11 @@ class UserRequestsStream extends StatelessWidget {
                                                     ),
                                                     Expanded(
                                                       child: CustomButton(
+                                                        color: kBlackColour,
+                                                        borderColour:
+                                                            kBlackColour,
+                                                        shadowcolor:
+                                                            kWhiteColour,
                                                         ontap: () => Get.back(),
                                                         text: 'Cancel',
                                                       ),
@@ -590,14 +600,14 @@ class UserRequestsStream extends StatelessWidget {
                                     ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      color: kWhiteColour,
+                                      color: Color(0xffD37B41),
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
                                           EvaIcons.messageCircleOutline,
-                                          color: kBlackColour,
+                                          color: kWhiteColour,
                                         ),
                                         SizedBox(
                                           width: size.width * 0.01,
@@ -608,7 +618,7 @@ class UserRequestsStream extends StatelessWidget {
                                           style: GoogleFonts.raleway(
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.bold,
-                                            color: kBlackColour,
+                                            color: kWhiteColour,
                                           ),
                                         ),
                                       ],
@@ -651,8 +661,7 @@ class UserRequestsStream extends StatelessWidget {
                                                 await database.getToken(
                                                     requestData['requestedTo']
                                                         ['proID']);
-                                            print('hiiiiii' + token);
-                                            await database.cancelRequest(
+                                            await database.cancelOnGoingRequest(
                                               requestKey:
                                                   requestData['requestKey'],
                                               proID: requestData['requestedTo']
@@ -728,54 +737,7 @@ class UserRequestsStream extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-
                                         SizedBox(width: 15.0),
-                                        // Expanded(
-                                        //   child: GestureDetector(
-                                        //     onTap: () {
-                                        //       Get.dialog(
-                                        //         GetProsInfo(
-                                        //           proID:
-                                        //               requestData['requestedTo']
-                                        //                   ['proID'],
-                                        //         ),
-                                        //       );
-                                        //     },
-                                        //     child: Container(
-                                        //       padding: EdgeInsets.symmetric(
-                                        //         horizontal: 5.0,
-                                        //         vertical: size.height * 0.009,
-                                        //       ),
-                                        //       decoration: BoxDecoration(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(10.0),
-                                        //         // color: kWhiteColour,
-                                        //         color: Color(0xff085dcf),
-                                        //       ),
-                                        //       child: Row(
-                                        //         mainAxisSize: MainAxisSize.min,
-                                        //         children: [
-                                        //           Icon(
-                                        //             EvaIcons.personOutline,
-                                        //             color: kWhiteColour,
-                                        //           ),
-                                        //           SizedBox(
-                                        //             width: size.width * 0.01,
-                                        //           ),
-                                        //           Text(
-                                        //             'Profile',
-                                        //             style: GoogleFonts.raleway(
-                                        //               fontSize: 15.0,
-                                        //               fontWeight:
-                                        //                   FontWeight.bold,
-                                        //               color: kWhiteColour,
-                                        //             ),
-                                        //           ),
-                                        //         ],
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
                                         SizedBox(
                                           width: 15.0,
                                         ),
