@@ -6,7 +6,7 @@ import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/model/districts.dart';
 import 'package:home_utility_pro/model/municipalities.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
-import 'package:home_utility_pro/screens/registrationScreen.dart';
+import 'package:home_utility_pro/screens/signupscreen.dart';
 import 'package:search_choices/search_choices.dart';
 
 import '../constants.dart';
@@ -305,7 +305,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         width: 180,
                         height: 60,
                         child: CustomButton(
-                          onTap: () async {
+                          ontap: () async {
                             if (_districtValue.trim() == null) {
                               Get.back();
                               getSnackBar(

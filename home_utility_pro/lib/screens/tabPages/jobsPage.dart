@@ -8,7 +8,7 @@ import 'package:home_utility_pro/controllers/userController.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
 import 'package:home_utility_pro/model/userData.dart';
 import 'package:home_utility_pro/screens/chatScreen.dart';
-import 'package:home_utility_pro/screens/logInScreen.dart';
+import 'package:home_utility_pro/screens/loginscreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
 import '../../constants.dart';
@@ -143,7 +143,7 @@ Future<void> SelectedItem(BuildContext context, int item) async {
       //   ),
       // );
       await userAuthentication.signOut();
-      Get.offAndToNamed(LogInScreen.id);
+      Get.offAndToNamed(Login.id);
 
       break;
   }

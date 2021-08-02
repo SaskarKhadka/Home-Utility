@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_utility_pro/constants.dart';
 import '../components/customButton.dart';
-import 'logInScreen.dart';
+import 'loginscreen.dart';
 // import 'registrationScreen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -43,8 +43,8 @@ class WelcomeScreen extends StatelessWidget {
             child: CustomButton(
               text: 'Get Started'.toUpperCase(),
               // color: Colors.black,
-              onTap: () {
-                Get.offAllNamed(LogInScreen.id);
+              ontap: () {
+                Get.offAllNamed(Login.id);
               },
             ),
           ),

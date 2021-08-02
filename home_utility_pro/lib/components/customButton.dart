@@ -2,48 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/constants.dart';
 
-class CustomButton extends StatelessWidget {
-  final Function onTap;
-  final String text;
-  CustomButton({
-    this.onTap,
-    this.text,
-  });
-  @override
-  Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-          // width: size.width * 0.4,
-          padding: EdgeInsets.symmetric(
-            horizontal: 15.0,
-            vertical: 17.0,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40.0),
-            color: kBlackColour,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.35),
-                offset: Offset(0, 7),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              text,
-              style: GoogleFonts.montserrat(
-                color: kWhiteColour,
-                fontSize: 20.0,
-                letterSpacing: 3,
-              ),
-            ),
-          )),
-    );
-  }
-}
 
 class ProfileButton extends StatefulWidget {
   final Function onPressed;
@@ -109,6 +67,41 @@ class _ProfileButtonState extends State<ProfileButton> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  final Function ontap;
+  final String text;
+  final Color color;
+  final double height;
+  final double width;
+  final Color shadowcolor;
+  const CustomButton({ this.ontap, this.text, this.color, this.height, this.width, this.shadowcolor});
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return  GestureDetector(
+        onTap: ontap,
+          child: Container(
+          height:height==null?size.height* 0.06: height,
+          width:width == null?size.width * 0.45: width,
+                        decoration: BoxDecoration(
+                          color: color==null?Color(0xff024BBC):color,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        border: Border.all(color: Color(0xff024BBC)),
+                       boxShadow: [
+                                    BoxShadow(
+                                      color: shadowcolor==null?Color(0xff085dcf).withOpacity(0.3):shadowcolor.withOpacity(0.3),
+                                      spreadRadius: 5,
+                                      blurRadius: 20,
+                                      offset: Offset(3, 7), // changes position of shadow
+                                    ),]
+                        ),
+                       
+                          child: Center(child: Text(text,style: GoogleFonts.roboto(color: Colors.white,fontSize: 14,)),
+              ),)
     );
   }
 }

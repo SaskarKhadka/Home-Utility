@@ -1,177 +1,84 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/material.dart';
-import 'package:home_utility_pro/components/backgroundGradient.dart';
-import 'package:home_utility_pro/constants.dart';
 import 'package:home_utility_pro/controllers/logInController.dart';
 import 'package:home_utility_pro/main.dart';
-import 'package:home_utility_pro/screens/forgotPassword.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
+import 'forgetpasswordscreen.dart';
+import 'package:home_utility_pro/screens/signupscreen.dart';
+import '../constants.dart';
 import '../components/customButton.dart';
 import 'mainScreen.dart';
-import 'registrationScreen.dart';
+
 import '../components/customTextField.dart';
 import '../components/dialogBox.dart';
-import '../components/customPasswordTextField.dart';
 
-class LogInScreen extends StatelessWidget {
+class Login extends StatelessWidget {
+
   static const id = '/login';
-
-  final logInController = Get.put(LogInController());
-  //TODO: obx not wrapped and same with reg screen
-
+  final logInController = LogInController();
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+Size size = MediaQuery.of(context).size;
+// final TextStyle display1 = Theme.of(context).textTheme.headline4;
     return Scaffold(
-      backgroundColor: kBlackColour,
-      body: BackgroundGradient(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: size.height * 0.08,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 5.0,
-                        horizontal: 21.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Text(
-                        'SIGN IN',
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          letterSpacing: 2,
-                          fontSize: 30,
-                          wordSpacing: 2,
-                          // decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
+      backgroundColor:Colors.black87,
+      body: SafeArea(
+              child: Container(
+         
+          child: SingleChildScrollView(
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children:<Widget> [
+                Container(
+                  
+                  height: size.height * 0.3,
+                  child: Center(child: Image.asset('images/icon.png'))
                   ),
-                  SizedBox(
-                    height: 20,
+                Text('Welcome back !',style: GoogleFonts.montserrat(color: Color(0xffECECEC),fontWeight: FontWeight.bold,fontSize: 28),),
+                SizedBox(height: size.height * 0.01),
+                Text('Log in to your existing account of Home Utility', style: GoogleFonts.lato(color: Color(0xffaaabac), fontSize: 15),),
+                SizedBox(height: size.height * 0.07),
+                NewTextfield(
+                      textController: logInController.emailController,
+                      isPhoneNumber: false,
+                      hintText: 'Enter your email adress',
+                      lableText: 'ENTER EMAIL',
+                      icon: EvaIcons.personOutline,
+                      obsecure: false,
+                      
                   ),
-                  GestureDetector(
-                    onTap: () => Get.toNamed(RegistrationScreen.id),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 4.6,
-                        horizontal: 17.0,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        border: Border.all(
-                          style: BorderStyle.solid,
-                          color: Colors.white,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: Text(
-                        'SIGN UP',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 2,
-                          fontSize: 30,
-                          wordSpacing: 2,
-                          // decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                physics: ScrollPhysics(),
-                child: Container(
-                  height: size.height * 0.69,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(60.0),
-                      // topLeft: Radius.circular(60.0),
-                      // bottomLeft: Radius.circular(60.0),
-                      // bottomRight: Radius.circular(60.0),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.035,
-                      horizontal: size.width * 0.07,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.04,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomTextField(
-                              textController: logInController.emailController,
-                              isPhoneNumber: false,
-                              icon: EvaIcons.emailOutline,
-                              labelText: 'Email',
-                              hintText: 'Enter your email address',
-                            ),
-                            SizedBox(
-                              height: size.height * 0.03,
-                            ),
-                            CustomPasswordTextField(
-                              textController:
+                SizedBox(height: size.height * 0.03),
+                NewTextfield(
+                   textController:
                                   logInController.passwordController,
-                              icon: EvaIcons.lockOutline,
-                              labelText: 'Password',
-                              hintText: 'Enter your password',
-                            ),
-                            SizedBox(
-                              height: size.height * 0.025,
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(ForgotPassword.id);
-                                },
-                                child: Text(
-                                  'Forgot Password?',
-                                  // textAlign: TextAlign.right,
-                                  style: GoogleFonts.montserrat(
-                                    color: kBlackColour.withOpacity(0.7),
-                                    fontSize: 14,
-                                    letterSpacing: 1.5,
-                                    wordSpacing: 2.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              //0.078
-                              height: size.height * 0.08,
-                            ),
-                            CustomButton(
-                              text: 'SIGN IN',
-                              onTap: () async {
-                                // bool proceed = false;
+                    hintText: 'Enter your password',
+                      lableText: 'ENTER PASSWORD',
+                      icon: EvaIcons.lockOutline,
+                      obsecure: true,
+                      isPhoneNumber: false,
+                ),
+                SizedBox(height:10),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    width: size.width,
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child:  
+                      GestureDetector(
+                        onTap: (){
+                          Get.toNamed(ForgetPassword.id);
+                        },
+                        child: Container(child: Text('Forget password?  ',style: TextStyle(color: Colors.blue,fontSize: 15),))))),
+                ),
+                SizedBox(height: size.height * 0.07),
+                CustomButton(
+                  text: 'SIGN IN',
+                    ontap: ()async{
+                                                          // bool proceed = false;
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
@@ -218,127 +125,7 @@ class LogInScreen extends StatelessWidget {
                                         .passwordController.text);
 
                                 if (code == 'success') {
-                                  //   if (!await userAuthentication
-                                  //       .isEmailVerified()) {
-                                  //     String email = emailController.text.trim();
-                                  //     await userAuthentication
-                                  //         .sendEmailVerification(email: email);
 
-                                  //     // userAuthentication.signOut();
-                                  //     // if (code == 'success') {
-                                  //     Get.back();
-                                  //     showDialog(
-                                  //       barrierDismissible: false,
-                                  //       context: context,
-                                  //       builder: (context) {
-                                  //         return Dialog(
-                                  //           backgroundColor: kWhiteColour,
-                                  //           shape: RoundedRectangleBorder(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10.0),
-                                  //             side: BorderSide(
-                                  //               color: kBlackColour,
-                                  //               width: 4.0,
-                                  //               style: BorderStyle.solid,
-                                  //             ),
-                                  //           ),
-                                  //           child: Container(
-                                  //             padding: EdgeInsets.all(20.0),
-                                  //             child: Column(
-                                  //               mainAxisSize: MainAxisSize.min,
-                                  //               children: [
-                                  //                 Text(
-                                  //                   'We have sent a verification link to your email address.\nYou have to verify your email before moving forward.',
-                                  //                   textAlign: TextAlign.center,
-                                  //                   style: GoogleFonts.montserrat(
-                                  //                     fontSize: 20.0,
-                                  //                   ),
-                                  //                 ),
-                                  //                 SizedBox(
-                                  //                   height: 15,
-                                  //                 ),
-                                  //                 CustomButton(
-                                  //                   onTap: () async {
-                                  //                     await userAuthentication
-                                  //                         .reload();
-                                  //                     // CircularProgressIndicator();
-                                  //                     if (await userAuthentication
-                                  //                         .isEmailVerified()) {
-                                  //                       Get.back();
-                                  //                       prosProfessionValue =
-                                  //                           await database
-                                  //                               .prosProfession;
-                                  //                       if (prosProfessionValue !=
-                                  //                           null)
-                                  //                         category =
-                                  //                             professionToCategory(
-                                  //                                 prosProfessionValue);
-
-                                  //                       Get.back();
-
-                                  //                       prosProfessionValue == null
-                                  //                           ? Get.offAllNamed(
-                                  //                               ProsInfoScreen.id)
-                                  //                           : Get.offAllNamed(
-                                  //                               MainScreen.id);
-                                  //                       getSnackBar(
-                                  //                         title: 'CONGRATULATIONS!',
-                                  //                         message:
-                                  //                             'Your email has been verified',
-                                  //                       );
-                                  //                     } else {
-                                  //                       Get.back();
-                                  //                       userAuthentication
-                                  //                           .signOut();
-
-                                  //                       getSnackBar(
-                                  //                         title: 'ERROR!',
-                                  //                         message:
-                                  //                             'Your email has not been verified',
-                                  //                       );
-                                  //                     }
-                                  //                   },
-                                  //                   text: 'Confirm',
-                                  //                 ),
-                                  //                 SizedBox(
-                                  //                   height: 8,
-                                  //                 ),
-                                  //                 CustomButton(
-                                  //                   onTap: () async {
-                                  //                     String code =
-                                  //                         await userAuthentication
-                                  //                             .sendEmailVerification(
-                                  //                                 email: email);
-
-                                  //                     if (code ==
-                                  //                         'too-many-requests') {
-                                  //                       getSnackBar(
-                                  //                           title: 'ALERT!',
-                                  //                           message:
-                                  //                               'Too many requests. We have blocked all requests from this device due to unusual activity. Try again later.');
-                                  //                     }
-                                  //                   },
-                                  //                   text: 'Resend',
-                                  //                 ),
-                                  //               ],
-                                  //             ),
-                                  //           ),
-                                  //         );
-                                  //       },
-                                  //     );
-                                  //   } else {
-                                  // prosProfessionValue =
-                                  //     await database.prosProfession;
-                                  // if (prosProfessionValue != null)
-                                  //   category = professionToCategory(
-                                  //       prosProfessionValue);
-
-                                  // Get.back();
-
-                                  // prosProfessionValue == null
-                                  //     ? Get.offAllNamed(ProsInfoScreen.id)
-                                  //     : Get.offAllNamed(MainScreen.id);
-                                  //   }
                                   prosProfessionValue =
                                       await database.prosProfession;
 
@@ -365,25 +152,29 @@ class LogInScreen extends StatelessWidget {
                                   );
                                   return;
                                 }
-                                // } else {
-                                // Get.back();
-                                // }
-                              },
-                            ),
-                            SizedBox(
-                              height: size.height * 0.06,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                             
+                    },
                 ),
-              ),
-            ),
-          ],
+                SizedBox(height: size.height * 0.03),
+               
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:<Widget>[
+                    
+                      Text('Dont have an account ?  ', style: GoogleFonts.roboto(color: Color(0xffaaabac),fontSize: 16),),
+                      GestureDetector(
+                        onTap: (){
+                          Get.toNamed(Signup.id);
+                        },
+                        child: Container(child: Text('Sign Up', style: GoogleFonts.roboto(color:  Color(0xff024BBC),fontSize: 18,fontWeight: FontWeight.w600,)))
+                      ),
+                  ]
+                ),
+           
+           ],)
+          ),
         ),
-      ),
+      ) ,
     );
   }
 }

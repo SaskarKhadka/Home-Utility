@@ -9,14 +9,14 @@ import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
 import 'package:home_utility_pro/services/cloudStorage.dart';
-import 'screens/registrationScreen.dart';
-import 'screens/logInScreen.dart';
+import 'screens/signupscreen.dart';
+import 'screens/loginscreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/userAuthentication.dart';
 import 'model/database.dart';
-import 'screens/forgotPassword.dart';
+import 'screens/forgetpasswordscreen.dart';
 
 //TODO: probably make another file to store all these resuable accessories
 
@@ -110,7 +110,7 @@ class HomeUtility extends StatelessWidget {
       // home: WelcomeScreen(),
       debugShowCheckedModeBanner: false,
       initialRoute: userAuthentication.currentUser == null
-          ? LogInScreen.id
+          ? Login.id
           : MainScreen.id,
 
       theme: ThemeData(
@@ -152,18 +152,18 @@ class HomeUtility extends StatelessWidget {
         GetPage(
           curve: Curves.easeIn,
           transition: Transition.downToUp,
-          name: LogInScreen.id,
-          page: () => LogInScreen(),
+          name: Login.id,
+          page: () => Login(),
         ),
         GetPage(
           curve: Curves.easeIn,
           transition: Transition.upToDown,
-          name: RegistrationScreen.id,
-          page: () => RegistrationScreen(),
+          name:Signup.id,
+          page: () => Signup(),
         ),
         GetPage(
-          name: ForgotPassword.id,
-          page: () => ForgotPassword(),
+          name: ForgetPassword.id,
+          page: () => ForgetPassword(),
         ),
         GetPage(
           name: MainScreen.id,
