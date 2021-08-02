@@ -1,54 +1,71 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_utility_pro/constants.dart';
-import '../components/customButton.dart';
-import 'loginscreen.dart';
-// import 'registrationScreen.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'logInScreen.dart';
 
-class WelcomeScreen extends StatelessWidget {
+
+class WelcomeScreen extends StatefulWidget {
   static const String id = '/';
+
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 4), () => Get.toNamed(Login.id));
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     //this screen is going to be kinda like a template screen
 
     return Scaffold(
-      // backgroundColor: kBlackColour,
-      backgroundColor: kWhiteColour,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 50.0,
-          ),
-          Text(
-            '*Home Utility Icon*',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.w800,
+      backgroundColor: Colors.black,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              // height: 50.0,
+              height: size.height * 0.3,
             ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.black,
-              child: Image.asset(
-                'images/splashscreen.gif',
-                fit: BoxFit.fill,
-              ),
+            Container(
+                width: size.width * 0.45,
+                color: Colors.black,
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.black,
+                      radius: 100.0,
+                      child: Image.asset(
+                        'images/icon.png',
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Home Utility',
+                      style: GoogleFonts.shortStack(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: size.height * 0.3,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: CustomButton(
-              text: 'Get Started'.toUpperCase(),
-              // color: Colors.black,
-              ontap: () {
-                Get.offAllNamed(Login.id);
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
