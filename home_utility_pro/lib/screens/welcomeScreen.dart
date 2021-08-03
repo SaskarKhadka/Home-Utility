@@ -20,13 +20,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
     Timer(
         Duration(seconds: 4),
-        () => Get.offAllNamed(userAuthentication.currentUser == null
-            ? Login.id
-            : {
-                prosProfessionValue == null
-                    ? Get.offAllNamed(ProsInfoScreen.id)
-                    : Get.offAllNamed(MainScreen.id)
-              }));
+        () => Get.offAllNamed(
+            userAuthentication.currentUser == null ? Login.id : MainScreen.id));
   }
 
   @override

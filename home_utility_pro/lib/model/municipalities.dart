@@ -453,7 +453,7 @@ class Municipalities {
       "Hetauda",
       "Thaha "
     ],
-    "CHITAWAN": [
+    "CHITWAN": [
       "Ichchhyakamana",
       "Bharatpur",
       "Kalika",
