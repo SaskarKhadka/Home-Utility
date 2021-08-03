@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
@@ -239,6 +240,9 @@ class Signup extends StatelessWidget {
                           await userAuthentication.reload();
                           // CircularProgressIndicator();
                           if (await userAuthentication.isEmailVerified()) {
+                            String token =
+                                await FirebaseMessaging.instance.getToken();
+                            await database.saveToken(token);
                             Get.back();
                             Get.back();
                             Get.offAllNamed(ProsInfoScreen.id);

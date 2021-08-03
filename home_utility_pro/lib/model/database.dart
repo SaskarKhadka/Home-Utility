@@ -28,19 +28,30 @@ class Database {
   }
 
   Future<void> cancelRequest({String requestKey, String userID}) async {
-    await prosRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .child(requestKey)
-        .remove();
+    try {
+      await prosRefrence
+          .child(userAuthentication.userID)
+          .child('requests')
+          .child(requestKey)
+          .remove();
+    } catch (e) {
+      print(e);
+    }
+    try {
+      await usersRefrence
+          .child(userID)
+          .child('requests')
+          .child(requestKey)
+          .remove();
+    } catch (e) {
+      print(e);
+    }
 
-    await usersRefrence
-        .child(userID)
-        .child('requests')
-        .child(requestKey)
-        .remove();
-
-    await requestRefrence.child(requestKey).remove();
+    try {
+      await requestRefrence.child(requestKey).remove();
+    } catch (e) {
+      print(e);
+    }
   }
 
   // Future<Query> requestQuery({String category}) async {

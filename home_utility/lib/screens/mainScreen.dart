@@ -1,8 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-import 'package:home_utility/controllers/textController.dart';
 import '../main.dart';
 import 'tabPages/userRequestsPage.dart';
 import 'tabPages/userProfile.dart';
@@ -59,11 +57,17 @@ class _MainScreenState extends State<MainScreen>
   }
 
   resolveToken() async {
-    String token = await database.getMyToken();
-    if (token == null || token == '') {
-      String token = await FirebaseMessaging.instance.getToken();
-      database.saveToken(token);
-      print(token);
+    try {
+      String token = await database.getMyToken();
+      String deviceToken = await FirebaseMessaging.instance.getToken();
+
+      if (token == null || token == '' || token != deviceToken) {
+        // String token = await FirebaseMessaging.instance.getToken();
+        database.saveToken(deviceToken);
+        print(deviceToken);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

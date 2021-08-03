@@ -28,6 +28,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   BitmapDescriptor usericon;
   BitmapDescriptor proicon;
   GoogleMapController _mapController;
+  bool onPressed = false;
   // var username = 'username';
   // var address = 'address';
   // var profession = 'Electrician';
@@ -54,6 +55,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   void _addPolyLine() {
     // print(polylineCoordinates);
+    if (!mounted) return;
     setState(() {
       PolylineId id = PolylineId("poly");
       Polyline polyline = Polyline(
@@ -123,9 +125,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    if (myStreamSubscription != null) myStreamSubscription.cancel();
     super.dispose();
+    if (myStreamSubscription != null) myStreamSubscription.cancel();
+    _mapController.dispose();
   }
 
   void startJourney() {
@@ -133,8 +135,16 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         UserLocation().getPositionStream().listen((Position position) {
       print(position);
       LatLng latLng = LatLng(position.latitude, position.longitude);
-      _mapController.animateCamera(CameraUpdate.newLatLng(latLng));
+      _mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: latLng, zoom: 19),
+        ),
+      );
     });
+  }
+
+  void endJourney() {
+    myStreamSubscription.cancel();
   }
 
   @override
@@ -161,19 +171,21 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             },
           ),
           Positioned(
-              top: 50,
-              left: 50,
-              child: ElevatedButton(
-                onPressed: () {
+            top: 60,
+            left: 20,
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  onPressed = !onPressed;
+                });
+                if (onPressed)
                   startJourney();
-                },
-                child: Text('Start Journey'),
-              )),
-          // AnimatedPositioned(
-          //     duration: Duration(milliseconds: 500),
-          //     curve: Curves.easeOut,
-          //     bottom: this.pinpillposition,
-          //     child: RatingCard(username, address, profession, rating))
+                else
+                  endJourney();
+              },
+              child: Text(onPressed ? 'End Journey' : 'Start Journey'),
+            ),
+          ),
         ],
       ),
     );

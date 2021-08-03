@@ -217,6 +217,7 @@ class UserRequestsStream extends StatelessWidget {
                   if (!isAccepted && now.isAfter(requestDateTime)) {
                     database.cancelRequest(
                       requestKey: requestData['requestKey'],
+                      proID: requestData['requestedTo']['proID'],
                     );
                     return Container();
                   }

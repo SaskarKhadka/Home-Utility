@@ -82,13 +82,12 @@ class ForgetPassword extends StatelessWidget {
                     String code = await userAuthentication.passwordReset(
                       email: textController.emailController.text.trim(),
                     );
-                    Get.back();
                     if (code == 'user-not-found') {
                       Get.back();
                       getSnackBar(title: 'ERROR!', message: 'User not found');
                       return;
                     }
-                    // Get.back();
+                    Get.back();
                     showDialog(
                         context: (context),
                         builder: (context) {

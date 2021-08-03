@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/screens/mainScreen.dart';
 import 'logInScreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -15,14 +17,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 4), () => Get.toNamed(Login.id));
+    Timer(
+        Duration(seconds: 4),
+        () => Get.offAllNamed(
+            userAuthentication.currentUser == null ? Login.id : MainScreen.id));
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    //this screen is going to be kinda like a template screen
 
     return Scaffold(
       backgroundColor: Colors.black,

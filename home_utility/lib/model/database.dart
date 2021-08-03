@@ -108,31 +108,53 @@ class Database {
   }
 
   Future<void> cancelRequest({String requestKey, String proID}) async {
-    await usersRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .child(requestKey)
-        .remove();
+    try {
+      await usersRefrence
+          .child(userAuthentication.userID)
+          .child('requests')
+          .child(requestKey)
+          .remove();
+    } catch (e) {
+      print(e);
+    }
 
-    await prosRefrence
-        .child(proID)
-        .child('requests')
-        .child(requestKey)
-        .remove();
+    try {
+      await prosRefrence
+          .child(proID)
+          .child('requests')
+          .child(requestKey)
+          .remove();
+    } catch (e) {
+      print(e);
+    }
 
-    await requestRefrence.child(requestKey).remove();
+    try {
+      await requestRefrence.child(requestKey).remove();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> cancelOnGoingRequest({String requestKey, String proID}) async {
-    await usersRefrence
-        .child(userAuthentication.userID)
-        .child('requests')
-        .child(requestKey)
-        .remove();
-
-    await prosRefrence.child(proID).child('jobs').child(requestKey).remove();
-
-    await requestRefrence.child(requestKey).remove();
+    try {
+      await usersRefrence
+          .child(userAuthentication.userID)
+          .child('requests')
+          .child(requestKey)
+          .remove();
+    } catch (e) {
+      print(e);
+    }
+    try {
+      await prosRefrence.child(proID).child('jobs').child(requestKey).remove();
+    } catch (e) {
+      print(e);
+    }
+    try {
+      await requestRefrence.child(requestKey).remove();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<String> getToken(String proID) async {

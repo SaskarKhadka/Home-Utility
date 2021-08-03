@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility/main.dart';
+import 'package:home_utility/screens/mainScreen.dart';
 import 'logInScreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -15,7 +17,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 4), () => Get.toNamed(Login.id));
+    Timer(
+        Duration(seconds: 4),
+        () => Get.offAllNamed(
+            userAuthentication.currentUser == null ? Login.id : MainScreen.id));
   }
 
   @override
@@ -51,9 +56,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     SizedBox(height: 10),
                     Text(
                       'Home Utility',
-                      style: GoogleFonts.shortStack(
+                      style: GoogleFonts.montserrat(
                         color: Colors.white,
-                        fontSize: 14.0,
+                        fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     )

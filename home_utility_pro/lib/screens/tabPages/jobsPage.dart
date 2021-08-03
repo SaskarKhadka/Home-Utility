@@ -155,7 +155,6 @@ class AcceptedRequestsStream extends StatelessWidget {
       stream: database.acceptedRequestStream(),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data.snapshot.value == null) {
-          print('WHATATATTATA');
           return Center(
             child: Text(
               'You have no requests',
@@ -459,7 +458,12 @@ class AcceptedRequestsStream extends StatelessWidget {
                                                           null
                                                       ? 'The customer has not provided any description'
                                                       : requestData[
-                                                          'jobDescription'],
+                                                                  'jobDescription'] ==
+                                                              ''
+                                                          ? 'The customer has not provided any description'
+                                                          : requestData[
+                                                              'jobDescription'],
+                                                  textAlign: TextAlign.center,
                                                   style: GoogleFonts.montserrat(
                                                     color: Colors.black,
                                                     fontSize: 19,

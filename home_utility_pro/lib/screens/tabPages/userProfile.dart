@@ -10,6 +10,8 @@ import 'package:home_utility_pro/controllers/colourController.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
 import 'package:home_utility_pro/controllers/textController.dart';
 import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/screens/logInScreen.dart';
+import 'package:home_utility_pro/screens/mainScreen.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../constants.dart';
@@ -799,7 +801,10 @@ class ProsProfile extends StatelessWidget {
                   ),
                   Expanded(
                     child: ProfileButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await userAuthentication.signOut();
+                        Get.offAllNamed(Login.id);
+                      },
                       buttonHeight: 45.0,
                       primaryColour: kPrimaryColor,
                       shadowColour: kSecondaryColor,

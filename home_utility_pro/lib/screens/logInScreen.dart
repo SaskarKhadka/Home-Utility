@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -186,6 +187,7 @@ class Login extends StatelessWidget {
                                       if (isVerified) {
                                         prosProfessionValue =
                                             await database.prosProfession;
+                                        await resolveToken();
                                         Get.back();
                                         Get.back();
                                         prosProfessionValue == null
@@ -238,7 +240,7 @@ class Login extends StatelessWidget {
                       );
                     } else {
                       prosProfessionValue = await database.prosProfession;
-
+                      await resolveToken();
                       Get.back();
 
                       prosProfessionValue == null
@@ -291,5 +293,20 @@ class Login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> resolveToken() async {
+    try {
+      String token = await database.getMyToken();
+      String deviceToken = await FirebaseMessaging.instance.getToken();
+
+      if (token == null || token == '' || token != deviceToken) {
+        // String token = await FirebaseMessaging.instance.getToken();
+        database.saveToken(deviceToken);
+        print(deviceToken);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

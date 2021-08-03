@@ -92,8 +92,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void prosWithinProximity() {
     if (myStreamSubscription != null) myStreamSubscription.cancel();
     _markers.clear();
-    print(widget.service);
-    // String category = professionToCategory(profession)
     myStreamSubscription = prosRefrence
         .orderByChild('profession')
         .equalTo(widget.service)
@@ -110,8 +108,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           double distance = Location().getDistance(lat1, lng1, lat2, lng2);
 
           if (distance <= _distanceValueNum) {
-            print(_distanceValueNum);
-
             setState(() {
               _markers.add(
                 Marker(
@@ -135,7 +131,9 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             });
           }
         });
-      } catch (e) {}
+      } catch (e) {
+        print(e);
+      }
     });
     _markers.add(
       Marker(
@@ -214,7 +212,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             },
           ),
           Positioned(
-            top: 50.0,
+            top: 65.0,
             left: 10.0,
             right: 10.0,
             child: Container(

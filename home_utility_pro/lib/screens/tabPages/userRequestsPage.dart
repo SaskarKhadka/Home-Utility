@@ -190,7 +190,8 @@ class RequestsPage extends StatelessWidget {
                                   // int.parse(time[2]),
                                 );
                                 DateTime now = DateTime.now();
-                                if (now.isAfter(requestDateTime)) {
+                                if (!requestData['isAccepted'] &&
+                                    now.isAfter(requestDateTime)) {
                                   database.deleteRequest(
                                     requestKey: requestData['requestKey'],
                                   );
@@ -457,8 +458,14 @@ class RequestsPage extends StatelessWidget {
                                                                   requestData['jobDescription'] ==
                                                                           null
                                                                       ? 'The customer has not provided any description'
-                                                                      : requestData[
-                                                                          'jobDescription'],
+                                                                      : requestData['jobDescription'] ==
+                                                                              ''
+                                                                          ? 'The customer has not provided any description'
+                                                                          : requestData[
+                                                                              'jobDescription'],
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
                                                                   style: GoogleFonts
                                                                       .montserrat(
                                                                     color: Colors

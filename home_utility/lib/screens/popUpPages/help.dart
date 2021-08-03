@@ -16,9 +16,9 @@ class HelpPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Color(0xff141a1e),
+          backgroundColor: kBlackColour,
           appBar: AppBar(
-            toolbarHeight: 67,
+            toolbarHeight: 60,
             elevation: 2.0,
             centerTitle: true,
             shadowColor: Colors.white,
@@ -30,7 +30,7 @@ class HelpPage extends StatelessWidget {
               'Support',
               style: GoogleFonts.montserrat(
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: 28,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 2.5,
               ),
@@ -69,7 +69,7 @@ class HelpPage extends StatelessWidget {
                       '\n\nFeel free to contact us if you have any problem regarding using this application.',
                       style: GoogleFonts.raleway(
                         color: kWhiteColour,
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -89,9 +89,14 @@ class HelpPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: kBlackColour,
                           borderRadius: BorderRadius.circular(30.0),
+                          border: Border.all(
+                            color: kWhiteColour,
+                            style: BorderStyle.solid,
+                            width: 0.5,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
+                                color: Colors.grey.withOpacity(0.8),
                                 blurRadius: 10.0,
                                 offset: Offset(0, 2))
                           ],
