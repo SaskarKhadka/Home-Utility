@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/main.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
+import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import 'logInScreen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -19,8 +20,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
     Timer(
         Duration(seconds: 4),
-        () => Get.offAllNamed(
-            userAuthentication.currentUser == null ? Login.id : MainScreen.id));
+        () => Get.offAllNamed(userAuthentication.currentUser == null
+            ? Login.id
+            : {
+                prosProfessionValue == null
+                    ? Get.offAllNamed(ProsInfoScreen.id)
+                    : Get.offAllNamed(MainScreen.id)
+              }));
   }
 
   @override

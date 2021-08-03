@@ -160,6 +160,38 @@ class Signup extends StatelessWidget {
       );
       return;
       // } else if (phoneController.text.trim().length == 10) {
+    } else if (!registrationController.passwordController.text
+        .contains(RegExp(r"[a-z]"))) {
+      Get.back();
+      getSnackBar(
+        title: 'ERROR!',
+        message: 'Password must contain at least one small alphabet.',
+      );
+      return;
+    } else if (!registrationController.passwordController.text
+        .contains(RegExp(r"[A-Z]"))) {
+      Get.back();
+      getSnackBar(
+        title: 'ERROR!',
+        message: 'Password must contain at least one capital alphabet.',
+      );
+      return;
+    } else if (!registrationController.passwordController.text
+        .contains(RegExp(r"[0-9]"))) {
+      Get.back();
+      getSnackBar(
+        title: 'ERROR!',
+        message: 'Password must contain at least one numerals.',
+      );
+      return;
+    } else if (!registrationController.passwordController.text
+        .contains(RegExp(r"[!@#$%^&*(),.?:{}|<>]"))) {
+      Get.back();
+      getSnackBar(
+        title: 'ERROR!',
+        message: 'Password must contain at least one special character.',
+      );
+      return;
     } else {
       try {
         int phoneNo;

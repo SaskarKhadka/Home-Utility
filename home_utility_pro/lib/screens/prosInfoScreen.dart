@@ -150,7 +150,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                             ),
                             SearchChoices.single(
                               style: GoogleFonts.montserrat(
-                                color: kWhiteColour,
+                                color: Colors.grey,
                                 fontSize: 15.0,
                               ),
                               onTap: () {
@@ -209,7 +209,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                             ),
                             SearchChoices.single(
                               style: GoogleFonts.montserrat(
-                                color: kWhiteColour,
+                                color: Colors.grey,
                                 fontSize: 15.0,
                               ),
                               items: _getMunicipalities(),
@@ -260,7 +260,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                             ),
                             SearchChoices.single(
                               style: GoogleFonts.montserrat(
-                                color: kWhiteColour,
+                                color: Colors.grey,
                                 fontSize: 15.0,
                               ),
                               items: _getDropDownMenuItems(),

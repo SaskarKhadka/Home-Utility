@@ -143,7 +143,9 @@ class RatingCard extends StatelessWidget {
                           ),
                           SizedBox(width: 20),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Get.dialog(GetProsReviews(proID: proID));
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
@@ -155,12 +157,15 @@ class RatingCard extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        Icons.phone,
+                                        Icons.reviews,
                                         size: 20,
                                         color: Colors.white60,
                                       ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
                                       Text(
-                                        'Contact',
+                                        'Reviews',
                                         style: TextStyle(
                                             color: Colors.white60,
                                             fontSize: 16),

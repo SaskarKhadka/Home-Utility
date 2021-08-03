@@ -12,7 +12,7 @@ import 'package:home_utility/screens/popUpPages/help.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import 'package:home_utility/screens/tabPages/userProfile.dart';
 import 'package:home_utility/services/cloudStorage.dart';
-import 'screens/loginscreen.dart';
+import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';

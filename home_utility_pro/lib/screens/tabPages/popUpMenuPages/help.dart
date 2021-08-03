@@ -15,7 +15,7 @@ class HelpPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Color(0xff141a1e),
+          backgroundColor: Color(0xFF010202),
           appBar: AppBar(
             toolbarHeight: 67,
             elevation: 2.0,
@@ -65,8 +65,11 @@ class HelpPage extends StatelessWidget {
                       'provides a platform for easy and accessible utility service to users online. '
                       'The major theme of our project is to make it easy for users to book home services '
                       'and for professionals of different occupations to find work.'
+                      '\n\nThis is the applications for technicians/ professionals. A technicain can accept, delete requests on Request page'
+                      ' and s/he can see the accepted request in Jobs Page whre S/he can chat to the customer, get directions to customers'
+                      ' place on map which makes it easier for them to trace the customer for providing services.'
                       '\n\nFeel free to contact us if you have any problem regarding using this application.',
-                      style: GoogleFonts.raleway(
+                      style: GoogleFonts.cabin(
                         color: kWhiteColour,
                         fontSize: 14.0,
                         fontWeight: FontWeight.w300,
@@ -74,44 +77,7 @@ class HelpPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.05,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed(ForgetPassword.id);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        width: size.width,
-                        height: size.height * 0.078,
-                        decoration: BoxDecoration(
-                            color: kBlackColour,
-                            borderRadius: BorderRadius.circular(30.0),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  blurRadius: 10.0,
-                                  offset: Offset(0, 2))
-                            ]),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Change Your Password',
-                              style: GoogleFonts.roboto(
-                                color: kWhiteColour,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
+                    height: size.height * 0.12,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),

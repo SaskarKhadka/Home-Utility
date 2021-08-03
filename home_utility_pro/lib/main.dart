@@ -10,7 +10,7 @@ import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
 import 'package:home_utility_pro/services/cloudStorage.dart';
-import 'screens/loginscreen.dart';
+import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';

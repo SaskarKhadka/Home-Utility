@@ -267,11 +267,24 @@ class GetProsReviews extends StatelessWidget {
           List<String> reviews = [];
           List<Container> container = [
             Container(
-              child: Text(
-                'Reviews',
-                style: GoogleFonts.montserrat(
-                  color: kBlackColour,
-                  fontSize: 30.0,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Customer Reviews',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 28.0,
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.6,
+                      child: Divider(
+                        color: kWhiteColour.withOpacity(0.6),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )
@@ -283,17 +296,33 @@ class GetProsReviews extends StatelessWidget {
                   child: Column(
                 children: [
                   SizedBox(
-                    width: size.width * 0.5,
-                    child: Divider(
-                      color: kBlackColour.withOpacity(0.6),
-                    ),
+                    height: size.height * 0.01,
                   ),
-                  Text(
-                    value['review'],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: kBlackColour,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFF353C57),
+                          // color: Color(0xFF2C2569),
+                          borderRadius: BorderRadius.circular(12.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 14.0, right: 10.0, bottom: 6.0, top: 6.0),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                value['review'],
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white30,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -305,24 +334,77 @@ class GetProsReviews extends StatelessWidget {
                   side: BorderSide.none,
                   borderRadius: BorderRadius.circular(20.0)),
               elevation: 10.0,
-              backgroundColor: Color(0xff141a1e),
+              // backgroundColor: Color(0xff141a1e),
+              backgroundColor: Color(0xFF333a56),
+
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Reviews',
-                    style: GoogleFonts.montserrat(
-                      color: kBlackColour,
-                      fontSize: 30.0,
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Customer Reviews',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 28.0,
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width * 0.6,
+                          child: Divider(
+                            color: kWhiteColour.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    width: size.width * 0.5,
-                    child: Divider(
-                      color: kBlackColour.withOpacity(0.6),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 18.0, left: 10.0, right: 10.0, top: 20.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'This user doesnot have any reviews',
+                          style: GoogleFonts.cabin(
+                            color: Colors.white54,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        GestureDetector(
+                          onTap: () => Get.back(),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 20.0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF3E4872),
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xff2f3650),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 4.0,
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              'Ok',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text('This user doesnot have any reviews'),
                 ],
               ),
             );
@@ -333,11 +415,12 @@ class GetProsReviews extends StatelessWidget {
                   side: BorderSide.none,
                   borderRadius: BorderRadius.circular(20.0)),
               elevation: 10.0,
-              backgroundColor: Colors.teal,
+              // backgroundColor: Color(0xFF2F2E72),
+              backgroundColor: Color(0xFF333a56),
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 10.0),
+                      vertical: 10.0, horizontal: 0.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: container,
