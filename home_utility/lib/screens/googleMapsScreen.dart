@@ -222,7 +222,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                 borderRadius: BorderRadius.circular(20),
                 color: kWhiteColour,
               ),
-              
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

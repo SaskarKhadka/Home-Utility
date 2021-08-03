@@ -242,3 +242,108 @@ class GetProsInfo extends StatelessWidget {
         });
   }
 }
+
+class GetProsReviews extends StatelessWidget {
+  final proID;
+  GetProsReviews({this.proID});
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return GetX<ProController>(
+        init: ProController(proID),
+        builder: (proController) {
+          if (proController == null || proController.pro.isEmpty)
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  color: kWhiteColour,
+                  backgroundColor: kWhiteColour,
+                ),
+              ],
+            );
+          Map prosReviews = proController.pro[0].review;
+          List<String> reviews = [];
+          List<Container> container = [
+            Container(
+              child: Text(
+                'Reviews',
+                style: GoogleFonts.montserrat(
+                  color: kBlackColour,
+                  fontSize: 30.0,
+                ),
+              ),
+            )
+          ];
+          try {
+            prosReviews.forEach((key, value) {
+              reviews.add(value['review']);
+              container.add(Container(
+                  child: Column(
+                children: [
+                  SizedBox(
+                    width: size.width * 0.5,
+                    child: Divider(
+                      color: kBlackColour.withOpacity(0.6),
+                    ),
+                  ),
+                  Text(
+                    value['review'],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: kBlackColour,
+                    ),
+                  ),
+                ],
+              )));
+            });
+          } catch (e) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide.none,
+                  borderRadius: BorderRadius.circular(20.0)),
+              elevation: 10.0,
+              backgroundColor: Color(0xff141a1e),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Reviews',
+                    style: GoogleFonts.montserrat(
+                      color: kBlackColour,
+                      fontSize: 30.0,
+                    ),
+                  ),
+                  SizedBox(
+                    width: size.width * 0.5,
+                    child: Divider(
+                      color: kBlackColour.withOpacity(0.6),
+                    ),
+                  ),
+                  Text('This user doesnot have any reviews'),
+                ],
+              ),
+            );
+          }
+
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide.none,
+                  borderRadius: BorderRadius.circular(20.0)),
+              elevation: 10.0,
+              backgroundColor: Colors.teal,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 10.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: container,
+                  ),
+                ),
+              ));
+        });
+  }
+}
