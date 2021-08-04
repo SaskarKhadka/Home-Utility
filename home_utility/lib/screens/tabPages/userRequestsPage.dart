@@ -18,101 +18,63 @@ import '../logInScreen.dart';
 class UserRequestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     database.totalUsersRequests();
 
     return Scaffold(
       backgroundColor: Colors.black,
       // drawer: Container(),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
-        toolbarHeight: 67,
-        elevation: 2,
-        shadowColor: Colors.white,
-        // automaticallyImplyLeading: false,
-        centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 8.0,
-              left: 20.0,
-              right: 15.0,
-            ),
-          ),
-          Theme(
-            data: Theme.of(context).copyWith(
-                textTheme: TextTheme().apply(bodyColor: Colors.black),
-                dividerColor: Colors.black,
-                iconTheme: IconThemeData(color: Colors.white)),
-            child: PopupMenuButton<int>(
-              color: Colors.white,
-              itemBuilder: (BuildContext context) => [
-                PopupMenuItem<int>(
-                  value: 0,
-                  child: Text(
-                    "About us",
-                    style: GoogleFonts.roboto(
-                      color: Colors.black,
-                      letterSpacing: 1.8,
-                    ),
-                  ),
-                ),
-                PopupMenuItem<int>(
-                    value: 1,
-                    child: Text(
-                      "Help",
-                      style: GoogleFonts.roboto(
-                        color: Colors.black,
-                        letterSpacing: 1.8,
+     
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox( height: size.height *0.1 ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    child: Container(
+                      height: size.height*0.17 ,
+                      
+                      decoration: BoxDecoration(
+                        color: Color(0xff6737F6),
+                        borderRadius: BorderRadius.circular(20)
                       ),
-                    )),
-                PopupMenuDivider(),
-                PopupMenuItem<int>(
-                    value: 2,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.logout,
-                          color: Colors.red,
-                        ),
-                        const SizedBox(
-                          width: 7,
-                        ),
-                        Text(
-                          "Sign Out",
-                          style: GoogleFonts.roboto(
-                            color: Colors.black,
-                            letterSpacing: 1.8,
+                    child: Padding(
+                     padding: const EdgeInsets.only(right:10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        Container(
+                      
+                          height: size.height * 0.13,
+                          child: Center(child: Image.asset('images/requests.png'))
                           ),
-                        )
-                      ],
-                    )),
-              ],
-              onSelected: (item) => SelectedItem(context, item),
-              offset: Offset(0, 70),
-            ),
+                         
+                           Column(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: [
+                               Text('My Requests !',style: GoogleFonts.montserrat(color: Color(0xffECECEC),fontWeight: FontWeight.bold,fontSize: 25),),
+                               SizedBox(width: 10,),
+                               Text('Find your pending request', style: GoogleFonts.lato(color: Color(0xffaaabac), fontSize: 12),),
+                             ],
+                           ) 
+
+                      ],),
+                    ),
+
+                      ),
+                  ),
+                  SizedBox(height: 30,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Text('View all your Pending Works', style: GoogleFonts.lato(color: Color(0xffaaabac), fontSize: 14),),
+                  ),
+                  SizedBox(height: 20,),
+          Scrollbar(
+            child: UserRequestsStream(),
           ),
         ],
-        title: Padding(
-          padding: EdgeInsets.only(
-            top: 8.0,
-            left: 16.0,
-          ),
-          child: Text(
-            'My Requests',
-            style: GoogleFonts.montserrat(
-              // color: Color(0xff131313),
-              color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 1.5,
-              // decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-      ),
-      body: Scrollbar(
-        child: UserRequestsStream(),
       ),
     );
   }
@@ -232,10 +194,10 @@ class UserRequestsStream extends StatelessWidget {
                   }
 
                   return Container(
-                    height: size.height * 0.243,
+                    
                     width: double.infinity,
                     margin: EdgeInsets.only(
-                      top: 20.0,
+                      
                       bottom: 15.0,
                       right: 15.0,
                       left: 15.0,
@@ -251,8 +213,9 @@ class UserRequestsStream extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
-                        top: size.height * 0.025,
+                        top: size.height * 0.02,
                         left: 30.0,
+                        bottom: size.height * 0.015,
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
