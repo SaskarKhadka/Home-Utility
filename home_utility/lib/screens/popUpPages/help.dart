@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/userController.dart';
-import 'package:home_utility/screens/forgotPasswordScreen.dart';
 import 'package:home_utility/screens/mainScreen.dart';
 
 class HelpPage extends StatelessWidget {

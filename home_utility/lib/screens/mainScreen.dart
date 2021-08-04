@@ -20,7 +20,6 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     // FirebaseMessaging.onMessage.listen((message) {
     //   print(message.notification.title);
     // });
