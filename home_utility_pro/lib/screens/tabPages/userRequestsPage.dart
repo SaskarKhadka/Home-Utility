@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility_pro/components/getUsersInfo.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
 import 'package:home_utility_pro/screens/tabPages/jobsPage.dart';
@@ -107,7 +108,7 @@ class RequestsPage extends StatelessWidget {
                                 )),
                           ],
                           onSelected: (item) => SelectedItem(context, item),
-                          offset: Offset(0, 70),
+                          offset: Offset(-5, 70),
                         ),
                       ),
                     ],
@@ -553,75 +554,95 @@ class RequestsPage extends StatelessWidget {
                                               ),
                                               InkWell(
                                                 onTap: () async {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              CircularProgressIndicator(
-                                                                color:
-                                                                    kBlackColour,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                              ),
-                                                            ],
-                                                          ));
-                                                  String token = await database
-                                                      .getToken(requestData[
-                                                              'requestedBy']
-                                                          ['userID']);
-                                                  print(token);
-                                                  await database.cancelRequest(
-                                                    requestKey: requestData[
-                                                        'requestKey'],
-                                                    userID: requestData[
-                                                            'requestedBy']
-                                                        ['userID'],
-                                                  );
-                                                  Get.back();
+                                                  Get.defaultDialog(
+                                                    title: 'Alert!',
+                                                    content: Text(
+                                                        'Are you sure you want to continue?'),
+                                                    cancel: ElevatedButton(
+                                                      onPressed: () =>
+                                                          Get.back(),
+                                                      child: Text('Cancel'),
+                                                    ),
+                                                    confirm: ElevatedButton(
+                                                        onPressed: () async {
+                                                          Get.back();
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) =>
+                                                                      Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: [
+                                                                          CircularProgressIndicator(
+                                                                            color:
+                                                                                kBlackColour,
+                                                                            backgroundColor:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ],
+                                                                      ));
+                                                          String token = await database
+                                                              .getToken(requestData[
+                                                                      'requestedBy']
+                                                                  ['userID']);
+                                                          await database
+                                                              .cancelRequest(
+                                                            requestKey:
+                                                                requestData[
+                                                                    'requestKey'],
+                                                            userID: requestData[
+                                                                    'requestedBy']
+                                                                ['userID'],
+                                                          );
+                                                          Get.back();
 
-                                                  try {
-                                                    http.post(
-                                                        Uri.parse(
-                                                            'https://fcm.googleapis.com/fcm/send'),
-                                                        headers: <String,
-                                                            String>{
-                                                          'Content-Type':
-                                                              'application/json; charset=UTF-8',
-                                                          'Authorization':
-                                                              "$key",
+                                                          try {
+                                                            http.post(
+                                                                Uri.parse(
+                                                                    'https://fcm.googleapis.com/fcm/send'),
+                                                                headers: <
+                                                                    String,
+                                                                    String>{
+                                                                  'Content-Type':
+                                                                      'application/json; charset=UTF-8',
+                                                                  'Authorization':
+                                                                      "$key",
+                                                                },
+                                                                body:
+                                                                    jsonEncode(
+                                                                  {
+                                                                    "notification":
+                                                                        {
+                                                                      "body":
+                                                                          "Your request has been rejected",
+                                                                      "title":
+                                                                          "Request Rejected",
+                                                                      "android_channel_id":
+                                                                          "high_importance_channel"
+                                                                    },
+                                                                    "priority":
+                                                                        "high",
+                                                                    "data": {
+                                                                      "click_action":
+                                                                          "FLUTTER_NOTIFICATION_CLICK",
+                                                                      "status":
+                                                                          "done"
+                                                                    },
+                                                                    "to":
+                                                                        "$token"
+                                                                  },
+                                                                ));
+                                                            print(
+                                                                'FCM request for device sent!');
+                                                          } catch (e) {
+                                                            print(e);
+                                                          }
                                                         },
-                                                        body: jsonEncode(
-                                                          {
-                                                            "notification": {
-                                                              "body":
-                                                                  "Your request has been rejected",
-                                                              "title":
-                                                                  "Request Rejected",
-                                                              "android_channel_id":
-                                                                  "high_importance_channel"
-                                                            },
-                                                            "priority": "high",
-                                                            "data": {
-                                                              "click_action":
-                                                                  "FLUTTER_NOTIFICATION_CLICK",
-                                                              "status": "done"
-                                                            },
-                                                            "to": "$token"
-                                                          },
-                                                        ));
-                                                    print(
-                                                        'FCM request for device sent!');
-                                                  } catch (e) {
-                                                    print(e);
-                                                  }
+                                                        child: Text('Ok')),
+                                                  );
                                                 },
                                                 child: Container(
                                                   height: 40,
@@ -647,82 +668,103 @@ class RequestsPage extends StatelessWidget {
                                                     right: 18.0),
                                                 child: InkWell(
                                                   onTap: () async {
-                                                    showDialog(
-                                                        context: context,
-                                                        barrierDismissible:
-                                                            false,
-                                                        builder: (context) =>
-                                                            Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                CircularProgressIndicator(
-                                                                  color:
-                                                                      kBlackColour,
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .white,
-                                                                ),
-                                                              ],
-                                                            ));
+                                                    Get.defaultDialog(
+                                                      title: 'Alert!',
+                                                      content: Text(
+                                                          'Are you sure you want to continue?'),
+                                                      cancel: ElevatedButton(
+                                                        onPressed: () =>
+                                                            Get.back(),
+                                                        child: Text('Cancel'),
+                                                      ),
+                                                      confirm: ElevatedButton(
+                                                        onPressed: () async {
+                                                          Get.back();
+                                                          showDialog(
+                                                              context: context,
+                                                              barrierDismissible:
+                                                                  false,
+                                                              builder:
+                                                                  (context) =>
+                                                                      Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: [
+                                                                          CircularProgressIndicator(
+                                                                            color:
+                                                                                kBlackColour,
+                                                                            backgroundColor:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ],
+                                                                      ));
 
-                                                    await database
-                                                        .changeAcceptedState(
-                                                      requestKey: requestData[
-                                                          'requestKey'],
-                                                      state: true,
-                                                    );
+                                                          await database
+                                                              .changeAcceptedState(
+                                                            requestKey:
+                                                                requestData[
+                                                                    'requestKey'],
+                                                            state: true,
+                                                          );
 
-                                                    await database
-                                                        .saveRequestAsJob(
-                                                      requestKey: requestData[
-                                                          'requestKey'],
+                                                          await database
+                                                              .saveRequestAsJob(
+                                                            requestKey:
+                                                                requestData[
+                                                                    'requestKey'],
+                                                          );
+                                                          Get.back();
+                                                          String token = await database
+                                                              .getToken(requestData[
+                                                                      'requestedBy']
+                                                                  ['userID']);
+                                                          try {
+                                                            await http.post(
+                                                                Uri.parse(
+                                                                    'https://fcm.googleapis.com/fcm/send'),
+                                                                headers: <
+                                                                    String,
+                                                                    String>{
+                                                                  'Content-Type':
+                                                                      'application/json; charset=UTF-8',
+                                                                  'Authorization':
+                                                                      "$key",
+                                                                },
+                                                                body:
+                                                                    jsonEncode(
+                                                                  {
+                                                                    "notification":
+                                                                        {
+                                                                      "body":
+                                                                          "Your request has been accepted",
+                                                                      "title":
+                                                                          "Request Accepted",
+                                                                      "android_channel_id":
+                                                                          "high_importance_channel"
+                                                                    },
+                                                                    "priority":
+                                                                        "high",
+                                                                    "data": {
+                                                                      "click_action":
+                                                                          "FLUTTER_NOTIFICATION_CLICK",
+                                                                      "status":
+                                                                          "done"
+                                                                    },
+                                                                    "to":
+                                                                        "$token"
+                                                                  },
+                                                                ));
+                                                            print(
+                                                                'FCM request for device sent!');
+                                                          } catch (e) {
+                                                            print(e);
+                                                          }
+                                                        },
+                                                        child: Text('Ok'),
+                                                      ),
                                                     );
-                                                    Get.back();
-                                                    String token = await database
-                                                        .getToken(requestData[
-                                                                'requestedBy']
-                                                            ['userID']);
-                                                    try {
-                                                      await http.post(
-                                                          Uri.parse(
-                                                              'https://fcm.googleapis.com/fcm/send'),
-                                                          headers: <String,
-                                                              String>{
-                                                            'Content-Type':
-                                                                'application/json; charset=UTF-8',
-                                                            'Authorization':
-                                                                "$key",
-                                                          },
-                                                          body: jsonEncode(
-                                                            {
-                                                              "notification": {
-                                                                "body":
-                                                                    "Your request has been accepted",
-                                                                "title":
-                                                                    "Request Accepted",
-                                                                "android_channel_id":
-                                                                    "high_importance_channel"
-                                                              },
-                                                              "priority":
-                                                                  "high",
-                                                              "data": {
-                                                                "click_action":
-                                                                    "FLUTTER_NOTIFICATION_CLICK",
-                                                                "status": "done"
-                                                              },
-                                                              "to": "$token"
-                                                            },
-                                                          ));
-                                                      print(
-                                                          'FCM request for device sent!');
-                                                    } catch (e) {
-                                                      print(e);
-                                                    }
                                                   },
                                                   child: Container(
                                                     height: 40,

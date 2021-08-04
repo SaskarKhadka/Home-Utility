@@ -53,10 +53,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         'images/icon.png',
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 5),
                     Text(
                       'Home Utility',
-                      style: GoogleFonts.montserrat(
+                      style: GoogleFonts.shortStack(
                         color: Colors.white,
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,

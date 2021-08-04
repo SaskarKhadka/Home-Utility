@@ -480,6 +480,11 @@ class ProsProfile extends StatelessWidget {
                                             title: 'SUCCESS!',
                                             message:
                                                 'Your Profile Picture was updated');
+                                      else
+                                        getSnackBar(
+                                            title: 'ERROR!',
+                                            message:
+                                                'Your Profile Picture could not be updated');
                                     } catch (e) {
                                       colourController
                                           .changeColour(Colors.white54);

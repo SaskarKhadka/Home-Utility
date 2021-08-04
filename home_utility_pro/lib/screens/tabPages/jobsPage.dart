@@ -7,6 +7,7 @@ import 'package:home_utility_pro/components/getUsersInfo.dart';
 import 'package:home_utility_pro/location/userLocation.dart';
 import 'package:home_utility_pro/screens/chatScreen.dart';
 import 'package:home_utility_pro/screens/loginscreen.dart';
+import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
 import '../../main.dart';
@@ -538,21 +539,52 @@ class AcceptedRequestsStream extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: InkWell(
                                   onTap: () async {
-                                    Position position =
-                                        await UserLocation().getLocation();
-                                    print(position);
-                                    Map userPosition =
-                                        await database.getUserLocation(
-                                            userID: requestData['requestedBy']
-                                                ['userID']);
+                                    try {
+                                      Position position =
+                                          await UserLocation().getLocation();
+                                      print(position);
+                                      Map userPosition =
+                                          await database.getUserLocation(
+                                              userID: requestData['requestedBy']
+                                                  ['userID']);
 
-                                    // print(userPosition);
-                                    Get.to(
-                                      GoogleMapScreen(
-                                        position: position,
-                                        userPosition: userPosition,
-                                      ),
-                                    );
+                                      // print(userPosition);
+                                      Get.to(
+                                        GoogleMapScreen(
+                                          position: position,
+                                          userPosition: userPosition,
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      print(e);
+                                      if (e ==
+                                          'Location services are disabled.') {
+                                        getSnackBar(
+                                            title: 'ERROR!',
+                                            message:
+                                                'Location services are disabled');
+                                        return;
+                                      } else if (e ==
+                                          'Location permissions are denied') {
+                                        getSnackBar(
+                                            title: 'ERROR!',
+                                            message:
+                                                'Location permissions are denied');
+                                        return;
+                                      } else if (e ==
+                                          'Location permissions are permanently denied, we cannot request permissions.') {
+                                        getSnackBar(
+                                            title: 'ERROR!',
+                                            message:
+                                                'Location permissions are denied permanently');
+                                        return;
+                                      }
+                                      getSnackBar(
+                                          title: 'ERROR!',
+                                          message:
+                                              'Location services are disabled');
+                                      return;
+                                    }
                                   },
                                   child: Container(
                                     height: 40,

@@ -34,7 +34,8 @@ class CloudStorage {
       String url = await profileUrl(userID + dateTime);
       if (url != 'error')
         await usersRefrence.child(userID).update({'profileUrl': url});
-
+      else
+        return false;
       return true;
     } catch (e) {
       print(e);

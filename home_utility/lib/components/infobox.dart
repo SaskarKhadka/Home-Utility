@@ -26,8 +26,6 @@ class RatingCard extends StatelessWidget {
   final TimeOfDay time;
   final String municipality;
   final String district;
-  final double latitude;
-  final double longitude;
 
   RatingCard({
     this.username,
@@ -43,8 +41,6 @@ class RatingCard extends StatelessWidget {
     this.time,
     this.municipality,
     this.district,
-    this.latitude,
-    this.longitude,
   });
 
   // const RatingCard();
@@ -274,7 +270,7 @@ class RatingCard extends StatelessWidget {
 
                       Get.back();
                       Get.back();
-                      Get.back();
+                      // Get.back();
                       String token = await database.getToken(proID);
                       try {
                         await http.post(

@@ -149,21 +149,27 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               ),
                             ),
                             SearchChoices.single(
+                              displayClearIcon: false,
                               style: GoogleFonts.montserrat(
                                 color: Colors.grey,
                                 fontSize: 15.0,
                               ),
-                              onTap: () {
-                                setState(() {
-                                  _districtValue = 'Achham';
-                                });
-                              },
+                              // onTap: () {
+                              //   setState(() {
+                              //     _districtValue = 'Achham';
+                              //   });
+                              // },
                               items: _getDistricts(),
                               value: _districtValue,
                               hint: "Select Your District",
                               searchHint: "Select Your District",
                               onChanged: (newValue) {
                                 setState(() {
+                                  if (newValue == null) {
+                                    _districtValue = 'Achham';
+                                    _municipalityValue = _municipalities
+                                        .getMunicipalities('Achham')[0];
+                                  }
                                   _districtValue = newValue;
                                   _municipalityValue = _municipalities
                                       .getMunicipalities(_districtValue)[0];
@@ -286,7 +292,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                         height: 60,
                         child: CustomButton(
                           ontap: () async {
-                            if (_districtValue.trim() == null) {
+                            if (_districtValue == null) {
                               Get.back();
                               getSnackBar(
                                 title: 'ERROR!',
@@ -294,7 +300,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               );
                               return;
                             }
-                            if (_municipalityValue.trim() == null) {
+                            if (_municipalityValue == null) {
                               Get.back();
                               getSnackBar(
                                 title: 'ERROR!',
@@ -302,11 +308,11 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
                               );
                               return;
                             }
-                            if (_professionValue.trim() == null) {
+                            if (_professionValue == null) {
                               Get.back();
                               getSnackBar(
                                 title: 'ERROR!',
-                                message: 'Please enter your municipality',
+                                message: 'Please enter your profession',
                               );
                               return;
                             }
@@ -356,10 +362,11 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
       'Mehendi Artist',
       'Construction',
       'Electrician',
-      'Painting',
-      'Plumbing',
+      'Painter',
+      'Plumber',
       'Babysitter',
-      'Home Cleaning',
+      'Gardener',
+      'House Cleaning',
       'AC Repair',
       'Maid',
       'Computer Repair',
@@ -368,6 +375,7 @@ class _ProsInfoScreenState extends State<ProsInfoScreen> {
       'Heater Repair',
       'Oven Repair',
       'Printer Repair',
+      'Oven Repair',
       'CCTV Repair',
       'TV Repair',
       'Washing Machine Repair',

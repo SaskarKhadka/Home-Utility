@@ -18,10 +18,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
+    resolve();
+  }
+
+  resolve() async {
+    try {
+      prosProfessionValue = await database.prosProfession;
+    } catch (e) {
+      prosProfessionValue = null;
+    }
     Timer(
         Duration(seconds: 4),
-        () => Get.offAllNamed(
-            userAuthentication.currentUser == null ? Login.id : MainScreen.id));
+        () => Get.offAllNamed(userAuthentication.currentUser == null
+            ? Login.id
+            : prosProfessionValue == null
+                ? ProsInfoScreen.id
+                : MainScreen.id));
   }
 
   @override
@@ -52,12 +64,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         'images/icon.png',
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 5),
                     Text(
                       'Home Utility',
                       style: GoogleFonts.shortStack(
                         color: Colors.white,
-                        fontSize: 14.0,
+                        fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     )

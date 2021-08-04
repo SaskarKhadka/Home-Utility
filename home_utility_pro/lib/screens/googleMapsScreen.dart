@@ -25,27 +25,23 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   String token =
       "pk.eyJ1IjoiYWRoc2F1Z2F0IiwiYSI6ImNrcWF5NXZiZjAydTMycHA2c2k3eW54dTcifQ.fkljJqBGEnhL8n85c8bGYA";
   Set<Marker> _markers = {};
-  BitmapDescriptor usericon;
-  BitmapDescriptor proicon;
+  // BitmapDescriptor usericon;
+  // BitmapDescriptor proicon;
   GoogleMapController _mapController;
   bool onPressed = false;
-  // var username = 'username';
-  // var address = 'address';
-  // var profession = 'Electrician';
-  // double rating = 0;
-  // double pinpillposition = pinned_invisible;
+
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   // PolylinePoints polylinePoints = PolylinePoints();
   StreamSubscription myStreamSubscription;
   // Position userPosition;
 
-  void setIcon() async {
-    usericon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'images/blue.png');
-    proicon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 0.6), 'images/red.png');
-  }
+  // void setIcon() async {
+  //   usericon = await BitmapDescriptor.fromAssetImage(
+  //       ImageConfiguration(), 'images/blue.png');
+  //   proicon = await BitmapDescriptor.fromAssetImage(
+  //       ImageConfiguration(devicePixelRatio: 0.6), 'images/red.png');
+  // }
 
   void _setMapStyle() async {
     String style = await DefaultAssetBundle.of(context)
@@ -69,14 +65,19 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
 
   void _getPolyline() async {
     var dio = Dio();
-    final response = await dio.get(
-        'https://api.mapbox.com/directions/v5/mapbox/driving/$originLng,$originLat;$destLng,$destLat?geometries=geojson&access_token=$token');
+    try {
+      final response = await dio.get(
+          'https://api.mapbox.com/directions/v5/mapbox/driving/$originLng,$originLat;$destLng,$destLat?geometries=geojson&access_token=$token');
 
-    List<dynamic> result =
-        response.data["routes"][0]["geometry"]["coordinates"];
-    result.forEach((element) {
-      polylineCoordinates.add(LatLng(element[1], element[0]));
-    });
+      List<dynamic> result =
+          response.data["routes"][0]["geometry"]["coordinates"];
+      result.forEach((element) {
+        polylineCoordinates.add(LatLng(element[1], element[0]));
+      });
+    } catch (e) {
+      print(e);
+    }
+
     _addPolyLine();
   }
 
@@ -97,7 +98,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     print(widget.userPosition['lng']);
     updateMarkers(position: widget.position, userPosition: widget.userPosition);
 
-    setIcon();
+    // setIcon();
   }
 
   void updateMarkers({Position position, Map userPosition}) {

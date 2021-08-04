@@ -89,7 +89,7 @@ class UserRequestsPage extends StatelessWidget {
                     )),
               ],
               onSelected: (item) => SelectedItem(context, item),
-              offset: Offset(0, 70),
+              offset: Offset(-5, 70),
             ),
           ),
         ],
@@ -223,8 +223,7 @@ class UserRequestsStream extends StatelessWidget {
                   }
 
                   if (isAccepted &&
-                      now.difference(requestDateTime) >=
-                          Duration(minutes: 15)) {
+                      now.difference(requestDateTime) >= Duration(days: 2)) {
                     database.deleteRequest(
                       requestKey: requestData['requestKey'],
                     );
@@ -631,78 +630,103 @@ class UserRequestsStream extends StatelessWidget {
                                       children: [
                                         InkWell(
                                           onTap: () async {
-                                            showDialog(
-                                                barrierDismissible: false,
-                                                context: context,
-                                                builder: (context) => Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        CircularProgressIndicator(
-                                                          color: kBlackColour,
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 20.0,
-                                                        ),
-                                                        Text('Processing...',
-                                                            style: TextStyle(
-                                                              fontSize: 20.0,
-                                                              color:
-                                                                  Colors.white,
-                                                            )),
-                                                      ],
-                                                    ));
+                                            Get.defaultDialog(
+                                              title: 'Alert!',
+                                              content: Text(
+                                                  'Are you sure you want to continue?'),
+                                              cancel: ElevatedButton(
+                                                onPressed: () => Get.back(),
+                                                child: Text('Cancel'),
+                                              ),
+                                              confirm: ElevatedButton(
+                                                onPressed: () async {
+                                                  Get.back();
+                                                  showDialog(
+                                                      barrierDismissible: false,
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              CircularProgressIndicator(
+                                                                color:
+                                                                    kBlackColour,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                              ),
+                                                              SizedBox(
+                                                                height: 20.0,
+                                                              ),
+                                                              Text(
+                                                                  'Processing...',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        20.0,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  )),
+                                                            ],
+                                                          ));
 
-                                            String token =
-                                                await database.getToken(
-                                                    requestData['requestedTo']
-                                                        ['proID']);
-                                            await database.cancelOnGoingRequest(
-                                              requestKey:
-                                                  requestData['requestKey'],
-                                              proID: requestData['requestedTo']
-                                                  ['proID'],
+                                                  String token = await database
+                                                      .getToken(requestData[
+                                                              'requestedTo']
+                                                          ['proID']);
+                                                  await database
+                                                      .cancelOnGoingRequest(
+                                                    requestKey: requestData[
+                                                        'requestKey'],
+                                                    proID: requestData[
+                                                        'requestedTo']['proID'],
+                                                  );
+                                                  Get.back();
+
+                                                  try {
+                                                    http.post(
+                                                        Uri.parse(
+                                                            'https://fcm.googleapis.com/fcm/send'),
+                                                        headers: <String,
+                                                            String>{
+                                                          'Content-Type':
+                                                              'application/json; charset=UTF-8',
+                                                          'Authorization':
+                                                              "$key",
+                                                        },
+                                                        body: jsonEncode(
+                                                          {
+                                                            "notification": {
+                                                              "body":
+                                                                  "Your request was cancelled",
+                                                              "title":
+                                                                  "Request Cancelled",
+                                                              "android_channel_id":
+                                                                  "high_importance_channel"
+                                                            },
+                                                            "priority": "high",
+                                                            "data": {
+                                                              "click_action":
+                                                                  "FLUTTER_NOTIFICATION_CLICK",
+                                                              "status": "done"
+                                                            },
+                                                            "to": "$token"
+                                                          },
+                                                        ));
+                                                    print(
+                                                        'FCM request for device sent!');
+                                                  } catch (e) {
+                                                    print(e);
+                                                  }
+                                                },
+                                                child: Text('Ok'),
+                                              ),
                                             );
-                                            Get.back();
-
-                                            try {
-                                              http.post(
-                                                  Uri.parse(
-                                                      'https://fcm.googleapis.com/fcm/send'),
-                                                  headers: <String, String>{
-                                                    'Content-Type':
-                                                        'application/json; charset=UTF-8',
-                                                    'Authorization': "$key",
-                                                  },
-                                                  body: jsonEncode(
-                                                    {
-                                                      "notification": {
-                                                        "body":
-                                                            "Your request was cancelled",
-                                                        "title":
-                                                            "Request Cancelled",
-                                                        "android_channel_id":
-                                                            "high_importance_channel"
-                                                      },
-                                                      "priority": "high",
-                                                      "data": {
-                                                        "click_action":
-                                                            "FLUTTER_NOTIFICATION_CLICK",
-                                                        "status": "done"
-                                                      },
-                                                      "to": "$token"
-                                                    },
-                                                  ));
-                                              print(
-                                                  'FCM request for device sent!');
-                                            } catch (e) {
-                                              print(e);
-                                            }
                                           },
                                           child: Container(
                                             width: 100,
@@ -788,36 +812,56 @@ class UserRequestsStream extends StatelessWidget {
                                     )
                                   : InkWell(
                                       onTap: () async {
-                                        showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (context) => Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    CircularProgressIndicator(
-                                                      color: kBlackColour,
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 20.0,
-                                                    ),
-                                                    Text('Processing...',
-                                                        style: TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.white,
-                                                        )),
-                                                  ],
-                                                ));
-                                        await database.cancelRequest(
-                                          requestKey: requestData['requestKey'],
-                                          proID: requestData['requestedTo']
-                                              ['proID'],
+                                        Get.defaultDialog(
+                                          title: 'Alert!',
+                                          content: Text(
+                                              'Are you sure you want to continue?',
+                                              textAlign: TextAlign.center),
+                                          cancel: ElevatedButton(
+                                            onPressed: () => Get.back(),
+                                            child: Text('Cancel'),
+                                          ),
+                                          confirm: ElevatedButton(
+                                            onPressed: () async {
+                                              Get.back();
+                                              showDialog(
+                                                  barrierDismissible: false,
+                                                  context: context,
+                                                  builder: (context) => Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          CircularProgressIndicator(
+                                                            color: kBlackColour,
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 20.0,
+                                                          ),
+                                                          Text('Processing...',
+                                                              style: TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .white,
+                                                              )),
+                                                        ],
+                                                      ));
+                                              await database.cancelRequest(
+                                                requestKey:
+                                                    requestData['requestKey'],
+                                                proID:
+                                                    requestData['requestedTo']
+                                                        ['proID'],
+                                              );
+                                              Get.back();
+                                            },
+                                            child: Text('Ok'),
+                                          ),
                                         );
-                                        Get.back();
                                       },
                                       child: Container(
                                         width: 100,

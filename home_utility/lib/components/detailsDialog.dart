@@ -43,7 +43,7 @@ class _DetailsPageState extends State<DetailsPage> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor:Colors.black,
+        backgroundColor: Colors.black,
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
@@ -56,12 +56,12 @@ class _DetailsPageState extends State<DetailsPage> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-               Image(
-                 image: AssetImage('images/vector.png'),
+                Image(
+                  image: AssetImage('images/vector.png'),
                   height: 230,
                   width: 230,
-                  ),
-                  SizedBox(
+                ),
+                SizedBox(
                   height: size.height * 0.05,
                 ),
                 Text(
@@ -92,22 +92,21 @@ class _DetailsPageState extends State<DetailsPage> {
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff101010)
-
-                  ),
-                  
+                      color: Color(0xff101010)),
                   child: ListTile(
                     // tileColor: Colors.blue,
                     title: Text(
                       "Date: ${_pickedDate.year}/${_pickedDate.month}/${_pickedDate.day}",
                       style: GoogleFonts.juliusSansOne(
-                        fontSize: 15.0,
-                        letterSpacing: 1.3,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xffaaabac)
-                      ),
+                          fontSize: 15.0,
+                          letterSpacing: 1.3,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xffaaabac)),
                     ),
-                    trailing: Icon(Icons.keyboard_arrow_down,color: Color(0xffaaabac),),
+                    trailing: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Color(0xffaaabac),
+                    ),
                     onTap: _pickDate,
                   ),
                 ),
@@ -117,22 +116,20 @@ class _DetailsPageState extends State<DetailsPage> {
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff101010)
-
-                  ),
+                      color: Color(0xff101010)),
                   child: ListTile(
                     minVerticalPadding: 5,
                     // tileColor: Colors.red,
                     title: Text(
                       "Time: ${formatTime(unformattedTime: _selectedTime)}",
                       style: GoogleFonts.juliusSansOne(
-                        fontSize: 15.0,
-                        letterSpacing: 1.3,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xffaaabac)
-                      ),
+                          fontSize: 15.0,
+                          letterSpacing: 1.3,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xffaaabac)),
                     ),
-                    trailing: Icon(Icons.keyboard_arrow_down,color: Color(0xffaaabac)),
+                    trailing: Icon(Icons.keyboard_arrow_down,
+                        color: Color(0xffaaabac)),
                     onTap: _selectTime,
                   ),
                 ),
@@ -198,17 +195,15 @@ class _DetailsPageState extends State<DetailsPage> {
                     CustomButton(
                       // color: Colors.white,
                       text: 'Confirm',
-                      width: size.width*0.35,
+                      width: size.width * 0.35,
 
                       ontap: () async {
-                        Position userLocation = await Location().getLocation();
-
                         DataSnapshot snapshot = await usersRefrence
                             .child(userAuthentication.userID)
                             .child('location')
                             .once();
-                        Map userLocation2 = snapshot.value;
-                        print(userLocation2);
+                        Map userLocation = snapshot.value;
+                        print(userLocation);
                         // userLocation['lat'] = snapshot.value['lat'];
                         // userLocation['lng'] = snapshot.value['lng'];
 
@@ -228,21 +223,18 @@ class _DetailsPageState extends State<DetailsPage> {
                             service: widget.service,
                             date: _pickedDate,
                             time: _selectedTime,
-                            latitude: userLocation.latitude,
-                            longitude: userLocation.longitude,
-                            userLocation2: userLocation2,
+                            userLocation: userLocation,
                           ),
                         );
                       },
                       // color: Colors.red,
                     ),
-                   
                     CustomButton(
                       color: Colors.transparent,
                       text: 'Cancel',
                       shadowcolor: Colors.black,
                       ontap: () => Get.back(),
-                      width: size.width*0.35,
+                      width: size.width * 0.35,
                       // color: Colors.red,
                     ),
                   ],

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/userController.dart';
-import 'package:home_utility/screens/forgotPasswordScreen.dart';
 import 'package:home_utility/screens/mainScreen.dart';
 
 class HelpPage extends StatelessWidget {
@@ -16,7 +15,7 @@ class HelpPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Color(0xFF010202),
+          backgroundColor: kBlackColour,
           appBar: AppBar(
             toolbarHeight: 60,
             elevation: 2.0,
@@ -43,7 +42,7 @@ class HelpPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: size.height * 0.08,
+                    height: size.height * 0.05,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -57,7 +56,7 @@ class HelpPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.05,
+                    height: size.height * 0.03,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(26.0),
@@ -80,7 +79,7 @@ class HelpPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.06,
+                    height: size.height * 0.04,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),

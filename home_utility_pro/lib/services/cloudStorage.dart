@@ -34,7 +34,8 @@ class CloudStorage {
       String url = await profileUrl(proID + dateTime);
       if (url != 'error')
         await prosRefrence.child(proID).update({'profileUrl': url});
-
+      else
+        return false;
       return true;
     } on FirebaseException catch (e) {
       print(e.code);

@@ -18,9 +18,7 @@ class GoogleMapScreen extends StatefulWidget {
   final String service;
   final DateTime date;
   final TimeOfDay time;
-  final double latitude;
-  final double longitude;
-  final Map userLocation2;
+  final Map userLocation;
 
   GoogleMapScreen({
     this.dateTime,
@@ -29,9 +27,7 @@ class GoogleMapScreen extends StatefulWidget {
     this.service,
     this.date,
     this.time,
-    this.latitude,
-    this.longitude,
-    this.userLocation2,
+    this.userLocation,
   });
 
   @override
@@ -48,12 +44,11 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   String username = 'username';
   String district = 'district';
   String municipality = 'municipality';
-  String profession = 'Elcetrician';
+  String profession = 'Electrician';
   String profileUrl;
   double rating = 0;
   double pinpillposition = pinned_invisible;
   // int _circleIdCounter = 1;
-  bool sortByMunVDC = true;
   String _distanceValue;
   double _distanceValueNum;
   Map<String, double> _distanceMap = {
@@ -103,8 +98,8 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         pros.forEach((key, value) {
           double lat1 = value['location']['lat'];
           double lng1 = value['location']['lng'];
-          double lat2 = widget.userLocation2['lat'];
-          double lng2 = widget.userLocation2['lng'];
+          double lat2 = widget.userLocation['lat'];
+          double lng2 = widget.userLocation['lng'];
           double distance = Location().getDistance(lat1, lng1, lat2, lng2);
 
           if (distance <= _distanceValueNum) {
@@ -140,7 +135,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         markerId: MarkerId('user'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
         position:
-            LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
+            LatLng(widget.userLocation['lat'], widget.userLocation['lng']),
       ),
     );
     // myStreamSubscription.cancel();
@@ -165,7 +160,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         markerId: MarkerId('user'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
         position:
-            LatLng(widget.userLocation2['lat'], widget.userLocation2['lng']),
+            LatLng(widget.userLocation['lat'], widget.userLocation['lng']),
       ),
     );
 
@@ -197,13 +192,13 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
                 target: LatLng(
-                    widget.userLocation2['lat'], widget.userLocation2['lng']),
+                    widget.userLocation['lat'], widget.userLocation['lng']),
                 zoom: 14),
             mapType: MapType.normal,
             markers: Set.from(_markers),
             // circles: Set.from(_circles),
             zoomControlsEnabled: true,
-            // myLocationEnabled: false,
+            // myLocationEnabled: true,
             myLocationButtonEnabled: true,
             onTap: (LatLng) {
               setState(() {
@@ -270,8 +265,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                 service: widget.service,
                 date: widget.date,
                 time: widget.time,
-                latitude: widget.latitude,
-                longitude: widget.longitude,
               ))
         ],
       ),

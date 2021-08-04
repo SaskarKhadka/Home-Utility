@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility_pro/screens/forgotPasswordScreen.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
 import 'package:home_utility_pro/constants.dart';
 
@@ -15,7 +14,7 @@ class HelpPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Color(0xFF010202),
+          backgroundColor: kBlackColour,
           appBar: AppBar(
             toolbarHeight: 67,
             elevation: 2.0,
@@ -42,7 +41,7 @@ class HelpPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: size.height * 0.08,
+                    height: size.height * 0.06,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -56,7 +55,7 @@ class HelpPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.05,
+                    height: size.height * 0.02,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(26.0),
@@ -71,13 +70,13 @@ class HelpPage extends StatelessWidget {
                       '\n\nFeel free to contact us if you have any problem regarding using this application.',
                       style: GoogleFonts.cabin(
                         color: kWhiteColour,
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.12,
+                    height: size.height * 0.04,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),
