@@ -43,37 +43,44 @@ class ChatScreen extends StatelessWidget {
               height: 20.0,
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-              padding: EdgeInsets.only(
-                left: 20.0,
-                right: 10.0,
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xff8c9292),
-                borderRadius: BorderRadius.circular(30.0),
-              ),
               child: Row(
                 // crossAxisAlignment: CrossAxisAlignment.baseline,
                 // textBaseline: TextBaseline.alphabetic,
                 children: [
                   Expanded(
-                    child: TextField(
-                      controller: chatController.messageController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        top: 15.0,
+                        bottom: 15.0,
+                        // right: 5.0,
+                        left: 10.0,
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        right: 10.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Color(0xff8c9292),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: TextField(
+                        controller: chatController.messageController,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 5.0),
 
-                        // labelText: 'Your Message..',
-                        hintText: 'Your message...',
-                        hintStyle: TextStyle(color: Colors.black),
-                        // fillColor: Color(0xff28272C),
-                        // filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(style: BorderStyle.none),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          // borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide(style: BorderStyle.none),
+                          // labelText: 'Your Message..',
+                          hintText: 'Your message...',
+                          hintStyle: TextStyle(color: Colors.black),
+                          // fillColor: Color(0xff28272C),
+                          // filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            // borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(style: BorderStyle.none),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            // borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(style: BorderStyle.none),
+                          ),
                         ),
                       ),
                     ),
@@ -112,7 +119,11 @@ class ChatScreen extends StatelessWidget {
                       }
                     },
                     child: Container(
-                      child: Icon(Icons.send),
+                      margin: EdgeInsets.only(right: 15.0),
+                      child: Icon(
+                        Icons.send,
+                        color: Color(0xff2464e3),
+                      ),
                       // padding: EdgeInsets.only(right: 20.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
@@ -200,21 +211,21 @@ class MessageContainer extends StatelessWidget {
       children: [
         Container(
           margin: EdgeInsets.only(
-            top: 15.0,
-            right: 15.0,
-            left: 15.0,
+            top: 17.5,
+            right: isMe ? 15.0 : MediaQuery.of(context).size.width * 0.3,
+            left: isMe ? MediaQuery.of(context).size.width * 0.3 : 15.0,
           ),
           padding: EdgeInsets.symmetric(
-            horizontal: 17.5,
+            horizontal: 18,
             vertical: 12.0,
           ),
           decoration: BoxDecoration(
-            color: Color(0xff28272C),
+            color: isMe ? Color(0xff2464e3) : Color(0xff28272C),
             borderRadius: BorderRadius.only(
-              bottomLeft: isMe ? Radius.circular(40.0) : Radius.circular(0.0),
-              topLeft: Radius.circular(40.0),
-              topRight: Radius.circular(40.0),
-              bottomRight: isMe ? Radius.circular(0.0) : Radius.circular(40.0),
+              bottomLeft: isMe ? Radius.circular(20.0) : Radius.circular(0.0),
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+              bottomRight: isMe ? Radius.circular(0.0) : Radius.circular(20.0),
             ),
           ),
           child: Text(

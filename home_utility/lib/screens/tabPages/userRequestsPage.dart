@@ -608,12 +608,12 @@ class UserRequestsStream extends StatelessWidget {
                                         InkWell(
                                           onTap: () async {
                                             Get.defaultDialog(
-                                              title: 'Alert!',
+                                              title: 'Cancel Request',
                                               content: Text(
                                                   'Are you sure you want to continue?'),
                                               cancel: ElevatedButton(
                                                 onPressed: () => Get.back(),
-                                                child: Text('Cancel'),
+                                                child: Text('No'),
                                               ),
                                               confirm: ElevatedButton(
                                                 onPressed: () async {
@@ -701,7 +701,7 @@ class UserRequestsStream extends StatelessWidget {
                                                     print(e);
                                                   }
                                                 },
-                                                child: Text('Ok'),
+                                                child: Text('Yes'),
                                               ),
                                             );
                                           },
@@ -790,13 +790,13 @@ class UserRequestsStream extends StatelessWidget {
                                   : InkWell(
                                       onTap: () async {
                                         Get.defaultDialog(
-                                          title: 'Alert!',
+                                          title: 'Cancel Request',
                                           content: Text(
                                               'Are you sure you want to continue?',
                                               textAlign: TextAlign.center),
                                           cancel: ElevatedButton(
                                             onPressed: () => Get.back(),
-                                            child: Text('Cancel'),
+                                            child: Text('No'),
                                           ),
                                           confirm: ElevatedButton(
                                             onPressed: () async {
@@ -836,7 +836,7 @@ class UserRequestsStream extends StatelessWidget {
                                               );
                                               Get.back();
                                             },
-                                            child: Text('Ok'),
+                                            child: Text('Yes'),
                                           ),
                                         );
                                       },

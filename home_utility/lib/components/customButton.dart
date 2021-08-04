@@ -35,18 +35,18 @@ class ProfileButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            primary: Color(0xff101212),
+            primary: primaryColour,
             // Color(0xFF5061AC),
-         
+            shadowColor: shadowColour,
             // Color(0xFFFFFFFF),
             side: BorderSide(
               width: borderSideWidth,
               // width: 0.5,
-              // color: borderSideColour,
+              color: borderSideColour,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(10),
+                Radius.circular(borderRadius),
               ),
             ),
           ),

@@ -555,13 +555,13 @@ class RequestsPage extends StatelessWidget {
                                               InkWell(
                                                 onTap: () async {
                                                   Get.defaultDialog(
-                                                    title: 'Alert!',
+                                                    title: 'Reject Request',
                                                     content: Text(
                                                         'Are you sure you want to continue?'),
                                                     cancel: ElevatedButton(
                                                       onPressed: () =>
                                                           Get.back(),
-                                                      child: Text('Cancel'),
+                                                      child: Text('No'),
                                                     ),
                                                     confirm: ElevatedButton(
                                                         onPressed: () async {
@@ -641,7 +641,7 @@ class RequestsPage extends StatelessWidget {
                                                             print(e);
                                                           }
                                                         },
-                                                        child: Text('Ok')),
+                                                        child: Text('Yes')),
                                                   );
                                                 },
                                                 child: Container(
@@ -669,13 +669,13 @@ class RequestsPage extends StatelessWidget {
                                                 child: InkWell(
                                                   onTap: () async {
                                                     Get.defaultDialog(
-                                                      title: 'Alert!',
+                                                      title: 'Accept Request',
                                                       content: Text(
                                                           'Are you sure you want to continue?'),
                                                       cancel: ElevatedButton(
                                                         onPressed: () =>
                                                             Get.back(),
-                                                        child: Text('Cancel'),
+                                                        child: Text('No'),
                                                       ),
                                                       confirm: ElevatedButton(
                                                         onPressed: () async {
@@ -762,7 +762,7 @@ class RequestsPage extends StatelessWidget {
                                                             print(e);
                                                           }
                                                         },
-                                                        child: Text('Ok'),
+                                                        child: Text('Yes'),
                                                       ),
                                                     );
                                                   },
