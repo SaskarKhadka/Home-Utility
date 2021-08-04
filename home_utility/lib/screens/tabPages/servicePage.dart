@@ -94,7 +94,7 @@ class ServicePage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 40,
                 ),
                 Text(
                   "Repair Devices",
@@ -107,9 +107,10 @@ class ServicePage extends StatelessWidget {
                   indent: 30,
                   thickness: 1,
                 ),
+                SizedBox(height: 10,),
                 ServiceCard(category: 'repair'),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Text(
                   "House Work",
@@ -122,11 +123,12 @@ class ServicePage extends StatelessWidget {
                   indent: 30,
                   thickness: 1,
                 ),
+                SizedBox(height: 10,),
                 ServiceCard(
                   category: 'householdChores',
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Text(
                   "Beauty",
@@ -139,11 +141,12 @@ class ServicePage extends StatelessWidget {
                   indent: 10,
                   thickness: 1,
                 ),
+                SizedBox(height: 10,),
                 ServiceCard(
                   category: 'beauty',
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Text(
                   "Home Maintenance",
@@ -156,6 +159,7 @@ class ServicePage extends StatelessWidget {
                   indent: 30,
                   thickness: 1,
                 ),
+                SizedBox(height: 10,),
                 ServiceCard(
                   category: 'homeMaintenance',
                 ),
