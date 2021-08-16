@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/components/customButton.dart';
-import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 import 'package:home_utility_pro/model/districts.dart';
 import 'package:home_utility_pro/model/municipalities.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';

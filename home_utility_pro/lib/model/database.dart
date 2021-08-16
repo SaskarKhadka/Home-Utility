@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility_pro/model/chat.dart';
 import 'package:home_utility_pro/model/prosData.dart';
 import 'package:home_utility_pro/model/userData.dart';
-import '../main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 
 class Database {
   void addProsInfo({User user, Map proData}) {

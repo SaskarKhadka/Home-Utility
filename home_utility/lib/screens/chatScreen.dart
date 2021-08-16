@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/chatController.dart';
-import 'package:home_utility/main.dart';
 import 'package:home_utility/model/chat.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:home_utility/reusableTypes.dart';
 
 class ChatScreen extends StatelessWidget {
   final String proID;

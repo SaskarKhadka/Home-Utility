@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,101 +10,26 @@ import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import 'package:home_utility/screens/tabPages/userProfile.dart';
-import 'package:home_utility/services/cloudStorage.dart';
 import 'screens/logInScreen.dart';
 import 'screens/mainScreen.dart';
 import 'screens/welcomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'services/userAuthentication.dart';
-import 'model/database.dart';
+import 'notificationHandler.dart';
 
-//TODO:Add this to main file
-DatabaseReference serviceRefrence =
-    FirebaseDatabase.instance.reference().child('services');
+NotificationHandler notificationHandler = NotificationHandler();
 
-DatabaseReference prosRefrence =
-    FirebaseDatabase.instance.reference().child('pros');
-
-final cloudStorage = CloudStorage();
-
-//TODO:up
-
-//TODO: probably make another file to store all these resuable accessories
-
-int userRequestCounter;
-
-String newRequestKey;
-
-final userAuthentication = UserAuthentication();
-
-Database database = Database();
-
-DatabaseReference usersRefrence =
-    FirebaseDatabase.instance.reference().child('users');
-
-DatabaseReference messagesRefrence =
-    FirebaseDatabase.instance.reference().child('messages');
-
-DatabaseReference requestRefrence =
-    FirebaseDatabase.instance.reference().child('requests');
-
-String professionToCategory(String profession) {
-  String category;
-  if (profession.toLowerCase() == 'electronics technician')
-    category = 'repair';
-  else if (profession.toLowerCase() == 'beautician')
-    category = 'beauty';
-  else if (profession.toLowerCase() == 'householdChores')
-    category = 'householdChores';
-  else
-    category = '';
-  return category;
-}
-
-String formatTime({TimeOfDay unformattedTime}) {
-  String time = '';
-
-  if (unformattedTime.hourOfPeriod <= 9) {
-    if (unformattedTime.hour == 12) {
-      time += '${unformattedTime.hour}';
-    } else
-      time += '0${unformattedTime.hourOfPeriod}';
-  } else
-    time += '${unformattedTime.hourOfPeriod}';
-
-  if (unformattedTime.minute <= 9)
-    time += ':0${unformattedTime.minute}';
-  else
-    time += ':${unformattedTime.minute}';
-  String periodOfDay = unformattedTime.period == DayPeriod.am ? ' am' : ' pm';
-  return time + periodOfDay;
-}
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> onBackgroundMessageHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
 }
-
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  'This channel is used for important notifications.', // description
-  importance: Importance.high,
-);
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 // Query myQuery;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await notificationHandler.initializeChannel();
 
+  FirebaseMessaging.onBackgroundMessage(onBackgroundMessageHandler);
   runApp(HomeUtility());
 }
 

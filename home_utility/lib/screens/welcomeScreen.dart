@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_utility/main.dart';
+import 'package:home_utility/reusableTypes.dart';
 import 'package:home_utility/screens/mainScreen.dart';
 import 'logInScreen.dart';
 

@@ -9,7 +9,7 @@ import 'package:home_utility/constants.dart';
 import 'package:home_utility/controllers/colourController.dart';
 import 'package:home_utility/controllers/textController.dart';
 import 'package:home_utility/controllers/userController.dart';
-import 'package:home_utility/main.dart';
+import 'package:home_utility/reusableTypes.dart';
 import 'package:home_utility/screens/logInScreen.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import 'package:image_cropper/image_cropper.dart';

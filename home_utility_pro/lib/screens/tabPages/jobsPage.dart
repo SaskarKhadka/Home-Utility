@@ -10,7 +10,7 @@ import 'package:home_utility_pro/screens/loginscreen.dart';
 import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/help.dart';
-import '../../main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 import '../googleMapsScreen.dart';
 
 class Jobs extends StatelessWidget {

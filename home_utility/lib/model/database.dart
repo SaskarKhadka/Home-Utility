@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:home_utility/model/chat.dart';
 import 'package:home_utility/model/proData.dart';
 import 'package:home_utility/model/userData.dart';
-// import 'package:home_utility/model/user.dart';
-import '../main.dart';
+import 'package:home_utility/reusableTypes.dart';
 
 class Database {
   Future<void> totalUsersRequests() async {

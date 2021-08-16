@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:uuid/uuid.dart';
 import '../constants.dart';
-import '../main.dart';
+import 'package:home_utility/reusableTypes.dart';
 
 class RatingCard extends StatelessWidget {
   final String username;

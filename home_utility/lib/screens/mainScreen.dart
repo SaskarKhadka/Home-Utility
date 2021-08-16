@@ -5,6 +5,8 @@ import '../main.dart';
 import 'tabPages/userRequestsPage.dart';
 import 'tabPages/userProfile.dart';
 import 'tabPages/servicePage.dart';
+import 'package:home_utility/reusableTypes.dart';
+import 'package:home_utility/notificationHandler.dart';
 
 class MainScreen extends StatefulWidget {
   static const id = '/mainScreen';
@@ -26,32 +28,7 @@ class _MainScreenState extends State<MainScreen>
 
     super.initState();
     tabController = TabController(length: 3, vsync: this);
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channel.description,
-                icon: android?.smallIcon,
-                priority: Priority.high,
-                importance: Importance.high,
-                fullScreenIntent: true,
-              ),
-            ));
-      }
-    });
+    notificationHandler.onMessageHandler();
     resolveToken();
   }
 

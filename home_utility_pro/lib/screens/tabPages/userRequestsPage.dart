@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility_pro/components/getUsersInfo.dart';
 import 'package:home_utility_pro/controllers/proController.dart';
 import 'package:home_utility_pro/screens/tabPages/jobsPage.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/constants.dart';
-import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 
 class RequestsPage extends StatelessWidget {
   final proController = Get.put(ProController());

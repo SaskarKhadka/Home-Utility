@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility_pro/constants.dart';
 import 'package:home_utility_pro/controllers/chatController.dart';
-import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 import 'package:home_utility_pro/model/chat.dart';
 
 class ChatScreen extends StatelessWidget {

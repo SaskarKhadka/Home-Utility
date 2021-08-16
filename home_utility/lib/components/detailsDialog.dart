@@ -1,12 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:home_utility/reusableTypes.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/screens/googleMapsScreen.dart';
-import 'package:home_utility/location/userLocation.dart';
 import '../constants.dart';
-import '../main.dart';
 import 'customButton.dart';
 
 class DetailsPage extends StatefulWidget {

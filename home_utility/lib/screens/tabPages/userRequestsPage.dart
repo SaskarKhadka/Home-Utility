@@ -12,7 +12,7 @@ import 'package:home_utility/screens/chatScreen.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
 import 'package:http/http.dart' as http;
-import '../../main.dart';
+import 'package:home_utility/reusableTypes.dart';
 import '../logInScreen.dart';
 
 class UserRequestsPage extends StatelessWidget {

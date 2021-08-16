@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:home_utility/main.dart';
+import 'package:home_utility/reusableTypes.dart';
 
 class UserAuthentication {
   FirebaseAuth _auth = FirebaseAuth.instance;

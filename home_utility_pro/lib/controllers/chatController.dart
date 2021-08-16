@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:home_utility_pro/model/chat.dart';
-import '../main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 
 class ChatController extends GetxController {
   String _chatID;

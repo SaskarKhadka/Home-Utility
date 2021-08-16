@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:home_utility/model/chat.dart';
-
-import '../main.dart';
+import 'package:home_utility/reusableTypes.dart';
 
 class ChatController extends GetxController {
   final messageController = TextEditingController();
@@ -14,14 +13,12 @@ class ChatController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     _chatData.bindStream(database.getChatData(chatID: _chatID));
   }
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
     messageController.dispose();
   }

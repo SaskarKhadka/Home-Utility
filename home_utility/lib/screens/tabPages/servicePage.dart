@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:home_utility/components/detailsDialog.dart';
 import 'package:home_utility/screens/popUpPages/about.dart';
 import 'package:home_utility/screens/popUpPages/help.dart';
-import '../../main.dart';
+import 'package:home_utility/reusableTypes.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../logInScreen.dart';
 
@@ -107,7 +107,9 @@ class ServicePage extends StatelessWidget {
                   indent: 30,
                   thickness: 1,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 ServiceCard(category: 'repair'),
                 SizedBox(
                   height: 20,
@@ -123,7 +125,9 @@ class ServicePage extends StatelessWidget {
                   indent: 30,
                   thickness: 1,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 ServiceCard(
                   category: 'householdChores',
                 ),
@@ -141,7 +145,9 @@ class ServicePage extends StatelessWidget {
                   indent: 10,
                   thickness: 1,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 ServiceCard(
                   category: 'beauty',
                 ),
@@ -159,7 +165,9 @@ class ServicePage extends StatelessWidget {
                   indent: 30,
                   thickness: 1,
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 ServiceCard(
                   category: 'homeMaintenance',
                 ),

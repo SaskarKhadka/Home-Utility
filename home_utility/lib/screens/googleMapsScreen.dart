@@ -6,7 +6,7 @@ import 'package:home_utility/components/infobox.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:home_utility/location/userLocation.dart';
 import '../constants.dart';
-import '../main.dart';
+import 'package:home_utility/reusableTypes.dart';
 
 const double pinned_visible = 0;
 const double pinned_invisible = -250;

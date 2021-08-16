@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:home_utility_pro/main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 
 class CloudStorage {
   String proID = userAuthentication.userID;

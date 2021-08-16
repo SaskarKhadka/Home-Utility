@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customPasswordTextField.dart';
 import 'package:home_utility/controllers/logInController.dart';
-import 'package:home_utility/main.dart';
+import 'package:home_utility/reusableTypes.dart';
 import 'forgotPasswordScreen.dart';
 import 'package:home_utility/screens/registrationScreen.dart';
 import '../constants.dart';

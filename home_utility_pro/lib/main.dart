@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_utility_pro/controllers/textController.dart';
+import 'package:home_utility_pro/notificationHandler.dart';
 import 'package:home_utility_pro/screens/prosInfoScreen.dart';
 import 'package:home_utility_pro/screens/registrationScreen.dart';
 import 'package:home_utility_pro/screens/tabPages/popUpMenuPages/about.dart';
@@ -20,84 +21,19 @@ import 'screens/forgotPasswordScreen.dart';
 
 //TODO: probably make another file to store all these resuable accessories
 
-final userAuthentication = UserAuthentication();
-
-final cloudStorage = CloudStorage();
-
-Database database = Database();
-
-String prosProfessionValue;
-
-String userToken;
-
-DatabaseReference prosRefrence =
-    FirebaseDatabase.instance.reference().child('pros');
-
-DatabaseReference usersRefrence =
-    FirebaseDatabase.instance.reference().child('users');
-
-DatabaseReference requestRefrence =
-    FirebaseDatabase.instance.reference().child('requests');
-
-DatabaseReference messagesRefrence =
-    FirebaseDatabase.instance.reference().child('messages');
-
-String professionToCategory(String profession) {
-  String category;
-  if (profession.toLowerCase() == 'electronics technician')
-    category = 'repair';
-  else if (profession.toLowerCase() == 'beautician')
-    category = 'beauty';
-  else if (profession.toLowerCase() == 'householdChores')
-    category = 'householdChores';
-  else
-    category = '';
-  return category;
-}
-
-String formatTime({TimeOfDay unformattedTime}) {
-  String time = '';
-
-  if (unformattedTime.hourOfPeriod <= 9) {
-    if (unformattedTime.hour == 12) {
-      time += '${unformattedTime.hour}';
-    } else
-      time += '0${unformattedTime.hourOfPeriod}';
-  } else
-    time += '${unformattedTime.hourOfPeriod}';
-
-  if (unformattedTime.minute <= 9)
-    time += ':0${unformattedTime.minute}';
-  else
-    time += ':${unformattedTime.minute}';
-  String periodOfDay = unformattedTime.period == DayPeriod.am ? ' am' : ' pm';
-  return time + periodOfDay;
-}
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> onBackgroundMessageHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
 }
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  'This channel is used for important notifications.', // description
-  importance: Importance.high,
-);
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+NotificationHandler notificationHandler = NotificationHandler();
 
 // Query myQuery;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await notificationHandler.initializeChannel();
+  FirebaseMessaging.onBackgroundMessage(onBackgroundMessageHandler);
 
   runApp(HomeUtility());
 }

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:home_utility/main.dart';
 import 'package:home_utility/model/proData.dart';
+import 'package:home_utility/reusableTypes.dart';
 
 class ProController extends GetxController {
   String proID;

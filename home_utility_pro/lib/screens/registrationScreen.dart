@@ -12,7 +12,7 @@ import '../constants.dart';
 import '../components/customButton.dart';
 import '../components/customTextField.dart';
 import '../components/dialogBox.dart';
-import '../main.dart';
+import 'package:home_utility_pro/reusableTypes.dart';
 
 class Signup extends StatelessWidget {
   static const id = '/register';

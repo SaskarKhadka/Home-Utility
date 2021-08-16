@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:home_utility/components/customTextField.dart';
 import 'package:home_utility/components/dialogBox.dart';
 import 'package:home_utility/controllers/textController.dart';
-import 'package:home_utility/main.dart';
+import 'package:home_utility/reusableTypes.dart';
 import 'package:home_utility/components/customButton.dart';
 import 'package:home_utility/screens/loginscreen.dart';
 import 'registrationScreen.dart';
