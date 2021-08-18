@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -96,11 +98,12 @@ class ChatScreen extends StatelessWidget {
                         dateTime = dateTime.replaceAll(':', '');
                         dateTime = dateTime.replaceAll('.', '');
                         // print(now);
-                        final key = encrypt.Key.fromUtf8(
+                        final encryptionKey = encrypt.Key.fromUtf8(
                             'my 32 length key is very coooool');
                         final iv = encrypt.IV.fromLength(16);
 
-                        final encrypter = encrypt.Encrypter(encrypt.AES(key));
+                        final encrypter =
+                            encrypt.Encrypter(encrypt.AES(encryptionKey));
 
                         final encrypted = encrypter.encrypt(
                             chatController.messageController.text.trim(),
@@ -116,6 +119,39 @@ class ChatScreen extends StatelessWidget {
                           'message': encrypted.base64,
                         });
                         chatController.messageController.clear();
+
+                        String token = await database.getToken(userID);
+                        String receiver = await database.getUsersName(userID);
+                        try {
+                          http.post(
+                              Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                              headers: <String, String>{
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
+                                'Authorization': "$key",
+                              },
+                              body: jsonEncode(
+                                {
+                                  "notification": {
+                                    "body": "You have a new message from " +
+                                        receiver,
+                                    "title": "New Message",
+                                    "android_channel_id":
+                                        "high_importance_channel"
+                                  },
+                                  "priority": "high",
+                                  "data": {
+                                    "click_action":
+                                        "FLUTTER_NOTIFICATION_CLICK",
+                                    "status": "done"
+                                  },
+                                  "to": "$token"
+                                },
+                              ));
+                          print('FCM request for device sent!');
+                        } catch (e) {
+                          print(e);
+                        }
                       }
                     },
                     child: Container(

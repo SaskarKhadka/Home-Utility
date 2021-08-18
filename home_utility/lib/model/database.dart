@@ -38,7 +38,6 @@ class Database {
       DateTime date,
       TimeOfDay time,
       String requestKey}) async {
-    //TODO: To the userInfo map, add type of job, date and time, (address too if we can't implement the adress directly)
     await totalUsersRequests();
     if (userRequestCounter < 3) {
       String userID = userAuthentication.userID;
@@ -74,8 +73,6 @@ class Database {
         'requestKey': requestKey,
       });
     } else {
-      //TODO: Error message saying request if full
-      //TODO: Set userRequestCountyer back to 0
       print('3 request has already been made');
       return 'request-full';
     }
@@ -90,6 +87,12 @@ class Database {
         .child(requestKey)
         // .child('isRatingPending')
         .update({'isRatingPending': state});
+  }
+
+  Future<String> getProsName(String proID) async {
+    DataSnapshot snapshot =
+        await prosRefrence.child(proID).child('prosName').once();
+    return snapshot.value;
   }
 
   Future<void> deleteRequest({String requestKey}) async {

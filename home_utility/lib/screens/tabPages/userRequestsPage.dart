@@ -76,7 +76,7 @@ class UserRequestsPage extends StatelessWidget {
             height: 30,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+            padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
             child: Text(
               'View all your Pending Works',
               style: GoogleFonts.lato(color: Color(0xffaaabac), fontSize: 14),
@@ -86,8 +86,12 @@ class UserRequestsPage extends StatelessWidget {
           //   height: 20,
           // ),
           Expanded(
-            child: Scrollbar(
-              child: UserRequestsStream(),
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: Scrollbar(
+                child: UserRequestsStream(),
+              ),
             ),
           ),
         ],
@@ -146,7 +150,10 @@ class UserRequestsStream extends StatelessWidget {
         });
 
         return Container(
-          // height: 200, //TODO: manage
+            // height: 200, //TODO: manage
+            child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
           child: ListView.builder(
             // controller: scrollController,
             shrinkWrap: true,
@@ -885,7 +892,7 @@ class UserRequestsStream extends StatelessWidget {
               );
             },
           ),
-        );
+        ));
       },
     );
   }

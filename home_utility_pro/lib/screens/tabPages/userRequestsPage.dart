@@ -68,7 +68,7 @@ class RequestsPage extends StatelessWidget {
                             PopupMenuItem<int>(
                               value: 0,
                               child: Text(
-                                "About us",
+                                "About",
                                 style: GoogleFonts.roboto(
                                   color: Colors.black,
                                   letterSpacing: 1.8,

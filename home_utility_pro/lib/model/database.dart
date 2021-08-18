@@ -27,6 +27,12 @@ class Database {
         .remove();
   }
 
+  Future<String> getUsersName(String userID) async {
+    DataSnapshot snapshot =
+        await usersRefrence.child(userID).child('userName').once();
+    return snapshot.value;
+  }
+
   Future<void> cancelRequest({String requestKey, String userID}) async {
     try {
       await prosRefrence

@@ -49,7 +49,7 @@ class ServicePage extends StatelessWidget {
                           PopupMenuItem<int>(
                             value: 0,
                             child: Text(
-                              "About us",
+                              "About",
                               style: GoogleFonts.roboto(
                                 color: Colors.white70,
                                 letterSpacing: 1.8,

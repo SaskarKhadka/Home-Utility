@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_utility_pro/constants.dart';
 import 'package:home_utility_pro/screens/mainScreen.dart';
 
 class AboutPage extends StatelessWidget {
@@ -10,9 +11,9 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xff141a1e),
+        backgroundColor: kBlackColour,
         appBar: AppBar(
-          toolbarHeight: 67,
+          toolbarHeight: 60,
           elevation: 2.0,
           centerTitle: true,
           shadowColor: Colors.white,
@@ -21,10 +22,10 @@ class AboutPage extends StatelessWidget {
             icon: Icon(Icons.arrow_back),
           ),
           title: Text(
-            'Developers',
+            'About',
             style: GoogleFonts.montserrat(
               color: Colors.white,
-              fontSize: 35,
+              fontSize: 28,
               fontWeight: FontWeight.w400,
               letterSpacing: 2.5,
             ),
@@ -34,284 +35,91 @@ class AboutPage extends StatelessWidget {
           scrollDirection: Axis.vertical,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 28.0, bottom: 16.0, left: 16.0, right: 16.0),
-              child: FittedBox(
-                child: Material(
-                  color: Color(0xff202934),
-                  borderRadius: BorderRadius.circular(24.0),
-                  shadowColor: Colors.grey,
-                  elevation: 5.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                  child: Text(
-                                "SAUGAT POUDEL",
-                                style: GoogleFonts.shortStack(
-                                  color: Colors.white,
-                                  fontSize: 38.0,
-                                ),
-                              )),
-                              Container(
-                                  child: Text(
-                                "Flutter UI developer",
-                                style: GoogleFonts.sansita(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 200.0,
-                        height: 200.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Image(
-                            image: AssetImage('images/saugat.jpg'),
-                            fit: BoxFit.cover,
-                            // alignment: Alignment.topRight,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+              padding: EdgeInsets.only(
+                  top: 20.0, left: 20.0, right: 20.0, bottom: 20.0),
+              child: Text(
+                'Finding a technician these days can be very tedious. People have to search very hard and they end up wasting their whole day in search of a technician. There are also cases of people being deceived. There are various incidents of failure of getting a technician of our need in just a short span of time. However if you find a technician without proper guidance, there is a high chance that you might overpay for your task.\n\nHome Utility provides a platform for people, with a motive to guide them towards finding a good, trustable and well-experienced technician at an affordable price as per their needs. It can help people save their valuable time and provide them the best services. It facilitates users and provide employment to technicians. ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 18.0, bottom: 16.0, left: 16.0, right: 16.0),
-              child: FittedBox(
-                child: Material(
-                  color: Color(0xff202934),
-                  borderRadius: BorderRadius.circular(24.0),
-                  shadowColor: Colors.grey,
-                  elevation: 5.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                  child: Text(
-                                "ROHAN DHAKAL",
-                                style: GoogleFonts.shortStack(
-                                  color: Colors.white,
-                                  fontSize: 38.0,
-                                ),
-                              )),
-                              Container(
-                                  child: Text(
-                                "Flutter UI developer",
-                                style: GoogleFonts.sansita(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 200.0,
-                        height: 200.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Image(
-                            image: AssetImage('images/rohan.jpg'),
-                            fit: BoxFit.cover,
-                            // alignment: Alignment.topRight,
-                          ),
-                        ),
-                      ),
-                    ],
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 28.0, bottom: 5.0, left: 20.0, right: 20.0),
+                  child: Text(
+                    'Developers: ',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 18.0, bottom: 16.0, left: 16.0, right: 16.0),
-              child: FittedBox(
-                child: Material(
-                  color: Color(0xff202934),
-                  borderRadius: BorderRadius.circular(24.0),
-                  shadowColor: Colors.grey,
-                  elevation: 5.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                  child: Text(
-                                "GAURAV KHADKA",
-                                style: GoogleFonts.shortStack(
-                                  color: Colors.white,
-                                  fontSize: 38.0,
-                                ),
-                              )),
-                              Container(
-                                  child: Text(
-                                "Flutter UI developer",
-                                style: GoogleFonts.sansita(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 200.0,
-                        height: 200.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Image(
-                            image: AssetImage('images/gaurab.jpg'),
-                            fit: BoxFit.cover,
-                            // alignment: Alignment.topRight,
-                          ),
-                        ),
-                      ),
-                    ],
+                SizedBox(
+                  width: 100.0,
+                  child: Divider(
+                    color: Colors.white70,
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 18.0, bottom: 16.0, left: 16.0, right: 16.0),
-              child: FittedBox(
-                child: Material(
-                  color: Color(0xff202934),
-                  borderRadius: BorderRadius.circular(24.0),
-                  shadowColor: Colors.grey,
-                  elevation: 5.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                  child: Text(
-                                "SASKAR KHADKA",
-                                style: GoogleFonts.shortStack(
-                                  color: Colors.white,
-                                  fontSize: 38.0,
-                                ),
-                              )),
-                              Container(
-                                  child: Text(
-                                "Flutter Backend developer",
-                                style: GoogleFonts.sansita(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 200.0,
-                        height: 200.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Image(
-                            image: AssetImage('images/saskar.jpg'),
-                            fit: BoxFit.cover,
-                            // alignment: Alignment.topRight,
-                          ),
-                        ),
-                      ),
-                    ],
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                  child: Text(
+                    'Saskar Khadka',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 18.0, bottom: 36.0, left: 16.0, right: 16.0),
-              child: FittedBox(
-                child: Material(
-                  color: Color(0xff202934),
-                  borderRadius: BorderRadius.circular(24.0),
-                  shadowColor: Colors.grey,
-                  elevation: 5.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                  child: Text(
-                                "SAUGAT ADHIKARI",
-                                style: GoogleFonts.shortStack(
-                                  color: Colors.white,
-                                  fontSize: 38.0,
-                                ),
-                              )),
-                              Container(
-                                  child: Text(
-                                "Flutter Backend developer",
-                                style: GoogleFonts.sansita(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 200.0,
-                        height: 200.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Image(
-                            image: AssetImage('images/saugatadh.jpg'),
-                            fit: BoxFit.cover,
-                            // alignment: Alignment.topRight,
-                          ),
-                        ),
-                      ),
-                    ],
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                  child: Text(
+                    'Gaurav Khadka',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                  child: Text(
+                    'Rohan Dhakal',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                  child: Text(
+                    'Saugat Poudel',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                  child: Text(
+                    'Saugat Adhikari',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
